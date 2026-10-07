@@ -48,6 +48,8 @@ export const footerNav: readonly NavGroup[] = [
     title: 'KERNSEITE',
     items: [
       { label: 'Agentur', href: '/agentur/' },
+      { label: 'Webdesign Würzburg', href: '/webdesign-wuerzburg/' },
+      { label: 'Webdesign Schweinfurt', href: '/webdesign-schweinfurt/' },
       { label: 'Prozess', href: '/prozess/' },
       { label: 'Arbeiten', href: '/arbeiten/' },
       { label: 'FAQ', href: '/faq/' },

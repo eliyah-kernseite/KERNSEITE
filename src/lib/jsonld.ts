@@ -31,6 +31,29 @@ const AREA_SERVED = [
   site.region.country,
 ].filter(Boolean);
 
+/**
+ * Einzugsgebiet für persönliche Betreuung: 50 km um die Würzburger Innenstadt
+ * (Koordinaten Würzburg Marktplatz). Ergänzt die Ortsliste `AREA_SERVED`.
+ */
+const SERVICE_RADIUS = {
+  '@type': 'GeoCircle',
+  geoMidpoint: { '@type': 'GeoCoordinates', latitude: 49.7939, longitude: 9.9294 },
+  geoRadius: 50000,
+};
+
+/** Fachgebiete der Agentur, deckt sich mit den sichtbaren Leistungsseiten. */
+const KNOWS_ABOUT = [
+  'Webdesign',
+  'Website erstellen',
+  'Digitalagentur',
+  'Werbeagentur',
+  'Suchmaschinenoptimierung (SEO)',
+  'Google-Unternehmensprofil',
+  'Unternehmensvideo',
+  'Social Media Marketing',
+  'KI-Automatisierung',
+];
+
 /** ProfessionalService/LocalBusiness der Marke – nur bei vollständiger Anschrift und Kontakt. */
 export function organizationJsonLd(): Json | null {
   if (!hasCompleteBusinessData) return null;
@@ -45,7 +68,8 @@ export function organizationJsonLd(): Json | null {
     email: c.email,
     telephone: '+49' + c.phone.replace(/\D/g, '').replace(/^0/, ''),
     description: site.shortDescription,
-    areaServed: AREA_SERVED,
+    areaServed: [...AREA_SERVED, SERVICE_RADIUS],
+    knowsAbout: KNOWS_ABOUT,
     address: {
       '@type': 'PostalAddress',
       streetAddress: c.street,

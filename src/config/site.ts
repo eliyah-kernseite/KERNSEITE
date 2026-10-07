@@ -38,7 +38,7 @@ export const site = {
    * Meta-Description, weil sie nicht in Suchergebnissen abgeschnitten wird.
    */
   shortDescription:
-    'KERNSEITE ist die Webdesign-Agentur von Eliyah Korb aus Erlabrunn bei Würzburg. Individuelle Unternehmenswebsites, Suchmaschinenoptimierung und persönliche Betreuung für Unternehmen in ganz Deutschland.',
+    'KERNSEITE ist die Webdesign- und Digitalagentur von Eliyah Korb aus Erlabrunn bei Würzburg. Individuelle Unternehmenswebsites, Suchmaschinenoptimierung und persönliche Betreuung für Unternehmen in ganz Deutschland.',
 
   /** Meta-Description der Startseite (auf Anzeigelänge gekürzt). */
   metaDescription:

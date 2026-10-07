@@ -167,16 +167,42 @@ test.describe('SEO – Suchintent je Seite', () => {
   });
 
   test('Keine dünnen Stadt-Landingpages', () => {
+    // Erlaubt sind nur die zwei vom Inhaber freigegebenen Regionsseiten
+    // (src/config/regions.ts). Weitere Ortsnamen-Varianten bleiben verboten.
     const verboten = [
-      'webdesign-wuerzburg',
       'webagentur-wuerzburg',
       'webseiten-agentur-wuerzburg',
       'medienagentur-wuerzburg',
+      'werbeagentur-wuerzburg',
     ];
     const vorhanden = htmlFiles().map((f) => f.replace(/\\/g, '/'));
     for (const slug of verboten) {
       expect(vorhanden.filter((f) => f.includes(slug))).toEqual([]);
     }
+
+    // Die erlaubten Regionsseiten müssen eigenständigen, ausführlichen Inhalt
+    // tragen und dürfen sich nicht gegenseitig kopieren.
+    const regionen = ['webdesign-wuerzburg', 'webdesign-schweinfurt'];
+    const texte = regionen.map((slug) => {
+      const html = readFileSync(join(DIST, slug, 'index.html'), 'utf8');
+      const main = html.match(/<main[\s\S]*?<\/main>/i)?.[0] ?? html;
+      // Die gemeinsame Leistungsliste (Teaser aus services.ts) zählt nicht als Kopie.
+      return textOf(main.replace(/<ul class="rel"[\s\S]*?<\/ul>/i, ''));
+    });
+    for (const [i, text] of texte.entries()) {
+      const woerter = text.split(/\s+/).filter(Boolean).length;
+      expect(woerter, `${regionen[i]}: nur ${woerter} Wörter`).toBeGreaterThanOrEqual(300);
+    }
+    const saetze = (t: string) =>
+      new Set(
+        t
+          .split(/(?<=[.!?])\s+/)
+          .map((s) => s.trim())
+          .filter((s) => s.length > 40),
+      );
+    const [a, b] = texte.map(saetze);
+    const gemeinsam = [...a].filter((s) => b.has(s));
+    expect(gemeinsam.length, `kopierte Sätze: ${gemeinsam.join(' | ')}`).toBeLessThanOrEqual(3);
   });
 
   test('Kein versteckter Text und keine meta keywords', () => {
