@@ -73,7 +73,7 @@ export const regions: readonly Region[] = [
       {
         question: 'Bist du eine Werbeagentur oder ein Webdesigner?',
         answer:
-          'Beides passt. Unser Schwerpunkt sind individuelle Websites. Dazu kommen Suchmaschinenoptimierung, das Google-Unternehmensprofil und mit erfahrenen Partnern auch Unternehmensvideo und Social Media. Du hast dabei immer einen festen Ansprechpartner.',
+          'Beides passt. Unser Schwerpunkt sind individuelle Websites. Dazu kommen Suchmaschinenoptimierung, das Google-Unternehmensprofil, Branding, Werbeanzeigen, Foto und Video sowie Social Media. Du hast dabei immer einen festen Ansprechpartner.',
       },
       {
         question: 'Können wir uns in Würzburg persönlich treffen?',

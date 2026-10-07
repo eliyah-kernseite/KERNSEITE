@@ -49,7 +49,11 @@ const KNOWS_ABOUT = [
   'Werbeagentur',
   'Suchmaschinenoptimierung (SEO)',
   'Google-Unternehmensprofil',
-  'Unternehmensvideo',
+  'Branding und Corporate Design',
+  'Performance Marketing',
+  'Google Ads',
+  'Meta Ads',
+  'Fotografie und Videoproduktion',
   'Social Media Marketing',
   'KI-Automatisierung',
 ];

@@ -1,4 +1,5 @@
-export type ServiceKey = 'websites' | 'seo-geo' | 'google' | 'video' | 'social' | 'ki';
+export type ServiceKey =
+  'websites' | 'seo-geo' | 'google' | 'branding' | 'ads' | 'video' | 'social' | 'ki';
 
 export interface ServiceSection {
   readonly title: string;
@@ -34,8 +35,6 @@ export interface Service {
   readonly steps: readonly string[];
   /** Passende Zielgruppen. */
   readonly audiences: readonly string[];
-  /** Ehrlicher Hinweis auf Partner/Subunternehmer (falls zutreffend). */
-  readonly partnerNote?: string;
   /** Weitere redaktionelle Abschnitte der Detailseite. */
   readonly sections: readonly ServiceSection[];
 }
@@ -222,15 +221,107 @@ export const services: readonly Service[] = [
     ],
   },
   {
+    key: 'branding',
+    slug: 'branding',
+    href: '/leistungen/branding/',
+    order: 4,
+    isCore: false,
+    label: 'Branding & Design',
+    cardTitle: 'Branding & Corporate Design',
+    teaser:
+      'Ein klares, wiedererkennbares Gesicht für dein Unternehmen: Logo, Farben, Schriften und die Regeln dahinter. Damit du überall gleich stark auftrittst.',
+    example:
+      'Beispiel: Ein Handwerksbetrieb bekommt ein überarbeitetes Logo, eine feste Farbwelt und Vorlagen für Visitenkarten, Fahrzeugbeschriftung und Social Media.',
+    detailH1: 'Ein Auftritt, an den man sich erinnert.',
+    intro:
+      'Menschen erkennen dich, bevor sie lesen. Ein durchdachtes Corporate Design sorgt dafür, dass Website, Visitenkarte und Instagram wie aus einem Guss wirken.',
+    problem:
+      'Viele Betriebe haben über die Jahre ein Logo hier, eine Farbe dort und Schriften von überall gesammelt. Das wirkt unruhig und schwächt das Vertrauen, obwohl die Arbeit dahinter gut ist.',
+    solution:
+      'Wir entwickeln eine Markenidentität, die zu dir passt: Logo, Farben, Typografie und Bildsprache, festgehalten in einem verständlichen Styleguide, den du und andere sofort anwenden können.',
+    components: [
+      'Markenworkshop und Positionierung',
+      'Logo-Entwicklung oder Überarbeitung',
+      'Farbwelt und Typografie',
+      'Bildsprache und Gestaltungsregeln',
+      'Styleguide als handliches Dokument',
+      'Geschäftsausstattung: Visitenkarte, Briefpapier, Signatur',
+      'Vorlagen für Social Media und Präsentationen',
+    ],
+    benefits: [
+      'Ein einheitlicher Auftritt auf allen Kanälen',
+      'Mehr Wiedererkennung und Vertrauen',
+      'Klare Regeln, die jeder umsetzen kann',
+    ],
+    steps: ['Workshop', 'Entwürfe', 'Feinschliff', 'Styleguide', 'Anwendung'],
+    audiences: ['Gründer', 'Handwerk', 'Lokale Dienstleister', 'B2B-Mittelstand'],
+    sections: [
+      {
+        title: 'Vom Logo zum System',
+        body: 'Ein Logo allein ist noch keine Marke. Erst Farben, Schriften und klare Regeln machen daraus einen Auftritt, der überall funktioniert.',
+      },
+      {
+        title: 'Passt zur Website',
+        body: 'Weil Branding und Website aus einer Hand kommen, greift alles ineinander. Kein Abstimmen zwischen verschiedenen Agenturen.',
+      },
+    ],
+  },
+  {
+    key: 'ads',
+    slug: 'performance-marketing',
+    href: '/leistungen/performance-marketing/',
+    order: 5,
+    isCore: false,
+    label: 'Performance Marketing',
+    cardTitle: 'Performance Marketing',
+    teaser:
+      'Deine Angebote gezielt vor die richtigen Menschen bringen. Mit Google und Meta Ads, passenden Landingpages und Zahlen, die du verstehst.',
+    example:
+      'Beispiel: Ein Betrieb sucht Azubis. Eine Kampagne auf Instagram führt auf eine eigene Karriereseite mit kurzem Bewerbungsformular.',
+    detailH1: 'Mehr Anfragen. Planbar statt zufällig.',
+    intro:
+      'Gute Werbung erreicht nicht möglichst viele Menschen, sondern die richtigen. Wir planen Kampagnen, die zu deinem Ziel passen, und zeigen dir offen, was sie bringen.',
+    problem:
+      'Viele Anzeigen laufen ins Leere: falsche Zielgruppe, keine passende Zielseite, keine Messung. Das Budget ist weg, und niemand weiß, was gewirkt hat.',
+    solution:
+      'Wir verbinden Kampagne, Landingpage und Auswertung. So siehst du, welche Anzeige Anfragen bringt, und wir können das Budget dorthin lenken, wo es wirkt.',
+    components: [
+      'Zielklärung und Kampagnenplanung',
+      'Google Ads (Suche und lokale Anzeigen)',
+      'Meta Ads (Instagram und Facebook)',
+      'Anzeigentexte und Motive',
+      'Landingpages für Kampagnen',
+      'Datenschutzkonformes Tracking',
+      'Auswertung und Optimierung',
+    ],
+    benefits: [
+      'Gezielte Reichweite statt Streuverlust',
+      'Nachvollziehbare Ergebnisse',
+      'Kampagnen und Website aus einer Hand',
+    ],
+    steps: ['Ziel', 'Planung', 'Anzeigen & Landingpage', 'Start', 'Auswertung'],
+    audiences: ['Handwerk', 'Lokale Dienstleister', 'Gastronomie & Hotels', 'B2B-Mittelstand'],
+    sections: [
+      {
+        title: 'Ehrliche Zahlen',
+        body: 'Wir versprechen keine Wunderwerte. Du bekommst eine verständliche Auswertung, was die Kampagne gekostet und gebracht hat.',
+      },
+      {
+        title: 'Budget bleibt deins',
+        body: 'Das Werbebudget zahlst du direkt an Google oder Meta. Unsere Leistung für Planung, Umsetzung und Betreuung wird davon getrennt vereinbart.',
+      },
+    ],
+  },
+  {
     key: 'video',
     slug: 'unternehmensvideo',
     href: '/leistungen/unternehmensvideo/',
-    order: 4,
+    order: 6,
     isCore: false,
-    label: 'Unternehmensvideo',
-    cardTitle: 'Unternehmensvideo',
+    label: 'Foto & Video',
+    cardTitle: 'Foto & Video Produktion',
     teaser:
-      'Zeig, was Texte allein nicht vermitteln können. Echte Einblicke schaffen Vertrauen, auf der Website und in Social Media.',
+      'Zeig, was Texte allein nicht vermitteln können. Fotos und Filme mit echten Einblicken schaffen Vertrauen, auf der Website und in Social Media.',
     example:
       'Beispiel: Ein kurzer Website-Clip zeigt Team und Arbeitsweise. Datenschutzfreundlich eingebunden, ohne Autoplay mit Ton.',
     detailH1: 'Zeig, was Texte allein nicht vermitteln können.',
@@ -239,14 +330,16 @@ export const services: readonly Service[] = [
     problem:
       'Reine Textseiten wirken oft distanziert. Gerade Vertrauen, Handschlagqualität und Atmosphäre lassen sich schwer beschreiben.',
     solution:
-      'Von Konzept über Drehplanung bis zur Einbindung: Wir planen das Video entlang deiner Ziele und binden es performant und datenschutzfreundlich ein.',
+      'Von der Idee über Fotoshooting und Dreh bis zum Schnitt: Wir produzieren Bild- und Videomaterial entlang deiner Ziele und binden es performant und datenschutzfreundlich ein.',
     components: [
       'Konzeption und Briefing',
-      'Drehplanung',
+      'Fotoshootings für Team, Räume und Produkte',
+      'Drehplanung und Dreh',
       'Unternehmensfilm',
       'Recruitingfilm',
       'Kurze Website-Clips',
       'Mitarbeiter- und Prozessaufnahmen',
+      'Schnitt und Motion Design',
       'Technische Website-Integration',
     ],
     benefits: [
@@ -254,10 +347,8 @@ export const services: readonly Service[] = [
       'Stärkere Wirkung auf Website und Social Media',
       'Unterstützung beim Recruiting',
     ],
-    steps: ['Konzept', 'Drehplanung', 'Dreh', 'Schnitt', 'Einbindung'],
+    steps: ['Konzept', 'Planung', 'Shooting & Dreh', 'Schnitt', 'Einbindung'],
     audiences: ['Handwerk', 'Hotels & Gastronomie', 'B2B-Mittelstand', 'Praxen'],
-    partnerNote:
-      'Die filmische Umsetzung erfolgt gemeinsam mit einem spezialisierten Videopartner. Konzept, Website-Integration und Projektsteuerung bleiben bei KERNSEITE.',
     sections: [
       {
         title: 'Datenschutzfreundliche Einbindung',
@@ -273,10 +364,10 @@ export const services: readonly Service[] = [
     key: 'social',
     slug: 'social-media',
     href: '/leistungen/social-media/',
-    order: 5,
+    order: 7,
     isCore: false,
     label: 'Social Media',
-    cardTitle: 'Social Media',
+    cardTitle: 'Social Media Content',
     teaser:
       'Eine Marke muss nicht jeden Tag posten. Sie muss erkennbar bleiben. Strategie und Wiedererkennung statt Aktionismus.',
     example:
@@ -304,8 +395,6 @@ export const services: readonly Service[] = [
     ],
     steps: ['Strategie', 'Brandbook', 'Redaktionsplan', 'Produktion', 'Betreuung'],
     audiences: ['Gastronomie & Hotels', 'Handwerk', 'Lokale Dienstleister', 'B2B-Mittelstand'],
-    partnerNote:
-      'Die laufende Social-Media-Betreuung wird projektbezogen mit einer spezialisierten Partnerin bzw. einem spezialisierten Partner umgesetzt.',
     sections: [
       {
         title: 'Brandbook als Grundlage',
@@ -321,7 +410,7 @@ export const services: readonly Service[] = [
     key: 'ki',
     slug: 'ki-automatisierung',
     href: '/leistungen/ki-automatisierung/',
-    order: 6,
+    order: 8,
     isCore: false,
     label: 'KI & Automatisierung',
     cardTitle: 'KI & Automatisierung',
@@ -352,8 +441,6 @@ export const services: readonly Service[] = [
     ],
     steps: ['Einsatzfälle klären', 'Konzept', 'Integration', 'Test', 'Betreuung'],
     audiences: ['B2B-Mittelstand', 'Lokale Dienstleister', 'Praxen', 'Handwerk'],
-    partnerNote:
-      'Anspruchsvolle KI-Integrationen werden gemeinsam mit einem spezialisierten KI-Partner umgesetzt. Konzept und Einbindung in die Website bleiben bei KERNSEITE.',
     sections: [
       {
         title: 'Ein Voice Agent, einfach erklärt',
