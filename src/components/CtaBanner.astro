@@ -7,6 +7,11 @@ import { activeCompany } from '../lib/config-validation';
 
 interface Props {
   title?: string;
+  /**
+   * Zweizeilige Überschrift mit markiertem Wort, wenn kein `title` gesetzt ist:
+   * erste Zeile, Text vor der Markierung, markiertes Wort, Text danach.
+   */
+  markedTitle?: readonly [string, string, string, string];
   text?: string;
   ctaLabel?: string;
   ctaHref?: string;
@@ -18,6 +23,7 @@ interface Props {
 const c = activeCompany;
 const {
   title,
+  markedTitle = ['Dein Unternehmen ist bereit.', 'Ist deine ', 'Website', ' es auch?'],
   text = 'Erzähl uns von deinem Unternehmen und deiner Idee. Im ersten Gespräch klären wir den passenden Umfang.',
   ctaLabel = 'Website anfragen',
   ctaHref = '/kontakt/',
@@ -34,9 +40,11 @@ const {
           title
         ) : (
           <>
-            Dein Unternehmen ist bereit.
+            {markedTitle[0]}
             <br />
-            Ist deine <em class="cta__mark">Website</em> es auch?
+            {markedTitle[1]}
+            <em class="cta__mark">{markedTitle[2]}</em>
+            {markedTitle[3]}
           </>
         )
       }

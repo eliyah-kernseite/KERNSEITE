@@ -86,7 +86,7 @@ const serviceFaqs = [
         <div class="content proof">
           <div class="proof__text">
             <h2 class="proof__title">{project.headline}</h2>
-            <p class="proof__body">{project.tagline}</p>
+            <p class="proof__body">{project.blurbs?.leistungen ?? project.tagline}</p>
             <a class="link-arrow" href={project.href}>
               Projekt ansehen<span class="visually-hidden">: {project.title}</span>{' '}
               <span class="arrow" aria-hidden="true">
