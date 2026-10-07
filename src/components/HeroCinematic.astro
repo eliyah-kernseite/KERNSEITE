@@ -1,77 +1,33 @@
 ---
-import { featuredProjects } from '../config/cases';
-const kaya = featuredProjects.find((p) => p.slug === 'kaya-doener-himmelstadt')!;
-const baby = featuredProjects.find((p) => p.slug === 'babyschlafberatung') ?? featuredProjects[0];
-const gorhau = featuredProjects.find((p) => p.slug === 'bestattungen-gorhau')!;
+import ProjectCarousel from './ProjectCarousel.astro';
+import DeviceScene from './DeviceScene.astro';
 ---
 
 <section class="home-hero">
   <div class="content">
     <div class="hero-heading">
-      <h1>Dein Können.<br />Deine <span>Website.</span></h1>
-      <div class="hero-intro">
-        <p>Du machst gute Arbeit.<br />Wir sorgen dafür, dass man sie auch online erkennt.</p>
-        <a class="btn btn--primary" href="/kontakt/"
-          >Lass uns deine Website planen <span aria-hidden="true">↗</span></a
-        >
-        <a class="quiet-link" href="/leistungen/websites/#website-angebot"
-          >Individuelle Websites · 1.500–5.500 € netto</a
-        >
+      <div class="hero-copy">
+        <h1>Dein Können.<br />Deine <span>Website.</span></h1>
+        <div class="hero-intro">
+          <p>Du machst gute Arbeit.<br />Wir sorgen dafür, dass man sie auch online erkennt.</p>
+          <a class="btn btn--primary" href="/kontakt/"
+            >Lass uns deine Website planen <span aria-hidden="true">↗</span></a
+          >
+          <a class="quiet-link" href="/leistungen/websites/#website-angebot"
+            >Individuelle Websites · 1.500–5.500 € netto</a
+          >
+        </div>
       </div>
+      <DeviceScene />
     </div>
   </div>
-  <div class="hero-stage" aria-label="Ausgewählte Websiteprojekte von KERNSEITE">
+  <div class="hero-stage">
     <div class="stage-top">
       <span>So unterschiedlich wie unsere Kunden.</span><a href="/arbeiten/"
         >Projekte entdecken <span aria-hidden="true">↗</span></a
       >
     </div>
-    <div class="stage-composition">
-      <a
-        class="stage-screen stage-screen--left"
-        href={baby.href}
-        aria-label={`Projekt ${baby.title} ansehen`}
-        ><img
-          src={baby.screenshotDesktop.src}
-          srcset={baby.screenshotDesktop.srcset}
-          sizes="42vw"
-          loading="lazy"
-          decoding="async"
-          width={baby.screenshotDesktop.width}
-          height={baby.screenshotDesktop.height}
-          alt={baby.screenshotDesktop.alt}
-        /></a
-      >
-      <a
-        class="stage-screen stage-screen--main"
-        href={kaya.href}
-        aria-label="Projekt Kaya Döner ansehen"
-        ><img
-          src={kaya.screenshotDesktop.src}
-          srcset={kaya.screenshotDesktop.srcset}
-          sizes="(min-width: 900px) 58vw, 90vw"
-          width={kaya.screenshotDesktop.width}
-          height={kaya.screenshotDesktop.height}
-          alt={kaya.screenshotDesktop.alt}
-          fetchpriority="high"
-        /></a
-      >
-      <a
-        class="stage-screen stage-screen--right"
-        href={gorhau.href}
-        aria-label="Projekt Bestattungen Gorhau ansehen"
-        ><img
-          src={gorhau.screenshotDesktop.src}
-          srcset={gorhau.screenshotDesktop.srcset}
-          sizes="42vw"
-          loading="lazy"
-          decoding="async"
-          width={gorhau.screenshotDesktop.width}
-          height={gorhau.screenshotDesktop.height}
-          alt={gorhau.screenshotDesktop.alt}
-        /></a
-      >
-    </div>
+    <ProjectCarousel />
     <div class="stage-bottom">
       <span>Konzept. Texte. Design. Entwicklung.</span><span
         >Alles mit einem persönlichen Ansprechpartner.</span
@@ -90,13 +46,13 @@ const gorhau = featuredProjects.find((p) => p.slug === 'bestattungen-gorhau')!;
   }
   .hero-heading {
     display: grid;
-    grid-template-columns: 1.5fr 1fr;
-    align-items: end;
-    gap: 3rem;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    align-items: center;
+    gap: clamp(2rem, 4vw, 4.5rem);
     padding-bottom: 4.5rem;
   }
   h1 {
-    font-size: clamp(4rem, 8.2vw, 8.25rem);
+    font-size: clamp(3.4rem, 6vw, 6.4rem);
     line-height: 1.02;
     letter-spacing: -0.055em;
     max-width: 10ch;
@@ -111,7 +67,7 @@ const gorhau = featuredProjects.find((p) => p.slug === 'bestattungen-gorhau')!;
     color: var(--ks-black);
   }
   .hero-intro {
-    padding-bottom: 0.6rem;
+    margin-top: clamp(1.5rem, 2.5vw, 2.5rem);
     max-width: 29rem;
   }
   .hero-intro p {
@@ -155,56 +111,11 @@ const gorhau = featuredProjects.find((p) => p.slug === 'bestattungen-gorhau')!;
     color: var(--ks-cyan);
     text-decoration: none;
   }
-  .stage-composition {
-    height: clamp(19rem, 36vw, 35rem);
-    position: relative;
-    max-width: 1600px;
-    margin: auto;
-  }
-  .stage-screen {
-    display: block;
-    position: absolute;
-    overflow: hidden;
-    border-radius: 0.6rem;
-    box-shadow: 0 1.5rem 4rem #0008;
-    border: 5px solid #363838;
-    transition: transform 0.4s ease;
-    top: 9%;
-    width: 57%;
-    left: 21.5%;
-  }
-  .stage-screen img {
-    display: block;
-    width: 100%;
-    height: auto;
-  }
-  .stage-screen--main {
-    z-index: 3;
-    transform: rotate(-3deg);
-    top: 8%;
-  }
-  .stage-screen--left {
-    width: 42%;
-    left: -5%;
-    top: 26%;
-    transform: rotate(-9deg);
-    z-index: 1;
-  }
-  .stage-screen--right {
-    width: 42%;
-    left: 67%;
-    top: 20%;
-    transform: rotate(8deg);
-    z-index: 2;
-  }
-  .stage-screen:hover,
-  .stage-screen:focus-visible {
-    transform: translateY(-0.6rem) rotate(0);
-    z-index: 5;
-  }
   .stage-bottom {
     color: #c5c8cb;
-    padding-top: 0;
+    padding-top: 1.5rem;
+    border-top: 1px solid #ffffff14;
+    margin-top: 1.5rem;
   }
   @media (max-width: 850px) {
     .hero-heading {
@@ -225,19 +136,6 @@ const gorhau = featuredProjects.find((p) => p.slug === 'bestattungen-gorhau')!;
       max-width: 28ch;
       margin-bottom: 1.7rem;
     }
-    .stage-composition {
-      height: 38vw;
-      min-height: 12rem;
-    }
-    .stage-screen--main {
-      width: 88%;
-      left: 6%;
-      top: 4%;
-    }
-    .stage-screen--left,
-    .stage-screen--right {
-      display: none;
-    }
     .stage-top,
     .stage-bottom {
       padding: 1.25rem;
@@ -257,11 +155,6 @@ const gorhau = featuredProjects.find((p) => p.slug === 'bestattungen-gorhau')!;
     }
     .quiet-link {
       font-size: 0.8rem;
-    }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .stage-screen {
-      transition: none;
     }
   }
 </style>

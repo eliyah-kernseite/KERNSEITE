@@ -1,0 +1,54 @@
+---
+import ServiceDetail from '../../components/ServiceDetail.astro';
+const blocks = [
+  {
+    title: 'Mit einem klaren Ziel starten.',
+    text: 'Mehr Anfragen, neue Mitarbeiter oder ein bestimmtes Angebot bekannter machen: Wir legen zuerst fest, was die Kampagne erreichen soll und woran wir Erfolg messen.',
+  },
+  {
+    title: 'Die richtigen Kanäle wählen.',
+    text: 'Google Ads erreicht Menschen, die gerade suchen. Instagram und Facebook erreichen Menschen, die dich noch nicht kennen. Wir setzen dort an, wo deine Zielgruppe wirklich ist.',
+  },
+  {
+    title: 'Eine Seite, die überzeugt.',
+    text: 'Eine gute Anzeige bringt wenig, wenn der Klick auf eine unklare Seite führt. Deshalb bauen wir passende Landingpages mit einem einfachen Weg zur Anfrage.',
+  },
+  {
+    title: 'Messen und nachschärfen.',
+    text: 'Mit datenschutzkonformem Tracking sehen wir, welche Anzeigen funktionieren. Du bekommst eine verständliche Auswertung und wir verbessern die Kampagne laufend.',
+  },
+];
+const questions = [
+  {
+    question: 'Wie viel Werbebudget brauche ich?',
+    answer:
+      'Das hängt von Ziel, Region und Wettbewerb ab. Für lokale Kampagnen reicht oft ein überschaubares Monatsbudget. Wir empfehlen einen realistischen Startwert und passen ihn anhand der Ergebnisse an.',
+  },
+  {
+    question: 'Wer bezahlt die Anzeigen?',
+    answer:
+      'Das Werbebudget zahlst du direkt an Google oder Meta. So behältst du die volle Kontrolle. Unsere Leistung für Planung, Umsetzung und Betreuung wird getrennt vereinbart.',
+  },
+  {
+    question: 'Garantiert ihr eine bestimmte Anzahl Anfragen?',
+    answer:
+      'Nein. Seriös lässt sich das nicht versprechen. Wir sorgen für saubere Planung, gute Anzeigen und eine Messung, mit der wir gemeinsam sehen, was wirkt.',
+  },
+  {
+    question: 'Ist Tracking mit dem Datenschutz vereinbar?',
+    answer:
+      'Ja, wenn es richtig eingerichtet ist. Wir binden Messwerkzeuge nur mit passender Einwilligung ein und stimmen Cookie-Hinweis und Datenschutzerklärung darauf ab.',
+  },
+];
+---
+
+<ServiceDetail
+  serviceKey="ads"
+  title="Performance Marketing: Google & Meta Ads"
+  description="Google Ads und Meta Ads für Unternehmen aus dem Raum Würzburg: Kampagnen, Landingpages und verständliche Auswertung. Planbar mehr Anfragen statt Streuverlust."
+  headline="Mehr Anfragen. Planbar statt zufällig."
+  intro="Gute Werbung erreicht nicht möglichst viele Menschen, sondern die richtigen. Wir planen Kampagnen, die zu deinem Ziel passen, und zeigen dir offen, was sie bringen."
+  closing="Werbung mit einem Plan."
+  blocks={blocks}
+  questions={questions}
+/>

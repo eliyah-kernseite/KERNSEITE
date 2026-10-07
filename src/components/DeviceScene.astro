@@ -1,0 +1,238 @@
+---
+/**
+ * Startseiten-Szene: Foto eines Arbeitsplatzes mit Laptop, iPad und Smartphone.
+ * Auf jedem Bildschirm scrollt eine echte Kundenseite langsam von oben nach unten.
+ *
+ * Aufbau: Die Bühne ist im Originalmaß des Fotos (1536 × 1024 px) angelegt und
+ * wird per CSS auf die Containerbreite skaliert. Jeder Bildschirm wird mit einer
+ * vorab berechneten Perspektiv-Matrix (matrix3d) exakt auf die Displayfläche im
+ * Foto gelegt. Kein JavaScript, kein Video. Bei „Bewegung reduzieren“ steht die
+ * Szene still; ohne Unterstützung für die Skalierung bleibt das reine Foto.
+ */
+const base = '/assets/references/scroll';
+---
+
+<div
+  class="scene"
+  role="img"
+  aria-label="Arbeitsplatz mit Laptop, Tablet und Smartphone. Darauf laufen Websites von KERNSEITE für Kaya Döner, Bestattungen Gorhau und die Babyschlafberatung."
+>
+  <img
+    class="scene__photo"
+    src={`${base}/arbeitsplatz-1536.webp`}
+    srcset={`${base}/arbeitsplatz-960.webp 960w, ${base}/arbeitsplatz-1536.webp 1536w`}
+    sizes="(min-width: 850px) 55vw, 100vw"
+    width="1536"
+    height="1024"
+    alt=""
+    fetchpriority="high"
+    decoding="async"
+  />
+  <div class="stage" aria-hidden="true">
+    <div class="screen screen--laptop">
+      <img src={`${base}/kaya-laptop.webp`} width="960" height="3509" alt="" decoding="async" />
+      <span class="notch notch--laptop"></span>
+    </div>
+    <div class="screen screen--tablet">
+      <img src={`${base}/gorhau-tablet.webp`} width="720" height="2727" alt="" decoding="async" />
+    </div>
+    <div class="screen screen--phone">
+      <img src={`${base}/baby-phone.webp`} width="151" height="2576" alt="" decoding="async" />
+      <span class="notch notch--phone"></span>
+    </div>
+    <!-- Die Kaffeetasse steht im Foto vor dem iPad und muss die Seite überdecken -->
+    <img class="cup" src={`${base}/tasse.webp`} width="290" height="90" alt="" decoding="async" />
+  </div>
+</div>
+
+<style>
+  .scene {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1536 / 1024;
+    border-radius: 1.5rem;
+    overflow: hidden;
+    container-type: inline-size;
+    box-shadow: 0 1.5rem 3rem #10121424;
+    background: #e9dfd2;
+  }
+  .scene__photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  /* Bühne im Fotomaß, skaliert auf die Containerbreite (Länge ÷ Länge via atan2/tan) */
+  .stage {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1536px;
+    height: 1024px;
+    transform-origin: 0 0;
+    transform: scale(tan(atan2(100cqw, 1536px)));
+  }
+  @supports not (transform: scale(tan(atan2(1px, 1px)))) {
+    .stage {
+      display: none;
+    }
+  }
+
+  .screen {
+    position: absolute;
+    left: 0;
+    top: 0;
+    overflow: hidden;
+    container-type: size;
+    transform-origin: 0 0;
+    background: #fff;
+  }
+  /* Leichter Glanz und warmes Raumlicht, damit die Displays ins Foto passen */
+  .screen::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(120deg, #ffffff26 0%, #ffffff00 38%),
+      linear-gradient(0deg, #f3b46a0d, #f3b46a0d);
+    pointer-events: none;
+  }
+  .screen img {
+    display: block;
+    width: 100%;
+    height: auto;
+    animation: page-scroll var(--dur) ease-in-out var(--delay) infinite;
+  }
+
+  .screen--laptop {
+    width: 960px;
+    height: 640px;
+    border-radius: 6px;
+    transform: matrix3d(
+      0.485583,
+      -0.0159389,
+      0,
+      -7.58869e-5,
+      -0.0444274,
+      0.535294,
+      0,
+      -2.41646e-5,
+      0,
+      0,
+      1,
+      0,
+      690.004,
+      210.33,
+      0,
+      1
+    );
+    --dur: 30s;
+    --delay: 0s;
+  }
+  .screen--tablet {
+    width: 720px;
+    height: 520px;
+    border-radius: 14px;
+    transform: matrix3d(
+      0.665017,
+      0.0275651,
+      0,
+      0.000207538,
+      0.0699325,
+      0.58325,
+      0,
+      -0.000101548,
+      0,
+      0,
+      1,
+      0,
+      166.991,
+      334.35,
+      0,
+      1
+    );
+    --dur: 26s;
+    --delay: -9s;
+  }
+  .screen--phone {
+    width: 151px;
+    height: 322px;
+    border-radius: 22px;
+    transform: matrix3d(
+      0.609029,
+      -0.0726846,
+      0,
+      -0.000239895,
+      -0.169589,
+      0.88921,
+      0,
+      -9.36482e-5,
+      0,
+      0,
+      1,
+      0,
+      1292.54,
+      383.89,
+      0,
+      1
+    );
+    --dur: 22s;
+    --delay: -4s;
+  }
+
+  .cup {
+    position: absolute;
+    left: 150px;
+    top: 600px;
+    width: 290px;
+    height: 90px;
+    z-index: 5;
+  }
+
+  .notch {
+    position: absolute;
+    left: 50%;
+    z-index: 2;
+    background: #0b0c0d;
+    transform: translateX(-50%);
+  }
+  .notch--laptop {
+    top: 0;
+    width: 104px;
+    height: 16px;
+    border-radius: 0 0 8px 8px;
+  }
+  .notch--phone {
+    top: 7px;
+    width: 52px;
+    height: 13px;
+    border-radius: 8px;
+  }
+
+  @keyframes page-scroll {
+    0%,
+    8% {
+      transform: translateY(0);
+    }
+    78%,
+    86% {
+      transform: translateY(calc(-100% + 100cqh));
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .screen img {
+      animation: none;
+    }
+  }
+  @media (max-width: 700px) {
+    .scene {
+      border-radius: 1rem;
+    }
+  }
+</style>

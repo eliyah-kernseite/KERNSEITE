@@ -1,0 +1,54 @@
+---
+import ServiceDetail from '../../components/ServiceDetail.astro';
+const blocks = [
+  {
+    title: 'Erst verstehen, dann gestalten.',
+    text: 'In einem Markenworkshop klären wir, wofür dein Unternehmen steht, wen du erreichen willst und wie du wirken möchtest. Daraus entsteht die Richtung für alles Weitere.',
+  },
+  {
+    title: 'Ein Logo, das funktioniert.',
+    text: 'Wir entwickeln ein neues Logo oder überarbeiten dein bestehendes. Es muss auf dem Firmenwagen genauso gut aussehen wie als kleines Profilbild auf Instagram.',
+  },
+  {
+    title: 'Farben, Schriften, Bildsprache.',
+    text: 'Eine feste Farbwelt, passende Schriften und klare Regeln für Fotos und Grafiken sorgen dafür, dass jeder Kontakt mit deinem Unternehmen gleich wirkt.',
+  },
+  {
+    title: 'Ein Styleguide zum Anwenden.',
+    text: 'Alles landet in einem kompakten Styleguide mit Vorlagen für Visitenkarte, Briefpapier, E-Mail-Signatur und Social Media. So bleibt dein Auftritt auch ohne uns einheitlich.',
+  },
+];
+const questions = [
+  {
+    question: 'Brauche ich ein komplett neues Logo?',
+    answer:
+      'Nicht unbedingt. Oft reicht es, ein bestehendes Logo behutsam zu modernisieren, damit Kunden dich weiter wiedererkennen. Wir schauen uns das gemeinsam an und empfehlen ehrlich, was sinnvoll ist.',
+  },
+  {
+    question: 'Bekomme ich alle Dateien?',
+    answer:
+      'Ja. Du erhältst dein Logo und alle Gestaltungselemente in den gängigen Formaten für Druck und Web, dazu den Styleguide und die vereinbarten Vorlagen.',
+  },
+  {
+    question: 'Passt das Branding dann auch zur Website?',
+    answer:
+      'Genau dafür machen wir beides aus einer Hand. Farben, Schriften und Bildsprache fließen direkt in deine Website, deine Social-Media-Profile und deine Drucksachen ein.',
+  },
+  {
+    question: 'Was kostet ein Corporate Design?',
+    answer:
+      'Das hängt vom Umfang ab, etwa ob ein Logo neu entsteht und wie viele Vorlagen du brauchst. Nach einem ersten Gespräch bekommst du ein klares Angebot.',
+  },
+];
+---
+
+<ServiceDetail
+  serviceKey="branding"
+  title="Branding & Corporate Design für Unternehmen"
+  description="Logo, Farben, Schriften und Styleguide aus dem Raum Würzburg: ein wiedererkennbarer Auftritt für Website, Drucksachen und Social Media, aus einer Hand."
+  headline="Ein Auftritt, an den man sich erinnert."
+  intro="Menschen erkennen dich, bevor sie lesen. Wir geben deinem Unternehmen ein klares, wiedererkennbares Gesicht, das auf jedem Kanal gleich stark wirkt."
+  closing="Deine Marke, klar geregelt."
+  blocks={blocks}
+  questions={questions}
+/>

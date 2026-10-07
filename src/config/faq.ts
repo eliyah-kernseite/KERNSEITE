@@ -44,7 +44,7 @@ export const faqs: readonly FaqItem[] = [
     question: 'Wer erstellt Texte, Bilder und Videos?',
     services: ['websites', 'video', 'social'],
     answer:
-      'Wir unterstützen bei Struktur und Formulierung der Texte und planen Bildmotive mit. Fachliche Inhalte kommen von dir. Für Video arbeiten wir mit einem spezialisierten Partner. Was jeweils von wem kommt, halten wir zu Projektbeginn klar fest.',
+      'Wir unterstützen bei Struktur und Formulierung der Texte und planen Bildmotive mit. Fachliche Inhalte kommen von dir. Fotos und Videos produzieren wir auf Wunsch selbst. Was jeweils von wem kommt, halten wir zu Projektbeginn klar fest.',
     onHome: true,
   },
   {
@@ -88,13 +88,13 @@ export const faqs: readonly FaqItem[] = [
     question: 'Mit wem schließe ich den Vertrag?',
     services: ['video', 'social', 'ki'],
     answer:
-      'Dein Vertragspartner ist KERNSEITE, Inhaber Eliyah Korb. Eliyah ist dein zentraler Ansprechpartner und steuert das Projekt, auch wenn einzelne Leistungen über Partner umgesetzt werden.',
+      'Dein Vertragspartner ist KERNSEITE, Inhaber Eliyah Korb. Eliyah ist dein zentraler Ansprechpartner und begleitet dein Projekt von Anfang bis Ende.',
   },
   {
-    question: 'Arbeitet KERNSEITE mit Subunternehmern?',
-    services: ['video', 'social', 'ki'],
+    question: 'Bekomme ich alles aus einer Hand?',
+    services: ['video', 'social', 'ki', 'branding', 'ads'],
     answer:
-      'Für Film, Social Media und KI arbeiten wir projektbezogen mit spezialisierten selbstständigen Partnern zusammen. Die Kommunikation bleibt zentral bei KERNSEITE, während jede Aufgabe von der passenden Fachperson umgesetzt wird.',
+      'Ja. Website, SEO, Branding, Social Media, Werbeanzeigen, Foto und Video sowie KI-Automatisierung kommen von KERNSEITE. Du hast einen festen Ansprechpartner und musst nicht zwischen verschiedenen Dienstleistern vermitteln.',
   },
   {
     question: 'Sind Datenschutz und Barrierefreiheit enthalten?',
