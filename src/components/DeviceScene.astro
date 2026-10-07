@@ -4,10 +4,10 @@
  * Auf jedem Bildschirm scrollt eine echte Kundenseite langsam von oben nach unten.
  *
  * Aufbau: Die Bühne ist im Originalmaß des Fotos (1536 × 1024 px) angelegt und
- * wird per CSS auf die Containerbreite skaliert. Jeder Bildschirm wird mit einer
+ * wird per Skript auf die Containerbreite skaliert. Jeder Bildschirm wird mit einer
  * vorab berechneten Perspektiv-Matrix (matrix3d) exakt auf die Displayfläche im
- * Foto gelegt. Kein JavaScript, kein Video. Bei „Bewegung reduzieren“ steht die
- * Szene still; ohne Unterstützung für die Skalierung bleibt das reine Foto.
+ * Foto gelegt. Kein Video. Bei „Bewegung reduzieren“ steht die
+ * Szene still; ohne JavaScript bleibt das reine Foto.
  */
 const base = '/assets/references/scroll';
 ---
@@ -45,6 +45,20 @@ const base = '/assets/references/scroll';
   </div>
 </div>
 
+<script>
+  // Skaliert die Bühne (1536 × 1024 px) auf die tatsächliche Breite der Szene.
+  for (const scene of document.querySelectorAll<HTMLElement>('.scene')) {
+    const stage = scene.querySelector<HTMLElement>('.stage');
+    if (!stage) continue;
+    const fit = () => {
+      stage.style.transform = `scale(${scene.clientWidth / 1536})`;
+    };
+    fit();
+    new ResizeObserver(fit).observe(scene);
+    scene.classList.add('is-ready');
+  }
+</script>
+
 <style>
   .scene {
     position: relative;
@@ -64,7 +78,8 @@ const base = '/assets/references/scroll';
     display: block;
   }
 
-  /* Bühne im Fotomaß, skaliert auf die Containerbreite (Länge ÷ Länge via atan2/tan) */
+  /* Bühne im Fotomaß; das Skript skaliert sie auf die Containerbreite.
+     Bis dahin (oder ohne JavaScript) bleibt das reine Foto sichtbar. */
   .stage {
     position: absolute;
     left: 0;
@@ -72,12 +87,10 @@ const base = '/assets/references/scroll';
     width: 1536px;
     height: 1024px;
     transform-origin: 0 0;
-    transform: scale(tan(atan2(100cqw, 1536px)));
+    visibility: hidden;
   }
-  @supports not (transform: scale(tan(atan2(1px, 1px)))) {
-    .stage {
-      display: none;
-    }
+  .scene.is-ready .stage {
+    visibility: visible;
   }
 
   .screen {
@@ -85,7 +98,6 @@ const base = '/assets/references/scroll';
     left: 0;
     top: 0;
     overflow: hidden;
-    container-type: size;
     transform-origin: 0 0;
     background: #fff;
   }
@@ -130,6 +142,7 @@ const base = '/assets/references/scroll';
     );
     --dur: 30s;
     --delay: 0s;
+    --end: -2869px; /* 3509 - 640 */
   }
   .screen--tablet {
     width: 720px;
@@ -155,6 +168,7 @@ const base = '/assets/references/scroll';
     );
     --dur: 26s;
     --delay: -9s;
+    --end: -2207px; /* 2727 - 520 */
   }
   .screen--phone {
     width: 151px;
@@ -180,6 +194,7 @@ const base = '/assets/references/scroll';
     );
     --dur: 22s;
     --delay: -4s;
+    --end: -2254px; /* 2576 - 322 */
   }
 
   .cup {
@@ -218,7 +233,7 @@ const base = '/assets/references/scroll';
     }
     78%,
     86% {
-      transform: translateY(calc(-100% + 100cqh));
+      transform: translateY(var(--end));
     }
     100% {
       transform: translateY(0);
