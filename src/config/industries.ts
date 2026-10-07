@@ -21,6 +21,12 @@ export interface Industry {
   readonly focus: readonly { readonly title: string; readonly body: string }[];
   /** Passende Leistungen (service keys). */
   readonly relatedServices: readonly string[];
+  /** Kurztexte der passenden Leistungen, je Branche eigenständig. */
+  readonly relatedTeasers: Readonly<Record<string, string>>;
+  /** Überschrift des Abschluss-Banners, je Branche eigenständig. */
+  readonly ctaTitle: string;
+  /** Text zur passenden Referenz, falls vorhanden. */
+  readonly referenceText?: string;
   /** Text im Abschluss-Banner, je Branche eigenständig. */
   readonly ctaText: string;
   /** Häufige Fragen der Branche (eigenständig, kein Textklon). */
@@ -64,6 +70,15 @@ export const industries: readonly Industry[] = [
       },
     ],
     relatedServices: ['websites', 'google', 'video'],
+    ctaTitle: 'Eine Website, die zeigt, was dein Betrieb kann.',
+    relatedTeasers: {
+      websites:
+        'Eine eigene Website für deinen Betrieb, die Leistungen, Referenzen und Kontaktwege sauber ordnet und nicht nach Baukasten aussieht.',
+      google:
+        'Ein gepflegtes Google-Profil zeigt Einsatzgebiet, Leistungen und Erreichbarkeit, wenn jemand in deiner Nähe einen Handwerksbetrieb sucht.',
+      video:
+        'Echte Bilder von Baustelle, Werkstatt und Team zeigen, wie dein Betrieb arbeitet, und helfen auch bei der Suche nach Fachkräften.',
+    },
     ctaText:
       'Im ersten Gespräch klären wir, welche Leistungen, Aufträge und Bewerber für deinen Betrieb wirklich zählen.',
     faqs: [
@@ -130,6 +145,14 @@ export const industries: readonly Industry[] = [
       },
     ],
     relatedServices: ['websites', 'google', 'ki'],
+    ctaTitle: 'Eine Praxis-Website, die Patienten Sicherheit gibt.',
+    relatedTeasers: {
+      websites:
+        'Eine Praxis-Website, die Behandlungen verständlich erklärt, das Team vorstellt und Patienten schnell zum Termin führt.',
+      google:
+        'Ein vollständiges Praxisprofil bei Google macht Adresse, Sprechzeiten und Kontakt für Patienten aus der Umgebung sofort sichtbar.',
+      ki: 'Wiederkehrende Fragen und Abläufe rund um Termine lassen sich sinnvoll automatisieren, ohne den persönlichen Kontakt zu ersetzen.',
+    },
     ctaText:
       'Im ersten Gespräch klären wir, was Patientinnen, Patienten und dein Praxisteam von der Website brauchen.',
     faqs: [
@@ -201,6 +224,17 @@ export const industries: readonly Industry[] = [
       },
     ],
     relatedServices: ['websites', 'video', 'google'],
+    ctaTitle: 'Eine Website, die Lust auf deinen Betrieb macht.',
+    referenceText:
+      'So kann ein Gastro-Auftritt aussehen: Speisekarte und Wochenangebote stehen im Mittelpunkt, Anruf und Anfahrt sind jederzeit schnell erreichbar.',
+    relatedTeasers: {
+      websites:
+        'Eine Website mit Speisekarte, Angeboten, Öffnungszeiten und Anfahrt, die auf dem Smartphone genauso gut funktioniert wie am Rechner.',
+      video:
+        'Fotos von Gerichten, Räumen und Team machen Lust auf einen Besuch, auf der Website ebenso wie in Social Media.',
+      google:
+        'Wer spontan essen gehen oder übernachten will, sucht bei Google. Ein aktuelles Profil zeigt Öffnungszeiten, Lage und Kontakt auf einen Blick.',
+    },
     ctaText:
       'Im ersten Gespräch klären wir, was deine Gäste vor dem Besuch wissen wollen und wie sie am liebsten reservieren oder buchen.',
     faqs: [
@@ -267,6 +301,16 @@ export const industries: readonly Industry[] = [
       },
     ],
     relatedServices: ['websites', 'google', 'ki'],
+    ctaTitle: 'Eine Website, die zeigt, wer hinter deinem Angebot steht.',
+    referenceText:
+      'Ein Beispiel aus der Kindertagespflege: Die Website stellt zuerst den Menschen vor und bündelt danach alle Informationen, die Eltern für ihre Entscheidung brauchen.',
+    relatedTeasers: {
+      websites:
+        'Eine persönliche Website, die dein Angebot klar beschreibt, dich als Ansprechpartner zeigt und den Weg zur Anfrage kurz hält.',
+      google:
+        'Für Dienstleister vor Ort ist das Google-Profil oft der erste Kontakt. Gepflegte Angaben zu Leistungen und Erreichbarkeit helfen Menschen aus der Nähe, dich zu finden.',
+      ki: 'Terminanfragen, Rückfragen und Erinnerungen lassen sich teilweise automatisieren. Das spart Zeit, die du für deine Kunden brauchst.',
+    },
     ctaText:
       'Im ersten Gespräch klären wir, wie Interessenten dich finden und was sie vor der ersten Anfrage wissen müssen.',
     faqs: [
@@ -333,6 +377,14 @@ export const industries: readonly Industry[] = [
       },
     ],
     relatedServices: ['websites', 'ki', 'video'],
+    ctaTitle: 'Eine Website, die komplexe Leistungen greifbar macht.',
+    relatedTeasers: {
+      websites:
+        'Eine Unternehmenswebsite, die erklärungsbedürftige Leistungen gliedert und Entscheidern schnell zeigt, ob ihr zusammenpasst.',
+      ki: 'Anfragen vorsortieren, Informationen bündeln, Routine in Vertrieb und Service entlasten: Automatisierung dort, wo sie wirklich hilft.',
+      video:
+        'Ein Film über Fertigung, Abläufe oder Team zeigt Kunden und Bewerbern, wie dein Unternehmen arbeitet, bevor der erste Termin stattfindet.',
+    },
     ctaText:
       'Im ersten Gespräch klären wir, welche Informationen Einkauf, Technik und Geschäftsführung bei dir suchen.',
     faqs: [

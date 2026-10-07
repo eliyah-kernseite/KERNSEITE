@@ -29,6 +29,10 @@ export interface Region {
   readonly areaTitle: string;
   readonly areaText: string;
   readonly relatedServices: readonly ServiceKey[];
+  /** Kurztexte der passenden Leistungen, je Region eigenständig. */
+  readonly relatedTeasers: Readonly<Partial<Record<ServiceKey, string>>>;
+  /** Text zur passenden Referenz, falls vorhanden. */
+  readonly referenceText?: string;
   readonly faqs: readonly FaqItem[];
 }
 
@@ -69,6 +73,16 @@ export const regions: readonly Region[] = [
     areaText:
       'Wir betreuen Unternehmen in Würzburg und im ganzen Umland: in Erlabrunn, Zellingen, Veitshöchheim, Höchberg, Ochsenfurt, Kitzingen, Karlstadt, Marktheidenfeld und Schweinfurt. Ob Handwerksbetrieb, Praxis, Gastronomie oder Dienstleister: Wir kennen die Region und wissen, wie Kunden hier suchen. Und weil sich vieles digital abstimmen lässt, begleiten wir Projekte genauso gern in ganz Deutschland.',
     relatedServices: ['websites', 'seo-geo', 'google'],
+    referenceText:
+      'Ein Projekt aus der Nachbarschaft: Für Kaya Döner in Himmelstadt führt die Website schnell zu Speisekarte, Angeboten, Anruf und Anfahrt.',
+    relatedTeasers: {
+      websites:
+        'Individuell gestaltete Websites für Betriebe aus der Region, vom ersten Konzept bis zum Start persönlich begleitet.',
+      'seo-geo':
+        'Damit dich Kunden aus der Stadt und dem Umland finden: saubere Technik, klare Inhalte und Texte, die auch KI-Antwortsysteme verstehen.',
+      google:
+        'Ein gepflegtes Unternehmensprofil sorgt dafür, dass dein Betrieb bei lokalen Suchanfragen und in Google Maps richtig erscheint.',
+    },
     faqs: [
       {
         question: 'Bist du eine Werbeagentur oder ein Webdesigner?',
@@ -127,6 +141,14 @@ export const regions: readonly Region[] = [
     areaText:
       'Wir betreuen Unternehmen in Schweinfurt, Gochsheim, Schwebheim, Werneck, Niederwerrn, Bergrheinfeld und im ganzen Landkreis. Unser Sitz liegt in Erlabrunn bei Würzburg, also mitten in Unterfranken. So verbinden wir persönliche Nähe mit der Erfahrung aus Projekten in der ganzen Region.',
     relatedServices: ['websites', 'google', 'video'],
+    relatedTeasers: {
+      websites:
+        'Eine Website für dein Unternehmen in Schweinfurt, individuell geplant und mit klaren Wegen zu Leistungen und Kontakt.',
+      google:
+        'Ein vollständiges Google-Profil hilft, dass Kunden aus Schweinfurt und dem Landkreis deinen Betrieb in der lokalen Suche finden.',
+      video:
+        'Fotos und Filme aus deinem Betrieb zeigen echte Einblicke und machen deinen Auftritt glaubwürdiger als jedes Stockfoto.',
+    },
     faqs: [
       {
         question: 'Betreut ihr auch Unternehmen in Schweinfurt?',

@@ -43,6 +43,10 @@ export interface ProjectWork extends WorkCommon {
   readonly headline: string;
   /** Kurzbeschreibung für das Karussell der Startseite (eigener Text, kein Tagline-Duplikat). */
   readonly teaser: string;
+  /** Überschrift des Abschluss-Banners auf der Projektseite (siehe CtaBanner `markedTitle`). */
+  readonly ctaTitle: readonly [string, string, string, string];
+  /** Eigene Kurztexte je Seite, damit derselbe Satz nicht auf mehreren Seiten steht. */
+  readonly blurbs?: Partial<Record<'home' | 'arbeiten' | 'websites' | 'leistungen', string>>;
   /** Optionaler Seitentitel, falls „Titel: Website-Entwurf“ zu lang wird. */
   readonly seoTitle?: string;
   /** Fragen und Antworten zum Projekt (Projektseite). */
@@ -99,6 +103,16 @@ const projects: readonly ProjectWork[] = [
     client: 'Anna-Lena Korb',
     industryLabel: 'Babyschlafberatung',
     category: 'Beratung · Website · Kontaktanfrage',
+    ctaTitle: ['Dein Angebot verdient Vertrauen.', 'Zeigt deine ', 'Website', ' das schon?'],
+    blurbs: {
+      home: 'Ein Entwurf für eine Schlafberatung, in dem Eltern Angebote, Preise und die Person hinter der Beratung schnell finden.',
+      arbeiten:
+        'Website-Entwurf für eine Babyschlafberatung mit verständlichen Angeboten und Preisen, persönlicher Vorstellung und kurzem Weg zum Kennenlernen.',
+      websites:
+        'Die Struktur ordnet Beratung, Angebote und Preise so, dass sich Eltern auch in einer müden Minute schnell zurechtfinden.',
+      leistungen:
+        'Eltern sehen auf einen Blick, wie die Beratung abläuft, was sie kostet und wie sie ein erstes Gespräch vereinbaren.',
+    },
     tagline:
       'Eine persönliche Website, die Eltern Orientierung gibt und den Weg zum Kennenlerngespräch einfach macht.',
     liveLabel: 'Website-Entwurf',
@@ -176,6 +190,14 @@ const projects: readonly ProjectWork[] = [
     client: 'Kaya Döner Himmelstadt',
     industryLabel: 'Gastronomie',
     category: 'Gastronomie · Website · digitale Speisekarte',
+    ctaTitle: ['Deine Gäste haben Hunger.', 'Macht deine ', 'Website', ' Appetit?'],
+    blurbs: {
+      home: 'Eine Website für einen Imbiss in Himmelstadt, die Speisekarte, Wochenangebote und Anfahrt schnell erreichbar macht.',
+      arbeiten:
+        'Digitale Speisekarte, gesonderte Wochenangebote und eine eigene Seite für Kontakt und Anfahrt, verbunden durch eine direkte Nutzerführung.',
+      websites:
+        'Wer hungrig sucht, findet hier mit wenigen Klicks, was es gibt, und kann direkt anrufen.',
+    },
     tagline:
       'Ein klarer und appetitlicher Webauftritt mit direkter Nutzerführung, digitaler Speisekarte und schnellem Zugang zu Standort und Kontakt.',
     liveUrl: 'https://www.kaya-doener-himmelstadt.de',
@@ -253,6 +275,14 @@ const projects: readonly ProjectWork[] = [
     client: 'Bestattungen Gorhau',
     industryLabel: 'Bestattungsunternehmen',
     category: 'Bestattungen · Website · Kontaktwege',
+    ctaTitle: ['Klarheit hilft in jedem Moment.', 'Bietet deine ', 'Website', ' sie auch?'],
+    blurbs: {
+      home: 'Ein Entwurf für ein Bestattungsunternehmen, bei dem Angehörige sofort sehen, wen sie im Trauerfall erreichen.',
+      arbeiten:
+        'Ein Entwurf mit großem Naturmotiv und verständlichen Wegen zu Trauerfall, Leistungen, Bestattungsarten und Vorsorge.',
+      websites:
+        'Wenn es schnell gehen muss, zählt Klarheit: Die Telefonnummer steht im Einstieg, die nächsten Schritte sind leicht zu finden.',
+    },
     tagline:
       'Ein ruhiger Auftritt mit verständlichen Informationen und einem direkt sichtbaren Kontakt für den Trauerfall.',
     liveLabel: 'Projektvorschau',
@@ -330,6 +360,14 @@ const projects: readonly ProjectWork[] = [
     client: 'Anna-Lena’s Kinderkörbchen',
     industryLabel: 'Kindertagespflege',
     category: 'Kindertagespflege · Website · lokale Sichtbarkeit',
+    ctaTitle: ['Menschen wählen Menschen.', 'Stellt deine ', 'Website', ' dich vor?'],
+    blurbs: {
+      home: 'Eine Kindertagespflege, die sich Eltern persönlich vorstellt und ihr Angebot verständlich bündelt.',
+      arbeiten:
+        'Persönlicher Auftritt mit klarer Struktur für Angebot und Vertrauen, ergänzt durch das Google-Unternehmensprofil in der lokalen Suche.',
+      websites:
+        'Eltern lernen hier zuerst den Menschen kennen und finden danach alle Informationen zum Angebot und zur Kontaktaufnahme.',
+    },
     tagline:
       'Ein warmer, persönlicher Webauftritt, der Betreuung, Persönlichkeit und Vertrauen verständlich zusammenführt.',
     // IDN: Punycode als href, Unicode als Anzeige.

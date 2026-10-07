@@ -1,5 +1,11 @@
 ---
 import { featuredProjects } from '../config/cases';
+
+interface Props {
+  /** Seite, auf der das Raster steht; wählt den passenden Kurztext. */
+  context?: 'home' | 'arbeiten' | 'websites';
+}
+const { context } = Astro.props;
 ---
 
 <ul class="projects" role="list">
@@ -30,7 +36,9 @@ import { featuredProjects } from '../config/cases';
             {project.stage === 'preview' ? ' · Website-Entwurf' : ' · Website'}
           </p>
         </a>
-        <p class="project__description">{project.tagline}</p>
+        <p class="project__description">
+          {(context && project.blurbs?.[context]) ?? project.tagline}
+        </p>
       </li>
     ))
   }

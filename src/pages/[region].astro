@@ -95,7 +95,7 @@ const reference =
         <div class="content ref">
           <div>
             <h2 class="ref__title">{reference.headline}</h2>
-            <p class="ref__body">{reference.tagline}</p>
+            <p class="ref__body">{region.referenceText ?? reference.tagline}</p>
             <a class="link-arrow" href={reference.href}>
               Projekt ansehen<span class="visually-hidden">: {reference.title}</span>{' '}
               <span class="arrow" aria-hidden="true">
@@ -132,7 +132,7 @@ const reference =
                   <a class="rel__name" href={r.href}>
                     {r.cardTitle}
                   </a>
-                  <span class="rel__teaser">{r.teaser}</span>
+                  <span class="rel__teaser">{region.relatedTeasers[r.key] ?? r.teaser}</span>
                 </span>
                 <span class="rel__go" aria-hidden="true">
                   →
