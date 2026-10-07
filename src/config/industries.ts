@@ -21,6 +21,10 @@ export interface Industry {
   readonly focus: readonly { readonly title: string; readonly body: string }[];
   /** Passende Leistungen (service keys). */
   readonly relatedServices: readonly string[];
+  /** Text im Abschluss-Banner, je Branche eigenständig. */
+  readonly ctaText: string;
+  /** Häufige Fragen der Branche (eigenständig, kein Textklon). */
+  readonly faqs: readonly { readonly question: string; readonly answer: string }[];
 }
 
 export const industries: readonly Industry[] = [
@@ -34,7 +38,7 @@ export const industries: readonly Industry[] = [
       'Website für Handwerksbetriebe: Leistungen verständlich zeigen, regional gefunden werden und Anfragen wie Bewerbungen einfach machen.',
     ctaLabel: 'Website fürs Handwerk besprechen',
     argument: 'Zeig deine Qualität, gewinne Aufträge und Bewerber. Mit klaren Kontaktwegen.',
-    detailH1: 'Websites für Handwerksbetriebe. Leistungen zeigen, Anfragen erleichtern.',
+    detailH1: 'Websites fürs Handwerk. Leistungen zeigen, Anfragen erleichtern.',
     intro:
       'Ein etablierter Betrieb verdient einen Auftritt, der die tatsächliche Qualität zeigt und neben Kunden auch Bewerber überzeugt.',
     focus: [
@@ -60,6 +64,35 @@ export const industries: readonly Industry[] = [
       },
     ],
     relatedServices: ['websites', 'google', 'video'],
+    ctaText:
+      'Im ersten Gespräch klären wir, welche Leistungen, Aufträge und Bewerber für deinen Betrieb wirklich zählen.',
+    faqs: [
+      {
+        question: 'Was gehört auf die Website eines Handwerksbetriebs?',
+        answer:
+          'Im Mittelpunkt stehen deine Leistungen, dein Einsatzgebiet und echte Bilder aus deiner Arbeit. Dazu kommen eine kurze Vorstellung des Betriebs, Referenzen, Kontaktwege und bei Bedarf ein Bereich für Bewerber. Wichtig ist, dass Kunden schnell erkennen, ob du für ihr Anliegen der richtige Ansprechpartner bist.',
+      },
+      {
+        question: 'Brauche ich als Handwerker eine Website, wenn die Auftragslage gut ist?',
+        answer:
+          'Auch bei voller Auftragslage informieren sich Kunden und Bewerber online, bevor sie anrufen. Eine gute Website zeigt Leistungen und Qualität und hilft dir, gezielter die Aufträge zu bekommen, die zu deinem Betrieb passen. Außerdem ist sie eine wichtige Anlaufstelle für Fachkräfte, die einen neuen Arbeitgeber suchen.',
+      },
+      {
+        question: 'Wie bekomme ich gute Fotos von meinen Baustellen?',
+        answer:
+          'Oft reichen schon sorgfältig gemachte Handyfotos von fertigen Arbeiten, Material und Werkstatt. Wir sagen dir vorher, worauf du achten solltest. Für Teamfotos, Imagefilme oder Aufnahmen für die Karriereseite planen wir auf Wunsch einen eigenen Foto- und Drehtermin.',
+      },
+      {
+        question: 'Wie wird mein Betrieb in der Region gefunden?',
+        answer:
+          'Eine Website, die deine Leistungen fürs jeweilige Einsatzgebiet klar benennt, ein gepflegtes Google-Unternehmensprofil und einheitliche Kontaktdaten sind eine gute Grundlage. Wie weit oben du erscheinst, hängt auch vom Wettbewerb ab. Eine bestimmte Platzierung kann deshalb niemand seriös versprechen.',
+      },
+      {
+        question: 'Wie kann die Website Anfragen erleichtern?',
+        answer:
+          'Indem sie die wichtigsten Angaben gleich mit abfragt: Art des Vorhabens, Ort, gewünschter Zeitraum und bei Bedarf Fotos. So weißt du schon vor dem Rückruf, worum es geht, und kannst besser einschätzen, ob der Auftrag passt. Für Kunden ist ein kurzes Formular oft angenehmer als ein Anruf zur falschen Zeit.',
+      },
+    ],
   },
   {
     slug: 'zahnarztpraxen',
@@ -97,6 +130,40 @@ export const industries: readonly Industry[] = [
       },
     ],
     relatedServices: ['websites', 'google', 'ki'],
+    ctaText:
+      'Im ersten Gespräch klären wir, was Patientinnen, Patienten und dein Praxisteam von der Website brauchen.',
+    faqs: [
+      {
+        question: 'Was macht gute Praxis-Websites aus?',
+        answer:
+          'Gute Praxis-Websites schaffen Vertrauen, bevor Patientinnen und Patienten die Praxis betreten. Sie zeigen das Team, erklären Behandlungen verständlich und beantworten organisatorische Fragen: Wo ist die Praxis, wann sind Sprechzeiten und wie komme ich zu einem Termin? Eine ruhige Gestaltung hilft gerade Menschen, die mit einem mulmigen Gefühl zum Zahnarzt gehen.',
+      },
+      {
+        question: 'Wie lässt sich die Vergabe von Terminen erleichtern?',
+        answer:
+          'Je nach Praxis über eine gut sichtbare Telefonnummer, ein Anfrageformular oder ein externes Buchungssystem. Externe Terminlinks öffnen sich erst nach einem Klick, damit keine Daten ungefragt übertragen werden. Welche Lösung passt, hängt von euren Abläufen an der Rezeption ab.',
+      },
+      {
+        question: 'Wer liefert die medizinischen Inhalte?',
+        answer:
+          'Medizinische Aussagen, Behandlungsbeschreibungen und berufsrechtliche Pflichtangaben kommen von der Praxis und werden von euch fachlich freigegeben. Wir helfen dabei, sie verständlich zu formulieren und übersichtlich aufzubereiten. Heilversprechen und reißerische Formulierungen lassen wir bewusst weg.',
+      },
+      {
+        question: 'Hilft die Website auch bei der Personalsuche?',
+        answer:
+          'Ja. Wer sich in einer Praxis bewirbt, schaut sich vorher meist die Website an. Ein eigener Bereich mit echten Einblicken ins Team, offenen Stellen und einem einfachen Bewerbungsweg macht die Praxis als Arbeitgeber sichtbar.',
+      },
+      {
+        question: 'Welche Termine lassen sich online anfragen?',
+        answer:
+          'Das entscheidet die Praxis. Häufig eignen sich Kontrolltermine, Prophylaxe oder ein Erstgespräch für neue Patientinnen und Patienten. Akute Beschwerden sollten weiterhin telefonisch geklärt werden. Die Website macht diesen Unterschied klar sichtbar, damit niemand bei einem dringenden Anliegen im Formular landet.',
+      },
+      {
+        question: 'Wie wirkt eine Praxis-Website auf ängstliche Patienten?',
+        answer:
+          'Ruhige Farben, freundliche Fotos des Teams und eine sachliche, warme Sprache nehmen Druck heraus. Hilfreich sind auch kurze Erklärungen, was bei einem ersten Termin passiert. Wer vorher weiß, was ihn erwartet, kommt entspannter in die Praxis.',
+      },
+    ],
   },
   {
     slug: 'gastronomie-hotels',
@@ -134,6 +201,35 @@ export const industries: readonly Industry[] = [
       },
     ],
     relatedServices: ['websites', 'video', 'google'],
+    ctaText:
+      'Im ersten Gespräch klären wir, was deine Gäste vor dem Besuch wissen wollen und wie sie am liebsten reservieren oder buchen.',
+    faqs: [
+      {
+        question: 'Was erwarten Gäste von einer Restaurant-Website?',
+        answer:
+          'Vor allem schnelle Antworten: Was gibt es, wann ist geöffnet, wo ist das Lokal und wie reserviere oder bestelle ich? Gute Bilder und ein Gefühl für die Atmosphäre machen Lust auf einen Besuch. Alles sollte auf dem Smartphone funktionieren, denn dort wird meist gesucht.',
+      },
+      {
+        question: 'Wie halte ich Speisekarte und Öffnungszeiten aktuell?',
+        answer:
+          'Wir bauen Speisekarte und Öffnungszeiten so auf, dass Änderungen schnell erledigt sind, entweder von dir selbst oder nach Absprache von uns. Wichtig ist, dass Website und Google-Profil dieselben Angaben zeigen. Widersprüchliche Öffnungszeiten verärgern Gäste.',
+      },
+      {
+        question: 'Kann ich ein Reservierungs- oder Buchungssystem einbinden?',
+        answer:
+          'Ja, vorhandene Systeme lassen sich nach technischer und datenschutzrechtlicher Prüfung anbinden. Externe Inhalte laden erst nach einem Klick, damit Gäste selbst entscheiden. Die Kosten des jeweiligen Anbieters kommen zu den Websitekosten hinzu.',
+      },
+      {
+        question: 'Lohnen sich eigene Fotos und Videos?',
+        answer:
+          'Für Gastgeber fast immer. Gäste wollen sehen, wie es bei dir aussieht und was auf den Teller kommt. Echte Aufnahmen von Speisen, Räumen, Terrasse oder Zimmern vermitteln die Atmosphäre deutlich besser als Stockfotos. Einen Foto- oder Drehtermin planen wir auf Wunsch mit.',
+      },
+      {
+        question: 'Was ist bei Hotel-Websites besonders wichtig?',
+        answer:
+          'Gäste wollen Zimmer, Ausstattung und Lage vergleichen, bevor sie buchen. Klare Zimmerseiten mit guten Bildern, Informationen zur Anreise und Antworten auf typische Fragen zu Frühstück, Parken oder Haustieren helfen dabei. Ein deutlich sichtbarer Weg zur Buchung oder Anfrage sollte auf jeder Seite erreichbar sein.',
+      },
+    ],
   },
   {
     slug: 'lokale-dienstleister',
@@ -171,6 +267,35 @@ export const industries: readonly Industry[] = [
       },
     ],
     relatedServices: ['websites', 'google', 'ki'],
+    ctaText:
+      'Im ersten Gespräch klären wir, wie Interessenten dich finden und was sie vor der ersten Anfrage wissen müssen.',
+    faqs: [
+      {
+        question: 'Für welche Dienstleister eignet sich das?',
+        answer:
+          'Für alle, die ihre Leistung vor Ort oder in der Region anbieten: Beratung, Betreuung, Pflege, Reinigung, Coaching und vieles mehr. Gemeinsam ist ihnen, dass Kunden einer Person vertrauen müssen. Die Website sollte deshalb zeigen, wer hinter dem Angebot steht, und zugleich klar beschreiben, was du anbietest.',
+      },
+      {
+        question: 'Wie wirkt meine Website persönlich, ohne unprofessionell zu sein?',
+        answer:
+          'Mit echten Fotos, einer kurzen Vorstellung in deinen eigenen Worten und einer Sprache, die zu dir passt. Professionell wird es durch eine klare Struktur, gute Lesbarkeit und verlässliche Angaben. Das Projekt Anna-Lena’s Kinderkörbchen zeigt, wie ein warmer, persönlicher Auftritt aussehen kann.',
+      },
+      {
+        question: 'Wie bleibe ich erreichbar, ohne ständig ans Telefon zu müssen?',
+        answer:
+          'Ein kurzes Anfrageformular, ein Rückrufwunsch oder ein externer Terminlink nehmen Anfragen auch dann an, wenn du gerade beim Kunden bist. Wichtig ist, dass klar ist, wann du dich zurückmeldest. So bist du gut erreichbar und behältst trotzdem die Ruhe für deine Arbeit.',
+      },
+      {
+        question: 'Wie werde ich in meinem Einzugsgebiet gefunden?',
+        answer:
+          'Nenne dein Leistungsgebiet klar auf der Website, pflege ein Google-Unternehmensprofil mit denselben Angaben und bitte zufriedene Kunden um ehrliche Bewertungen. Das schafft eine gute Grundlage für die lokale Suche. Eine bestimmte Platzierung kann dabei niemand garantieren.',
+      },
+      {
+        question: 'Was kostet eine Website für Dienstleister?',
+        answer:
+          'Der Orientierungsrahmen für Unternehmenswebsites liegt meist bei 1.500 bis 5.500 Euro netto. Viele Dienstleister kommen mit einer übersichtlichen Website aus wenigen, gut gemachten Seiten aus. Den genauen Umfang und Preis legen wir nach dem ersten Gespräch in einem schriftlichen Angebot fest.',
+      },
+    ],
   },
   {
     slug: 'b2b-mittelstand',
@@ -182,7 +307,7 @@ export const industries: readonly Industry[] = [
       'B2B-Website für mittelständische Unternehmen: erklärungsbedürftige Leistungen verständlich darstellen und qualifizierte Anfragen erzeugen.',
     ctaLabel: 'B2B-Website besprechen',
     argument: 'Komplexe Leistungen verständlich machen und qualifizierte Anfragen erzeugen.',
-    detailH1: 'Websites für den B2B-Mittelstand, die komplexe Leistungen verständlich machen.',
+    detailH1: 'B2B-Websites, die komplexe Leistungen verständlich machen.',
     intro:
       'Im B2B entscheiden oft mehrere Personen. Eine gute Website macht komplexe Leistungen verständlich und liefert die richtigen Informationen.',
     focus: [
@@ -208,6 +333,40 @@ export const industries: readonly Industry[] = [
       },
     ],
     relatedServices: ['websites', 'ki', 'video'],
+    ctaText:
+      'Im ersten Gespräch klären wir, welche Informationen Einkauf, Technik und Geschäftsführung bei dir suchen.',
+    faqs: [
+      {
+        question: 'Was ist bei B2B-Webdesign anders?',
+        answer:
+          'Im B2B entscheiden selten einzelne Personen spontan. Einkauf, Technik und Geschäftsführung schauen mit unterschiedlichen Fragen auf deine Website. Gutes B2B-Webdesign gibt jeder dieser Gruppen die passenden Informationen, von der Leistungsübersicht bis zu technischen Details und Ansprechpartnern.',
+      },
+      {
+        question: 'Wie stellen wir erklärungsbedürftige Produkte verständlich dar?',
+        answer:
+          'Wir beginnen beim Nutzen für den Kunden und gehen dann in die Tiefe. Klare Gliederung, kurze Absätze, Grafiken und Projektbeispiele machen komplexe Leistungen greifbar. Datenblätter und weiterführende Unterlagen bleiben verfügbar, ohne die Seite zu überladen.',
+      },
+      {
+        question: 'Hilft die Website auch beim Recruiting im Mittelstand?',
+        answer:
+          'Ja. Fachkräfte informieren sich häufig zuerst online über mögliche Arbeitgeber. Eine Karriereseite mit echten Einblicken, Ansprechpartnern und einem einfachen Bewerbungsweg zeigt, warum sich ein Wechsel in deinen Betrieb lohnt.',
+      },
+      {
+        question: 'Wie läuft die Abstimmung mit mehreren Beteiligten?',
+        answer:
+          'Wir legen zu Beginn fest, wer Inhalte liefert, wer Rückmeldungen bündelt und wer freigibt. Ein fester Ansprechpartner auf deiner Seite macht die Abstimmung deutlich einfacher. Entwürfe und Zwischenstände teilen wir über eine gemeinsame Vorschau, die alle Beteiligten ansehen können.',
+      },
+      {
+        question: 'Was unterscheidet gute B2B-Websites von einer Firmenbroschüre?',
+        answer:
+          'Eine Broschüre zählt auf, was ein Unternehmen kann. Gute B2B-Websites beantworten die Fragen der Besucher: Löst ihr mein Problem, habt ihr Erfahrung in meinem Bereich und wer ist mein Ansprechpartner? Sie führen gezielt zu den passenden Informationen und machen die Anfrage einfach.',
+      },
+      {
+        question: 'Wie messen wir, ob die Website funktioniert?',
+        answer:
+          'Mit deiner Freigabe werten wir die Google Search Console aus und schauen uns die Qualität der eingehenden Anfragen an. Wichtig ist nicht die reine Besucherzahl, sondern ob die richtigen Unternehmen Kontakt aufnehmen. Daraus leiten wir ab, welche Inhalte wir weiter verbessern.',
+      },
+    ],
   },
 ];
 

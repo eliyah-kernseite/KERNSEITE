@@ -1,5 +1,7 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
+import FaqSection from '../components/FaqSection.astro';
+import { faqPageJsonLd } from '../lib/jsonld';
 import CtaBanner from '../components/CtaBanner.astro';
 const steps = [
   {
@@ -33,10 +35,38 @@ const steps = [
     us: 'Veröffentlichung, Übergabe und die vereinbarte weitere Betreuung.',
   },
 ];
+const processFaqs = [
+  {
+    question: 'Wie viel Zeit muss ich selbst einplanen?',
+    answer:
+      'Am meisten brauchen wir dich am Anfang und bei den Freigaben. Für das Erstgespräch, die Abstimmung der Inhalte und die Durchsicht der Entwürfe solltest du dir jeweils etwas Ruhe nehmen. Den restlichen Ablauf übernimmt KERNSEITE. Je schneller Informationen und Rückmeldungen kommen, desto zügiger geht es voran.',
+  },
+  {
+    question: 'Was passiert, wenn mir ein Entwurf nicht gefällt?',
+    answer:
+      'Dann sagst du es, am besten so konkret wie möglich. Rückmeldungen gehören zur Zusammenarbeit dazu und sind im Angebot als Korrekturrunden eingeplant. Wir besprechen, was nicht passt, und überarbeiten den Entwurf, bevor es an die Umsetzung geht.',
+  },
+  {
+    question: 'Brauche ich vorher ein fertiges Konzept?',
+    answer:
+      'Nein. Ein paar Stichpunkte zu deinem Angebot, deinen Kunden und deinen Wünschen reichen für den Start. Struktur, Texte und Gestaltung erarbeiten wir gemeinsam. Beispiele von Websites, die dir gefallen, helfen beim Webdesign trotzdem, weil sie zeigen, in welche Richtung es gehen kann.',
+  },
+  {
+    question: 'Wie geht es nach dem Start weiter?',
+    answer:
+      'Nach der Veröffentlichung bekommst du eine Übergabe mit den vereinbarten Zugängen und Pflegewegen. Kleine Anpassungen, neue Inhalte oder eine laufende Betreuung können wir im Anschluss vereinbaren. Typische Anlässe sind neue Leistungen, geänderte Öffnungszeiten oder neue Bilder.',
+  },
+  {
+    question: 'Wie läuft die Abstimmung, wenn wir nicht in der Nähe sind?',
+    answer:
+      'Genauso verlässlich wie vor Ort. Gespräche führen wir per Telefon oder Video, Entwürfe und Zwischenstände siehst du in einer gemeinsamen Vorschau im Browser. Rückmeldungen kannst du gesammelt per E-Mail schicken. So begleiten wir Projekte in ganz Deutschland.',
+  },
+];
 ---
 
 <PageLayout
-  title="So entsteht deine Website: Ablauf & Zusammenarbeit"
+  extraJsonLd={[faqPageJsonLd(processFaqs)]}
+  title="Ablauf & Zusammenarbeit beim Webdesign"
   description="Vom unverbindlichen Erstgespräch über Texte und Design bis zur Veröffentlichung. So arbeiten wir gemeinsam an deiner neuen Unternehmenswebsite."
   h1="Aus deiner Idee wird dein Auftritt."
   lead="Du weißt, was dein Unternehmen ausmacht. Wir wissen, wie daraus eine Website wird. So bringen wir beides zusammen."
@@ -79,6 +109,7 @@ const steps = [
       }
     </div>
   </section>
+  <FaqSection items={processFaqs} title={['Fragen zum', 'Ablauf.']} variant="paper" />
   <CtaBanner
     title="Fangen wir mit deiner Idee an."
     text="Schreib uns kurz, was du vorhast. Alles Weitere klären wir gemeinsam."

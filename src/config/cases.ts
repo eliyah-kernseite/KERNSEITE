@@ -41,6 +41,12 @@ export interface ProjectWork extends WorkCommon {
   readonly category: string;
   /** Große redaktionelle Projektüberschrift. */
   readonly headline: string;
+  /** Kurzbeschreibung für das Karussell der Startseite (eigener Text, kein Tagline-Duplikat). */
+  readonly teaser: string;
+  /** Optionaler Seitentitel, falls „Titel: Website-Entwurf“ zu lang wird. */
+  readonly seoTitle?: string;
+  /** Fragen und Antworten zum Projekt (Projektseite). */
+  readonly faqs: readonly { readonly question: string; readonly answer: string }[];
   /** Live-Website (href, ggf. Punycode für IDN). */
   readonly liveUrl?: string;
   readonly stage?: 'preview';
@@ -87,6 +93,9 @@ const projects: readonly ProjectWork[] = [
     href: '/arbeiten/babyschlafberatung/',
     title: 'Anna-Lena Korb · Babyschlafberatung',
     headline: 'Nähe und Vertrauen von Anfang an.',
+    teaser:
+      'Ruhige Bildsprache, klar beschriebene Angebote und ein direkter Weg zum Kennenlerngespräch.',
+    seoTitle: 'Babyschlafberatung: Website-Entwurf',
     client: 'Anna-Lena Korb',
     industryLabel: 'Babyschlafberatung',
     category: 'Beratung · Website · Kontaktanfrage',
@@ -106,6 +115,48 @@ const projects: readonly ProjectWork[] = [
       'Persönliche Vorstellung und Schlafwissen',
       'Klarer Einstieg zum Kennenlerngespräch',
     ],
+    faqs: [
+      {
+        question: 'Für wen ist die Website gedacht?',
+        answer:
+          'Für Eltern, die sich Unterstützung beim Schlaf ihres Babys oder Kleinkinds wünschen. Wer nach einer Schlafberatung sucht, ist oft müde und verunsichert. Deshalb soll die Website von Anfang an Ruhe ausstrahlen, Fragen verständlich beantworten und zeigen, wer hinter der Beratung steht.',
+      },
+      {
+        question: 'Wie entstehen Nähe und Vertrauen auf einer Beratungs-Website?',
+        answer:
+          'Durch eine persönliche Vorstellung, eine ruhige Bildsprache und eine Sprache, die Eltern ernst nimmt. Der Entwurf stellt Anna-Lena Korb in den Mittelpunkt und erklärt Angebote und Preise offen. So wissen Eltern schon vor dem ersten Gespräch, was sie erwartet.',
+      },
+      {
+        question: 'Wie ist die Seite aufgebaut?',
+        answer:
+          'Der Entwurf gliedert sich in Beratung, Angebote mit Preisen, eine persönliche Vorstellung und einen Bereich mit Schlafwissen. Jeder Bereich beantwortet eine Frage, die Eltern vor der Buchung haben, und führt zum nächsten Schritt.',
+      },
+      {
+        question: 'Warum ist der Weg zum Kennenlerngespräch so wichtig?',
+        answer:
+          'Bei einer Beratung entscheidet das persönliche Gespräch. Die Website hat die Aufgabe, die Hemmschwelle bis dahin möglichst klein zu machen. Deshalb führt der Entwurf an mehreren Stellen direkt zum Kennenlernen, ohne aufdringlich zu wirken.',
+      },
+      {
+        question: 'Ist die Website schon online?',
+        answer:
+          'Noch nicht. Hier zeigen wir einen Website-Entwurf: Gestaltung und Seitenstruktur sind ausgearbeitet, die Veröffentlichung steht noch aus.',
+      },
+      {
+        question: 'Passt so ein Auftritt auch zu anderen Beratungsangeboten?',
+        answer:
+          'Ja. Coaching, Hebammen oder Familienberatung stehen vor ähnlichen Aufgaben: Menschen müssen Vertrauen fassen, bevor sie sich melden. Die Kombination aus persönlicher Vorstellung, klaren Angeboten und einfachem Erstkontakt lässt sich gut auf solche Angebote übertragen.',
+      },
+      {
+        question: 'Welche Rolle spielen Bilder in diesem Entwurf?',
+        answer:
+          'Eine große. Die Bildsprache ist bewusst ruhig und warm gehalten, mit viel Raum und sanften Farben. Ein schlafendes Baby im Einstieg zeigt sofort, worum es geht, ohne viele Worte. Gleichzeitig sorgen die Bilder dafür, dass die Seite nicht klinisch wirkt, sondern einladend und persönlich, so wie die Beratung selbst.',
+      },
+      {
+        question: 'Wie geht es nach dem Entwurf weiter?',
+        answer:
+          'Nach der Abstimmung des Entwurfs folgen Feinschliff an Texten und Bildern, die technische Umsetzung und eine gemeinsame Prüfung aller Seiten. Erst wenn alles passt, wird die Website veröffentlicht. Diesen Ablauf durchläuft jedes Projekt bei KERNSEITE, unabhängig von Branche und Umfang.',
+      },
+    ],
     screenshotDesktop: {
       src: '/assets/references/babyschlafberatung-desktop.webp',
       srcset:
@@ -121,6 +172,7 @@ const projects: readonly ProjectWork[] = [
     href: '/arbeiten/kaya-doener-himmelstadt/',
     title: 'Kaya Döner Himmelstadt',
     headline: 'Appetit auf den ersten Klick.',
+    teaser: 'Dunkles Design, digitale Speisekarte und Anrufmöglichkeiten direkt bei den Angeboten.',
     client: 'Kaya Döner Himmelstadt',
     industryLabel: 'Gastronomie',
     category: 'Gastronomie · Website · digitale Speisekarte',
@@ -140,6 +192,48 @@ const projects: readonly ProjectWork[] = [
       'Direkte Anrufmöglichkeiten und Kontakt-/Anfahrtsseite',
       'Responsive Gestaltung mit gut lesbaren Angeboten',
     ],
+    faqs: [
+      {
+        question: 'Was brauchen Gäste von einer Imbiss-Website?',
+        answer:
+          'Schnelle Antworten. Wer Hunger hat, will wissen, was es gibt, wann geöffnet ist und wie er bestellen kann. Die Website von Kaya Döner Himmelstadt macht schon beim ersten Klick Appetit und führt ohne Umwege zur Speisekarte und zum Telefon.',
+      },
+      {
+        question: 'Warum ein dunkles Design?',
+        answer:
+          'Auf dem dunklen Hintergrund kommen die Fotos der Speisen besonders gut zur Geltung. Gleichzeitig bleiben Texte, Preise und Schaltflächen klar voneinander unterscheidbar. Das sorgt für Übersicht, auch auf kleinen Bildschirmen.',
+      },
+      {
+        question: 'Wie funktioniert die digitale Speisekarte?',
+        answer:
+          'Die Speisekarte ist direkt auf der Website gut lesbar, auch auf dem Smartphone. Wochenangebote stehen gesondert, damit sie in der Karte nicht untergehen. Anrufmöglichkeiten sind dort platziert, wo die Entscheidung fällt.',
+      },
+      {
+        question: 'Wie finden Gäste den Weg zum Imbiss?',
+        answer:
+          'Kontakt und Anfahrt haben eine eigene Seite, damit Gäste aus Himmelstadt und Umgebung schnell den Weg finden. Für spontane Besuche ist zusätzlich ein gepflegtes Google-Unternehmensprofil wichtig, das dieselben Öffnungszeiten und Kontaktdaten zeigt.',
+      },
+      {
+        question: 'Warum ist diese Referenz für andere Gastronomen interessant?',
+        answer:
+          'Weil die Anforderungen ähnlich sind: Speisekarte, Öffnungszeiten, Anfahrt und ein schneller Weg zum Telefon. Diese Referenz zeigt, wie sich das übersichtlich und appetitlich umsetzen lässt, ob für Imbiss, Pizzeria, Café oder Restaurant.',
+      },
+      {
+        question: 'Wie ist die Website aufgebaut?',
+        answer:
+          'Die Startseite begrüßt mit dem Claim „Döner. Dürüm. Dein Kaya.“ und einem großen Foto. Von dort geht es direkt zur digitalen Speisekarte, zu den Wochenangeboten sowie zu Kontakt und Anfahrt. Der Anrufbutton ist von jeder wichtigen Stelle aus erreichbar, damit Bestellungen ohne Umwege möglich sind.',
+      },
+      {
+        question: 'Wo finde ich die Website?',
+        answer:
+          'Die Website ist unter www.kaya-doener-himmelstadt.de online. Den direkten Link findest du oben auf dieser Seite.',
+      },
+      {
+        question: 'Was kostet eine vergleichbare Gastronomie-Website?',
+        answer:
+          'Das hängt vom Umfang ab, etwa von der Zahl der Seiten, der Speisekarte und gewünschten Funktionen. Der Orientierungsrahmen für Unternehmenswebsites liegt meist bei 1.500 bis 5.500 Euro netto. Nach dem ersten Gespräch bekommst du ein schriftliches Angebot.',
+      },
+    ],
     screenshotDesktop: {
       src: '/assets/references/kaya-doener-desktop.webp',
       srcset:
@@ -155,6 +249,7 @@ const projects: readonly ProjectWork[] = [
     href: '/arbeiten/bestattungen-gorhau/',
     title: 'Bestattungen Gorhau',
     headline: 'Orientierung in einem schweren Moment.',
+    teaser: 'Zurückhaltende Farbwelt, klare Navigation und die Telefonnummer gleich im Einstieg.',
     client: 'Bestattungen Gorhau',
     industryLabel: 'Bestattungsunternehmen',
     category: 'Bestattungen · Website · Kontaktwege',
@@ -174,6 +269,48 @@ const projects: readonly ProjectWork[] = [
       'Direkter Telefonkontakt im Seitenkopf',
       'Eigenständiger Auftritt für das Bestattungsunternehmen',
     ],
+    faqs: [
+      {
+        question: 'Worauf kommt es bei der Website eines Bestattungsunternehmens an?',
+        answer:
+          'Angehörige suchen meist in einem schweren Moment nach Hilfe. Sie brauchen sofort Orientierung: Wen kann ich erreichen, was ist jetzt zu tun und welche Möglichkeiten gibt es? Die Website sollte diese Fragen ruhig und verständlich beantworten und die Telefonnummer jederzeit sichtbar halten.',
+      },
+      {
+        question: 'Warum eine so zurückhaltende Gestaltung?',
+        answer:
+          'Laute Farben, Effekte oder Werbesprache wären hier fehl am Platz. Der Entwurf setzt auf ein großflächiges Naturmotiv, gedeckte Farben und viel Ruhe. Die Gestaltung tritt zurück, damit die wichtigen Informationen im Vordergrund stehen.',
+      },
+      {
+        question: 'Welche Inhalte deckt der Entwurf ab?',
+        answer:
+          'Die Navigation führt zu den Bereichen Trauerfall, Leistungen, Bestattungsarten und Vorsorge. So finden sowohl Menschen, die gerade einen Angehörigen verloren haben, als auch Menschen, die frühzeitig vorsorgen möchten, schnell den passenden Einstieg.',
+      },
+      {
+        question: 'Warum ist die mobile Ansicht hier so wichtig?',
+        answer:
+          'Im Trauerfall greifen viele Angehörige zum Smartphone, oft unterwegs oder zu ungewöhnlichen Zeiten. Deshalb muss die Telefonnummer auch auf kleinen Bildschirmen sofort erreichbar sein und die Navigation ohne Umwege funktionieren.',
+      },
+      {
+        question: 'Ist die Website bereits veröffentlicht?',
+        answer:
+          'Nein. Gezeigt wird ein Website-Entwurf in der Projektvorschau. Struktur und Gestaltung sind ausgearbeitet, die Veröffentlichung steht noch aus.',
+      },
+      {
+        question: 'Lässt sich das auf andere sensible Bereiche übertragen?',
+        answer:
+          'Ja. Überall dort, wo Menschen in einer belastenden Situation Hilfe suchen, gelten ähnliche Regeln: klare Kontaktwege, eine ruhige Sprache und keine Ablenkung. Das betrifft zum Beispiel Pflegedienste, Hospize oder Beratungsstellen.',
+      },
+      {
+        question: 'Wie wird die Telefonnummer im Entwurf eingebunden?',
+        answer:
+          'Die Telefonnummer steht direkt im Einstieg und im Seitenkopf. Wer die Seite öffnet, sieht sofort, wie er Bestattungen Gorhau erreichen kann, ohne erst suchen oder scrollen zu müssen. Gerade in einer belastenden Situation ist dieser direkte Weg wichtiger als jede gestalterische Idee.',
+      },
+      {
+        question: 'Was können andere Betriebe aus diesem Projekt mitnehmen?',
+        answer:
+          'Dass Zurückhaltung eine bewusste gestalterische Entscheidung sein kann. Nicht jede Website muss auffallen. Manchmal ist die wichtigste Aufgabe, Menschen Halt zu geben, die richtigen Informationen zu ordnen und den Kontakt so einfach wie möglich zu machen.',
+      },
+    ],
     screenshotDesktop: {
       src: '/assets/references/bestattungen-gorhau-desktop.webp',
       srcset:
@@ -189,6 +326,7 @@ const projects: readonly ProjectWork[] = [
     href: '/arbeiten/kinderkoerbchen/',
     title: 'Anna-Lena’s Kinderkörbchen',
     headline: 'Vertrauen, bevor man sich kennt.',
+    teaser: 'Warme Farbwelt und ein persönlicher Einstieg, der die Betreuungsperson vorstellt.',
     client: 'Anna-Lena’s Kinderkörbchen',
     industryLabel: 'Kindertagespflege',
     category: 'Kindertagespflege · Website · lokale Sichtbarkeit',
@@ -208,6 +346,33 @@ const projects: readonly ProjectWork[] = [
       'Struktur für Angebot und Vertrauen',
       'Responsive Darstellung für alle Geräte',
       'Grundlagen für die Auffindbarkeit',
+    ],
+    faqs: [
+      {
+        question: 'Warum ist Vertrauen bei der Kindertagespflege so wichtig?',
+        answer:
+          'Eltern vertrauen der Tagespflege ihr Kind an. Bevor man sich kennt, ist die Website oft der erste Eindruck. Sie soll zeigen, wer die Betreuungsperson ist, wie das Angebot aussieht und wie Eltern Kontakt aufnehmen können.',
+      },
+      {
+        question: 'Was macht diese Referenz besonders?',
+        answer:
+          'Die warme Farbwelt und der persönliche Einstieg mit Porträtfoto und Begrüßung. Statt nüchterner Aufzählungen steht die Betreuungsperson im Mittelpunkt, ergänzt durch klar gegliederte Informationen zum Angebot.',
+      },
+      {
+        question: 'Welche Rolle spielt das Google-Unternehmensprofil?',
+        answer:
+          'Eltern suchen eine Betreuung meist in der Nähe. Das Google-Unternehmensprofil von Anna-Lena’s Kinderkörbchen zeigt Standort und Kontakt direkt in der Suche und ergänzt so die Website. Wichtig ist, dass beide Auftritte dieselben Angaben verwenden.',
+      },
+      {
+        question: 'Eignet sich das auch für andere Betreuungsangebote?',
+        answer:
+          'Ja, etwa für Tagesmütter und Tagesväter, Kitas, Nachhilfe oder Familienangebote. Überall dort, wo Eltern eine persönliche Entscheidung treffen, helfen eine warme Gestaltung, echte Fotos und eine einfache Kontaktaufnahme.',
+      },
+      {
+        question: 'Wie wurde die Seite für das Smartphone umgesetzt?',
+        answer:
+          'Die Website ist responsiv aufgebaut und passt sich jeder Bildschirmgröße an. Viele Eltern informieren sich zwischendurch auf dem Handy. Deshalb sind Texte gut lesbar, Bilder sauber skaliert und die Kontaktmöglichkeiten auch auf kleinen Displays schnell zu finden.',
+      },
     ],
     screenshotDesktop: {
       src: '/assets/references/kinderkoerbchen-desktop.webp',

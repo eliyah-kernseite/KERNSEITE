@@ -30,12 +30,16 @@ const copy: Record<string, string> = {
 <div class="service-grid">
   {
     rows.map((s) => (
-      <a class:list={['service-tile', s.isCore && 'service-tile--core']} href={s.href}>
+      <article class:list={['service-tile', s.isCore && 'service-tile--core']}>
         {s.key === 'video' && <Photo photo="unternehmensvideo" ratio="21x9" sizes="45vw" />}
         {s.key === 'social' && <Photo photo="social-media" ratio="21x9" sizes="45vw" />}
         <div class="service-tile__copy">
           <>
-            <Tag>{s.key === 'google' ? 'Lokal gefunden werden.' : s.cardTitle}</Tag>
+            <Tag>
+              <a class="service-tile__link" href={s.href}>
+                {s.key === 'google' ? 'Lokal gefunden werden.' : s.cardTitle}
+              </a>
+            </Tag>
             <p>{copy[s.key] ?? s.teaser}</p>
             <span class="service-tile__more">
               {s.isCore ? 'Website-Angebot entdecken' : 'Leistung kennenlernen'}{' '}
@@ -43,7 +47,7 @@ const copy: Record<string, string> = {
             </span>
           </>
         </div>
-      </a>
+      </article>
     ))
   }
 </div>
@@ -54,6 +58,7 @@ const copy: Record<string, string> = {
     gap: 1.5rem;
   }
   .service-tile {
+    position: relative;
     background: var(--ks-paper);
     border-radius: 1.2rem;
     text-decoration: none;
@@ -65,6 +70,24 @@ const copy: Record<string, string> = {
   }
   .service-tile:hover {
     transform: translateY(-4px);
+  }
+  /* Die ganze Kachel bleibt klickbar; Linktext ist nur die Überschrift. */
+  .service-tile__link,
+  .service-tile__link:hover {
+    color: inherit;
+    text-decoration: none;
+  }
+  .service-tile__link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+  .service-tile__link:focus-visible {
+    outline: none;
+  }
+  .service-tile:has(.service-tile__link:focus-visible) {
+    outline: 3px solid var(--focus-ring);
+    outline-offset: 3px;
   }
   .service-tile__copy {
     padding: clamp(1.6rem, 3vw, 3rem);

@@ -1,5 +1,7 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
+import FaqSection from '../../components/FaqSection.astro';
+import { faqPageJsonLd } from '../../lib/jsonld';
 import IndustryGrid from '../../components/IndustryGrid.astro';
 import AccentWord from '../../components/AccentWord.astro';
 import CtaBanner from '../../components/CtaBanner.astro';
@@ -8,11 +10,54 @@ const breadcrumbs = [
   { name: 'Start', path: '/' },
   { name: 'Branchen', path: '/branchen/' },
 ];
+const industryFaqs = [
+  {
+    question: 'Warum gibt es eigene Seiten für Branchen?',
+    answer:
+      'Weil gute Gestaltung das Geschäft dahinter versteht. Ein Handwerksbetrieb sucht neben Kunden oft auch Fachkräfte, eine Praxis braucht ruhige Terminwege, ein Restaurant eine Speisekarte, die auf dem Handy funktioniert. Auf den Branchenseiten zeigen wir, worauf es in deinem Bereich ankommt und welche Leistungen dich dort weiterbringen.',
+  },
+  {
+    question: 'Arbeitet ihr nur für diese fünf Branchen?',
+    answer:
+      'Nein. Die fünf Bereiche zeigen typische Schwerpunkte, eine Grenze sind sie nicht. Unsere Projekte reichen zum Beispiel von einer Babyschlafberatung über eine Kindertagespflege bis zu einem Bestattungsunternehmen. Entscheidend ist, dass wir dein Angebot verstehen. Dafür nehmen wir uns im ersten Gespräch Zeit.',
+  },
+  {
+    question: 'Braucht jede Branche ein anderes Design?',
+    answer:
+      'Nicht zwangsläufig ein anderes Design, aber eine andere Gewichtung. Was ganz oben steht, welche Fragen beantwortet werden und wie der Weg zur Anfrage aussieht, hängt davon ab, wie deine Kunden entscheiden. Die Gestaltung folgt dieser Aufgabe und dem Charakter deines Unternehmens.',
+  },
+  {
+    question: 'Kennt ihr die Besonderheiten meiner Branche?',
+    answer:
+      'Wir berücksichtigen bekannte Anforderungen, etwa dass Praxis-Websites ohne Heilversprechen auskommen. Eine Rechtsberatung ersetzen wir nicht. Fachliche Inhalte und berufsrechtliche Pflichtangaben kommen von dir oder deiner Beratung, wir setzen sie verständlich und sauber auf der Website um.',
+  },
+  {
+    question: 'Wie finde ich heraus, was meine Website leisten muss?',
+    answer:
+      'Am besten beginnst du bei deinen Kunden: Welche Fragen stellen sie immer wieder, was gibt am Ende den Ausschlag und wie nehmen sie heute Kontakt auf? Aus diesen Antworten entwickeln wir Struktur und Inhalte. Die passenden Fragen bringen wir zum ersten Gespräch mit.',
+  },
+  {
+    question: 'Was kostet eine Website für meine Branche?',
+    answer:
+      'Branchen-Websites unterscheiden sich im Preis nicht grundsätzlich von anderen Unternehmenswebsites. Der Orientierungsrahmen liegt meist bei 1.500 bis 5.500 Euro netto. Zusätzliche Funktionen wie Buchungssysteme oder ein Karrierebereich fließen in das Angebot ein.',
+  },
+  {
+    question: 'Was ist, wenn meine Branche hier nicht dabei ist?',
+    answer:
+      'Dann sprechen wir trotzdem gern über dein Vorhaben. Viele Fragen stellen sich in jeder Branche ähnlich: Was bietest du an, wer sind deine Kunden und wie nehmen sie Kontakt auf? Wir arbeiten uns in dein Geschäft ein und entwickeln daraus eine Website, die zu deinem Angebot passt, statt eine fertige Branchenvorlage anzupassen.',
+  },
+  {
+    question: 'Können Inhalte aus einer bestehenden Website übernommen werden?',
+    answer:
+      'Ja. Gute Texte, Bilder und Referenzen aus deinem bisherigen Auftritt übernehmen wir gern und überarbeiten sie bei Bedarf. Wichtige alte Seitenadressen leiten wir auf die passenden neuen Seiten weiter, damit Besucher und Suchmaschinen sie weiterhin finden.',
+  },
+];
 ---
 
 <PageLayout
-  title="Branchen"
-  description="KERNSEITE gestaltet Websites für Handwerk, Praxen, Gastronomie & Hotels, lokale Dienstleister und den B2B-Mittelstand. Jede Branche mit eigenständigem Inhalt."
+  extraJsonLd={[faqPageJsonLd(industryFaqs)]}
+  title="Webdesign nach Branchen"
+  description="Websites für Handwerk, Praxen, Gastronomie, Hotels, lokale Dienstleister und den B2B-Mittelstand. Jede Branche mit eigenständigen Inhalten."
   h1Slot
   variant="dark"
   lead="Jede Branche hat eigene Fragen, eigene Zielgruppen und eigene Wege zur Anfrage. Deshalb bekommt jede Branche einen eigenständigen Auftritt und keinen Textbaustein mit ausgetauschtem Wort."
@@ -26,6 +71,7 @@ const breadcrumbs = [
     </div>
   </section>
 
+  <FaqSection items={industryFaqs} title={['Fragen zu', 'den Branchen.']} variant="cream" />
   <CtaBanner
     title="Deine Branche ist nicht dabei?"
     text="Wir arbeiten uns in dein Geschäft ein. Erzähl uns, worauf es bei dir ankommt."

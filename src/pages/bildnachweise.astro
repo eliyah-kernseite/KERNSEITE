@@ -9,6 +9,7 @@ const breadcrumbs = [
 
 <PageLayout
   title="Bildnachweise"
+  noindex
   description="Fotografen und Quellen der auf KERNSEITE verwendeten Stockfotos sowie Hinweise zu den abgebildeten Kundenprojekten."
   h1="Bildnachweise"
   breadcrumbs={breadcrumbs}
@@ -19,13 +20,7 @@ const breadcrumbs = [
         Die folgenden Stockfotos stammen von Unsplash. Sie illustrieren die jeweiligen Themen und
         Branchen. Sie zeigen weder das KERNSEITE-Team noch eigene Geschäftsräume.
       </p>
-      <p>
-        Die Nutzung erfolgt im Rahmen der <a
-          href="https://unsplash.com/license"
-          rel="noopener noreferrer"
-          target="_blank">Unsplash-Lizenz (öffnet in neuem Tab)</a
-        >.
-      </p>
+      <p>Die Nutzung erfolgt im Rahmen der Unsplash-Lizenz (unsplash.com/license).</p>
       <ul role="list">
         {
           credits.map((credit) => (
@@ -43,11 +38,7 @@ const breadcrumbs = [
                   <>
                     <h2>{credit.label}</h2>
                     <p>Foto: {credit.photographer} / Unsplash</p>
-                    <a href={credit.sourceUrl} rel="noopener noreferrer" target="_blank">
-                      Originalfoto auf Unsplash{' '}
-                      <span class="visually-hidden">(öffnet in neuem Tab)</span>{' '}
-                      <span aria-hidden="true">↗</span>
-                    </a>
+                    <p>Originalfoto: {credit.sourceUrl.replace(/^https:\/\//, '')}</p>
                   </>
                 </div>
               </>

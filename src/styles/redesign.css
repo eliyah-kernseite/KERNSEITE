@@ -381,7 +381,7 @@ p {
   :is(h2, h3, p, li, span) {
   color: #fff !important;
 }
-[data-a11y-contrast='high'] :is(.offer-sheet, .benefit, .service-tile) a {
+[data-a11y-contrast='high'] :is(.offer-sheet, .benefit, .service-tile) a:not(.service-tile__link) {
   color: #00e3f2 !important;
 }
 [data-a11y-contrast='high'] .founder-caption {

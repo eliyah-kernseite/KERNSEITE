@@ -16,9 +16,24 @@ interface Props {
   blocks: { title: string; text: string }[];
   questions: { question: string; answer: string }[];
   closing: string;
+  /** Satz unter den Leistungsblöcken, je Leistung eigenständig. */
+  partner?: string;
+  /** Text im Abschluss-Banner, je Leistung eigenständig. */
+  ctaText?: string;
 }
-const { serviceKey, title, description, headline, intro, photo, blocks, questions, closing } =
-  Astro.props;
+const {
+  serviceKey,
+  title,
+  description,
+  headline,
+  intro,
+  photo,
+  blocks,
+  questions,
+  closing,
+  partner = 'Alles aus einer Hand: Eliyah ist dein Ansprechpartner von der ersten Idee bis zur Umsetzung. Umfang, Ablauf und Kosten vereinbaren wir vor dem Start.',
+  ctaText = 'Wir schauen gemeinsam, welches Format und welcher Umfang zu deinem Unternehmen passen.',
+} = Astro.props;
 const service = getService(serviceKey);
 ---
 
@@ -59,10 +74,7 @@ const service = getService(serviceKey);
             </article>
           ))
         }
-      </div><p class="detail-partner">
-        Alles aus einer Hand: Eliyah ist dein Ansprechpartner von der ersten Idee bis zur Umsetzung.
-        Umfang, Ablauf und Kosten vereinbaren wir vor dem Start.
-      </p>
+      </div><p class="detail-partner">{partner}</p>
     </div>
   </section>
   <section class="section section--paper">
@@ -72,7 +84,7 @@ const service = getService(serviceKey);
   </section>
   <CtaBanner
     title="Was möchtest du bewegen?"
-    text="Wir schauen gemeinsam, welches Format und welcher Umfang zu deinem Unternehmen passen."
+    text={ctaText}
     ctaHref={`/kontakt/?leistung=${serviceKey}`}
     ctaLabel="Idee besprechen"
   />

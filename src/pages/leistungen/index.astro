@@ -1,5 +1,7 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
+import FaqSection from '../../components/FaqSection.astro';
+import { faqPageJsonLd } from '../../lib/jsonld';
 import ServiceRows from '../../components/ServiceRows.astro';
 import CtaBanner from '../../components/CtaBanner.astro';
 import AccentWord from '../../components/AccentWord.astro';
@@ -10,11 +12,39 @@ const breadcrumbs = [
   { name: 'Leistungen', path: '/leistungen/' },
 ];
 const project = works.find((w) => w.kind === 'project');
+const serviceFaqs = [
+  {
+    question: 'Muss ich alle Leistungen auf einmal buchen?',
+    answer:
+      'Nein. Du entscheidest, was dein Unternehmen gerade braucht. In der Regel beginnen wir mit der Website, weitere Bausteine wie Google-Unternehmensprofil, Fotos oder Werbeanzeigen können später dazukommen. Weil alles aus einer Hand kommt, passt es trotzdem zusammen.',
+  },
+  {
+    question: 'Was heißt „alles aus einer Hand“?',
+    answer:
+      'Als Digital- und Werbeagentur kümmert sich KERNSEITE um alles, was zu deinem Auftritt dazugehört: Website, Suchmaschinenoptimierung, Google-Profil, Branding, Foto und Video, Social Media, Werbeanzeigen und KI-Automatisierung. Du hast einen Ansprechpartner und musst nicht zwischen mehreren Dienstleistern vermitteln.',
+  },
+  {
+    question: 'Wie werden die Leistungen abgerechnet?',
+    answer:
+      'Einmalige Projekte wie eine Website oder ein Logo bekommen ein eigenes Angebot mit festgelegtem Umfang. Laufende Leistungen wie Social Media, Anzeigenbetreuung oder Website-Pflege vereinbaren wir getrennt davon. So siehst du jederzeit, wofür du bezahlst.',
+  },
+  {
+    question: 'Welche Leistung passt zu meinem Unternehmen?',
+    answer:
+      'Das klären wir im ersten Gespräch. Wir schauen uns deinen aktuellen Auftritt an, fragen nach deinen Zielen und empfehlen nur, was in deinem Fall einen Unterschied macht.',
+  },
+  {
+    question: 'Warum beginnt fast alles bei der Website?',
+    answer:
+      'Weil fast jeder Kanal am Ende auf deine Website führt. Ein Google-Profil, eine Anzeige oder ein Beitrag in Social Media weckt Interesse, die Website entscheidet, ob daraus eine Anfrage wird. Ist sie unklar oder veraltet, verpufft die Wirkung der anderen Maßnahmen. Deshalb legen wir zuerst eine stabile Grundlage.',
+  },
+];
 ---
 
 <PageLayout
+  extraJsonLd={[faqPageJsonLd(serviceFaqs)]}
   title="Leistungen der Digital- & Werbeagentur"
-  description="Websites, SEO, Google-Unternehmensprofil, Unternehmensvideo, Social Media und KI aus einer Hand. Deine Digital- und Werbeagentur aus dem Raum Würzburg."
+  description="Websites, SEO, Google-Profil, Video, Social Media und KI aus einer Hand: die Leistungen deiner Digital- und Werbeagentur aus dem Raum Würzburg."
   h1Slot
   variant="dark"
   breadcrumbs={breadcrumbs}
@@ -58,7 +88,7 @@ const project = works.find((w) => w.kind === 'project');
             <h2 class="proof__title">{project.headline}</h2>
             <p class="proof__body">{project.tagline}</p>
             <a class="link-arrow" href={project.href}>
-              Projekt ansehen{' '}
+              Projekt ansehen<span class="visually-hidden">: {project.title}</span>{' '}
               <span class="arrow" aria-hidden="true">
                 →
               </span>
@@ -85,6 +115,7 @@ const project = works.find((w) => w.kind === 'project');
     )
   }
 
+  <FaqSection items={serviceFaqs} title={['Fragen zu den', 'Leistungen.']} variant="paper" />
   <CtaBanner />
 </PageLayout>
 

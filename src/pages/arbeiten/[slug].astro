@@ -2,9 +2,10 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import CtaBanner from '../../components/CtaBanner.astro';
+import FaqSection from '../../components/FaqSection.astro';
 import GoogleProfile from '../../components/GoogleProfile.astro';
 import { works, type ProjectWork } from '../../config/cases';
-import { breadcrumbJsonLd } from '../../lib/jsonld';
+import { breadcrumbJsonLd, faqPageJsonLd } from '../../lib/jsonld';
 
 export function getStaticPaths() {
   return works
@@ -37,9 +38,10 @@ const showGoogleProfile = work.slug === 'kinderkoerbchen';
 ---
 
 <BaseLayout
-  title={`${work.title}: ${work.stage === 'preview' ? 'Website-Entwurf' : 'Referenz'}`}
+  title={work.seoTitle ??
+    `${work.title}: ${work.stage === 'preview' ? 'Website-Entwurf' : 'Referenz'}`}
   description={work.tagline.slice(0, 155)}
-  jsonLd={[breadcrumbJsonLd(breadcrumbs)]}
+  jsonLd={[breadcrumbJsonLd(breadcrumbs), faqPageJsonLd(work.faqs)]}
 >
   <header class="chero section--paper">
     <div class="content">
@@ -120,6 +122,8 @@ const showGoogleProfile = work.slug === 'kinderkoerbchen';
     </div>
   </section>
 
+  <FaqSection items={work.faqs} title={['Fragen', 'zum Projekt.']} variant="cream" />
+
   {showGoogleProfile && <GoogleProfile />}
 
   {
@@ -133,7 +137,7 @@ const showGoogleProfile = work.slug === 'kinderkoerbchen';
             {other.title} · {other.category}
           </p>
           <a class="link-arrow" href={other.href}>
-            Projekt ansehen{' '}
+            Projekt ansehen<span class="visually-hidden">: {other.title}</span>{' '}
             <span class="arrow" aria-hidden="true">
               →
             </span>
@@ -143,7 +147,9 @@ const showGoogleProfile = work.slug === 'kinderkoerbchen';
     )
   }
 
-  <CtaBanner />
+  <CtaBanner
+    text={`Du wünschst dir einen Auftritt, der so gut zu dir passt wie dieser zu ${work.client}? Erzähl uns von deinem Unternehmen.`}
+  />
 </BaseLayout>
 
 <style>
