@@ -11,8 +11,11 @@ const { detailed = false } = Astro.props;
       <h2>
         Groß im Auftritt.<br />Fair im Budget.
       </h2><p class="offer-lead">
-        Für Selbstständige, Handwerk und Dienstleister, die eine professionelle Unternehmenswebsite
-        brauchen.
+        {
+          detailed
+            ? 'Für Unternehmen, Praxen und Selbstständige, die online individuell und professionell auftreten wollen.'
+            : 'Für Selbstständige, Handwerk und Dienstleister, die eine professionelle Unternehmenswebsite brauchen.'
+        }
       </p><a class="btn btn--primary" href="/kontakt/?leistung=websites"
         >Dein Projekt einschätzen lassen <span aria-hidden="true">↗</span></a
       >
@@ -32,8 +35,11 @@ const { detailed = false } = Astro.props;
           Technische SEO-Grundlage und Kontaktwege
         </li><li>Gemeinsame Prüfung und Begleitung zum Start</li>
       </ul><p class="offer-fine">
-        Dein verbindlicher Preis und der genaue Umfang stehen im Angebot. Domain, Hosting und
-        laufende Betreuung vereinbaren wir separat.
+        {
+          detailed
+            ? 'Preis und Umfang stehen verbindlich in deinem schriftlichen Angebot. Domain, Hosting und laufende Betreuung regeln wir separat.'
+            : 'Dein verbindlicher Preis und der genaue Umfang stehen im Angebot. Domain, Hosting und laufende Betreuung vereinbaren wir separat.'
+        }
       </p>{
         detailed ? (
           <details>
