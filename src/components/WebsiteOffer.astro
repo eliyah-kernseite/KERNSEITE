@@ -1,0 +1,146 @@
+---
+interface Props {
+  detailed?: boolean;
+}
+const { detailed = false } = Astro.props;
+---
+
+<section class="section section--dark on-dark" id="website-angebot">
+  <div class="content offer-new">
+    <div>
+      <h2>
+        Groß im Auftritt.<br />Fair im Budget.
+      </h2><p class="offer-lead">
+        Für Selbstständige, Handwerk und Dienstleister, die eine professionelle Unternehmenswebsite
+        brauchen.
+      </p><a class="btn btn--primary" href="/kontakt/?leistung=websites"
+        >Dein Projekt einschätzen lassen <span aria-hidden="true">↗</span></a
+      >
+    </div>
+    <div class="offer-sheet">
+      <p
+        class="offer-price"
+        aria-label="Orientierungsrahmen für Websites: 1.500 bis 5.500 Euro netto"
+      >
+        1.500–5.500 <span>€</span>
+      </p><p class="offer-tax">Netto, zzgl. gesetzlicher Umsatzsteuer, soweit diese anfällt.</p><ul
+        role="list"
+      >
+        <li>Konzept, Seitenstruktur und individuelles Design</li><li>
+          Abgestimmte Texte und passende Bilder
+        </li><li>Umsetzung für Handy, Tablet und Desktop</li><li>
+          Technische SEO-Grundlage und Kontaktwege
+        </li><li>Gemeinsame Prüfung und Begleitung zum Start</li>
+      </ul><p class="offer-fine">
+        Dein verbindlicher Preis und der genaue Umfang stehen im Angebot. Domain, Hosting und
+        laufende Betreuung vereinbaren wir separat.
+      </p>{
+        detailed ? (
+          <details>
+            <>
+              <summary>Was verändert den Preis?</summary>
+              <p>
+                Entscheidend sind Seitenzahl, Inhalt und Funktionen. Zusätzliche Fotografie, Video,
+                Mehrsprachigkeit, Buchungssysteme und Rechtsberatung werden gesondert kalkuliert.
+                Online-Shops gehören nicht zum Website-Angebot.
+              </p>
+            </>
+          </details>
+        ) : (
+          <a class="offer-more" href="/leistungen/websites/">
+            Mehr zu Umfang und Zusammenarbeit <span aria-hidden="true">↗</span>
+          </a>
+        )
+      }
+    </div>
+  </div>
+</section>
+<style>
+  .offer-new {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(2rem, 7vw, 7rem);
+    align-items: center;
+  }
+  .offer-new h2 {
+    font-size: clamp(2.6rem, 4vw, 4.3rem);
+    max-width: 15ch;
+  }
+  .offer-lead {
+    color: var(--text-muted);
+    max-width: 40ch;
+    margin: 1.6rem 0 2rem;
+  }
+  .offer-sheet {
+    background: var(--ks-cream);
+    color: var(--ks-black);
+    border-radius: 1.25rem;
+    padding: clamp(1.5rem, 3vw, 3rem);
+  }
+  .offer-price {
+    font-family: var(--font-display);
+    font-size: clamp(2.7rem, 4.2vw, 4.4rem);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.055em;
+    margin: 0.8rem 0;
+  }
+  .offer-price span {
+    font-size: 0.65em;
+  }
+  .offer-tax {
+    font-size: 1rem;
+    color: #60646b;
+  }
+  .offer-sheet ul {
+    display: grid;
+    gap: 0.85rem;
+    margin: 2rem 0;
+  }
+  .offer-sheet li {
+    font-size: 1rem;
+    padding-left: 1.7rem;
+    position: relative;
+  }
+  .offer-sheet li:before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    font-weight: 700;
+  }
+  .offer-fine {
+    font-size: 1rem;
+    color: #60646b;
+  }
+  .offer-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-height: 44px;
+    margin-top: 1rem;
+    font-size: 0.9375rem;
+    color: #101214 !important;
+  }
+  .offer-sheet summary {
+    cursor: pointer;
+    padding: 1rem 0 0.4rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+  }
+  .offer-sheet details p {
+    font-size: 0.9375rem;
+    color: #60646b;
+    margin-top: 0.5rem;
+  }
+  @media (max-width: 850px) {
+    .offer-new {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .offer-new h2 {
+      max-width: none;
+    }
+    .offer-sheet {
+      max-width: 42rem;
+    }
+  }
+</style>

@@ -1,0 +1,131 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import CtaBanner from '../components/CtaBanner.astro';
+const steps = [
+  {
+    title: 'Erst einmal kennenlernen.',
+    text: 'Wir sprechen über dein Unternehmen, deine Kunden und die Aufgabe deiner Website. Bestehende Seiten und Beispiele helfen beim Einstieg, ein fertiges Briefing brauchst du nicht.',
+    you: 'Deine Ziele, Wünsche und ein ungefährer Budgetrahmen.',
+    us: 'Eine erste Einschätzung und die passenden Rückfragen.',
+  },
+  {
+    title: 'Wissen, was du bekommst.',
+    text: 'Du erhältst ein schriftliches Angebot. Darin legen wir Seiten, Funktionen, Inhalte, Korrekturrunden und die Zuständigkeiten fest. Auch laufende Leistungen werden getrennt benannt.',
+    you: 'Rückfragen klären und den vereinbarten Umfang beauftragen.',
+    us: 'Ein nachvollziehbares Angebot und ein gemeinsamer Zeitplan.',
+  },
+  {
+    title: 'Deinem Unternehmen Form geben.',
+    text: 'Wir erarbeiten die Seitenstruktur, formulieren Texte und wählen mit dir Bilder aus. Anschließend entsteht dein Designentwurf, den du in Ruhe ansehen kannst.',
+    you: 'Fachliche Informationen, vorhandene Bilder und gebündelte Rückmeldung.',
+    us: 'Struktur, Texte und eine individuelle gestalterische Richtung.',
+  },
+  {
+    title: 'Alles zusammenbringen.',
+    text: 'Aus dem abgestimmten Entwurf bauen wir deine Website. Du kannst die Seiten vor dem Start durchsehen. Wir prüfen Darstellung, Navigation, Kontaktwege und technische Grundlagen.',
+    you: 'Inhalte prüfen und Rückmeldungen zu den vereinbarten Zwischenständen geben.',
+    us: 'Entwicklung, responsive Umsetzung und technische Prüfung.',
+  },
+  {
+    title: 'Gut an den Start gehen.',
+    text: 'Nach deiner Freigabe veröffentlichen wir die Website auf deiner Domain. Wir erklären dir die vereinbarten Pflegewege und besprechen, wie Änderungen künftig laufen.',
+    you: 'Den Auftritt abnehmen und die notwendigen Hostingzugänge bereitstellen.',
+    us: 'Veröffentlichung, Übergabe und die vereinbarte weitere Betreuung.',
+  },
+];
+---
+
+<PageLayout
+  title="So entsteht deine Website – Ablauf & Zusammenarbeit"
+  description="Vom unverbindlichen Erstgespräch über Texte und Design bis zur Veröffentlichung. So arbeiten wir gemeinsam an deiner neuen Unternehmenswebsite."
+  h1="Aus deiner Idee wird dein Auftritt."
+  lead="Du weißt, was dein Unternehmen ausmacht. Wir wissen, wie daraus eine Website wird. So bringen wir beides zusammen."
+  breadcrumbs={[
+    { name: 'Start', path: '/' },
+    { name: 'Zusammenarbeit', path: '/prozess/' },
+  ]}
+>
+  <section class="section section--cream">
+    <div class="content process-story">
+      {
+        steps.map((s) => (
+          <article>
+            <>
+              <div>
+                <>
+                  <h2>{s.title}</h2>
+                  <p>{s.text}</p>
+                </>
+              </div>
+              <dl>
+                <>
+                  <div>
+                    <>
+                      <dt>Von dir</dt>
+                      <dd>{s.you}</dd>
+                    </>
+                  </div>
+                  <div>
+                    <>
+                      <dt>Von KERNSEITE</dt>
+                      <dd>{s.us}</dd>
+                    </>
+                  </div>
+                </>
+              </dl>
+            </>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+  <CtaBanner
+    title="Fangen wir mit deiner Idee an."
+    text="Schreib uns kurz, was du vorhast. Alles Weitere klären wir gemeinsam."
+  />
+</PageLayout>
+<style>
+  .process-story {
+    display: grid;
+    gap: 1.5rem;
+  }
+  .process-story article {
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    gap: 4rem;
+    padding: clamp(1.5rem, 4vw, 4rem);
+    border-radius: 1rem;
+    background: var(--ks-paper);
+  }
+  .process-story article:nth-child(2) {
+    background: var(--ks-cyan);
+  }
+  .process-story h2 {
+    font-size: clamp(1.9rem, 3vw, 3rem);
+    max-width: 18ch;
+  }
+  .process-story p {
+    font-size: 1.05rem;
+    margin-top: 1.2rem;
+    max-width: 50ch;
+  }
+  .process-story dl {
+    display: grid;
+    gap: 1.5rem;
+  }
+  .process-story dt {
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+  .process-story dd {
+    margin: 0;
+    font-size: 1rem;
+  }
+  @media (max-width: 800px) {
+    .process-story article {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+</style>

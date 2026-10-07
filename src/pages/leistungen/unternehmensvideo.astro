@@ -1,0 +1,55 @@
+---
+import ServiceDetail from '../../components/ServiceDetail.astro';
+const blocks = [
+  {
+    title: 'Dein Unternehmen spürbar machen.',
+    text: 'Zeig, wie bei dir gearbeitet wird, wer dahintersteht und was deinen Betrieb besonders macht. Ein kurzer Film kann Atmosphäre vermitteln, die ein Text nur beschreibt.',
+  },
+  {
+    title: 'Mit einer Idee beginnen.',
+    text: 'Wir klären zuerst Zielgruppe, Botschaft und Einsatzort. Daraus entstehen Konzept, Drehplanung und die Entscheidung, welche Szenen tatsächlich gebraucht werden.',
+  },
+  {
+    title: 'Für die richtigen Formate drehen.',
+    text: 'Ein Websitefilm hat andere Anforderungen als ein kurzer Social-Media-Clip. Länge, Bildformat, Untertitel und die benötigten Versionen legen wir gemeinsam fest.',
+  },
+  {
+    title: 'Gut in die Website einbinden.',
+    text: 'Wir achten auf passende Dateigrößen, eine bedienbare Wiedergabe und sinnvolle Standbilder. Bei externen Videodiensten wird die datenschutzgerechte Einbindung berücksichtigt.',
+  },
+];
+const questions = [
+  {
+    question: 'Wer übernimmt den Dreh?',
+    answer:
+      'Je nach Projekt übernimmt ein spezialisierter Videopartner die Produktion. KERNSEITE koordiniert die Abstimmung mit deiner Website. Wer dreht, wie der Ablauf aussieht und welche Kosten entstehen, steht vor der Beauftragung fest.',
+  },
+  {
+    question: 'Was muss mein Unternehmen vorbereiten?',
+    answer:
+      'Wir stimmen Drehorte, Ansprechpartner und geeignete Arbeitssituationen ab. Personen, die erkennbar aufgenommen werden, müssen vorab entsprechend informiert werden; erforderliche Einwilligungen und Nutzungsrechte werden geklärt.',
+  },
+  {
+    question: 'Kann vorhandenes Material verwendet werden?',
+    answer:
+      'Wenn Qualität, Format und Nutzungsrechte passen, beziehen wir bestehende Aufnahmen ein. Wir prüfen vorher, ob sie zur geplanten Aussage und zu den vorgesehenen Kanälen passen.',
+  },
+  {
+    question: 'Ist Video im Websitepreis enthalten?',
+    answer:
+      'Eine zusätzliche Videoproduktion wird separat kalkuliert. Umfang, Drehtage, Schnitt, Korrekturen und Nutzungsrechte bestimmen das Angebot.',
+  },
+];
+---
+
+<ServiceDetail
+  serviceKey="video"
+  title="Unternehmensvideo für Website & Social Media"
+  description="Unternehmensfilme und kurze Website-Clips: Konzept, Drehplanung mit spezialisierten Partnern und passende Website-Integration. Persönlich koordiniert."
+  headline="Zeig den Menschen hinter deinem Unternehmen."
+  intro="Gute Arbeit hat ein Gesicht. Ein Unternehmensvideo bringt dein Team, deine Arbeitsweise und deine Atmosphäre auf den Bildschirm."
+  photo="unternehmensvideo"
+  closing="Ein Film mit einer Aufgabe."
+  blocks={blocks}
+  questions={questions}
+/>

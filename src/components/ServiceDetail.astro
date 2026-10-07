@@ -1,0 +1,117 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import Photo from './Photo.astro';
+import CtaBanner from './CtaBanner.astro';
+import FaqAccordion from './FaqAccordion.astro';
+import type { PhotoKey } from '../config/photos';
+import { getService, type ServiceKey } from '../config/services';
+import { serviceJsonLd, faqPageJsonLd } from '../lib/jsonld';
+interface Props {
+  serviceKey: ServiceKey;
+  title: string;
+  description: string;
+  headline: string;
+  intro: string;
+  photo?: PhotoKey;
+  blocks: { title: string; text: string }[];
+  questions: { question: string; answer: string }[];
+  closing: string;
+}
+const { serviceKey, title, description, headline, intro, photo, blocks, questions, closing } =
+  Astro.props;
+const service = getService(serviceKey);
+---
+
+<PageLayout
+  title={title}
+  description={description}
+  h1={headline}
+  lead={intro}
+  breadcrumbs={[
+    { name: 'Start', path: '/' },
+    { name: 'Leistungen', path: '/leistungen/' },
+    { name: service.label, path: service.href },
+  ]}
+  extraJsonLd={[serviceJsonLd(service), faqPageJsonLd(questions)]}
+>
+  <div slot="hero-extra" class="detail-actions">
+    <a class="btn btn--primary" href={`/kontakt/?leistung=${serviceKey}`}
+      >Vorhaben besprechen <span aria-hidden="true">↗</span></a
+    >
+  </div>
+  {
+    photo && (
+      <div class="content">
+        <Photo photo={photo} ratio="21x9" sizes="(min-width:1400px) 1360px, 94vw" priority />
+      </div>
+    )
+  }
+  <section class="section section--cream">
+    <div class="content">
+      <div class="section-heading"><h2>{closing}</h2></div><div class="detail-blocks">
+        {
+          blocks.map((b) => (
+            <article>
+              <>
+                <h3>{b.title}</h3>
+                <p>{b.text}</p>
+              </>
+            </article>
+          ))
+        }
+      </div><p class="detail-partner">
+        Eliyah bleibt dein Ansprechpartner. Für die Umsetzung binden wir je nach Aufgabe
+        spezialisierte Partner ein. Zuständigkeiten, Leistungen und Kosten vereinbaren wir vor dem
+        Start.
+      </p>
+    </div>
+  </section>
+  <section class="section section--paper">
+    <div class="content faq-split">
+      <h2>Die Details<br />machen den Unterschied.</h2><FaqAccordion items={questions} />
+    </div>
+  </section>
+  <CtaBanner
+    title="Was möchtest du bewegen?"
+    text="Wir schauen gemeinsam, welches Format und welcher Umfang zu deinem Unternehmen passen."
+    ctaHref={`/kontakt/?leistung=${serviceKey}`}
+    ctaLabel="Idee besprechen"
+  />
+</PageLayout>
+<style>
+  .detail-actions {
+    margin-top: 2rem;
+  }
+  .detail-blocks {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+  .detail-blocks article {
+    background: var(--ks-paper);
+    border-radius: 1rem;
+    padding: clamp(1.5rem, 3vw, 3rem);
+  }
+  .detail-blocks article:nth-child(2) {
+    background: var(--ks-cyan);
+  }
+  .detail-blocks h3 {
+    font-size: clamp(1.7rem, 2.5vw, 2.6rem);
+  }
+  .detail-blocks p {
+    font-size: 1.05rem;
+    margin-top: 1.2rem;
+    max-width: 48ch;
+  }
+  .detail-partner {
+    font-size: 1rem;
+    max-width: 80ch;
+    margin-top: 2.5rem;
+    color: var(--text-muted);
+  }
+  @media (max-width: 700px) {
+    .detail-blocks {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

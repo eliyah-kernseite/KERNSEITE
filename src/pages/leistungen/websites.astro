@@ -1,0 +1,187 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import WebsiteOffer from '../../components/WebsiteOffer.astro';
+import ProjectGrid from '../../components/ProjectGrid.astro';
+import CtaBanner from '../../components/CtaBanner.astro';
+import FaqAccordion from '../../components/FaqAccordion.astro';
+import { getService } from '../../config/services';
+import { serviceJsonLd, faqPageJsonLd } from '../../lib/jsonld';
+const service = getService('websites');
+const questions = [
+  {
+    question: 'Welche Seiten gehören zu meiner Website?',
+    answer:
+      'Das richten wir nach deinem Angebot aus. Häufig sind das Startseite, einzelne Leistungsseiten, Über uns, Referenzen und Kontakt sowie die erforderlichen Rechtstexte. Seitenzahl, Funktionen und Korrekturrunden halten wir vor dem Start im Angebot fest.',
+  },
+  {
+    question: 'Muss ich alle Texte und Bilder selbst mitbringen?',
+    answer:
+      'Du lieferst das Wissen über dein Unternehmen, wir machen daraus verständliche Website-Texte. Vorhandene Fotos und dein Logo beziehen wir ein. Wo Bildmaterial fehlt, stimmen wir geeignete Stockfotos oder einen separat kalkulierten Fototermin mit dir ab.',
+  },
+  {
+    question: 'Kann meine bestehende Domain bleiben?',
+    answer:
+      'Ja. Bei einem Relaunch prüfen wir Domain, Hosting, bestehende Seitenadressen und E-Mail-Nutzung. Wichtige alte Adressen werden auf die passenden neuen Seiten weitergeleitet. Änderungen an der E-Mail-Einrichtung stimmen wir gesondert ab.',
+  },
+  {
+    question: 'Wie lange dauert die Erstellung?',
+    answer:
+      'Das hängt vom Umfang und davon ab, wann Inhalte und Rückmeldungen vorliegen. Nach dem Erstgespräch bekommst du einen konkreten Zeitplan. Falls es einen festen Termin gibt, prüfen wir vor der Beauftragung, ob er realistisch ist.',
+  },
+  {
+    question: 'Welche laufenden Kosten entstehen?',
+    answer:
+      'Domain und Hosting verursachen laufende Kosten. Pflege, neue Inhalte und technische Betreuung können zusätzlich vereinbart werden. Im Angebot trennen wir die Erstellung von wiederkehrenden Leistungen, damit du den Gesamtaufwand kennst.',
+  },
+  {
+    question: 'Kann ich Inhalte später selbst ändern?',
+    answer:
+      'Wenn du regelmäßig selbst Inhalte pflegen möchtest, berücksichtigen wir das bei der Wahl des Systems und vereinbaren eine passende Lösung. Alternativ übernimmt KERNSEITE Änderungen nach Absprache. Du entscheidest vor Projektstart, wie viel du selbst machen möchtest.',
+  },
+];
+---
+
+<PageLayout
+  title="Website erstellen lassen – Design, Texte & Preise"
+  description="Deine Unternehmenswebsite aus einer Hand: individuelles Webdesign, Texte, SEO und persönliche Betreuung. Budgetrahmen 1.500–5.500 € netto. Bundesweit."
+  h1="Deine beste Arbeit verdient eine bessere Website."
+  lead="Wir machen aus deinem Angebot einen Auftritt, den deine Kunden verstehen. Individuell gestaltet, einfach zu bedienen und mit einem klaren Weg zur Anfrage."
+  breadcrumbs={[
+    { name: 'Start', path: '/' },
+    { name: 'Websites', path: service.href },
+  ]}
+  extraJsonLd={[serviceJsonLd(service), faqPageJsonLd(questions)]}
+>
+  <div slot="hero-extra" class="page-actions">
+    <a class="btn btn--primary" href="/kontakt/?leistung=websites"
+      >Deine Website planen <span aria-hidden="true">↗</span></a
+    ><a class="link-arrow" href="#website-angebot"
+      >Kosten & Umfang <span aria-hidden="true">↓</span></a
+    >
+  </div>
+  <section class="section section--cream">
+    <div class="content">
+      <div class="section-heading">
+        <div>
+          <h2>
+            Von deinem Angebot<br />zum überzeugenden Auftritt.
+          </h2>
+        </div>
+      </div><div class="deliver-grid">
+        <article>
+          <h3>Eine Struktur,<br />die weiterhilft.</h3><p>
+            Wir ordnen deine Leistungen so, dass Besucher schnell die passende Antwort finden. Jede
+            Seite bekommt eine Aufgabe – vom ersten Überblick bis zur konkreten Anfrage.
+          </p>
+        </article>
+        <article>
+          <h3>Ein Design,<br />das zu dir gehört.</h3><p>
+            Farben, Schrift, Bildsprache und Layout entwickeln wir für dein Unternehmen. Du bekommst
+            einen Entwurf zur Abstimmung, bevor die Website fertig gebaut wird.
+          </p>
+        </article>
+        <article>
+          <h3>Texte, die deine<br />Kunden verstehen.</h3><p>
+            Was machst du? Für wen? Und warum lohnt sich eine Anfrage? Wir formulieren das auf den
+            Punkt und beantworten die Fragen, die vor einer Entscheidung entstehen.
+          </p>
+        </article>
+        <article>
+          <h3>Technik, die<br />im Alltag trägt.</h3><p>
+            Gut bedienbar auf kleinen und großen Bildschirmen. Mit kurzen Ladezeiten, erreichbaren
+            Kontaktwegen, sinnvoller Suchmaschinenstruktur und zugänglicher Bedienung.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+  <WebsiteOffer detailed />
+  <section class="section section--paper">
+    <div class="content">
+      <div class="section-heading">
+        <div>
+          <h2>
+            Andere Unternehmen.<br />Ihre eigenen Websites.
+          </h2>
+        </div><a class="link-arrow" href="/arbeiten/"
+          >Zu den Projektberichten <span aria-hidden="true">↗</span></a
+        >
+      </div><ProjectGrid />
+    </div>
+  </section>
+  <section class="section section--cream">
+    <div class="content journey">
+      <div>
+        <h2>
+          Wir holen dich<br />da ab, wo du stehst.
+        </h2>
+      </div><div class="journey-steps">
+        <article>
+          <h3>Du startest gerade.</h3><p>
+            Wir entwickeln Seitenstruktur, Texte und Gestaltung zusammen. Auch ohne fertiges
+            Briefing kannst du mit einer Idee zu uns kommen.
+          </p>
+        </article><article>
+          <h3>Deine Website passt nicht mehr.</h3><p>
+            Wir prüfen, was gut funktioniert und was fehlt. Bestehende Inhalte, wichtige URLs und
+            deine Domain beziehen wir in den Relaunch ein.
+          </p>
+        </article><article>
+          <h3>Dein Unternehmen wächst.</h3><p>
+            Neue Leistungen, weitere Zielgruppen oder ein anderer Kontaktprozess: Wir planen den
+            Ausbau so, dass Besucher sich weiterhin zurechtfinden.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+  <section class="section section--paper">
+    <div class="content faq-split">
+      <div>
+        <h2>Das möchtest<br />du wissen.</h2>
+      </div><FaqAccordion items={questions} />
+    </div>
+  </section>
+  <CtaBanner
+    title="Wie soll deine Website aussehen?"
+    ctaHref="/kontakt/?leistung=websites"
+    text="Zeig uns dein Unternehmen, deine aktuelle Website oder einfach deine Idee. Wir sprechen darüber, was du brauchst und welcher Rahmen dazu passt."
+  />
+</PageLayout>
+<style>
+  .page-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    align-items: center;
+    margin-top: 2rem;
+  }
+  .deliver-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+  .deliver-grid article {
+    background: var(--ks-paper);
+    padding: clamp(1.5rem, 3vw, 3rem);
+    border-radius: 1rem;
+  }
+  .deliver-grid article:nth-child(2),
+  .deliver-grid article:nth-child(3) {
+    background: var(--ks-surface);
+  }
+  .deliver-grid h3 {
+    font-size: clamp(1.8rem, 2.8vw, 2.75rem);
+  }
+  .deliver-grid p {
+    max-width: 48ch;
+    margin-top: 1.2rem;
+    color: var(--text-muted);
+    font-size: 1.05rem;
+  }
+  @media (max-width: 700px) {
+    .deliver-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

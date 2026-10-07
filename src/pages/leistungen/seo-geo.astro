@@ -1,0 +1,184 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import CtaBanner from '../../components/CtaBanner.astro';
+import FaqAccordion from '../../components/FaqAccordion.astro';
+import { getService } from '../../config/services';
+import { serviceJsonLd, faqPageJsonLd } from '../../lib/jsonld';
+const service = getService('seo-geo');
+const questions = [
+  {
+    question: 'Was bedeuten SEO, GEO und GAIO?',
+    answer:
+      'SEO ist Suchmaschinenoptimierung. GEO und GAIO werden für die Optimierung von Inhalten für generative KI- und Antwortsysteme verwendet. Die Begriffe sind nicht einheitlich definiert. Entscheidend sind hilfreiche, zugängliche Inhalte, eindeutige Unternehmensangaben und eine technisch funktionierende Website.',
+  },
+  {
+    question: 'Was ist bereits bei einer neuen Website dabei?',
+    answer:
+      'Zur technischen Grundlage gehören passende Seitentitel, Beschreibungen, eine nachvollziehbare Überschriftenstruktur, interne Links, eine Sitemap, schnelle Bilder und eindeutige Seitenadressen. Zusätzliche Keyword-Recherche, neue Inhalte, laufende Auswertung und Optimierung vereinbaren wir nach Bedarf.',
+  },
+  {
+    question: 'Kann KERNSEITE Platz eins oder KI-Erwähnungen zusagen?',
+    answer:
+      'Nein. Suchmaschinen und KI-Anbieter entscheiden selbst, welche Inhalte sie anzeigen. Wir verbessern die Voraussetzungen und prüfen die Entwicklung. Wettbewerb, Nachfrage, Qualität anderer Seiten und Veränderungen der Suchsysteme beeinflussen das Ergebnis.',
+  },
+  {
+    question: 'Wie wird die Entwicklung gemessen?',
+    answer:
+      'Für Google können wir nach deiner Freigabe die Search Console auswerten: Suchanfragen, Einblendungen, Klicks und Indexierung. Ergänzend betrachten wir die Qualität eingehender Anfragen. Neue Analyse- oder Marketingdienste werden nicht ungefragt eingebaut.',
+  },
+];
+---
+
+<PageLayout
+  title="SEO & GEO für Unternehmen im Raum Würzburg"
+  description="SEO, GEO und GAIO für Unternehmenswebsites: relevante Inhalte, saubere Technik und konsistente Unternehmensdaten. Aus Mainfranken, deutschlandweit."
+  h1="Gefunden werden beginnt mit verstanden werden."
+  lead="Deine Kunden suchen nach einer Lösung. Wir bauen deine Website so auf, dass sie die passenden Antworten finden – und Suchmaschinen dein Angebot einordnen können."
+  breadcrumbs={[
+    { name: 'Start', path: '/' },
+    { name: 'Leistungen', path: '/leistungen/' },
+    { name: 'SEO & KI-Suche', path: service.href },
+  ]}
+  extraJsonLd={[serviceJsonLd(service), faqPageJsonLd(questions)]}
+>
+  <div slot="hero-extra" class="page-actions">
+    <a class="btn btn--primary" href="/kontakt/?leistung=seo-geo"
+      >Sichtbarkeit besprechen <span aria-hidden="true">↗</span></a
+    >
+  </div>
+  <section class="section section--cream">
+    <div class="content search-explainer">
+      <div>
+        <h2>
+          Die richtige Antwort.<br />Am richtigen Ort.
+        </h2><p>
+          Eine gute Seite erklärt konkret, was du anbietest, für wen es passt und wie die
+          Zusammenarbeit beginnt. Sie hilft Menschen bei einer Entscheidung. Genau dort setzen wir
+          an.
+        </p>
+      </div><div class="questions-board">
+        <p>„Passt das Angebot zu mir?“</p><p>„Was kostet mich das?“</p><p>
+          „Wer steckt dahinter?“
+        </p><p>„Wie kann ich starten?“</p>
+      </div>
+    </div>
+  </section>
+  <section class="section section--paper">
+    <div class="content">
+      <div class="section-heading">
+        <h2>Substanz für Menschen.<br />Struktur für Suchsysteme.</h2>
+      </div><div class="seo-cards">
+        <article>
+          <h3>Relevante Inhalte</h3><p>
+            Leistungsseiten mit konkreten Antworten, nachvollziehbaren Beispielen und den Begriffen,
+            die deine Kunden verwenden.
+          </p>
+        </article><article>
+          <h3>Saubere Technik</h3><p>
+            Erreichbare Seiten, eindeutige Adressen, passende Metadaten, kurze Ladezeiten und eine
+            verständliche interne Verlinkung.
+          </p>
+        </article><article>
+          <h3>Eindeutige Fakten</h3><p>
+            Unternehmensname, Kontakt, Leistungen und tatsächlicher Standort stimmen zusammen – auf
+            der Website und im Unternehmensprofil.
+          </p>
+        </article><article>
+          <h3>Laufende Entwicklung</h3><p>
+            Suchanfragen und Ergebnisse auswerten, fehlende Antworten ergänzen und Inhalte aktuell
+            halten. Umfang und Rhythmus stimmen wir ab.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+  <section class="section section--dark on-dark">
+    <div class="content search-explainer">
+      <h2>KI-Suche braucht<br />keine Zauberformel.</h2><div>
+        <p class="lead">
+          Google nennt für seine KI-Suchfunktionen dieselben grundlegenden SEO-Anforderungen. Eine
+          besondere KI-Datei oder ein spezielles Schema ist dafür nicht erforderlich.
+        </p><p class="source-note">
+          Wir setzen auf verständliche Inhalte, überprüfbare Aussagen und echte Projektbeispiele.
+          Eine Aufnahme in Suchergebnisse oder KI-Antworten kann niemand zusichern.
+        </p><a
+          class="link-arrow"
+          href="https://developers.google.com/search/docs/appearance/ai-features?hl=de"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Googles Hinweise zur KI-Suche <span aria-hidden="true">↗</span></a
+        >
+      </div>
+    </div>
+  </section>
+  <section class="section section--cream">
+    <div class="content faq-split">
+      <div>
+        <h2>Was dahintersteckt.</h2>
+      </div><FaqAccordion items={questions} />
+    </div>
+  </section>
+  <CtaBanner
+    title="Wofür sollen deine Kunden dich finden?"
+    text="Wir schauen uns dein Angebot und deine bestehende Website an. Daraus entwickeln wir die nächsten sinnvollen Schritte."
+    ctaLabel="Über Sichtbarkeit sprechen"
+    ctaHref="/kontakt/?leistung=seo-geo"
+  />
+</PageLayout>
+<style>
+  .page-actions {
+    margin-top: 2rem;
+  }
+  .search-explainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(2rem, 6vw, 6rem);
+    align-items: center;
+  }
+  .search-explainer p {
+    margin-top: 1.5rem;
+  }
+  .questions-board {
+    padding: clamp(1.5rem, 3vw, 3rem);
+    background: var(--ks-cyan);
+    border-radius: 1.2rem;
+    color: #101214;
+  }
+  .questions-board p {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(1.5rem, 2.5vw, 2.5rem);
+    line-height: 1.2;
+  }
+  .seo-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  .seo-cards article {
+    background: var(--ks-cream);
+    border-radius: 1rem;
+    padding: 2rem;
+  }
+  .seo-cards h3 {
+    font-size: 1.8rem;
+  }
+  .seo-cards p {
+    margin-top: 1rem;
+    color: var(--text-muted);
+    font-size: 1.05rem;
+  }
+  .source-note {
+    color: var(--text-muted);
+    font-size: 1rem;
+  }
+  .search-explainer .link-arrow {
+    margin-top: 1.5rem;
+  }
+  @media (max-width: 760px) {
+    .search-explainer,
+    .seo-cards {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

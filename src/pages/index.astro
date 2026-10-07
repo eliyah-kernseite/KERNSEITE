@@ -1,0 +1,149 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HeroCinematic from '../components/HeroCinematic.astro';
+import ProjectGrid from '../components/ProjectGrid.astro';
+import WebsiteOffer from '../components/WebsiteOffer.astro';
+import FaqAccordion from '../components/FaqAccordion.astro';
+import CtaBanner from '../components/CtaBanner.astro';
+import Photo from '../components/Photo.astro';
+import { homeFaqs } from '../config/faq';
+import { faqPageJsonLd } from '../lib/jsonld';
+---
+
+<BaseLayout
+  title="Webdesign für Unternehmen | Würzburg & bundesweit"
+  description="Individuelle Unternehmenswebsites mit Design, Texten und SEO. Persönlich mit Eliyah Korb. Aus dem Raum Würzburg und Schweinfurt, für ganz Deutschland."
+  jsonLd={[faqPageJsonLd(homeFaqs)]}
+>
+  <HeroCinematic />
+  <section class="section section--paper">
+    <div class="content intro-grid">
+      <div>
+        <h2>Eine Website, die zeigt,<br />warum man dich wählen sollte.</h2><p class="intro-copy">
+          Wer dich noch nicht kennt, lernt dich oft zuerst online kennen. Deshalb bringen wir dein
+          Angebot auf den Punkt, zeigen deine Stärken und machen den Weg zur Anfrage einfach. Vom
+          ersten Entwurf bis zur fertigen Website.
+        </p>
+      </div>
+    </div>
+  </section>
+  <section class="section section--cream" id="arbeiten">
+    <div class="content">
+      <div class="section-heading">
+        <div>
+          <h2>
+            Jedes Unternehmen.<br />Ein eigener Charakter.
+          </h2>
+        </div><a class="link-arrow" href="/arbeiten/"
+          >Alle Projekte ansehen <span aria-hidden="true">↗</span></a
+        >
+      </div>
+      <ProjectGrid />
+    </div>
+  </section>
+  <section class="section section--paper">
+    <div class="content">
+      <div class="section-heading">
+        <div>
+          <h2>
+            Auffallen. Überzeugen.<br />Ins Gespräch kommen.
+          </h2>
+        </div>
+      </div>
+      <div class="benefit-grid">
+        <article class="benefit benefit--cyan">
+          <h3>Das passt<br />zu uns.</h3><p>
+            Ein eigenes Design, passende Bilder und Texte, die nach deinem Unternehmen klingen.
+          </p><a href="/leistungen/websites/"
+            >Webdesign kennenlernen <span aria-hidden="true">↗</span></a
+          >
+        </article>
+        <article class="benefit benefit--dark">
+          <h3>
+            Genau das<br />suche ich.
+          </h3><p>
+            Verständliche Leistungen und hilfreiche Antworten. Für deine Kunden, Google und die
+            KI-Suche.
+          </p><a href="/leistungen/seo-geo/"
+            >SEO & KI-Suche verstehen <span aria-hidden="true">↗</span></a
+          >
+        </article>
+        <article class="benefit">
+          <h3>Da frage<br />ich an.</h3><p>
+            Sichtbare Kontaktwege und eine einfache Bedienung. Auf dem Handy genauso wie am großen
+            Bildschirm.
+          </p><a href="/kontakt/">Dein Projekt besprechen <span aria-hidden="true">↗</span></a>
+        </article>
+      </div>
+    </div>
+  </section>
+  <WebsiteOffer />
+  <section class="section section--cream">
+    <div class="content founder-split">
+      <div class="founder-visual">
+        <Photo photo="standort-wuerzburg" ratio="4x3" sizes="(min-width: 900px) 50vw, 100vw" /><div
+          class="founder-caption"
+        >
+          <strong>Für dich überall erreichbar.</strong>
+        </div>
+      </div>
+      <div class="founder-copy">
+        <h2>
+          Deine Website.<br />Mein Einsatz.
+        </h2><p>
+          Ich möchte verstehen, was du machst – und warum deine Kunden zu dir kommen. Daraus
+          entsteht ein Auftritt, der zu deinem Unternehmen passt.
+        </p><p>
+          Bei KERNSEITE sprichst du direkt mit mir. Wir besprechen deine Ideen, du siehst die
+          Entwürfe und weißt jederzeit, wo dein Projekt steht. In Würzburg und Schweinfurt genauso
+          wie bundesweit.
+        </p><a class="link-arrow" href="/agentur/"
+          >Mehr über KERNSEITE <span aria-hidden="true">↗</span></a
+        >
+      </div>
+    </div>
+  </section>
+  <section class="section section--paper">
+    <div class="content journey">
+      <div>
+        <h2>
+          Du musst kein<br />Webprofi sein.
+        </h2><a class="link-arrow" href="/prozess/"
+          >Zusammenarbeit kennenlernen <span aria-hidden="true">↗</span></a
+        >
+      </div>
+      <div class="journey-steps">
+        <article>
+          <h3>Wir hören zu.</h3><p>
+            Was bietest du an? Wen möchtest du erreichen? Daraus machen wir einen Vorschlag mit
+            nachvollziehbarem Umfang und Preis.
+          </p>
+        </article><article>
+          <h3>Du siehst, was entsteht.</h3><p>
+            Texte, Bilder und Design stimmen wir mit dir ab. Deine Rückmeldung fließt ein, bevor die
+            Website veröffentlicht wird.
+          </p>
+        </article><article>
+          <h3>Dein Auftritt geht live.</h3><p>
+            Wir prüfen die Seiten und Kontaktwege, begleiten den Start und besprechen, wie deine
+            Website aktuell bleibt.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+  <section class="section section--cream">
+    <div class="content faq-split">
+      <div>
+        <h2>Noch eine<br />Frage offen?</h2><a class="link-arrow" href="/faq/"
+          >Alle Antworten <span aria-hidden="true">↗</span></a
+        >
+      </div><FaqAccordion items={homeFaqs} />
+    </div>
+  </section>
+  <CtaBanner
+    title="Machen wir etwas Gutes daraus."
+    text="Eine neue Website, ein frischer Auftritt oder erst eine Idee? Erzähl uns davon. Das erste Gespräch ist unverbindlich."
+    ctaLabel="Deine Website besprechen"
+  />
+</BaseLayout>

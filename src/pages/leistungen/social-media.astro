@@ -1,0 +1,55 @@
+---
+import ServiceDetail from '../../components/ServiceDetail.astro';
+const blocks = [
+  {
+    title: 'Themen aus deinem Alltag.',
+    text: 'Deine Arbeit, beantwortete Kundenfragen, neue Projekte und die Menschen dahinter liefern Stoff für Beiträge. Wir finden Formate, die du regelmäßig mit Leben füllen kannst.',
+  },
+  {
+    title: 'Ein erkennbarer Auftritt.',
+    text: 'Bildsprache, Gestaltung und Ton passen zu deinem Unternehmen und zur Website. So entsteht über die einzelnen Kanäle hinweg ein zusammenhängender Eindruck.',
+  },
+  {
+    title: 'Ein realistischer Plan.',
+    text: 'Wir legen Themen, Formate und Abstimmungswege fest. Der Umfang richtet sich danach, was du erreichen möchtest und welche Inhalte dein Unternehmen tatsächlich liefern kann.',
+  },
+  {
+    title: 'Ein Weg zur Anfrage.',
+    text: 'Profile und Beiträge führen zu den passenden Informationen auf deiner Website. Besucher sollen schnell erkennen, wie sie mit dir ins Gespräch kommen.',
+  },
+];
+const questions = [
+  {
+    question: 'Welche Plattform ist für mein Unternehmen sinnvoll?',
+    answer:
+      'Das hängt von deiner Zielgruppe, deinen Themen und deinen Zielen ab. Wir prüfen, wo passende Interessenten erreichbar sind und welche Formate du zuverlässig bedienen kannst.',
+  },
+  {
+    question: 'Wer erstellt und veröffentlicht die Beiträge?',
+    answer:
+      'Die Aufteilung zwischen deinem Unternehmen, KERNSEITE und einem spezialisierten Partner legen wir vorher fest. Themen, Freigaben, Veröffentlichung und die Betreuung von Kommentaren werden ausdrücklich vereinbart.',
+  },
+  {
+    question: 'Sind Werbeanzeigen enthalten?',
+    answer:
+      'Bezahlte Anzeigen und Mediabudgets sind gesonderte Leistungen. Ein organischer Redaktionsplan enthält kein automatisches Werbebudget und keine Zusage bestimmter Reichweiten.',
+  },
+  {
+    question: 'Kann ich später selbst weitermachen?',
+    answer:
+      'Ja. Wenn du die Pflege selbst übernehmen möchtest, können wir Profilgestaltung, Vorlagen und den Einstieg in die Redaktionsplanung als abgegrenztes Projekt vereinbaren.',
+  },
+];
+---
+
+<ServiceDetail
+  serviceKey="social"
+  title="Social Media für Unternehmen – Planung & Auftritt"
+  description="Social Media mit passenden Themen, eigenem Auftritt und realistischem Redaktionsplan. KERNSEITE verbindet deine Kanäle mit deiner Unternehmenswebsite."
+  headline="Dein Unternehmen hat etwas zu erzählen."
+  intro="Wir helfen dir, daraus einen stimmigen Social-Media-Auftritt zu machen. Mit passenden Themen, wiedererkennbaren Bildern und einem Plan, der in deinen Alltag passt."
+  photo="social-media"
+  closing="Präsenz, die zu dir passt."
+  blocks={blocks}
+  questions={questions}
+/>

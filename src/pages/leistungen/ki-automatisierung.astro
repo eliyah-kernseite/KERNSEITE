@@ -1,0 +1,54 @@
+---
+import ServiceDetail from '../../components/ServiceDetail.astro';
+const blocks = [
+  {
+    title: 'Anfragen sinnvoll ordnen.',
+    text: 'Kontaktangaben und Anliegen können gesammelt und an die passende Stelle übergeben werden. So liegt zum persönlichen Gespräch bereits eine brauchbare Grundlage vor.',
+  },
+  {
+    title: 'Wiederkehrende Fragen beantworten.',
+    text: 'Ein abgestimmter Assistent kann Fragen zu Öffnungszeiten, Leistungen oder Abläufen beantworten. Seine Wissensgrundlage und die Übergabe an einen Menschen werden klar festgelegt.',
+  },
+  {
+    title: 'Abläufe verbinden.',
+    text: 'Bestätigungen, Erinnerungen oder interne Weiterleitungen lassen sich automatisieren. Wir prüfen zuerst die vorhandenen Werkzeuge und welche Schnittstellen zur Verfügung stehen.',
+  },
+  {
+    title: 'Die Kontrolle behalten.',
+    text: 'Automatisierte Antworten können falsch sein. Deshalb gehören Tests, Grenzen, Überwachung und ein verlässlicher Weg zur persönlichen Bearbeitung zum Konzept.',
+  },
+];
+const questions = [
+  {
+    question: 'Braucht meine Website einen Chatbot?',
+    answer:
+      'Nicht automatisch. Bei wenigen Anfragen reichen oft verständliche Inhalte und ein gutes Kontaktformular. Wir prüfen zuerst, welche wiederkehrenden Aufgaben tatsächlich Zeit kosten und ob ein Assistent dafür geeignet ist.',
+  },
+  {
+    question: 'Welche Daten dürfen verarbeitet werden?',
+    answer:
+      'Das hängt vom Anwendungsfall, Anbieter und den beteiligten Daten ab. Vor dem Einsatz werden Datenschutz, Zugriffsrechte und notwendige Verträge geklärt. Sensible Angaben gehören nicht ungeprüft in einen KI-Dienst.',
+  },
+  {
+    question: 'Wer setzt die Automatisierung um?',
+    answer:
+      'KERNSEITE klärt mit dir das Ziel und koordiniert das Projekt. Bei spezialisierten Integrationen wird ein geeigneter technischer Partner eingebunden. Zuständigkeiten und Wartung werden vorab vereinbart.',
+  },
+  {
+    question: 'Welche laufenden Kosten gibt es?',
+    answer:
+      'Zusätzlich zur Einrichtung können Anbietergebühren, nutzungsabhängige Kosten und Betreuung anfallen. Diese Posten werden vor der Beauftragung getrennt vom Websiteprojekt benannt.',
+  },
+];
+---
+
+<ServiceDetail
+  serviceKey="ki"
+  title="KI & Automatisierung für wiederkehrende Aufgaben"
+  description="Anfragen ordnen, Routine vereinfachen und Abläufe verbinden. KERNSEITE plant KI-Integrationen mit klaren Grenzen, Datenschutz und menschlicher Kontrolle."
+  headline="Mehr Zeit für das, was dich wirklich braucht."
+  intro="Wenn dieselben Aufgaben immer wieder auftauchen, lohnt sich ein genauer Blick. Wir prüfen mit dir, wo Automatisierung hilft und wie sie sich in deinen Alltag einfügt."
+  closing="Beim konkreten Ablauf anfangen."
+  blocks={blocks}
+  questions={questions}
+/>
