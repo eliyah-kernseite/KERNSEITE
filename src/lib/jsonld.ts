@@ -1,4 +1,4 @@
-import { activeCompany, hasCompleteLegalData } from './config-validation';
+import { activeCompany, hasCompleteBusinessData } from './config-validation';
 import { site } from '../config/site';
 import type { Service } from '../config/services';
 import type { FaqItem } from '../config/faq';
@@ -31,9 +31,9 @@ const AREA_SERVED = [
   site.region.country,
 ].filter(Boolean);
 
-/** ProfessionalService/LocalBusiness der Marke – nur bei vollständigen Daten. */
+/** ProfessionalService/LocalBusiness der Marke – nur bei vollständiger Anschrift und Kontakt. */
 export function organizationJsonLd(): Json | null {
-  if (!hasCompleteLegalData) return null;
+  if (!hasCompleteBusinessData) return null;
   const c = activeCompany;
   return {
     '@context': 'https://schema.org',
@@ -69,9 +69,9 @@ export function websiteJsonLd(): Json {
   };
 }
 
-/** Einzelne Leistung – nur bei vollständigen Firmendaten (Provider-Bezug). */
+/** Einzelne Leistung – nur bei vollständiger Anschrift und Kontakt (Provider-Bezug). */
 export function serviceJsonLd(service: Service): Json | null {
-  if (!hasCompleteLegalData) return null;
+  if (!hasCompleteBusinessData) return null;
   return {
     '@context': 'https://schema.org',
     '@type': 'Service',

@@ -48,6 +48,17 @@ function buildMarkers() {
   };
 }
 
+/** Pfade, die nicht in der Sitemap stehen (Konfigurations- und Rechtsseiten). */
+const SITEMAP_EXCLUDED = [
+  '/cookie-einstellungen/',
+  '/404',
+  '/impressum/',
+  '/datenschutz/',
+  '/agb/',
+  '/bildnachweise/',
+  '/barrierefreiheit/',
+];
+
 // https://astro.build/config
 export default defineConfig({
   site: SITE_URL,
@@ -64,8 +75,15 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
-      // Rechts-/Konfigurationsseiten aus dem Index halten.
-      filter: (page) => !page.includes('/cookie-einstellungen') && !page.includes('/404'),
+      // Konfigurationsseiten ausschließen. Rechtsseiten bleiben indexierbar und verlinkt,
+      // stehen aber nicht in der Sitemap, damit Google sich auf Leistungs- und
+      // Branchenseiten konzentriert.
+      filter: (page) => {
+        const { pathname } = new URL(page);
+        return !SITEMAP_EXCLUDED.some((p) => pathname === p || pathname.startsWith(p));
+      },
+      // Builddatum als Änderungsdatum: jeder Upload aktualisiert alle Seiten gemeinsam.
+      lastmod: new Date(),
     }),
     buildMarkers(),
   ],

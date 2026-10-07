@@ -34,6 +34,18 @@ export const missingLegalFields: string[] = getMissingLegalFields(activeCompany)
 /** True, wenn alle rechtlichen Pflichtangaben echte Werte tragen. */
 export const hasCompleteLegalData: boolean = missingLegalFields.length === 0;
 
+/**
+ * Felder, die der Firmeneintrag in den strukturierten Daten (JSON-LD) tatsächlich
+ * ausgibt. Hosting, Mailanbieter und Aufbewahrungsdauer gehören nicht dazu –
+ * der Eintrag hängt deshalb nur an diesen Angaben, nicht an der vollen Liste.
+ */
+const BUSINESS_SCHEMA_FIELDS = ['street', 'postalCode', 'city', 'email', 'phone'] as const;
+
+/** True, wenn Anschrift und Kontakt für den Firmeneintrag (JSON-LD) echte Werte tragen. */
+export const hasCompleteBusinessData: boolean = BUSINESS_SCHEMA_FIELDS.every(
+  (field) => !isPlaceholder(activeCompany[field]),
+);
+
 /** True, wenn ein bestätigter Serverstandort vorliegt (Grundlage Hosting-Hinweis). */
 export const hasConfirmedHostingLocation: boolean = !isPlaceholder(activeCompany.hostingLocation);
 
