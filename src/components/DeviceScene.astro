@@ -40,6 +40,8 @@ const base = '/assets/references/scroll';
       <img src={`${base}/baby-phone.webp`} width="151" height="2576" alt="" decoding="async" />
       <span class="notch notch--phone"></span>
     </div>
+    <!-- Die Kaffeetasse steht im Foto vor dem iPad und muss die Seite überdecken -->
+    <img class="cup" src={`${base}/tasse.webp`} width="290" height="90" alt="" decoding="async" />
   </div>
 </div>
 
@@ -134,20 +136,20 @@ const base = '/assets/references/scroll';
     height: 520px;
     border-radius: 14px;
     transform: matrix3d(
-      0.542917,
-      -0.0394484,
+      0.665017,
+      0.0275651,
       0,
-      -9.92206e-6,
-      0.0638764,
-      0.507252,
+      0.000207538,
+      0.0699325,
+      0.58325,
       0,
-      -8.19693e-5,
+      -0.000101548,
       0,
       0,
       1,
       0,
-      166.968,
-      334.388,
+      166.991,
+      334.35,
       0,
       1
     );
@@ -178,6 +180,15 @@ const base = '/assets/references/scroll';
     );
     --dur: 22s;
     --delay: -4s;
+  }
+
+  .cup {
+    position: absolute;
+    left: 150px;
+    top: 600px;
+    width: 290px;
+    height: 90px;
+    z-index: 5;
   }
 
   .notch {
