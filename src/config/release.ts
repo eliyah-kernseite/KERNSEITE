@@ -42,7 +42,7 @@ export interface ReleaseGate {
 export const release: ReleaseGate = {
   legalReviewApproved: true,
   canonicalDomainConfirmed: true,
-  privacyInfrastructureConfirmed: false,
+  privacyInfrastructureConfirmed: true,
 };
 
 /** Klartext je Schalter für die Abbruchmeldung des Produktions-Builds. */

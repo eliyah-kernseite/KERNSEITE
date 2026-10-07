@@ -12,19 +12,44 @@ Produktionsdomain: **https://www.kernseite.com**. Die Variante ohne www wird umg
 - Funktionierendes Firmenpostfach und SMTP-Zugang; Google Workspace ist hinterlegt
 - Node ab 22.12, pnpm 10.33 und Composer zum Erstellen des Pakets
 
-Es wird kein deutscher Serverstandort behauptet. Der tatsächliche Standort ist noch
-nicht hinterlegt. Hostinganbieter und Standort sind unterschiedliche Angaben.
+Serverstandort laut Hostinger-Panel: Deutschland (Frankfurt am Main), hinterlegt in
+`src/config/company.ts`. Alle Freigaben in `src/config/release.ts` sind gesetzt
+(Stand 2026-10-07); `pnpm build:production` erzeugt damit einen deploybaren Build.
 
-## Vor dem Produktionsbuild
+## Automatisch veröffentlichen (GitHub → Hostinger)
 
-In `src/config/company.ts` fehlen `hostingLocation` und `formRetentionPeriod`.
-Die vorhandene Anschrift und die Erreichbarkeit des Postfachs müssen für den
-Produktivbetrieb bestätigt sein. Die fachliche Prüfung von Impressum, Datenschutz
-und AGB sowie die Bestätigung der Infrastruktur stehen gemäß `src/config/release.ts`
-noch aus. Diese vorhandenen Schutzschalter dürfen erst nach tatsächlicher Klärung
-geändert werden. Eine Build-Prüfung ersetzt keine rechtliche Prüfung.
+Hostinger kann den Astro-Code nicht selbst bauen. Deshalb baut GitHub ihn:
 
-## Paket erstellen
+1. Jeder Push auf `main` startet `.github/workflows/deploy-hostinger.yml`.
+   Der Workflow baut den Produktionsstand, führt die QA aus, installiert
+   PHPMailer und legt das fertige Paket (Inhalt von `public_html`) auf den
+   Branch `hostinger-deploy`.
+2. Hostinger zieht genau diesen Branch nach `public_html`.
+
+Einmalige Einrichtung in Hostinger:
+
+1. Vorher die bestehende Website in `public_html` sichern (Dateimanager →
+   herunterladen). Für das erste Git-Deployment muss `public_html` leer sein.
+   Die `.env` oberhalb von `public_html` bleibt unberührt.
+2. hPanel → Websites → kernseite.com → Erweitert → **GIT**.
+3. Da das Repository privat ist: den dort angezeigten **SSH-Schlüssel** kopieren
+   und in GitHub unter Repository → Settings → Deploy keys → Add deploy key
+   eintragen (nur Lesezugriff).
+4. Repository: `git@github.com:eliyah-kernseite/KERNSEITE.git`,
+   Branch: `hostinger-deploy`, Verzeichnis: leer lassen (= `public_html`).
+   **Erstellen**.
+5. Beim neuen Eintrag **Auto-Deployment** aktivieren und die angezeigte
+   Webhook-URL in GitHub unter Settings → Webhooks → Add webhook eintragen
+   (Content type `application/json`, Ereignis „Just the push event“).
+
+Danach gilt: Änderung auf `main` → GitHub baut (2–3 Minuten) → Hostinger
+veröffentlicht automatisch. Manuell auslösen: GitHub → Actions →
+„Deploy (Hostinger)“ → Run workflow, oder in Hostinger unter GIT → Deploy.
+
+`public/.htaccess` sperrt das von Hostinger angelegte `.git`-Verzeichnis
+gegen Abruf aus dem Web.
+
+## Paket manuell erstellen (Alternative)
 
 ```bash
 pnpm install --frozen-lockfile

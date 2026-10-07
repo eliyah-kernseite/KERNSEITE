@@ -82,9 +82,11 @@ export const company: Company = {
   responsibleContent: 'Eliyah Korb',
   supervisoryAuthority: '',
   hostingProvider: 'Hostinger',
-  hostingLocation: PLACEHOLDER,
+  // Laut Hostinger-Panel (Plan-Details → Server-Details), bestätigt 2026-10-07.
+  hostingLocation: 'Deutschland (Frankfurt am Main)',
   mailProvider: 'Google Workspace',
-  formRetentionPeriod: PLACEHOLDER,
+  // Vom Inhaber festgelegt, 2026-10-07.
+  formRetentionPeriod: 'in der Regel 6 Monate nach Abschluss der Anfrage',
   socialLinks: [],
 };
 

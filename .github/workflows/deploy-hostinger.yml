@@ -1,0 +1,74 @@
+name: Deploy (Hostinger)
+
+# Baut bei jedem Push auf main den Produktionsstand und legt das fertige
+# Upload-Bündel (Inhalt von public_html) auf den Branch `hostinger-deploy`.
+# Hostinger (hPanel → Website → Erweitert → GIT) zieht diesen Branch per
+# Auto-Deployment nach public_html. Die .env liegt oberhalb von public_html
+# und wird davon nicht berührt.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: kernseite-deploy-hostinger
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: pnpm einrichten
+        uses: pnpm/action-setup@v4
+
+      - name: Node einrichten
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: PHP und Composer einrichten
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring
+          tools: composer
+
+      - name: Abhängigkeiten installieren
+        run: pnpm install --frozen-lockfile
+
+      - name: Schriften bereitstellen
+        run: pnpm copy-fonts
+
+      - name: Produktionsbuild
+        run: pnpm build:production
+
+      - name: QA-Prüfungen
+        run: pnpm qa
+
+      - name: PHP-Abhängigkeiten installieren
+        working-directory: php
+        run: composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Upload-Bündel zusammenstellen
+        run: node scripts/assemble-deploy.mjs
+
+      - name: Auf Branch hostinger-deploy veröffentlichen
+        working-directory: deploy/public_html
+        env:
+          SOURCE_SHA: ${{ github.sha }}
+        run: |
+          git init -q -b hostinger-deploy
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Deploy ${SOURCE_SHA}"
+          git remote add origin "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
+          git push -f origin hostinger-deploy

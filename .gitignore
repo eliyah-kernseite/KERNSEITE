@@ -44,3 +44,6 @@ scripts/screenshot.mjs
 # Python tools
 __pycache__/
 *.pyc
+
+# Upload-Bündel (scripts/assemble-deploy.mjs)
+deploy/

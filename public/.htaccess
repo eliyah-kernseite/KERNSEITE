@@ -47,6 +47,12 @@ ErrorDocument 404 /404.html
   </FilesMatch>
 </IfModule>
 
+# Git-Metadaten sperren: Hostinger legt beim Git-Deployment ein .git-Verzeichnis
+# in public_html an. Es darf nie ausgeliefert werden.
+<IfModule mod_alias.c>
+  RedirectMatch 404 /\.git(/|$)
+</IfModule>
+
 Options -Indexes
 
 # ----- Kompression -----------------------------------------------------------
