@@ -1,0 +1,147 @@
+import { activeCompany, hasCompleteBusinessData } from './config-validation';
+import { site } from '../config/site';
+import type { Service } from '../config/services';
+import type { FaqItem } from '../config/faq';
+import { canonicalFor } from '../config/seo';
+
+/**
+ * Strukturierte Daten (JSON-LD).
+ *
+ * REGEL (Korrektur 8): Organization/LocalBusiness/ProfessionalService/Service werden
+ * NUR erzeugt, wenn die dafür nötigen Echtdaten vollständig vorhanden sind. Andernfalls
+ * geben die Helfer `null` zurück – niemals Platzhalter in strukturierte Daten schreiben.
+ * BreadcrumbList und FAQPage (ohne PII) sind davon unabhängig.
+ */
+
+type Json = Record<string, unknown>;
+
+/**
+ * Tatsächlich betreutes Gebiet.
+ *
+ * Der Sitz steht in `address` (Erlabrunn) und wird davon nicht berührt:
+ * `areaServed` beschreibt, wo gearbeitet wird, nicht wo das Büro steht.
+ * Deutschland gehört dazu, weil Projekte bundesweit umgesetzt werden – das
+ * deckt sich mit der sichtbaren Aussage „Persönlich im Raum Würzburg. Digital
+ * bundesweit.“
+ */
+const AREA_SERVED = [
+  site.region.city,
+  site.region.area,
+  site.region.state,
+  site.region.country,
+].filter(Boolean);
+
+/**
+ * Einzugsgebiet für persönliche Betreuung: 50 km um die Würzburger Innenstadt
+ * (Koordinaten Würzburg Marktplatz). Ergänzt die Ortsliste `AREA_SERVED`.
+ */
+const SERVICE_RADIUS = {
+  '@type': 'GeoCircle',
+  geoMidpoint: { '@type': 'GeoCoordinates', latitude: 49.7939, longitude: 9.9294 },
+  geoRadius: 50000,
+};
+
+/** Fachgebiete der Agentur, deckt sich mit den sichtbaren Leistungsseiten. */
+const KNOWS_ABOUT = [
+  'Webdesign',
+  'Website erstellen',
+  'Digitalagentur',
+  'Werbeagentur',
+  'Suchmaschinenoptimierung (SEO)',
+  'Google-Unternehmensprofil',
+  'Unternehmensvideo',
+  'Social Media Marketing',
+  'KI-Automatisierung',
+];
+
+/** ProfessionalService/LocalBusiness der Marke – nur bei vollständiger Anschrift und Kontakt. */
+export function organizationJsonLd(): Json | null {
+  if (!hasCompleteBusinessData) return null;
+  const c = activeCompany;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ProfessionalService',
+    '@id': `${site.url.replace(/\/$/, '')}/#organization`,
+    name: c.legalDisplayName,
+    alternateName: c.brandName,
+    url: site.url,
+    email: c.email,
+    telephone: '+49' + c.phone.replace(/\D/g, '').replace(/^0/, ''),
+    description: site.shortDescription,
+    areaServed: [...AREA_SERVED, SERVICE_RADIUS],
+    knowsAbout: KNOWS_ABOUT,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: c.street,
+      postalCode: c.postalCode,
+      addressLocality: c.city,
+      addressCountry: 'DE',
+    },
+    founder: { '@type': 'Person', name: c.legalName },
+    ...(c.socialLinks.length ? { sameAs: c.socialLinks.map((s) => s.href) } : {}),
+  };
+}
+
+/** WebSite-Objekt (unkritisch, ohne PII). */
+export function websiteJsonLd(): Json {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: site.name,
+    url: site.url,
+    inLanguage: 'de-DE',
+  };
+}
+
+/** Einzelne Leistung – nur bei vollständiger Anschrift und Kontakt (Provider-Bezug). */
+export function serviceJsonLd(service: Service): Json | null {
+  if (!hasCompleteBusinessData) return null;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: service.cardTitle,
+    serviceType: service.label,
+    description: service.teaser,
+    provider: {
+      '@type': 'ProfessionalService',
+      name: activeCompany.legalDisplayName,
+      url: site.url,
+    },
+    areaServed: AREA_SERVED,
+    url: canonicalFor(service.href),
+  };
+}
+
+export interface BreadcrumbEntry {
+  readonly name: string;
+  readonly path: string;
+}
+
+/** BreadcrumbList – immer erlaubt (keine PII). */
+export function breadcrumbJsonLd(entries: readonly BreadcrumbEntry[]): Json | null {
+  if (entries.length < 2) return null;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: entries.map((e, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: e.name,
+      item: canonicalFor(e.path),
+    })),
+  };
+}
+
+/** FAQPage – nur aus tatsächlich sichtbaren Fragen (keine PII). */
+export function faqPageJsonLd(items: readonly FaqItem[]): Json | null {
+  if (!items.length) return null;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: items.map((f) => ({
+      '@type': 'Question',
+      name: f.question,
+      acceptedAnswer: { '@type': 'Answer', text: f.answer },
+    })),
+  };
+}

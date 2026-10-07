@@ -1,0 +1,125 @@
+---
+import { services } from '../config/services';
+import Photo from './Photo.astro';
+interface Props {
+  exclude?: readonly string[];
+  headingLevel?: 'h2' | 'h3' | 'h4';
+  compact?: boolean;
+}
+const { exclude = [], headingLevel = 'h3' } = Astro.props;
+const rows = services.filter((s) => !exclude.includes(s.key));
+const Tag = headingLevel;
+const copy: Record<string, string> = {
+  websites:
+    'Dein Unternehmen verständlich und unverwechselbar im Netz. Mit Design, Texten und Technik aus einer Hand.',
+  'seo-geo':
+    'Die Fragen deiner Kunden beantworten und dein Angebot für Suchmaschinen und KI-Systeme verständlich machen.',
+  google:
+    'Leistungen, Öffnungszeiten und Kontakt dort aktuell halten, wo Menschen nach Unternehmen in ihrer Nähe suchen.',
+  video:
+    'Menschen, Handwerk und Atmosphäre zeigen. Vom Konzept bis zur passenden Einbindung auf deiner Website.',
+  social:
+    'Inhalte, die zu deinem Unternehmen passen. Mit einem Plan für Themen, Bilder und regelmäßige Beiträge.',
+  ki: 'Wiederkehrende Aufgaben vereinfachen. Mit klar definierten Abläufen und menschlicher Kontrolle.',
+};
+---
+
+<div class="service-grid">
+  {
+    rows.map((s) => (
+      <a class:list={['service-tile', s.isCore && 'service-tile--core']} href={s.href}>
+        {s.key === 'video' && <Photo photo="unternehmensvideo" ratio="21x9" sizes="45vw" />}
+        {s.key === 'social' && <Photo photo="social-media" ratio="21x9" sizes="45vw" />}
+        <div class="service-tile__copy">
+          <>
+            <Tag>{s.key === 'google' ? 'Lokal gefunden werden.' : s.cardTitle}</Tag>
+            <p>{copy[s.key] ?? s.teaser}</p>
+            <span class="service-tile__more">
+              {s.isCore ? 'Website-Angebot entdecken' : 'Leistung kennenlernen'}{' '}
+              <span aria-hidden="true">↗</span>
+            </span>
+          </>
+        </div>
+      </a>
+    ))
+  }
+</div>
+<style>
+  .service-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+  .service-tile {
+    background: var(--ks-paper);
+    border-radius: 1.2rem;
+    text-decoration: none;
+    color: var(--text);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s;
+  }
+  .service-tile:hover {
+    transform: translateY(-4px);
+  }
+  .service-tile__copy {
+    padding: clamp(1.6rem, 3vw, 3rem);
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: start;
+  }
+  .service-tile h2,
+  .service-tile h3,
+  .service-tile h4 {
+    font-size: clamp(1.9rem, 3vw, 2.8rem);
+    line-height: 1.1;
+    max-width: 20ch;
+  }
+  .service-tile p {
+    margin: 1.2rem 0 1.7rem;
+    color: var(--text-muted);
+    max-width: 45ch;
+    font-size: 1.05rem;
+  }
+  .service-tile__more {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-top: auto;
+    min-height: 44px;
+  }
+  .service-tile--core {
+    background: var(--ks-cyan);
+    grid-column: span 2;
+  }
+  .service-tile--core p {
+    color: var(--ks-black);
+  }
+  .service-tile :global(.photo) {
+    border-radius: 0 !important;
+    max-height: 220px;
+  }
+  .service-tile:nth-child(2) {
+    background: var(--ks-black);
+    color: var(--ks-cream);
+  }
+  .service-tile:nth-child(2) h2,
+  .service-tile:nth-child(2) h3 {
+    color: inherit;
+  }
+  .service-tile:nth-child(2) p {
+    color: #c5c8cb;
+  }
+  @media (max-width: 700px) {
+    .service-grid {
+      grid-template-columns: 1fr;
+    }
+    .service-tile--core {
+      grid-column: auto;
+    }
+  }
+</style>
