@@ -250,13 +250,17 @@ test.describe('Conversion – Preisorientierung und funktionierender Kontext', (
 });
 
 test.describe('Produktions-Gate', () => {
-  test('Ohne Freigabe entsteht kein Produktions-Build', () => {
+  // Alle Freigaben in src/config/release.ts sind gesetzt (Stand 2026-10-07).
+  // Der Produktionsbuild muss deshalb durchlaufen und einen indexierbaren,
+  // deploybaren Stand ohne Vorschau-/Fixture-Marker erzeugen.
+  test('Mit allen Freigaben entsteht ein deploybarer Produktions-Build', () => {
     // Eigenes Ausgabeverzeichnis: `astro build` leert sein outDir zu Beginn.
     // Gegen `dist` gestartet, würde diese Prüfung dem laufenden Vorschau-
     // Server und den übrigen Tests die Dateien unter den Füßen wegziehen.
     const outDir = join(ROOT, '.gate-check');
-    let abgebrochen = false;
     let ausgabe = '';
+    let robots = '';
+    let marker: string[] = [];
     try {
       ausgabe = execFileSync(
         process.execPath,
@@ -268,18 +272,20 @@ test.describe('Produktions-Gate', () => {
           env: { ...process.env, KERNSEITE_BUILD_MODE: 'production' },
         },
       );
-    } catch (err) {
-      abgebrochen = true;
-      const e = err as { stdout?: string; stderr?: string };
-      ausgabe = `${e.stdout ?? ''}${e.stderr ?? ''}`;
+      robots = readFileSync(join(outDir, 'robots.txt'), 'utf8');
+      marker = [
+        '.ci-fixture',
+        'CI_FIXTURE_DO_NOT_DEPLOY.txt',
+        '.preview-build',
+        'PREVIEW_DO_NOT_DEPLOY.txt',
+      ].filter((m) => existsSync(join(outDir, m)));
     } finally {
       rmSync(outDir, { recursive: true, force: true });
     }
-    expect(abgebrochen, 'build:production lief trotz offener Punkte durch').toBe(true);
-    expect(ausgabe).toContain('PRODUKTIONS-BUILD ABGEBROCHEN');
-    // Die Meldung benennt beide Ursachen.
-    expect(ausgabe).toMatch(/hostingProvider|hostingLocation|mailProvider|formRetentionPeriod/);
-    expect(ausgabe).toMatch(/legalReviewApproved|canonicalDomainConfirmed/);
+    expect(ausgabe).not.toContain('PRODUKTIONS-BUILD ABGEBROCHEN');
+    expect(robots).toContain('Allow: /');
+    expect(robots).not.toMatch(/^Disallow: \/$/m);
+    expect(marker, 'Produktionsbuild trägt Nicht-deployen-Marker').toEqual([]);
   });
 
   test('Die Freigabeschalter erscheinen nirgends im Output', () => {
