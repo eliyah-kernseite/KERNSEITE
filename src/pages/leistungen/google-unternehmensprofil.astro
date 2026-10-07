@@ -13,7 +13,6 @@ import RelatedServices from '../../components/RelatedServices.astro';
 import FaqAccordion from '../../components/FaqAccordion.astro';
 import { getService } from '../../config/services';
 import { works, type ProjectWork } from '../../config/cases';
-import { faqs } from '../../config/faq';
 import { serviceJsonLd, faqPageJsonLd } from '../../lib/jsonld';
 
 const service = getService('google');
@@ -22,7 +21,38 @@ const breadcrumbs = [
   { name: 'Leistungen', path: '/leistungen/' },
   { name: service.label, path: service.href },
 ];
-const pageFaqs = faqs.filter((f) => f.services?.includes('google')).slice(0, 2);
+const pageFaqs = [
+  {
+    question: 'Was ist ein Google-Unternehmensprofil?',
+    answer:
+      'Das Google-Unternehmensprofil, früher Google My Business, ist der Eintrag deines Unternehmens in der Google-Suche und in Google Maps. Dort sehen Menschen Adresse, Öffnungszeiten, Telefonnummer, Fotos, Leistungen und Bewertungen. Bei Suchen mit Ortsbezug ist das Profil oft das Erste, was Interessenten von dir sehen, noch bevor sie deine Website besuchen.',
+  },
+  {
+    question: 'Kann ein bestehendes Profil optimiert werden?',
+    answer:
+      'Ja. Wir prüfen Kategorien, Leistungen, Beschreibung, Fotos und Öffnungszeiten und gleichen alles mit deiner Website ab. Häufig fehlen Leistungen, Bilder sind veraltet oder Angaben widersprechen sich. Eine bestimmte Platzierung sagen wir bewusst nicht zu, denn die Reihenfolge bestimmt Google selbst.',
+  },
+  {
+    question: 'Warum gehören Website und Profil zusammen?',
+    answer:
+      'Gefunden werden ist der erste Schritt, überzeugen der zweite. Wenn jemand vor Ort sucht und auf dein Profil klickt, sollte die verlinkte Seite genau die Leistung zeigen, nach der gesucht wurde. Einheitliche Namen, Adressen und Telefonnummern auf Profil und Website helfen außerdem, dein Unternehmen eindeutig zuzuordnen.',
+  },
+  {
+    question: 'Wie gehe ich mit Bewertungen um?',
+    answer:
+      'Bitte zufriedene Kunden aktiv um eine ehrliche Bewertung, zum Beispiel mit einem kurzen Link nach Abschluss des Auftrags. Antworte freundlich und sachlich, auch auf kritische Bewertungen. Gekaufte oder selbst geschriebene Bewertungen sind tabu: Sie verstoßen gegen die Richtlinien und schaden dem Vertrauen.',
+  },
+  {
+    question: 'Wie oft muss das Profil gepflegt werden?',
+    answer:
+      'Immer dann, wenn sich etwas ändert: Öffnungszeiten an Feiertagen, neue Leistungen, Betriebsurlaub oder ein neuer Standort. Dazu kommen ab und zu neue Fotos. Wenn es zählt, müssen die Angaben stimmen, denn falsche Öffnungszeiten kosten schnell einen Kunden.',
+  },
+  {
+    question: 'Brauche ich ein Profil, wenn ich keine Laufkundschaft habe?',
+    answer:
+      'Auch Betriebe ohne Ladengeschäft profitieren, etwa Handwerker oder Dienstleister, die zu ihren Kunden fahren. Im Profil lässt sich ein Einzugsgebiet statt einer öffentlichen Adresse angeben. So erscheinst du bei Suchen in deiner Region, ohne deine Privatanschrift zu zeigen.',
+  },
+];
 
 const reference = works.find(
   (w): w is ProjectWork => w.kind === 'project' && w.slug === 'kinderkoerbchen',
@@ -50,7 +80,7 @@ const areas = [
 
 <PageLayout
   title="Google-Unternehmensprofil Würzburg"
-  description="Google-Unternehmensprofil aus dem Raum Würzburg: vollständig eingerichtet, gepflegt und auf die Website abgestimmt. Für Anfragen aus der direkten Umgebung."
+  description="Google-Unternehmensprofil aus dem Raum Würzburg: vollständig eingerichtet, gepflegt und auf die Website abgestimmt. Für Anfragen aus der Umgebung."
   h1="Gefunden werden, wenn es vor Ort zählt."
   lead="Wer in der Nähe sucht, entscheidet schnell. Aktuelle Öffnungszeiten, passende Leistungen und der richtige Kontakt helfen dabei, dich zu finden und zu erreichen."
   breadcrumbs={breadcrumbs}
@@ -124,7 +154,7 @@ const areas = [
               gleiche Leistungen, gleiche Kontaktwege, gleiche Öffnungszeiten.
             </p>
             <a class="link-arrow gref__link" href={reference.href}>
-              Projekt ansehen{' '}
+              Projekt ansehen<span class="visually-hidden">: {reference.title}</span>{' '}
               <span class="arrow" aria-hidden="true">
                 →
               </span>

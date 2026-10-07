@@ -97,7 +97,7 @@ const reference =
             <h2 class="ref__title">{reference.headline}</h2>
             <p class="ref__body">{reference.tagline}</p>
             <a class="link-arrow" href={reference.href}>
-              Projekt ansehen{' '}
+              Projekt ansehen<span class="visually-hidden">: {reference.title}</span>{' '}
               <span class="arrow" aria-hidden="true">
                 →
               </span>
@@ -110,7 +110,7 @@ const reference =
               sizes="(min-width: 64rem) 55vw, 100vw"
               width={reference.screenshotDesktop.width}
               height={reference.screenshotDesktop.height}
-              alt=""
+              alt={reference.screenshotDesktop.alt}
               loading="lazy"
               decoding="async"
             />
@@ -127,15 +127,17 @@ const reference =
         {
           related.map((r) => (
             <li>
-              <a class="rel__link" href={r.href}>
+              <div class="rel__link">
                 <span class="rel__main">
-                  <span class="rel__name">{r.cardTitle}</span>
+                  <a class="rel__name" href={r.href}>
+                    {r.cardTitle}
+                  </a>
                   <span class="rel__teaser">{r.teaser}</span>
                 </span>
                 <span class="rel__go" aria-hidden="true">
                   →
                 </span>
-              </a>
+              </div>
             </li>
           ))
         }
@@ -246,6 +248,8 @@ const reference =
   }
   .rel__name {
     display: block;
+    color: inherit;
+    text-decoration: none;
     font-family: var(--font-display);
     font-weight: var(--fw-bold);
     font-size: clamp(1.3rem, 2.6vw, 2.1rem);
@@ -266,6 +270,25 @@ const reference =
   }
   .rel__link:hover .rel__go {
     transform: translateX(7px);
+  }
+  /* Der ganze Eintrag bleibt klickbar; Linktext ist nur der Leistungsname. */
+  .rel__link {
+    position: relative;
+  }
+  .rel__name:hover {
+    color: inherit;
+  }
+  .rel__name::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+  .rel__name:focus-visible {
+    outline: none;
+  }
+  .rel__link:has(.rel__name:focus-visible) {
+    outline: 3px solid var(--focus-ring);
+    outline-offset: 3px;
   }
 
   @media (min-width: 64rem) {

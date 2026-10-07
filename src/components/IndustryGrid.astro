@@ -29,7 +29,7 @@ const items = industries.map((ind) => ({
   {
     items.map((ind) => (
       <li class="igrid__cell">
-        <a class:list={['igrid__link', !ind.photo && 'igrid__link--nomedia']} href={ind.href}>
+        <div class:list={['igrid__link', !ind.photo && 'igrid__link--nomedia']}>
           {ind.photo ? (
             <Photo
               photo={ind.photo}
@@ -40,12 +40,14 @@ const items = industries.map((ind) => ({
           ) : (
             <span class="igrid__gap" aria-hidden="true" />
           )}
-          <span class="igrid__name">{ind.title}</span>
+          <a class="igrid__name" href={ind.href}>
+            {ind.title}
+          </a>
           <span class="igrid__arg">{ind.argument}</span>
           <span class="igrid__go" aria-hidden="true">
             →
           </span>
-        </a>
+        </div>
       </li>
     ))
   }
@@ -67,6 +69,7 @@ const items = industries.map((ind) => ({
   }
 
   .igrid__link {
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: 0;
@@ -79,6 +82,20 @@ const items = industries.map((ind) => ({
   }
   .igrid__link:hover {
     color: var(--text);
+  }
+  /* Die ganze Zelle bleibt klickbar; Linktext ist nur der Branchenname. */
+  .igrid__name::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+  .igrid__name:focus-visible {
+    outline: none;
+  }
+  .igrid__link:has(.igrid__name:focus-visible) {
+    outline: 3px solid var(--focus-ring);
+    outline-offset: 3px;
+    border-radius: 2px;
   }
 
   /* Fehlt das Motiv, bleibt exakt derselbe Raum frei: gleiche Breite,
@@ -98,12 +115,14 @@ const items = industries.map((ind) => ({
     transition: transform var(--dur-slow) var(--ease-out);
   }
   .igrid__link:hover :global(.igrid__media img),
-  .igrid__link:focus-visible :global(.igrid__media img) {
+  .igrid__link:focus-within :global(.igrid__media img) {
     transform: scale(1.025);
   }
 
   .igrid__name {
     display: block;
+    color: inherit;
+    text-decoration: none;
     font-family: var(--font-display);
     font-weight: var(--fw-bold);
     font-size: clamp(1.5rem, 2.2vw, 2.1rem);
@@ -115,7 +134,7 @@ const items = industries.map((ind) => ({
     transition: border-color var(--dur-base) var(--ease-out);
   }
   .igrid__link:hover .igrid__name,
-  .igrid__link:focus-visible .igrid__name {
+  .igrid__link:focus-within .igrid__name {
     border-block-end-color: var(--accent);
   }
 
@@ -136,7 +155,7 @@ const items = industries.map((ind) => ({
     transition: transform var(--dur-base) var(--ease-out);
   }
   .igrid__link:hover .igrid__go,
-  .igrid__link:focus-visible .igrid__go {
+  .igrid__link:focus-within .igrid__go {
     transform: translateX(6px);
   }
 

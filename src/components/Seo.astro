@@ -38,8 +38,10 @@ const schemas = jsonLd.filter((s): s is Record<string, unknown> => s != null);
 <meta name="description" content={description} />
 <link rel="canonical" href={canonical} />
 {
-  isNoindex ? (
+  IS_NOINDEX_BUILD ? (
     <meta name="robots" content="noindex, nofollow" />
+  ) : isNoindex ? (
+    <meta name="robots" content="noindex, follow" />
   ) : (
     <meta name="robots" content="index, follow, max-image-preview:large" />
   )

@@ -43,12 +43,13 @@ const posClass = (i: number) => {
           data-slide
           data-title={p.title}
           data-meta={p.industryLabel}
-          data-text={p.tagline}
+          data-text={p.teaser}
           aria-label={`Projekt ${i + 1} von ${n} ansehen: ${p.title}`}
           aria-hidden={i === start ? undefined : 'true'}
           tabindex={i === start ? undefined : -1}
           draggable="false"
         >
+          <span class="visually-hidden">Projekt ansehen: {p.title}</span>
           <img
             src={p.screenshotDesktop.src}
             srcset={p.screenshotDesktop.srcset}
@@ -75,7 +76,7 @@ const posClass = (i: number) => {
   <div class="pc__caption" aria-live="polite">
     <p class="pc__title" data-caption-title>{projects[start].title}</p>
     <p class="pc__meta" data-caption-meta>{projects[start].industryLabel}</p>
-    <p class="pc__text" data-caption-text>{projects[start].tagline}</p>
+    <p class="pc__text" data-caption-text>{projects[start].teaser}</p>
   </div>
 
   <div class="pc__dots" role="group" aria-label="Projekt auswählen">

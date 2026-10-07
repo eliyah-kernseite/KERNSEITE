@@ -1,5 +1,7 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
+import FaqSection from '../components/FaqSection.astro';
+import { faqPageJsonLd } from '../lib/jsonld';
 import CtaBanner from '../components/CtaBanner.astro';
 import Photo from '../components/Photo.astro';
 
@@ -26,10 +28,43 @@ const values = [
     body: 'Telefon, Videogespräch und eine gemeinsame Vorschau machen die Abstimmung in ganz Deutschland möglich.',
   },
 ];
+const agencyFaqs = [
+  {
+    question: 'Wer steckt hinter KERNSEITE?',
+    answer:
+      'KERNSEITE ist die Webdesign-Agentur von Eliyah Korb mit Sitz in Erlabrunn. Du arbeitest nicht mit wechselnden Projektmanagern, sondern direkt mit der Person, die deine Website konzipiert, gestaltet und umsetzt. Dadurch gehen keine Informationen zwischen verschiedenen Stellen verloren.',
+  },
+  {
+    question: 'Wie beginnt die Zusammenarbeit?',
+    answer:
+      'Jedes Projekt beginnt mit einem guten Gespräch. Du erzählst, was dein Unternehmen ausmacht, wen du erreichen möchtest und was deine bisherige Website nicht leistet. Daraus entsteht eine erste Einschätzung und anschließend ein schriftliches Angebot. Das Erstgespräch ist unverbindlich.',
+  },
+  {
+    question: 'Für welche Unternehmen arbeitet KERNSEITE?',
+    answer:
+      'Für Selbstständige, Handwerksbetriebe, Praxen, Gastronomie, lokale Dienstleister und mittelständische Unternehmen. Gemeinsam ist ihnen, dass sie gute Arbeit leisten und das auch online zeigen wollen. Ob du gerade gründest oder einen in die Jahre gekommenen Auftritt erneuern willst, spielt dabei keine Rolle.',
+  },
+  {
+    question: 'Muss ich für Termine nach Erlabrunn kommen?',
+    answer:
+      'Nein. In der Region treffen wir uns nach Absprache gern persönlich, zum Beispiel bei dir im Betrieb. Alle anderen Projekte stimmen wir per Telefon, Videogespräch und gemeinsamer Website-Vorschau ab. So funktioniert die Zusammenarbeit in ganz Deutschland genauso gut wie vor Ort.',
+  },
+  {
+    question: 'Was bedeutet der Name KERNSEITE?',
+    answer:
+      'Der Name steht für die Idee hinter jeder Website: den Kern eines Unternehmens zu finden und verständlich zu zeigen. Bevor es um Farben oder Effekte geht, klären wir, was dich ausmacht und warum Kunden zu dir kommen. Daraus entsteht die Seite, die genau das auf den Punkt bringt.',
+  },
+  {
+    question: 'Wie bleibt die Website nach dem Start aktuell?',
+    answer:
+      'Nach der Veröffentlichung kannst du Inhalte je nach vereinbarter Lösung selbst ändern oder Änderungen bei KERNSEITE beauftragen. Auch eine laufende Betreuung mit Updates und kleinen Anpassungen ist möglich. Was davon sinnvoll ist, besprechen wir vor dem Start.',
+  },
+];
 ---
 
 <PageLayout
-  title="Werbe- & Webdesign-Agentur bei Würzburg: Eliyah Korb"
+  extraJsonLd={[faqPageJsonLd(agencyFaqs)]}
+  title="Webdesign-Agentur bei Würzburg: Eliyah Korb"
   description="KERNSEITE ist die Digital- und Werbeagentur von Eliyah Korb bei Würzburg: Websites, Branding, Werbeanzeigen, Foto und Video aus einer Hand."
   h1="Eine gute Website beginnt mit einem guten Gespräch."
   lead="Ich entwickle Websites für Unternehmen, deren gute Arbeit auch online sichtbar werden soll. Von Erlabrunn bei Würzburg aus begleite ich Projekte in ganz Deutschland."
@@ -111,6 +146,7 @@ const values = [
     </div>
   </section>
 
+  <FaqSection items={agencyFaqs} title={['Gut zu wissen,', 'bevor wir starten.']} variant="paper" />
   <CtaBanner
     title="Lernen wir uns kennen."
     text="Ein erstes Gespräch ist unverbindlich und klärt oft schon eine Menge."

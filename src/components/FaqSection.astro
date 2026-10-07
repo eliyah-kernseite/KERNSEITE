@@ -1,0 +1,26 @@
+---
+/**
+ * FaqSection – Fragenbereich im Aufbau der Startseite: Überschrift links,
+ * Akkordeon rechts. Für Seiten, die bisher keinen eigenen Fragenbereich haben.
+ */
+import FaqAccordion from './FaqAccordion.astro';
+import type { FaqItem } from '../config/faq';
+
+interface Props {
+  items: readonly FaqItem[];
+  /** Zeilen der Überschrift, werden mit Zeilenumbruch gesetzt. */
+  title?: readonly string[];
+  variant?: 'paper' | 'cream';
+}
+const { items, title = ['Noch eine', 'Frage offen?'], variant = 'paper' } = Astro.props;
+---
+
+<section class={`section section--${variant}`}>
+  <div class="content faq-split">
+    <div>
+      <h2>
+        {title.map((line, i) => (i === 0 ? line : [<br />, line]))}
+      </h2>
+    </div><FaqAccordion items={items} />
+  </div>
+</section>

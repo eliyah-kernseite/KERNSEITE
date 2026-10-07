@@ -1,5 +1,7 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
+import FaqSection from '../components/FaqSection.astro';
+import { faqPageJsonLd } from '../lib/jsonld';
 import Photo from '../components/Photo.astro';
 import ContactForm from '../components/ContactForm.astro';
 import { site } from '../config/site';
@@ -15,10 +17,43 @@ const c = activeCompany;
 const emailReady = !isPlaceholder(c.email);
 const phoneReady = !isPlaceholder(c.phone);
 const phoneHref = 'tel:+49' + c.phone.replace(/\D/g, '').replace(/^0/, '');
+const contactFaqs = [
+  {
+    question: 'Was sollte in meiner Anfrage stehen?',
+    answer:
+      'Erzähl uns in ein paar Sätzen, was du vorhast: Was bietet dein Unternehmen an, gibt es schon eine Website und was soll die neue leisten? Wenn du einen Wunschtermin oder ein ungefähres Budget im Kopf hast, hilft das bei der Einschätzung. Ein fertiges Briefing brauchst du nicht.',
+  },
+  {
+    question: 'Wie geht es nach meiner Anfrage weiter?',
+    answer:
+      'Jede Anfrage wird persönlich gelesen und beantwortet. Meist schlagen wir dir ein kurzes Gespräch per Telefon oder Video vor, in dem wir die wichtigsten Fragen klären. Danach bekommst du ein schriftliches Angebot mit Umfang, Ablauf und Preis.',
+  },
+  {
+    question: 'Ist das Erstgespräch verbindlich?',
+    answer:
+      'Nein. Das erste Gespräch ist unverbindlich. Wir lernen dein Vorhaben kennen, du lernst uns kennen, und am Ende weißt du, welcher Umfang sinnvoll ist. Erst wenn du das schriftliche Angebot annimmst, beginnt das Projekt.',
+  },
+  {
+    question: 'Kann ich auch anrufen oder eine E-Mail schreiben?',
+    answer:
+      'Natürlich. Wenn du lieber sprichst als schreibst, ruf einfach an oder schick eine E-Mail. Telefonnummer und E-Mail-Adresse findest du direkt neben dem Formular. Du sprichst in jedem Fall direkt mit Eliyah.',
+  },
+  {
+    question: 'Arbeitet KERNSEITE auch außerhalb der Region?',
+    answer:
+      'Ja. Der Sitz liegt in Erlabrunn bei Würzburg, Projekte begleiten wir in ganz Deutschland. Abstimmungen laufen dann per Telefon, Video und über eine gemeinsame Vorschau der Website.',
+  },
+  {
+    question: 'Was kostet ein Website-Projekt ungefähr?',
+    answer:
+      'Der Orientierungsrahmen für Unternehmenswebsites liegt meist bei 1.500 bis 5.500 Euro netto. Wo dein Website-Projekt liegt, hängt von Seitenanzahl, Funktionen und Inhalten ab. Nach dem ersten Gespräch bekommst du ein schriftliches Angebot, in dem Umfang und Preis verbindlich festgehalten sind.',
+  },
+];
 ---
 
 <PageLayout
-  title="Kontakt"
+  extraJsonLd={[faqPageJsonLd(contactFaqs)]}
+  title="Kontakt: Website-Projekt anfragen"
   description="Erzähl kurz, was du vorhast: per Formular, E-Mail oder Telefon. KERNSEITE meldet sich persönlich."
   h1="Erzähl uns, was du vorhast."
   lead="Eine neue Website, ein Relaunch oder noch eine offene Frage: Ein paar Sätze reichen. Du sprichst direkt mit Eliyah. Unverbindlich und ohne fertiges Briefing."
@@ -93,7 +128,7 @@ const phoneHref = 'tel:+49' + c.phone.replace(/\D/g, '').replace(/^0/, '');
   <section class="section section--surface">
     <div class="content place">
       <div class="place__text">
-        <h2 class="place__title">Raum Würzburg. Projekte bundesweit.</h2>
+        <h2 class="place__title">Aus dem Raum Würzburg. Für ganz Deutschland.</h2>
         <p class="place__body">
           Der Sitz liegt in Erlabrunn bei Würzburg. Persönliche Termine sind in der Region möglich.
           Vieles lässt sich zugleich schnell und unkompliziert digital abstimmen.
@@ -102,6 +137,7 @@ const phoneHref = 'tel:+49' + c.phone.replace(/\D/g, '').replace(/^0/, '');
       <Photo photo="standort-wuerzburg" ratio="16x9" sizes="(min-width: 64rem) 55vw, 100vw" />
     </div>
   </section>
+  <FaqSection items={contactFaqs} title={['Bevor du', 'schreibst.']} variant="paper" />
 </PageLayout>
 
 <style>

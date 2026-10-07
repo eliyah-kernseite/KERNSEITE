@@ -1,6 +1,8 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
 import CtaBanner from '../../components/CtaBanner.astro';
+import FaqSection from '../../components/FaqSection.astro';
+import { faqPageJsonLd } from '../../lib/jsonld';
 import AccentWord from '../../components/AccentWord.astro';
 import { industries, type Industry } from '../../config/industries';
 import Photo from '../../components/Photo.astro';
@@ -72,6 +74,7 @@ const post = idx >= 0 ? industry.detailH1.slice(idx + accent.length) : '';
   variant="paper"
   lead={industry.intro}
   breadcrumbs={breadcrumbs}
+  extraJsonLd={[faqPageJsonLd(industry.faqs)]}
 >
   <h1 slot="h1">
     {pre}{idx >= 0 && <AccentWord>{accent}</AccentWord>}{post}
@@ -118,7 +121,7 @@ const post = idx >= 0 ? industry.detailH1.slice(idx + accent.length) : '';
             <h2 class="ref__title">{reference.headline}</h2>
             <p class="ref__body">{reference.tagline}</p>
             <a class="link-arrow" href={reference.href}>
-              Projekt ansehen{' '}
+              Projekt ansehen<span class="visually-hidden">: {reference.title}</span>{' '}
               <span class="arrow" aria-hidden="true">
                 →
               </span>
@@ -131,7 +134,7 @@ const post = idx >= 0 ? industry.detailH1.slice(idx + accent.length) : '';
               sizes="(min-width: 64rem) 55vw, 100vw"
               width={reference.screenshotDesktop.width}
               height={reference.screenshotDesktop.height}
-              alt=""
+              alt={reference.screenshotDesktop.alt}
               loading="lazy"
               decoding="async"
             />
@@ -149,15 +152,17 @@ const post = idx >= 0 ? industry.detailH1.slice(idx + accent.length) : '';
         {
           related.map((r) => (
             <li>
-              <a class="rel__link" href={r.href}>
+              <div class="rel__link">
                 <span class="rel__main">
-                  <span class="rel__name">{r.cardTitle}</span>
+                  <a class="rel__name" href={r.href}>
+                    {r.cardTitle}
+                  </a>
                   <span class="rel__teaser">{r.teaser}</span>
                 </span>
                 <span class="rel__go" aria-hidden="true">
                   →
                 </span>
-              </a>
+              </div>
             </li>
           ))
         }
@@ -183,9 +188,11 @@ const post = idx >= 0 ? industry.detailH1.slice(idx + accent.length) : '';
     )
   }
 
+  <FaqSection items={industry.faqs} title={['Gut zu', 'wissen.']} variant="paper" />
+
   <CtaBanner
     title="Eine Website, die dein Angebot verständlich macht."
-    text="Im ersten Gespräch klären wir, was für dein Geschäft wirklich zählt."
+    text={industry.ctaText}
     ctaLabel={industry.ctaLabel}
     ctaHref={`/kontakt/?branche=${industry.slug}`}
   />
@@ -278,6 +285,8 @@ const post = idx >= 0 ? industry.detailH1.slice(idx + accent.length) : '';
   }
   .rel__name {
     display: block;
+    color: inherit;
+    text-decoration: none;
     font-family: var(--font-display);
     font-weight: var(--fw-bold);
     font-size: clamp(1.3rem, 2.6vw, 2.1rem);
@@ -298,6 +307,25 @@ const post = idx >= 0 ? industry.detailH1.slice(idx + accent.length) : '';
   }
   .rel__link:hover .rel__go {
     transform: translateX(7px);
+  }
+  /* Der ganze Eintrag bleibt klickbar; Linktext ist nur der Leistungsname. */
+  .rel__link {
+    position: relative;
+  }
+  .rel__name:hover {
+    color: inherit;
+  }
+  .rel__name::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+  .rel__name:focus-visible {
+    outline: none;
+  }
+  .rel__link:has(.rel__name:focus-visible) {
+    outline: 3px solid var(--focus-ring);
+    outline-offset: 3px;
   }
 
   @media (min-width: 64rem) {

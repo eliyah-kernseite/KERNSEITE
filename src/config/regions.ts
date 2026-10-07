@@ -39,7 +39,7 @@ export const regions: readonly Region[] = [
     label: 'Webdesign Würzburg',
     seoTitle: 'Werbeagentur & Webdesign Würzburg',
     metaDescription:
-      'Deine Digital- und Werbeagentur bei Würzburg: individuelle Websites, SEO und Google-Unternehmensprofil. Persönlich mit Eliyah Korb, Termine vor Ort möglich.',
+      'Deine Digital- und Werbeagentur bei Würzburg: individuelle Websites, SEO und Google-Unternehmensprofil. Persönlich betreut, Termine vor Ort möglich.',
     h1: 'Webdesign und Werbeagentur für Würzburg.',
     lead: 'KERNSEITE sitzt in Erlabrunn, direkt vor den Toren Würzburgs. Wir entwickeln Websites für Unternehmen aus der Region und kümmern uns darum, dass Kunden aus der Umgebung dich finden.',
     photo: 'standort-wuerzburg',
@@ -85,6 +85,11 @@ export const regions: readonly Region[] = [
         answer:
           'Die meisten Unternehmenswebsites liegen zwischen 1.500 und 5.500 Euro netto. Der genaue Preis hängt von Umfang, Seitenanzahl und Funktionen ab. Nach dem ersten Gespräch bekommst du ein klares Angebot.',
       },
+      {
+        question: 'Für welche Branchen arbeitet ihr in der Region?',
+        answer:
+          'Für Handwerksbetriebe, Praxen, Gastronomie, Hotels, lokale Dienstleister und mittelständische Unternehmen. Ein Beispiel aus dem Umland ist die Website von Kaya Döner in Himmelstadt. Jede Website entsteht individuell für das jeweilige Unternehmen.',
+      },
     ],
   },
   {
@@ -93,7 +98,7 @@ export const regions: readonly Region[] = [
     label: 'Webdesign Schweinfurt',
     seoTitle: 'Webdesign & Werbeagentur Schweinfurt',
     metaDescription:
-      'Websites für Unternehmen in Schweinfurt und Umgebung: individuelles Webdesign, SEO und Google-Profil. Persönlich betreut von Eliyah Korb aus dem Raum Würzburg.',
+      'Websites für Unternehmen in Schweinfurt und Umgebung: individuelles Webdesign, SEO und Google-Profil. Persönlich betreut aus dem Raum Würzburg.',
     h1: 'Webdesign für Unternehmen in Schweinfurt.',
     lead: 'Schweinfurt ist eine starke Industrie- und Handwerksstadt. Wir helfen Betrieben aus der Region, das auch online zu zeigen, mit einer Website, die Kunden und Bewerber überzeugt.',
     ctaLabel: 'Projekt in Schweinfurt besprechen',
@@ -137,6 +142,21 @@ export const regions: readonly Region[] = [
         question: 'Wie lange dauert ein Website-Projekt?',
         answer:
           'Meist einige Wochen, je nach Umfang und wie schnell Inhalte und Freigaben vorliegen. Den Zeitplan legen wir gemeinsam zu Beginn fest.',
+      },
+      {
+        question: 'Bietet KERNSEITE in Schweinfurt auch Leistungen einer Werbeagentur?',
+        answer:
+          'Ja. Neben Webdesign gehören Branding, Foto und Video, Social Media und Werbeanzeigen zum Angebot. Für Schweinfurter Betriebe bedeutet das: ein Ansprechpartner für den gesamten Auftritt, von der Website bis zur Anzeige in den sozialen Netzwerken.',
+      },
+      {
+        question: 'Was kostet eine Website für ein Unternehmen aus Schweinfurt?',
+        answer:
+          'Es gelten dieselben Preise wie überall: Der Orientierungsrahmen liegt meist bei 1.500 bis 5.500 Euro netto, abhängig von Umfang und Funktionen. Termine vor Ort in Schweinfurt sprechen wir vorher gemeinsam ab.',
+      },
+      {
+        question: 'Kann KERNSEITE auch eine Karriereseite für meinen Betrieb erstellen?',
+        answer:
+          'Ja. Gerade in Schweinfurt suchen viele Betriebe Fachkräfte. Eine Karriereseite mit echten Einblicken, klaren Angaben zu offenen Stellen und einem einfachen Bewerbungsweg kann Teil deiner Website sein oder als eigener Bereich entstehen.',
       },
     ],
   },

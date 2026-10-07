@@ -1,14 +1,59 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
+import FaqSection from '../../components/FaqSection.astro';
+import { faqPageJsonLd } from '../../lib/jsonld';
 import ProjectGrid from '../../components/ProjectGrid.astro';
 import CtaBanner from '../../components/CtaBanner.astro';
 const breadcrumbs = [
   { name: 'Start', path: '/' },
   { name: 'Projekte', path: '/arbeiten/' },
 ];
+const workFaqs = [
+  {
+    question: 'Was ist der Unterschied zwischen Website und Website-Entwurf?',
+    answer:
+      'Bei Kaya Döner Himmelstadt und Anna-Lena’s Kinderkörbchen siehst du veröffentlichte Websites. Die Babyschlafberatung und Bestattungen Gorhau zeigen wir als Website-Entwürfe: Gestaltung und Struktur sind ausgearbeitet, die Veröffentlichung steht noch aus. Wir kennzeichnen das bei jedem Projekt.',
+  },
+  {
+    question: 'Warum sieht jedes Projekt anders aus?',
+    answer:
+      'Weil jedes Unternehmen einen eigenen Charakter hat. Ein Imbiss braucht schnelle Wege zur Speisekarte, eine Kindertagespflege einen warmen, persönlichen Einstieg und ein Bestattungsunternehmen Ruhe und Orientierung. Deshalb arbeiten wir nicht mit fertigen Vorlagen, sondern entwickeln Struktur und Gestaltung für jede Aufgabe neu.',
+  },
+  {
+    question: 'Sind das echte Kundenprojekte?',
+    answer:
+      'Ja. Alle gezeigten Webdesign-Projekte sind für echte Unternehmen entstanden. Wir zeigen keine erfundenen Beispiele und nennen keine Zahlen, die wir nicht belegen können. Die Projektseiten beschreiben Ausgangslage, Lösung und den umgesetzten Umfang.',
+  },
+  {
+    question: 'Kann meine Website ähnlich aussehen?',
+    answer:
+      'Die Projekte zeigen, wie wir an Aufgaben herangehen. Vorlagen zum Kopieren sind sie nicht. Deine Website bekommt einen Auftritt mit eigenem Charakter. Wenn dir an einem Projekt etwas besonders gefällt, etwa die Farbwelt oder die Nutzerführung, nehmen wir das gern als Ausgangspunkt für unser Gespräch.',
+  },
+  {
+    question: 'Was kostet eine vergleichbare Website?',
+    answer:
+      'Der Orientierungsrahmen für Unternehmenswebsites liegt meist zwischen 1.500 und 5.500 Euro netto. Wo dein Projekt liegt, hängt von Seitenanzahl, Funktionen und Inhalten ab. Nach dem ersten Gespräch bekommst du ein schriftliches Angebot mit klarem Umfang.',
+  },
+  {
+    question: 'Wie lange dauert ein solches Projekt?',
+    answer:
+      'Meist einige Wochen. Den größten Einfluss haben der Umfang und die Frage, wie schnell Texte, Bilder und Rückmeldungen vorliegen. Einen realistischen Zeitplan legen wir zu Beginn gemeinsam fest.',
+  },
+  {
+    question: 'Wer kümmert sich um Texte und Bilder?',
+    answer:
+      'Texte entstehen gemeinsam: Du lieferst das Wissen über dein Unternehmen, wir formulieren daraus verständliche Website-Texte. Vorhandene Fotos und dein Logo beziehen wir ein. Fehlt passendes Bildmaterial, stimmen wir geeignete Stockfotos oder einen eigenen Fototermin mit dir ab. So entsteht ein stimmiger Auftritt, auch wenn noch nicht alles fertig vorliegt.',
+  },
+  {
+    question: 'Kann ich ein Projekt aus der Liste als Referenz anfragen?',
+    answer:
+      'Bei veröffentlichten Websites kannst du dir den Auftritt direkt ansehen, die Links stehen auf den Projektseiten. Wenn du Fragen zu einem bestimmten Webdesign-Projekt hast, etwa zur Seitenstruktur oder zur Nutzerführung, sprechen wir im Erstgespräch gern darüber und zeigen dir, was davon für dein Unternehmen sinnvoll ist.',
+  },
+];
 ---
 
 <PageLayout
+  extraJsonLd={[faqPageJsonLd(workFaqs)]}
   title="Webdesign-Projekte & Website-Entwürfe"
   description="Webdesign von KERNSEITE: Kaya Döner, Kinderkörbchen, Babyschlafberatung und Bestattungen Gorhau. Einblicke in Gestaltung und Umsetzung."
   h1="Websites mit eigenem Charakter."
@@ -20,6 +65,7 @@ const breadcrumbs = [
       <h2 class="visually-hidden">Websites und aktuelle Entwürfe</h2><ProjectGrid />
     </div>
   </section>
+  <FaqSection items={workFaqs} title={['Fragen zu', 'unseren Projekten.']} variant="paper" />
   <CtaBanner
     title="Wie könnte dein Auftritt aussehen?"
     text="Zeig uns dein Unternehmen und erzähl, was deine Website leisten soll. Daraus entwickeln wir einen passenden Vorschlag."
