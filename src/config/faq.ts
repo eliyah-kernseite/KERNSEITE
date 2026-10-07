@@ -3,6 +3,8 @@ export interface FaqItem {
   readonly answer: string;
   /** Auf der Startseite anzeigen (Auszug). */
   readonly onHome?: boolean;
+  /** Eigene Antwort für die Startseite, damit sie nicht wortgleich mit der FAQ-Seite ist. */
+  readonly homeAnswer?: string;
   /** Zu welchen Leistungen passt die Frage (service keys)? */
   readonly services?: readonly string[];
 }
@@ -18,6 +20,8 @@ export const faqs: readonly FaqItem[] = [
     services: ['websites'],
     answer:
       'Der Orientierungsrahmen für Unternehmenswebsites liegt meist bei 1.500–5.500 € netto, zuzüglich gesetzlicher Umsatzsteuer, soweit diese anfällt. Umfang, Seitenanzahl und Funktionen bestimmen das Angebot. Domain, Hosting, laufende Betreuung sowie zusätzliche Fotografie, Video und Rechtsberatung werden separat vereinbart.',
+    homeAnswer:
+      'Für die meisten Unternehmenswebsites liegt der Rahmen bei 1.500 bis 5.500 Euro netto, zuzüglich gesetzlicher Umsatzsteuer, soweit diese anfällt. Wie viele Seiten, welche Funktionen und welche Inhalte dazugehören, bestimmt dein Angebot. Domain, Hosting, Betreuung, Fotografie, Video und Rechtsberatung kommen bei Bedarf separat dazu.',
     onHome: true,
   },
   {
@@ -25,6 +29,8 @@ export const faqs: readonly FaqItem[] = [
     services: ['websites'],
     answer:
       'Ein typisches Projekt dauert je nach Umfang und Zuarbeit einige Wochen. Entscheidend ist, wie schnell Inhalte, Bilder und Freigaben vorliegen. Den realistischen Zeitrahmen legen wir gemeinsam zu Beginn fest.',
+    homeAnswer:
+      'Meist einige Wochen, je nach Umfang und Zuarbeit. Am meisten Tempo bringt es, wenn Texte, Bilder und Freigaben zügig kommen. Einen realistischen Zeitplan legen wir zum Start gemeinsam fest.',
     onHome: true,
   },
   {
@@ -32,6 +38,8 @@ export const faqs: readonly FaqItem[] = [
     services: ['websites'],
     answer:
       'Ja. Konzept, Entwürfe und Rückmeldungen stimmen wir per Telefon, Videogespräch und gemeinsamer Website-Vorschau ab. Im Raum Würzburg und Schweinfurt sind nach Absprache persönliche Termine möglich. Dein Ansprechpartner bleibt Eliyah Korb.',
+    homeAnswer:
+      'Ja. Wir stimmen Konzept, Entwürfe und Feedback per Telefon, Video und über eine gemeinsame Vorschau der Website ab. Im Raum Würzburg und Schweinfurt treffen wir uns nach Absprache auch persönlich. Ansprechpartner ist immer Eliyah Korb.',
     onHome: true,
   },
   {
@@ -45,6 +53,8 @@ export const faqs: readonly FaqItem[] = [
     services: ['websites', 'video', 'social'],
     answer:
       'Wir unterstützen bei Struktur und Formulierung der Texte und planen Bildmotive mit. Fachliche Inhalte kommen von dir. Fotos und Videos produzieren wir auf Wunsch selbst. Was jeweils von wem kommt, halten wir zu Projektbeginn klar fest.',
+    homeAnswer:
+      'Du lieferst das Fachwissen, wir helfen beim Aufbau und bei der Formulierung der Texte und planen die Bildmotive mit dir. Fotos und Videos können wir auf Wunsch selbst produzieren. Zu Beginn legen wir fest, wer was beisteuert.',
     onHome: true,
   },
   {
@@ -104,4 +114,7 @@ export const faqs: readonly FaqItem[] = [
   },
 ];
 
-export const homeFaqs = faqs.filter((f) => f.onHome).slice(0, 4);
+export const homeFaqs: readonly FaqItem[] = faqs
+  .filter((f) => f.onHome)
+  .slice(0, 4)
+  .map((f) => ({ ...f, answer: f.homeAnswer ?? f.answer }));
