@@ -13,7 +13,7 @@ import type { Company } from './company';
  */
 export const companyFixture: Company = {
   brandName: 'KERNSEITE',
-  legalDisplayName: 'KERNSEITE – Eliyah Korb (FIXTURE)',
+  legalDisplayName: 'KERNSEITE, Inhaber Eliyah Korb (FIXTURE)',
   legalName: 'Eliyah Korb',
   legalForm: '',
   legalStatusNote:

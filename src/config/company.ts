@@ -64,7 +64,7 @@ export interface Company {
  */
 export const company: Company = {
   brandName: 'KERNSEITE',
-  legalDisplayName: 'KERNSEITE – Eliyah Korb',
+  legalDisplayName: 'KERNSEITE, Inhaber Eliyah Korb',
   legalName: 'Eliyah Korb',
   // Rechtsform noch nicht final geklärt -> bewusst leer (keine erfundene Rechtsform).
   legalForm: '',

@@ -61,12 +61,12 @@ export interface ProjectWork extends WorkCommon {
   readonly screenshotDesktop: WorkScreenshot;
 }
 
-/** Konzeptstudie – kein Kundenprojekt (klar gekennzeichnet). */
+/** Konzeptstudie, kein Kundenprojekt (klar gekennzeichnet). */
 export interface ConceptWork extends WorkCommon {
   readonly kind: 'concept';
   /** Konzeptstudien werden getrennt von echten Projekten gezeigt. */
   readonly isConceptStudy: true;
-  readonly badge: 'Konzeptstudie – kein Kundenprojekt';
+  readonly badge: 'Konzeptstudie, kein Kundenprojekt';
   readonly mockupTheme: MockupTheme;
   readonly situation: string;
   readonly goal: string;
@@ -221,7 +221,7 @@ const projects: readonly ProjectWork[] = [
 ];
 
 /**
- * Konzeptstudien – fiktiv, klar als „Konzeptstudie – kein Kundenprojekt“ gekennzeichnet.
+ * Konzeptstudien – fiktiv, klar als „Konzeptstudie, kein Kundenprojekt“ gekennzeichnet.
  * KEINE echten Kundennamen, Ergebnisse, Kennzahlen, Bewertungen oder Testimonials.
  */
 const concepts: readonly ConceptWork[] = [
@@ -230,7 +230,7 @@ const concepts: readonly ConceptWork[] = [
     slug: 'meisterwerk',
     href: '/arbeiten/meisterwerk/',
     isConceptStudy: true,
-    badge: 'Konzeptstudie – kein Kundenprojekt',
+    badge: 'Konzeptstudie, kein Kundenprojekt',
     title: 'Meisterwerk',
     industryLabel: 'Handwerksbetrieb',
     tagline: 'Ein moderner Handwerksbetrieb, der Qualität sichtbar macht.',
@@ -257,14 +257,14 @@ const concepts: readonly ConceptWork[] = [
     slug: 'dentale-linie',
     href: '/arbeiten/dentale-linie/',
     isConceptStudy: true,
-    badge: 'Konzeptstudie – kein Kundenprojekt',
+    badge: 'Konzeptstudie, kein Kundenprojekt',
     title: 'Dentale Linie',
     industryLabel: 'Zahnarztpraxis',
     tagline: 'Eine Zahnarztpraxis mit ruhiger, vertrauensbildender Nutzerführung.',
     filters: ['websites', 'ki', 'konzeptstudie'],
     mockupTheme: 'dentale-linie',
     situation:
-      'Eine Praxis möchte online ruhiger und vertrauenswürdiger wirken und den Weg zum Termin vereinfachen – ohne reißerische Versprechen.',
+      'Eine Praxis möchte online ruhiger und vertrauenswürdiger wirken und den Weg zum Termin vereinfachen, ganz ohne reißerische Versprechen.',
     goal: 'Vertrauen aufbauen, Behandlungsschwerpunkte verständlich zeigen und Terminwege klar machen.',
     strategy:
       'Reduzierte, helle Gestaltung, verständliche Sprache, klare Terminwege und ein sympathisches Team-Kapitel.',
@@ -284,7 +284,7 @@ const concepts: readonly ConceptWork[] = [
     slug: 'haus-am-fluss',
     href: '/arbeiten/haus-am-fluss/',
     isConceptStudy: true,
-    badge: 'Konzeptstudie – kein Kundenprojekt',
+    badge: 'Konzeptstudie, kein Kundenprojekt',
     title: 'Haus am Fluss',
     industryLabel: 'Boutique-Hotel',
     tagline: 'Ein Boutique-Hotel, das seine Atmosphäre spürbar macht.',

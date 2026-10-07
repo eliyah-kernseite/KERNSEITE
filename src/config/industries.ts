@@ -33,10 +33,10 @@ export const industries: readonly Industry[] = [
     metaDescription:
       'Website für Handwerksbetriebe: Leistungen verständlich zeigen, regional gefunden werden und Anfragen wie Bewerbungen einfach machen.',
     ctaLabel: 'Website fürs Handwerk besprechen',
-    argument: 'Zeig Qualität, gewinne Aufträge und Bewerber – mit klaren Kontaktwegen.',
+    argument: 'Zeig deine Qualität, gewinne Aufträge und Bewerber. Mit klaren Kontaktwegen.',
     detailH1: 'Websites für Handwerksbetriebe. Leistungen zeigen, Anfragen erleichtern.',
     intro:
-      'Ein etablierter Betrieb verdient einen Auftritt, der die tatsächliche Qualität zeigt – und der neben Kunden auch Bewerber überzeugt.',
+      'Ein etablierter Betrieb verdient einen Auftritt, der die tatsächliche Qualität zeigt und neben Kunden auch Bewerber überzeugt.',
     focus: [
       {
         title: 'Leistungen verständlich darstellen',
@@ -48,7 +48,7 @@ export const industries: readonly Industry[] = [
       },
       {
         title: 'Referenzen und Baustellen',
-        body: 'Abgeschlossene Projekte und Baustellen zeigen greifbar, was der Betrieb kann – mit echten Bildern statt Stockfotos.',
+        body: 'Abgeschlossene Projekte und Baustellen zeigen greifbar, was der Betrieb kann. Mit echten Bildern statt Stockfotos.',
       },
       {
         title: 'Bewerber gewinnen',
@@ -56,7 +56,7 @@ export const industries: readonly Industry[] = [
       },
       {
         title: 'Schnelle Kontaktwege',
-        body: 'Anruf, Rückrufwunsch oder kurzes Formular – der schnellste Weg zur Anfrage steht im Vordergrund.',
+        body: 'Anruf, Rückrufwunsch oder kurzes Formular: Der schnellste Weg zur Anfrage steht im Vordergrund.',
       },
     ],
     relatedServices: ['websites', 'google', 'video'],
@@ -68,16 +68,16 @@ export const industries: readonly Industry[] = [
     title: 'Zahnarztpraxen & medizinische Praxen',
     seoTitle: 'Webdesign für Zahnarztpraxen',
     metaDescription:
-      'Praxis-Website, die Vertrauen schafft: ruhige Nutzerführung, klar erklärte Leistungen und einfache Terminwege – ohne Heilversprechen.',
+      'Praxis-Website, die Vertrauen schafft: ruhige Nutzerführung, klar erklärte Leistungen und einfache Terminwege. Ganz ohne Heilversprechen.',
     ctaLabel: 'Praxis-Website besprechen',
-    argument: 'Vertrauen, ruhige Nutzerführung und klare Terminwege – ohne Heilversprechen.',
+    argument: 'Vertrauen, ruhige Nutzerführung und klare Terminwege. Ohne Heilversprechen.',
     detailH1: 'Praxis-Websites, die Vertrauen schaffen und Termine erleichtern.',
     intro:
       'Patientinnen und Patienten entscheiden sich für Menschen, denen sie vertrauen. Eine ruhige, klare Website unterstützt genau das.',
     focus: [
       {
         title: 'Vertrauen und ruhige Nutzerführung',
-        body: 'Klare Struktur, angenehme Bildsprache und verständliche Sprache – nichts Reißerisches, nichts Überladenes.',
+        body: 'Klare Struktur, angenehme Bildsprache und verständliche Sprache. Nichts Reißerisches, nichts Überladenes.',
       },
       {
         title: 'Leistungen und Behandlungsschwerpunkte',
@@ -89,7 +89,7 @@ export const industries: readonly Industry[] = [
       },
       {
         title: 'Terminwege',
-        body: 'Klare Wege zum Termin: Telefon, Formular oder – nur nach Klick – ein externer Terminlink.',
+        body: 'Klare Wege zum Termin: Telefon, Formular oder ein externer Terminlink, der sich erst nach Klick öffnet.',
       },
       {
         title: 'Lokale Sichtbarkeit',
@@ -114,7 +114,7 @@ export const industries: readonly Industry[] = [
     focus: [
       {
         title: 'Atmosphäre',
-        body: 'Die Stimmung des Hauses wird visuell erlebbar – mit hochwertiger Bild- und Videosprache statt Standardfotos.',
+        body: 'Die Stimmung des Hauses wird visuell erlebbar, mit hochwertigen Bildern und Videos statt Standardfotos.',
       },
       {
         title: 'Für Restaurants: Speisekarte und Öffnungszeiten',
@@ -163,7 +163,7 @@ export const industries: readonly Industry[] = [
       },
       {
         title: 'Kontakt und Termin',
-        body: 'Kurze Wege zur Anfrage: Formular, Telefon oder – nur nach Klick – ein externer Terminlink.',
+        body: 'Kurze Wege zur Anfrage: Formular, Telefon oder ein externer Terminlink, der sich erst nach Klick öffnet.',
       },
       {
         title: 'Vertrauen',

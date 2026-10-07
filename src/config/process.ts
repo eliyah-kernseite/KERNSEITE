@@ -53,7 +53,7 @@ export const processFull: readonly ProcessStep[] = [
   {
     number: 4,
     title: 'Visuelle Richtung',
-    body: 'Wir entwickeln eine gestalterische Richtung: Farben, Typografie und Bildsprache – abgestimmt auf dein Unternehmen.',
+    body: 'Wir entwickeln eine gestalterische Richtung: Farben, Typografie und Bildsprache, abgestimmt auf dein Unternehmen.',
     kernseite: 'Designkonzept und erste Entwürfe.',
   },
   {
@@ -66,7 +66,7 @@ export const processFull: readonly ProcessStep[] = [
   {
     number: 6,
     title: 'Entwicklung',
-    body: 'Die Website wird sauber, schnell und barrierearm umgesetzt – mit Blick auf Performance und Datenschutz.',
+    body: 'Die Website wird sauber, schnell und barrierearm umgesetzt, mit Blick auf Performance und Datenschutz.',
     kernseite: 'Technische Umsetzung und Integration.',
   },
   {
@@ -79,7 +79,7 @@ export const processFull: readonly ProcessStep[] = [
   {
     number: 8,
     title: 'Veröffentlichung',
-    body: 'Nach bestandener Prüfung geht die Website live – auf Wunsch auf einem deutschen Serverstandort.',
+    body: 'Nach bestandener Prüfung geht die Website live, auf Wunsch mit Serverstandort in Deutschland.',
     kernseite: 'Live-Gang und technische Einrichtung.',
   },
   {
@@ -108,7 +108,7 @@ export const processTimeline: readonly TimelineStep[] = [
     title: 'Kennenlernen',
     what: 'Ein Gespräch über dein Vorhaben: Was läuft gut, was hakt, wo willst du hin. Ohne Verkaufsdruck.',
     you: 'Einblick in Betrieb, Zielgruppe und bisherige Erfahrungen',
-    us: 'Einschätzung, was sich lohnt – und was nicht',
+    us: 'Ehrliche Einschätzung, was sich lohnt und was nicht',
     result: 'Klarheit, ob wir zueinander passen',
   },
   {
@@ -127,7 +127,7 @@ export const processTimeline: readonly TimelineStep[] = [
   },
   {
     title: 'Design',
-    what: 'Die visuelle Richtung entsteht am echten Inhalt – nicht an Blindtext in einer Vorlage.',
+    what: 'Die visuelle Richtung entsteht am echten Inhalt, nicht an Blindtext in einer Vorlage.',
     you: 'Bildmaterial, Logo, Rückmeldung zur Richtung',
     us: 'Gestaltung, Typografie, Bildsprache',
     result: 'Gestaltete Seiten, die du beurteilen kannst',

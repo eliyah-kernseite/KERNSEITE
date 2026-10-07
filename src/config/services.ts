@@ -50,9 +50,9 @@ export const services: readonly Service[] = [
     label: 'Websites',
     cardTitle: 'Individuelle Websites',
     teaser:
-      'Der Kern. Struktur, Design, Inhalte und Technik werden für dein Unternehmen entwickelt – nicht aus einem Template zusammengeklickt.',
+      'Der Kern. Struktur, Design, Inhalte und Technik werden für dein Unternehmen entwickelt und nicht aus einem Template zusammengeklickt.',
     example:
-      'Beispiel: Ein Handwerksbetrieb bekommt eine klare Leistungsstruktur, schnelle Kontaktwege und eine Karriere-Sektion, die zum Betrieb passt – statt einer Baukasten-Startseite.',
+      'Beispiel: Ein Handwerksbetrieb bekommt eine klare Leistungsstruktur, schnelle Kontaktwege und eine Karriere-Sektion, die wirklich zum Betrieb passt. Keine Baukasten-Startseite.',
     detailH1: 'Websites, die nicht nur gut aussehen.',
     intro:
       'Deine Website soll nicht zeigen, dass du eine Website hast. Sie soll zeigen, warum man sich für dein Unternehmen entscheiden sollte.',
@@ -96,7 +96,7 @@ export const services: readonly Service[] = [
       },
       {
         title: 'Mobile Nutzerführung',
-        body: 'Die meisten Besucher kommen über das Smartphone. Deshalb wird das mobile Layout eigenständig gestaltet – nicht nur zusammengeschoben.',
+        body: 'Die meisten Besucher kommen über das Smartphone. Deshalb wird das mobile Layout eigenständig gestaltet und nicht einfach zusammengeschoben.',
       },
       {
         title: 'Performance & Technik',
@@ -121,14 +121,14 @@ export const services: readonly Service[] = [
     label: 'SEO & GEO',
     cardTitle: 'SEO & GEO',
     teaser:
-      'Gefunden werden – in der Google-Suche und in KI-Antworten. SEO sorgt für saubere, auffindbare Seiten, GEO und GAIO verbessern die Verständlichkeit deiner Inhalte für KI-Antwortsysteme.',
+      'Gefunden werden: in der Google-Suche und in KI-Antworten. SEO sorgt für saubere, auffindbare Seiten, GEO und GAIO verbessern die Verständlichkeit deiner Inhalte für KI-Antwortsysteme.',
     example:
-      'Beispiel: Eine Praxis bekommt je Behandlungsschwerpunkt eine eigene, klar beantwortende Seite – Suchmaschinen und Antwortsysteme finden dieselbe Aussage.',
+      'Beispiel: Eine Praxis bekommt je Behandlungsschwerpunkt eine eigene, klar verständliche Seite. So finden Suchmaschinen und Antwortsysteme dieselbe Aussage.',
     detailH1: 'Gefunden werden. Und richtig wiedergegeben.',
     intro:
-      'Suche passiert längst nicht mehr nur bei Google. Immer öfter beantworten Systeme die Frage direkt – mit Inhalten, die sie irgendwo gelesen haben. Beides braucht dieselbe Grundlage: klare, überprüfbare Inhalte auf einer technisch sauberen Seite.',
+      'Suche passiert längst nicht mehr nur bei Google. Immer öfter beantworten Systeme die Frage direkt und nutzen dafür Inhalte, die sie irgendwo gelesen haben. Beides braucht dieselbe Grundlage: klare, überprüfbare Inhalte auf einer technisch sauberen Seite.',
     problem:
-      'Viele Seiten sind technisch langsam, thematisch unscharf und beantworten keine konkrete Frage. Dann fehlt Google die Grundlage für ein gutes Ergebnis – und Antwortsysteme geben Falsches oder gar nichts wieder.',
+      'Viele Seiten sind technisch langsam, thematisch unscharf und beantworten keine konkrete Frage. Dann fehlt Google die Grundlage für ein gutes Ergebnis, und Antwortsysteme geben Falsches oder gar nichts wieder.',
     solution:
       'Wir bauen die Inhalte entlang echter Fragen auf, geben jeder Seite genau ein Thema, sorgen für saubere Technik und machen Fakten wie Standort, Leistungen und Zuständigkeit eindeutig auslesbar.',
     components: [
@@ -161,7 +161,7 @@ export const services: readonly Service[] = [
       },
       {
         title: 'Was wir nicht versprechen',
-        body: 'Keine Platzierungen, keine Garantien, keine Tricks. Sichtbarkeit lässt sich verbessern – wir arbeiten an den Grundlagen, die du selbst in der Hand hast, und sagen offen, was Zeit braucht.',
+        body: 'Keine Platzierungen, keine Garantien, keine Tricks. Sichtbarkeit lässt sich verbessern. Wir arbeiten an den Grundlagen, die du selbst in der Hand hast, und sagen offen, was Zeit braucht.',
       },
     ],
   },
@@ -181,9 +181,9 @@ export const services: readonly Service[] = [
     intro:
       'Wer in der Nähe sucht, entscheidet schnell. Ein konsistentes Google-Unternehmensprofil sorgt dafür, dass dein Unternehmen richtig verstanden und gefunden wird.',
     problem:
-      'Unvollständige oder widersprüchliche Profildaten führen dazu, dass Google Angebot und Standort nicht eindeutig zuordnet – und Interessenten dich bei passenden Suchanfragen schwerer finden.',
+      'Unvollständige oder widersprüchliche Profildaten führen dazu, dass Google Angebot und Standort nicht eindeutig zuordnet und Interessenten dich bei passenden Suchanfragen schwerer finden.',
     solution:
-      'Wir richten das Profil sauber ein oder optimieren es: passende Kategorien, klare Leistungen, aktuelle Inhalte und ein Prozess für Bewertungen – abgestimmt mit der Website.',
+      'Wir richten das Profil sauber ein oder optimieren es: passende Kategorien, klare Leistungen, aktuelle Inhalte und ein Prozess für Bewertungen, alles abgestimmt auf deine Website.',
     components: [
       'Analyse des bestehenden Profils',
       'Passende Kategorien und Leistungen',
@@ -213,7 +213,7 @@ export const services: readonly Service[] = [
       },
       {
         title: 'Bewertungen und Antworten',
-        body: 'Wir richten einen einfachen Prozess ein, um Bewertungen zu erhalten und professionell zu beantworten – ohne Bewertungen zu kaufen oder zu fälschen.',
+        body: 'Wir richten einen einfachen Prozess ein, um Bewertungen zu erhalten und professionell zu beantworten. Gekauft oder gefälscht wird dabei nichts.',
       },
       {
         title: 'Ehrliche Erwartungen',
@@ -230,7 +230,7 @@ export const services: readonly Service[] = [
     label: 'Unternehmensvideo',
     cardTitle: 'Unternehmensvideo',
     teaser:
-      'Zeig, was Texte allein nicht vermitteln können. Echte Einblicke schaffen Vertrauen – auf der Website und in Social Media.',
+      'Zeig, was Texte allein nicht vermitteln können. Echte Einblicke schaffen Vertrauen, auf der Website und in Social Media.',
     example:
       'Beispiel: Ein kurzer Website-Clip zeigt Team und Arbeitsweise. Datenschutzfreundlich eingebunden, ohne Autoplay mit Ton.',
     detailH1: 'Zeig, was Texte allein nicht vermitteln können.',
@@ -265,7 +265,7 @@ export const services: readonly Service[] = [
       },
       {
         title: 'Vom Clip bis zum Recruitingfilm',
-        body: 'Kurze Sequenzen für die Startseite, ein ausführlicher Unternehmensfilm oder ein Recruitingfilm für offene Stellen – je nach Ziel.',
+        body: 'Kurze Sequenzen für die Startseite, ein ausführlicher Unternehmensfilm oder ein Recruitingfilm für offene Stellen, ganz nach deinem Ziel.',
       },
     ],
   },
@@ -283,7 +283,7 @@ export const services: readonly Service[] = [
       'Beispiel: Ein Brandbook definiert Look und Tonalität, ein Redaktionsplan sorgt für regelmäßige, erkennbare Beiträge.',
     detailH1: 'Eine Marke muss nicht jeden Tag posten. Sie muss erkennbar bleiben.',
     intro:
-      'Guter Social-Media-Auftritt beginnt mit einer klaren Marke und einem realistischen Plan – nicht mit Dauerdruck.',
+      'Guter Social-Media-Auftritt beginnt mit einer klaren Marke und einem realistischen Plan und nicht mit Dauerdruck.',
     problem:
       'Ohne Strategie und Wiedererkennung verpufft der Aufwand: uneinheitliche Beiträge, unklare Botschaft, keine Verbindung zur Website.',
     solution:
@@ -309,7 +309,7 @@ export const services: readonly Service[] = [
     sections: [
       {
         title: 'Brandbook als Grundlage',
-        body: 'Ein kompaktes Brandbook legt Farben, Typografie, Bildsprache und Tonalität fest – damit jeder Beitrag erkennbar bleibt.',
+        body: 'Ein kompaktes Brandbook legt Farben, Typografie, Bildsprache und Tonalität fest, damit jeder Beitrag erkennbar bleibt.',
       },
       {
         title: 'Realistische Frequenz',
@@ -326,16 +326,16 @@ export const services: readonly Service[] = [
     label: 'KI & Automatisierung',
     cardTitle: 'KI & Automatisierung',
     teaser:
-      'Automatisiere Arbeit. Nicht die Beziehung zum Kunden. Sinnvolle Werkzeuge für wiederkehrende Abläufe – mit klaren Grenzen.',
+      'Automatisiere Arbeit. Nicht die Beziehung zum Kunden. Sinnvolle Werkzeuge für wiederkehrende Abläufe, mit klaren Grenzen.',
     example:
       'Beispiel: Ein Website-Chatbot beantwortet häufige Fragen und bereitet Anfragen vor. Die eigentliche Beratung übernimmt ein Mensch.',
     detailH1: 'Automatisiere Arbeit. Nicht die Beziehung zum Kunden.',
     intro:
-      'KI ist ein Werkzeug, keine Marke. Sinnvoll eingesetzt, nimmt sie Routinearbeit ab – ohne den persönlichen Kontakt zu ersetzen.',
+      'KI ist ein Werkzeug, keine Marke. Sinnvoll eingesetzt, nimmt sie Routinearbeit ab, ohne den persönlichen Kontakt zu ersetzen.',
     problem:
       'Wiederkehrende Anfragen, Terminkoordination und immer gleiche Fragen kosten Zeit. Gleichzeitig soll die Beziehung zum Kunden persönlich bleiben.',
     solution:
-      'Wir setzen KI dort ein, wo sie klar hilft: Anfragen qualifizieren, Termine vorbereiten, FAQ automatisieren – mit menschlicher Übergabe und Datenschutz im Blick.',
+      'Wir setzen KI dort ein, wo sie klar hilft: Anfragen qualifizieren, Termine vorbereiten, FAQ automatisieren. Immer mit Übergabe an einen Menschen und mit Blick auf den Datenschutz.',
     components: [
       'Website-Chatbots',
       'Voice Agents',

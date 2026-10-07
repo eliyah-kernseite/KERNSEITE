@@ -38,7 +38,7 @@ export const faqs: readonly FaqItem[] = [
     question: 'Kann meine bestehende Website übernommen werden?',
     services: ['websites'],
     answer:
-      'Inhalte wie Texte und Bilder lassen sich oft übernehmen und aufbereiten. Ob die bestehende technische Basis sinnvoll weitergeführt wird, prüfen wir im Einzelfall – manchmal ist ein sauberer Neuaufbau der bessere Weg.',
+      'Inhalte wie Texte und Bilder lassen sich oft übernehmen und aufbereiten. Ob die bestehende technische Basis sinnvoll weitergeführt wird, prüfen wir im Einzelfall. Manchmal ist ein sauberer Neuaufbau der bessere Weg.',
   },
   {
     question: 'Wer erstellt Texte, Bilder und Videos?',
@@ -76,7 +76,7 @@ export const faqs: readonly FaqItem[] = [
     question: 'Kann ein Google-Unternehmensprofil optimiert werden?',
     services: ['google', 'seo-geo'],
     answer:
-      'Ja. Wir richten das Profil sauber ein oder optimieren es: Kategorien, Leistungen, Bilder und Bewertungsprozess. Ranking-Garantien gibt es dabei bewusst nicht – lokale Sichtbarkeit entsteht durch konsistente, gepflegte Daten.',
+      'Ja. Wir richten das Profil sauber ein oder optimieren es: Kategorien, Leistungen, Bilder und Bewertungsprozess. Ranking-Garantien geben wir bewusst nicht, denn lokale Sichtbarkeit entsteht durch einheitliche, gut gepflegte Daten.',
   },
   {
     question: 'Wie funktionieren Chatbot und Voice Agent?',
@@ -88,7 +88,7 @@ export const faqs: readonly FaqItem[] = [
     question: 'Mit wem schließe ich den Vertrag?',
     services: ['video', 'social', 'ki'],
     answer:
-      'Dein Vertragspartner ist KERNSEITE – Eliyah Korb. Eliyah ist dein zentraler Ansprechpartner und steuert das Projekt, auch wenn einzelne Leistungen über Partner umgesetzt werden.',
+      'Dein Vertragspartner ist KERNSEITE, Inhaber Eliyah Korb. Eliyah ist dein zentraler Ansprechpartner und steuert das Projekt, auch wenn einzelne Leistungen über Partner umgesetzt werden.',
   },
   {
     question: 'Arbeitet KERNSEITE mit Subunternehmern?',

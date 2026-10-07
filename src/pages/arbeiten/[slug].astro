@@ -37,7 +37,7 @@ const showGoogleProfile = work.slug === 'kinderkoerbchen';
 ---
 
 <BaseLayout
-  title={`${work.title} – ${work.stage === 'preview' ? 'Website-Entwurf' : 'Referenz'}`}
+  title={`${work.title}: ${work.stage === 'preview' ? 'Website-Entwurf' : 'Referenz'}`}
   description={work.tagline.slice(0, 155)}
   jsonLd={[breadcrumbJsonLd(breadcrumbs)]}
 >
