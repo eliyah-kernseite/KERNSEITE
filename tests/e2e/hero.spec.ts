@@ -12,7 +12,9 @@ test('Startseite erklärt das Angebot und führt zu Projekt und Anfrage', async 
     'href',
     '/arbeiten/',
   );
-  await expect(hero.locator('[data-slide][href="/arbeiten/kaya-doener-himmelstadt/"] img')).toBeVisible();
+  await expect(
+    hero.locator('[data-slide][href="/arbeiten/kaya-doener-himmelstadt/"] img'),
+  ).toBeVisible();
   await expect(hero.locator('canvas, video')).toHaveCount(0);
 });
 

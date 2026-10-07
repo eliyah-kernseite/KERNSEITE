@@ -1,20 +1,24 @@
 ---
 import ProjectCarousel from './ProjectCarousel.astro';
+import DeviceScene from './DeviceScene.astro';
 ---
 
 <section class="home-hero">
   <div class="content">
     <div class="hero-heading">
-      <h1>Dein Können.<br />Deine <span>Website.</span></h1>
-      <div class="hero-intro">
-        <p>Du machst gute Arbeit.<br />Wir sorgen dafür, dass man sie auch online erkennt.</p>
-        <a class="btn btn--primary" href="/kontakt/"
-          >Lass uns deine Website planen <span aria-hidden="true">↗</span></a
-        >
-        <a class="quiet-link" href="/leistungen/websites/#website-angebot"
-          >Individuelle Websites · 1.500–5.500 € netto</a
-        >
+      <div class="hero-copy">
+        <h1>Dein Können.<br />Deine <span>Website.</span></h1>
+        <div class="hero-intro">
+          <p>Du machst gute Arbeit.<br />Wir sorgen dafür, dass man sie auch online erkennt.</p>
+          <a class="btn btn--primary" href="/kontakt/"
+            >Lass uns deine Website planen <span aria-hidden="true">↗</span></a
+          >
+          <a class="quiet-link" href="/leistungen/websites/#website-angebot"
+            >Individuelle Websites · 1.500–5.500 € netto</a
+          >
+        </div>
       </div>
+      <DeviceScene />
     </div>
   </div>
   <div class="hero-stage">
@@ -42,13 +46,13 @@ import ProjectCarousel from './ProjectCarousel.astro';
   }
   .hero-heading {
     display: grid;
-    grid-template-columns: 1.5fr 1fr;
-    align-items: end;
-    gap: 3rem;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    align-items: center;
+    gap: clamp(2rem, 4vw, 4.5rem);
     padding-bottom: 4.5rem;
   }
   h1 {
-    font-size: clamp(4rem, 8.2vw, 8.25rem);
+    font-size: clamp(3.4rem, 6vw, 6.4rem);
     line-height: 1.02;
     letter-spacing: -0.055em;
     max-width: 10ch;
@@ -63,7 +67,7 @@ import ProjectCarousel from './ProjectCarousel.astro';
     color: var(--ks-black);
   }
   .hero-intro {
-    padding-bottom: 0.6rem;
+    margin-top: clamp(1.5rem, 2.5vw, 2.5rem);
     max-width: 29rem;
   }
   .hero-intro p {
