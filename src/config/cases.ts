@@ -257,9 +257,9 @@ const projects: readonly ProjectWork[] = [
       },
     ],
     screenshotDesktop: {
-      src: '/assets/references/kaya-doener-desktop.webp',
+      src: '/assets/references/kaya-doener-v2-desktop.webp',
       srcset:
-        '/assets/references/kaya-doener-desktop-800.webp 800w, /assets/references/kaya-doener-desktop-1200.webp 1200w, /assets/references/kaya-doener-desktop-1600.webp 1600w, /assets/references/kaya-doener-desktop.webp 1904w',
+        '/assets/references/kaya-doener-v2-desktop-800.webp 800w, /assets/references/kaya-doener-v2-desktop-1200.webp 1200w, /assets/references/kaya-doener-v2-desktop-1600.webp 1600w, /assets/references/kaya-doener-v2-desktop.webp 1904w',
       width: 1904,
       height: 910,
       alt: 'Neuer Auftritt von Kaya Döner Himmelstadt mit „Döner. Dürüm. Dein Kaya.“, großem Dönerfoto und direktem Anrufbutton.',
