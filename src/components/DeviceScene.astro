@@ -31,6 +31,7 @@ const base = '/assets/references/scroll';
   <div class="stage" aria-hidden="true">
     <div class="screen screen--laptop">
       <img
+        loading="lazy"
         src={`${base}/kaya-laptop.webp`}
         width="960"
         height="3509"
@@ -41,6 +42,7 @@ const base = '/assets/references/scroll';
     </div>
     <div class="screen screen--tablet">
       <img
+        loading="lazy"
         src={`${base}/gorhau-tablet.webp`}
         width="720"
         height="2727"
@@ -50,6 +52,7 @@ const base = '/assets/references/scroll';
     </div>
     <div class="screen screen--phone">
       <img
+        loading="lazy"
         src={`${base}/baby-phone.webp`}
         width="151"
         height="2576"
@@ -61,6 +64,7 @@ const base = '/assets/references/scroll';
     <!-- Die Kaffeetasse steht im Foto vor dem iPad und muss die Seite überdecken -->
     <img
       class="cup"
+      loading="lazy"
       src={`${base}/tasse.webp`}
       width="290"
       height="90"
@@ -80,7 +84,24 @@ const base = '/assets/references/scroll';
     };
     fit();
     new ResizeObserver(fit).observe(scene);
-    scene.classList.add('is-ready');
+
+    // Die Bildschirm-Inhalte laden erst nach dem Foto (loading="lazy" und
+    // display: none bis dahin). So bekommt das Foto, das größte Element beim
+    // ersten Laden, auf langsamen Mobilverbindungen die volle Bandbreite.
+    // Sichtbar wird die Bühne erst, wenn alle Inhalte bereit sind.
+    const photo = scene.querySelector<HTMLImageElement>('.scene__photo');
+    const screens = [...stage.querySelectorAll<HTMLImageElement>('img')];
+    const show = () => {
+      scene.classList.add('is-loading');
+      Promise.all(screens.map((img) => img.decode().catch(() => undefined))).then(() =>
+        scene.classList.add('is-ready'),
+      );
+    };
+    if (!photo || photo.complete) show();
+    else {
+      photo.addEventListener('load', show, { once: true });
+      photo.addEventListener('error', show, { once: true });
+    }
   }
 </script>
 
@@ -104,7 +125,8 @@ const base = '/assets/references/scroll';
   }
 
   /* Bühne im Fotomaß; das Skript skaliert sie auf die Containerbreite.
-     Bis dahin (oder ohne JavaScript) bleibt das reine Foto sichtbar. */
+     Bis dahin (oder ohne JavaScript) bleibt das reine Foto sichtbar.
+     display: none hält die Lazy-Bilder zurück, bis das Foto geladen ist. */
   .stage {
     position: absolute;
     left: 0;
@@ -112,7 +134,11 @@ const base = '/assets/references/scroll';
     width: 1536px;
     height: 1024px;
     transform-origin: 0 0;
+    display: none;
     visibility: hidden;
+  }
+  .scene.is-loading .stage {
+    display: block;
   }
   .scene.is-ready .stage {
     visibility: visible;

@@ -57,8 +57,7 @@ const posClass = (i: number) => {
             width={p.screenshotDesktop.width}
             height={p.screenshotDesktop.height}
             alt={p.screenshotDesktop.alt}
-            loading={i === start ? 'eager' : 'lazy'}
-            fetchpriority={i === start ? 'high' : undefined}
+            loading="lazy"
             decoding="async"
             draggable="false"
           />
