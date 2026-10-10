@@ -44,3 +44,7 @@ Bricolage Grotesque und Inter werden lokal ausgeliefert. Lizenz: SIL Open Font L
 Vom Nutzer in dieser Aufgabe bereitgestellte Screenshots: Babyschlafberatung Anna-Lena Korb (1901 × 909), Kaya Döner (1904 × 910), Bestattungen Gorhau (1905 × 909). Unveränderter Bildinhalt, als lokale WebP-Auslieferungen in 800/1200/1600 Pixeln sowie Originalbreite optimiert; keine extern geladenen Assets.
 
 Die Domain `babyschlafberatung.example` ist ausdrücklich eine reservierte Beispieladresse und wird nur als Text gezeigt. Der Link führt auf die interne Projektseite. Babyschlafberatung und Gorhau sind als Entwürfe eingeordnet; der Gorhau-Pages-Link lieferte beim Abruf am 16.09.2026 HTTP 404 und wird deshalb nicht als funktionierende Website verlinkt. Die Darstellung ist kein Nachweis eines bereits veröffentlichten Kundenauftritts oder von Geschäftsergebnissen.
+
+## Babyschlafberatung live · 10.10.2026
+
+Neuer, von Anna-Lena Korb bereitgestellter Screenshot der veröffentlichten Website https://babyschlaf-coach.de (Original 2576 × 1788, Quelle `assets-source/references/case-babyschlafberatung-desktop.jpg`). Ausgeliefert unter neuem Dateinamen `babyschlafberatung-v2-desktop*.webp` (800/1200/1600/1904 Pixel, WebP Qualität 80), damit kein zwischengespeichertes altes Bild erscheint. Die Babyschlafberatung ist damit keine Entwurfsreferenz mehr und verlinkt auf die Live-Website. Der Smartphone-Scrollscreenshot in der Startseiten-Szene (`scroll/baby-phone.webp`) ist unverändert.
