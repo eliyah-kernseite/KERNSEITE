@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Konfigurationsseite nicht indexieren
+Disallow: /cookie-einstellungen/
+
+Sitemap: https://www.kernseite.com/sitemap-index.xml

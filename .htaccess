@@ -1,0 +1,97 @@
+# =============================================================================
+# KERNSEITE – Apache-Konfiguration (Sicherheit, Caching, Kompression)
+# Ziel: normales deutsches Webhosting (Apache). Passe Werte bei Bedarf an.
+# =============================================================================
+
+# ----- HTTPS erzwingen -------------------------------------------------------
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  # Endgültige Canonical-Domain: ein Schritt für HTTPS und www.
+  RewriteCond %{HTTP_HOST} !^www\.kernseite\.com$ [NC,OR]
+  RewriteCond %{HTTPS} !=on
+  RewriteRule ^ https://www.kernseite.com%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+# ----- Fehlerseiten ----------------------------------------------------------
+ErrorDocument 404 /404.html
+
+# ----- Sicherheits-Header ----------------------------------------------------
+<IfModule mod_headers.c>
+  # Content-Security-Policy passend zum realen Build:
+  # alles selbst gehostet, keine externen Dienste, kein 'unsafe-inline'.
+  #  'sha256-bOFZ/hSns0JPOPhM46I4N3geGP8y13mXSu5S10Wje2Y=' 'sha256-of4QKSZf7WGfTm3CHC7vU6wCF4UQkonF1MnafXfASPQ=' 'sha256-xgcupgeOxuNVCpykLxzY/+4ZguYAXMb+NcvRJLVI6/0=' 'sha256-VKeTraP9tdLEdhbIPOj8psiYjyTHcEzYdHbZsZnYHWY=' 'sha256-VwhnCpxoDf6b6BSWxSiUrAtJkFqHYQoL0pRQ2b4RLS4=' 'sha256-VQJnsPuWSM62OTw0g9A3fwtXmvxfCaUvzVvkmEPhrIk=' 'sha256-FPLOR8T1DNzZ6eoloLIgxLeulwek7Qk5QjIHQClK/Co=' 'sha256-BWghqX9MOc2yQQenkQSoOOMxe2tKZs7/bW3Oe02M9Rs=' 'sha256-RJFrq0jktycLmcvE04i0WG4TvKaprW3TfbmFOah+wzc=' 'sha256-SMooeurx3L1MLHSE5DpuMm40Ytb2ONDSYDIWCc4JUBY=' 'sha256-U+DJKlWJHPypNRDuMPCuXucmkzT74dwvxvn+HJ1+2mk=' 'sha256-GwrX/N3y3OyYTTDCHxSAINxQzgCDNJ+0estqIIrXQMQ=' 'sha256-JdCga9j1+YaKBXcLQHghLJFbD+XAUDReXztsG0sTLkc=' 'sha256-4/E6f7JUrRJ6zk0/0S9hAOYGGs+fYmHSkDajepo54fM=' 'sha256-4OfJ3T5vU7S/bIWe9E6b9xSXq32iwQL2+EcJ7a/iC4Y=' 'sha256-NAehhwmVVvdtrPvZX3TSZWiYaFFSgTACSuuMsQ1xhOc=' 'sha256-oAtrrDVSqZeVdg28fvpF6c2RFRuBQ43xTO5numFreaA=' 'sha256-oeiSD20oIfF/zGbq8/Eq9+8bYCjwYSgL94jFUbnhSOc=' 'sha256-lMHGPO8Q2FTMG8CwrbahoWiEBYfgAJK5lJKfGBM2Xk8=' 'sha256-Ukj+SuORU8djv2o/6JtfpQD1HFlA0hBDK+VLTEer7Ss=' 'sha256-p7d8x9dwn64DhxJ0h63RNgoFNrwhezogGZWzWF9L+E8=' 'sha256-qDQJLTUUewkpD3o/HtP+ZtQHRAwAPC2x+zLTv8cJXJ4=' 'sha256-ShJ1J7VUYakF2Qp6Io8oBwbJNvSp7tCbVF5YGZ1F1+Y=' 'sha256-kOHbFJiIAoSxMgSsInEcRg0I8HwGWyxNsHkO7SqmIB0=' 'sha256-5u8BnuiscyY8BrPkCfr6DfKPJo0OTQbqnlHUIQttXvk=' 'sha256-Gwa08e+Gp9lhfOA+HKgL31AZz3q3Ype3rotfzb5vU5g=' 'sha256-sMeIJDiPoByHa2MhASqLnCxFypP6dOpwfgqu4szryrk=' 'sha256-b7t3ug6jNHpv9A1xx4HHhhACo1m49b/MENvDxMxoPXA=' 'sha256-/LZsGxCAk9OIX6OzAYY3VlNJHrXvkVc9ANCggOiFCn0=' 'sha256-FYPamkmPU1KtR+LA0Ez/K8dgZBVOjvg0QVFzqQd3guk=' 'sha256-+PNVxSfqHeJMB2JunyuENEnhFkCoqC34t5m9DC0eXFo=' 'sha256-s+z5FLVT1GZrTaH4CkI2PBuAnm1/ga+TflPq+4FOTxc=' 'sha256-5DH5Fd9/a3XxD0s+FbeDq8hJ1MJXDGWO9qKLheHCeVw=' 'sha256-CyBgeXZdpuKOLeHBa0F+4rvua9YNFsKRlBMAzGnP3KA=' 'sha256-KmzPpr8fqadVisNNZTm0ME4sdz8orKcP91rYy72OS34=' 'sha256-mpSTdsQfBGivlC4wO7Au2KThwUCXUQGoXXae8hcyvvk=' 'sha256-drD2xrckqh3xkrhcOdLG0ojUSJHQtWNLt6gnKv7IZMU=' 'sha256-HXib/ZBsjev1Ib/TrpgWOxH9HuU20MWgEqtr+lZR9u8=' 'sha256-Kft98F8/B+6fNsKcI99fupvYHlW9qX0P3+FxO9DEApA=' 'sha256-FxAW/aOHVYD6ecdS2WXyGU7HbLG7c5QgqPC1TQ8x4fw=' 'sha256-jR3rISGPb51iUYGdAE2R8X1JdQoaHI8gdkEbhrTYToc=' 'sha256-VnW1Etoi8XN7mmR9q+9lDuALjMsfYLSr0SdM5dBRwkA=' 'sha256-8ITXjB7HBDc1R92vGUeXrk+dwBSG3DZm0K+Sts919rg=' 'sha256-ibJbeA1bgvL2nYjRkpmF0Si9BlKatpu/ts07Gp5oBtw=' 'sha256-aEl56KQSEZNOZrVGb1neUGY/IimJLHMX/RY/VxGPa6o=' 'sha256-31st2knG/Bfvy5Y4MFvMJOeXpoYeEqXT6oXhykWXz+E=' 'sha256-h80v6r9pEz0MVvSN0pVG1SZnQrP5J5dWMjRNrmaVm9s=' 'sha256-fYhj0WuKKEdqq0kBIjCVd+LZeC5tW0s3VsvuGhodonY=' 'sha256-tuN+uL5woGYpMVcAMRGH1qbTTy0lbBWbRe4zWVQN/GE=' 'sha256-YLhP5FTOl+foV80/KmqDTZ8k8tsZLf6HDKaMHslfAtQ=' 'sha256-wzPVEfiAXL2AO69NGGlo/1T/mbo2UTmuYvQ4lq6hSGI=' 'sha256-klEZLw4ZTS5PRV82D1Gy3WeBWLEJ1g6KaiuBf2G2SdY=' 'sha256-tbO532b7mO/c2OEM99Z4LiYXBrObXI8eFkxiDlHeauw=' 'sha256-5NjYZSK+jWIXF3Nlji1RrBrdRDfFFUZoeCM6lBrHeBg=' 'sha256-8f0r8GwzareKSiRm3DyW0i8AC3UfhvCk5GBR5ICnn2A=' 'sha256-qnp7F6DeEietiN/siopSeUMVISKH7ZZSajLBiaqklIk=' 'sha256-wvRyNXCpmXyQoAgpAFX+JukY2FOxvGBI/U06s1op+qM=' 'sha256-ofqeTBeowH4Bxew/04jYzVnXCE39/3YE5eprBsAtEhc=' 'sha256-IsroRvI1wjGR6Xj9rGXhUG5ZpFvbqc/nCNQXTf52mfw=' 'sha256-Cra87PeT6kBEWAWnGdZkLpz9TNM/2Djz/YqGgxsEPE0=' 'sha256-DuSeN6NJGyRHBZRncwp6abHEvr5k7HsE+o+jH4NqvnE=' 'sha256-mhDXVnPWFseqhrmVUTddXS6GgTmm1bVSF85Ty43Luzc=' 'sha256-w3Yv1jrW10WLrYBUrYazSe53zNZpJMKqdYVdZd4Vxms=' 'sha256-BDgQgovBqRhtkQGCIRHFtriv1dCb/1rJjDhCCeCsppI=' 'sha256-QbchHjnk5CSRVvzM/s5lX28VncjJc5z9enDNbx+ayYQ=' 'sha256-02GKEpLxD2wDmantav+uAfYlm/3pMPxYxGXVxVFlbPA=' 'sha256-oIK6U1YrIjQPk5+U6kvADxaOQ1AcF/+Jd5dcv7I4m/c=' 'sha256-7ogTE+TTghtAxsTYRbT0WzKGAHCyJ4rm/waCIzQYHko=' 'sha256-fu+idHRzq5l6XswSq0Uxr78zDAtGc8oNbQLXnfuETDI=' wird von scripts/build-csp-hashes.mjs mit sha256-Hashes
+  # der Inline-JSON-LD-Blöcke gefüllt.
+  Header always set Content-Security-Policy "default-src 'self'; base-uri 'self'; script-src 'self' 'sha256-bOFZ/hSns0JPOPhM46I4N3geGP8y13mXSu5S10Wje2Y=' 'sha256-of4QKSZf7WGfTm3CHC7vU6wCF4UQkonF1MnafXfASPQ=' 'sha256-xgcupgeOxuNVCpykLxzY/+4ZguYAXMb+NcvRJLVI6/0=' 'sha256-VKeTraP9tdLEdhbIPOj8psiYjyTHcEzYdHbZsZnYHWY=' 'sha256-VwhnCpxoDf6b6BSWxSiUrAtJkFqHYQoL0pRQ2b4RLS4=' 'sha256-VQJnsPuWSM62OTw0g9A3fwtXmvxfCaUvzVvkmEPhrIk=' 'sha256-FPLOR8T1DNzZ6eoloLIgxLeulwek7Qk5QjIHQClK/Co=' 'sha256-BWghqX9MOc2yQQenkQSoOOMxe2tKZs7/bW3Oe02M9Rs=' 'sha256-RJFrq0jktycLmcvE04i0WG4TvKaprW3TfbmFOah+wzc=' 'sha256-SMooeurx3L1MLHSE5DpuMm40Ytb2ONDSYDIWCc4JUBY=' 'sha256-U+DJKlWJHPypNRDuMPCuXucmkzT74dwvxvn+HJ1+2mk=' 'sha256-GwrX/N3y3OyYTTDCHxSAINxQzgCDNJ+0estqIIrXQMQ=' 'sha256-JdCga9j1+YaKBXcLQHghLJFbD+XAUDReXztsG0sTLkc=' 'sha256-4/E6f7JUrRJ6zk0/0S9hAOYGGs+fYmHSkDajepo54fM=' 'sha256-4OfJ3T5vU7S/bIWe9E6b9xSXq32iwQL2+EcJ7a/iC4Y=' 'sha256-NAehhwmVVvdtrPvZX3TSZWiYaFFSgTACSuuMsQ1xhOc=' 'sha256-oAtrrDVSqZeVdg28fvpF6c2RFRuBQ43xTO5numFreaA=' 'sha256-oeiSD20oIfF/zGbq8/Eq9+8bYCjwYSgL94jFUbnhSOc=' 'sha256-lMHGPO8Q2FTMG8CwrbahoWiEBYfgAJK5lJKfGBM2Xk8=' 'sha256-Ukj+SuORU8djv2o/6JtfpQD1HFlA0hBDK+VLTEer7Ss=' 'sha256-p7d8x9dwn64DhxJ0h63RNgoFNrwhezogGZWzWF9L+E8=' 'sha256-qDQJLTUUewkpD3o/HtP+ZtQHRAwAPC2x+zLTv8cJXJ4=' 'sha256-ShJ1J7VUYakF2Qp6Io8oBwbJNvSp7tCbVF5YGZ1F1+Y=' 'sha256-kOHbFJiIAoSxMgSsInEcRg0I8HwGWyxNsHkO7SqmIB0=' 'sha256-5u8BnuiscyY8BrPkCfr6DfKPJo0OTQbqnlHUIQttXvk=' 'sha256-Gwa08e+Gp9lhfOA+HKgL31AZz3q3Ype3rotfzb5vU5g=' 'sha256-sMeIJDiPoByHa2MhASqLnCxFypP6dOpwfgqu4szryrk=' 'sha256-b7t3ug6jNHpv9A1xx4HHhhACo1m49b/MENvDxMxoPXA=' 'sha256-/LZsGxCAk9OIX6OzAYY3VlNJHrXvkVc9ANCggOiFCn0=' 'sha256-FYPamkmPU1KtR+LA0Ez/K8dgZBVOjvg0QVFzqQd3guk=' 'sha256-+PNVxSfqHeJMB2JunyuENEnhFkCoqC34t5m9DC0eXFo=' 'sha256-s+z5FLVT1GZrTaH4CkI2PBuAnm1/ga+TflPq+4FOTxc=' 'sha256-5DH5Fd9/a3XxD0s+FbeDq8hJ1MJXDGWO9qKLheHCeVw=' 'sha256-CyBgeXZdpuKOLeHBa0F+4rvua9YNFsKRlBMAzGnP3KA=' 'sha256-KmzPpr8fqadVisNNZTm0ME4sdz8orKcP91rYy72OS34=' 'sha256-mpSTdsQfBGivlC4wO7Au2KThwUCXUQGoXXae8hcyvvk=' 'sha256-drD2xrckqh3xkrhcOdLG0ojUSJHQtWNLt6gnKv7IZMU=' 'sha256-HXib/ZBsjev1Ib/TrpgWOxH9HuU20MWgEqtr+lZR9u8=' 'sha256-Kft98F8/B+6fNsKcI99fupvYHlW9qX0P3+FxO9DEApA=' 'sha256-FxAW/aOHVYD6ecdS2WXyGU7HbLG7c5QgqPC1TQ8x4fw=' 'sha256-jR3rISGPb51iUYGdAE2R8X1JdQoaHI8gdkEbhrTYToc=' 'sha256-VnW1Etoi8XN7mmR9q+9lDuALjMsfYLSr0SdM5dBRwkA=' 'sha256-8ITXjB7HBDc1R92vGUeXrk+dwBSG3DZm0K+Sts919rg=' 'sha256-ibJbeA1bgvL2nYjRkpmF0Si9BlKatpu/ts07Gp5oBtw=' 'sha256-aEl56KQSEZNOZrVGb1neUGY/IimJLHMX/RY/VxGPa6o=' 'sha256-31st2knG/Bfvy5Y4MFvMJOeXpoYeEqXT6oXhykWXz+E=' 'sha256-h80v6r9pEz0MVvSN0pVG1SZnQrP5J5dWMjRNrmaVm9s=' 'sha256-fYhj0WuKKEdqq0kBIjCVd+LZeC5tW0s3VsvuGhodonY=' 'sha256-tuN+uL5woGYpMVcAMRGH1qbTTy0lbBWbRe4zWVQN/GE=' 'sha256-YLhP5FTOl+foV80/KmqDTZ8k8tsZLf6HDKaMHslfAtQ=' 'sha256-wzPVEfiAXL2AO69NGGlo/1T/mbo2UTmuYvQ4lq6hSGI=' 'sha256-klEZLw4ZTS5PRV82D1Gy3WeBWLEJ1g6KaiuBf2G2SdY=' 'sha256-tbO532b7mO/c2OEM99Z4LiYXBrObXI8eFkxiDlHeauw=' 'sha256-5NjYZSK+jWIXF3Nlji1RrBrdRDfFFUZoeCM6lBrHeBg=' 'sha256-8f0r8GwzareKSiRm3DyW0i8AC3UfhvCk5GBR5ICnn2A=' 'sha256-qnp7F6DeEietiN/siopSeUMVISKH7ZZSajLBiaqklIk=' 'sha256-wvRyNXCpmXyQoAgpAFX+JukY2FOxvGBI/U06s1op+qM=' 'sha256-ofqeTBeowH4Bxew/04jYzVnXCE39/3YE5eprBsAtEhc=' 'sha256-IsroRvI1wjGR6Xj9rGXhUG5ZpFvbqc/nCNQXTf52mfw=' 'sha256-Cra87PeT6kBEWAWnGdZkLpz9TNM/2Djz/YqGgxsEPE0=' 'sha256-DuSeN6NJGyRHBZRncwp6abHEvr5k7HsE+o+jH4NqvnE=' 'sha256-mhDXVnPWFseqhrmVUTddXS6GgTmm1bVSF85Ty43Luzc=' 'sha256-w3Yv1jrW10WLrYBUrYazSe53zNZpJMKqdYVdZd4Vxms=' 'sha256-BDgQgovBqRhtkQGCIRHFtriv1dCb/1rJjDhCCeCsppI=' 'sha256-QbchHjnk5CSRVvzM/s5lX28VncjJc5z9enDNbx+ayYQ=' 'sha256-02GKEpLxD2wDmantav+uAfYlm/3pMPxYxGXVxVFlbPA=' 'sha256-oIK6U1YrIjQPk5+U6kvADxaOQ1AcF/+Jd5dcv7I4m/c=' 'sha256-7ogTE+TTghtAxsTYRbT0WzKGAHCyJ4rm/waCIzQYHko=' 'sha256-fu+idHRzq5l6XswSq0Uxr78zDAtGc8oNbQLXnfuETDI='; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; form-action 'self'; frame-ancestors 'self'; object-src 'none'; manifest-src 'self'; upgrade-insecure-requests"
+
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), usb=(), interest-cohort=()"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Cross-Origin-Opener-Policy "same-origin"
+
+  # HSTS: ERST aktivieren, wenn HTTPS dauerhaft und korrekt eingerichtet ist!
+  # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+</IfModule>
+
+# ----- Schutz sensibler Dateien ----------------------------------------------
+<IfModule mod_authz_core.c>
+  <FilesMatch "(^\.|\.(env|ini|log|sh|bak|dist|lock|json)$|composer\.(json|lock))">
+    Require all denied
+  </FilesMatch>
+  # site.webmanifest ausdrücklich erlauben (endet auf .webmanifest, nicht .json)
+</IfModule>
+<IfModule !mod_authz_core.c>
+  <FilesMatch "(^\.|\.(env|ini|log|sh|bak|dist|lock|json)$)">
+    Order allow,deny
+    Deny from all
+  </FilesMatch>
+</IfModule>
+
+# Git-Metadaten sperren: Hostinger legt beim Git-Deployment ein .git-Verzeichnis
+# in public_html an. Es darf nie ausgeliefert werden.
+<IfModule mod_alias.c>
+  RedirectMatch 404 /\.git(/|$)
+</IfModule>
+
+Options -Indexes
+
+# ----- Kompression -----------------------------------------------------------
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css
+  AddOutputFilterByType DEFLATE application/javascript application/json
+  AddOutputFilterByType DEFLATE image/svg+xml application/xml
+</IfModule>
+
+# ----- Caching ---------------------------------------------------------------
+<IfModule mod_expires.c>
+  ExpiresActive On
+  # Gehashte Build-Assets: lange cachen
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 hour"
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 30 days"
+  ExpiresByType image/webp "access plus 30 days"
+  ExpiresByType image/avif "access plus 30 days"
+  # HTML: kurz cachen (Inhalte können sich ändern)
+  ExpiresByType text/html "access plus 0 seconds"
+</IfModule>
+
+<IfModule mod_headers.c>
+  # Immutable-Cache für die gehashten Astro-Assets
+  <FilesMatch "\.woff2$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  <FilesMatch "\.js$">
+    Header set Cache-Control "public, max-age=3600, must-revalidate"
+  </FilesMatch>
+  <FilesMatch "\.html$">
+    Header set Cache-Control "public, max-age=0, must-revalidate"
+  </FilesMatch>
+</IfModule>
+
+# ----- MIME ------------------------------------------------------------------
+<IfModule mod_mime.c>
+  AddType application/manifest+json .webmanifest
+  AddType font/woff2 .woff2
+  AddType image/avif .avif
+</IfModule>
