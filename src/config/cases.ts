@@ -99,15 +99,15 @@ const projects: readonly ProjectWork[] = [
     headline: 'Nähe und Vertrauen von Anfang an.',
     teaser:
       'Ruhige Bildsprache, klar beschriebene Angebote und ein direkter Weg zum Kennenlerngespräch.',
-    seoTitle: 'Babyschlafberatung: Website-Entwurf',
+    seoTitle: 'Babyschlafberatung Anna-Lena Korb: Referenz',
     client: 'Anna-Lena Korb',
     industryLabel: 'Babyschlafberatung',
     category: 'Beratung · Website · Kontaktanfrage',
     ctaTitle: ['Dein Angebot verdient Vertrauen.', 'Zeigt deine ', 'Website', ' das schon?'],
     blurbs: {
-      home: 'Ein Entwurf für eine Schlafberatung, in dem Eltern Angebote, Preise und die Person hinter der Beratung schnell finden.',
+      home: 'Eine Website für eine Schlafberatung, auf der Eltern Angebote, Preise und die Person hinter der Beratung schnell finden.',
       arbeiten:
-        'Website-Entwurf für eine Babyschlafberatung mit verständlichen Angeboten und Preisen, persönlicher Vorstellung und kurzem Weg zum Kennenlernen.',
+        'Website für eine Babyschlafberatung mit verständlichen Angeboten und Preisen, persönlicher Vorstellung und kurzem Weg zum Kennenlernen.',
       websites:
         'Die Struktur ordnet Beratung, Angebote und Preise so, dass sich Eltern auch in einer müden Minute schnell zurechtfinden.',
       leistungen:
@@ -115,14 +115,14 @@ const projects: readonly ProjectWork[] = [
     },
     tagline:
       'Eine persönliche Website, die Eltern Orientierung gibt und den Weg zum Kennenlerngespräch einfach macht.',
-    liveLabel: 'Website-Entwurf',
-    stage: 'preview',
-    verified: false,
+    liveUrl: 'https://babyschlaf-coach.de',
+    liveLabel: 'babyschlaf-coach.de',
+    verified: true,
     filters: ['referenz', 'websites', 'lokale-dienstleister'],
     situation:
       'Eltern möchten verstehen, wie eine Schlafberatung begleitet, welche Angebote es gibt und wer ihnen zur Seite steht.',
     solution:
-      'Der Entwurf verbindet eine ruhige Bildsprache mit verständlichen Angeboten, Preisen und einem direkten Weg zum Kennenlernen. ',
+      'Die Website verbindet eine ruhige Bildsprache mit verständlichen Angeboten, Preisen und einem direkten Weg zum Kennenlernen.',
     scope: [
       'Individuelle Gestaltung für Anna-Lena Korb',
       'Struktur für Beratung, Angebote und Preise',
@@ -138,22 +138,22 @@ const projects: readonly ProjectWork[] = [
       {
         question: 'Wie entstehen Nähe und Vertrauen auf einer Beratungs-Website?',
         answer:
-          'Durch eine persönliche Vorstellung, eine ruhige Bildsprache und eine Sprache, die Eltern ernst nimmt. Der Entwurf stellt Anna-Lena Korb in den Mittelpunkt und erklärt Angebote und Preise offen. So wissen Eltern schon vor dem ersten Gespräch, was sie erwartet.',
+          'Durch eine persönliche Vorstellung, eine ruhige Bildsprache und eine Sprache, die Eltern ernst nimmt. Die Website stellt Anna-Lena Korb in den Mittelpunkt und erklärt Angebote und Preise offen. So wissen Eltern schon vor dem ersten Gespräch, was sie erwartet.',
       },
       {
         question: 'Wie ist die Seite aufgebaut?',
         answer:
-          'Der Entwurf gliedert sich in Beratung, Angebote mit Preisen, eine persönliche Vorstellung und einen Bereich mit Schlafwissen. Jeder Bereich beantwortet eine Frage, die Eltern vor der Buchung haben, und führt zum nächsten Schritt.',
+          'Die Website gliedert sich in Schlafberatung, Ablauf, Kosten, eine persönliche Vorstellung und einen Ratgeber mit Schlafwissen. Jeder Bereich beantwortet eine Frage, die Eltern vor der Buchung haben, und führt zum nächsten Schritt.',
       },
       {
         question: 'Warum ist der Weg zum Kennenlerngespräch so wichtig?',
         answer:
-          'Bei einer Beratung entscheidet das persönliche Gespräch. Die Website hat die Aufgabe, die Hemmschwelle bis dahin möglichst klein zu machen. Deshalb führt der Entwurf an mehreren Stellen direkt zum Kennenlernen, ohne aufdringlich zu wirken.',
+          'Bei einer Beratung entscheidet das persönliche Gespräch. Die Website hat die Aufgabe, die Hemmschwelle bis dahin möglichst klein zu machen. Deshalb führt die Website an mehreren Stellen direkt zum Kennenlernen, ohne aufdringlich zu wirken.',
       },
       {
         question: 'Ist die Website schon online?',
         answer:
-          'Noch nicht. Hier zeigen wir einen Website-Entwurf: Gestaltung und Seitenstruktur sind ausgearbeitet, die Veröffentlichung steht noch aus.',
+          'Ja. Die Babyschlafberatung von Anna-Lena Korb ist unter babyschlaf-coach.de online. Eltern finden dort Angebote, Kosten und den Weg zum kostenlosen Kennenlernen.',
       },
       {
         question: 'Passt so ein Auftritt auch zu anderen Beratungsangeboten?',
@@ -161,23 +161,23 @@ const projects: readonly ProjectWork[] = [
           'Ja. Coaching, Hebammen oder Familienberatung stehen vor ähnlichen Aufgaben: Menschen müssen Vertrauen fassen, bevor sie sich melden. Die Kombination aus persönlicher Vorstellung, klaren Angeboten und einfachem Erstkontakt lässt sich gut auf solche Angebote übertragen.',
       },
       {
-        question: 'Welche Rolle spielen Bilder in diesem Entwurf?',
+        question: 'Welche Rolle spielen Bilder auf dieser Website?',
         answer:
           'Eine große. Die Bildsprache ist bewusst ruhig und warm gehalten, mit viel Raum und sanften Farben. Ein schlafendes Baby im Einstieg zeigt sofort, worum es geht, ohne viele Worte. Gleichzeitig sorgen die Bilder dafür, dass die Seite nicht klinisch wirkt, sondern einladend und persönlich, so wie die Beratung selbst.',
       },
       {
-        question: 'Wie geht es nach dem Entwurf weiter?',
+        question: 'Wie ist das Projekt abgelaufen?',
         answer:
-          'Nach der Abstimmung des Entwurfs folgen Feinschliff an Texten und Bildern, die technische Umsetzung und eine gemeinsame Prüfung aller Seiten. Erst wenn alles passt, wird die Website veröffentlicht. Diesen Ablauf durchläuft jedes Projekt bei KERNSEITE, unabhängig von Branche und Umfang.',
+          'Nach der Abstimmung des Entwurfs folgten Feinschliff an Texten und Bildern, die technische Umsetzung und eine gemeinsame Prüfung aller Seiten. Erst als alles passte, ging die Website online. Diesen Ablauf durchläuft jedes Projekt bei KERNSEITE, unabhängig von Branche und Umfang.',
       },
     ],
     screenshotDesktop: {
-      src: '/assets/references/babyschlafberatung-desktop.webp',
+      src: '/assets/references/babyschlafberatung-v2-desktop.webp',
       srcset:
-        '/assets/references/babyschlafberatung-desktop-800.webp 800w, /assets/references/babyschlafberatung-desktop-1200.webp 1200w, /assets/references/babyschlafberatung-desktop-1600.webp 1600w, /assets/references/babyschlafberatung-desktop.webp 1901w',
-      width: 1901,
-      height: 909,
-      alt: 'Website-Entwurf der Babyschlafberatung Anna-Lena Korb mit ruhiger Gestaltung, schlafendem Baby und Einladung zum Kennenlernen.',
+        '/assets/references/babyschlafberatung-v2-desktop-800.webp 800w, /assets/references/babyschlafberatung-v2-desktop-1200.webp 1200w, /assets/references/babyschlafberatung-v2-desktop-1600.webp 1600w, /assets/references/babyschlafberatung-v2-desktop.webp 1904w',
+      width: 1904,
+      height: 1322,
+      alt: 'Startseite der Babyschlafberatung Anna-Lena Korb: schlafendes Neugeborenes im Arm, Überschrift „Ruhigere Nächte. Mit Nähe und einem klaren Plan.“ und Einladung zum kostenlosen Kennenlernen.',
     },
   },
   {

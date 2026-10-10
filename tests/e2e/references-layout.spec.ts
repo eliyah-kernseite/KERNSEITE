@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-for (const slug of ['babyschlafberatung', 'bestattungen-gorhau']) {
+for (const slug of ['bestattungen-gorhau']) {
   test(`Projektentwurf ${slug} ist erreichbar und führt nicht auf eine Platzhalterdomain`, async ({
     page,
   }, testInfo) => {
@@ -25,6 +25,16 @@ for (const slug of ['babyschlafberatung', 'bestattungen-gorhau']) {
     });
   });
 }
+
+test('Babyschlafberatung verlinkt auf die Live-Website', async ({ page }) => {
+  await page.goto('/arbeiten/babyschlafberatung/');
+  await expect(page.locator('.chero__actions .btn--primary')).toHaveAttribute(
+    'href',
+    'https://babyschlaf-coach.de',
+  );
+  const image = page.locator('#projektvorschau img');
+  await expect(image).toHaveAttribute('src', /babyschlafberatung-v2-desktop\.webp$/);
+});
 
 for (const width of [320, 390, 768, 1024, 1440]) {
   test(`Footerlinks bleiben vollständig bei ${width}px`, async ({ page }, testInfo) => {
