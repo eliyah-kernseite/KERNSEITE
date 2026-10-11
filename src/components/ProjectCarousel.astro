@@ -377,29 +377,44 @@ const posClass = (i: number) => {
   .pc__dots {
     display: none;
     justify-content: center;
-    gap: 0.6rem;
     padding: 1.1rem 0 0.4rem;
   }
   .pc.is-ready .pc__dots {
     display: flex;
   }
+  /* Tippfläche 24 × 24 px (WCAG 2.5.8), der sichtbare Punkt bleibt 0,65rem groß.
+     Die negativen Außenabstände halten die Zeilenhöhe wie beim Punkt allein. */
   .pc__dot {
-    width: 0.65rem;
-    height: 0.65rem;
+    position: relative;
+    width: 24px;
+    height: 24px;
+    margin-block: calc((0.65rem - 24px) / 2);
     padding: 0;
     border: 0;
+    background: none;
+    cursor: pointer;
+  }
+  .pc__dot::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    width: 0.65rem;
+    height: 0.65rem;
+    margin: auto;
     border-radius: 50%;
     background: #5b6066;
-    cursor: pointer;
     transition:
       background var(--dur-base) var(--ease-out),
       transform var(--dur-base) var(--ease-out);
   }
-  .pc__dot[aria-current='true'] {
+  .pc__dot[aria-current='true']::before {
     background: var(--ks-cream);
     transform: scale(1.25);
   }
   .pc__dot:focus-visible {
+    outline: none;
+  }
+  .pc__dot:focus-visible::before {
     outline: 2px solid var(--ks-cyan);
     outline-offset: 3px;
   }

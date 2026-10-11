@@ -267,7 +267,9 @@ function isActive(href: string): boolean {
       else header.removeAttribute('data-scrolled');
       ticking = false;
     };
-    update();
+    // Erste Prüfung im nächsten Frame: scrollY direkt beim Laden erzwingt sonst
+    // eine zusätzliche Layout-Berechnung, während die Seite noch aufgebaut wird.
+    requestAnimationFrame(update);
     window.addEventListener(
       'scroll',
       () => {

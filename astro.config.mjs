@@ -89,7 +89,9 @@ export default defineConfig({
   ],
   vite: {
     build: {
-      cssCodeSplit: true,
+      // Ein gemeinsames Stylesheet statt vieler kleiner Dateien je Komponente:
+      // weniger blockierende Anfragen beim ersten Aufruf, danach aus dem Cache.
+      cssCodeSplit: false,
       // Keine Inline-Assets/-Scripts – ausführbare Skripte extern ausliefern (CSP-freundlich).
       assetsInlineLimit: 0,
     },

@@ -17,7 +17,7 @@ const { context } = Astro.props;
             <img
               src={project.screenshotDesktop.src}
               srcset={project.screenshotDesktop.srcset}
-              sizes="(min-width: 80rem) 620px, (min-width: 48rem) 45vw, 100vw"
+              sizes="(min-width: 80rem) 620px, (min-width: 48rem) 45vw, (min-width: 30.01rem) calc(100vw - 5.5rem), calc(100vw - 4rem)"
               width={project.screenshotDesktop.width}
               height={project.screenshotDesktop.height}
               alt={project.screenshotDesktop.alt}
