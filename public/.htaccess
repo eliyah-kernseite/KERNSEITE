@@ -29,6 +29,13 @@ ErrorDocument 404 /404.html
   Header always set X-Frame-Options "SAMEORIGIN"
   Header always set Cross-Origin-Opener-Policy "same-origin"
 
+  # Die CSP wirkt nur in Dokumenten (HTML, SVG). An Stylesheets, Skripten, Schriften
+  # und Rasterbildern ist sie wirkungslos, kostet aber wegen der JSON-LD-Hashes rund
+  # 4 KB Header pro Datei. Deshalb dort weglassen.
+  <FilesMatch "\.(css|js|woff2|webp|avif|png|jpe?g|gif|ico)$">
+    Header always unset Content-Security-Policy
+  </FilesMatch>
+
   # HSTS: ERST aktivieren, wenn HTTPS dauerhaft und korrekt eingerichtet ist!
   # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
 </IfModule>

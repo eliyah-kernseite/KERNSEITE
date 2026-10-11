@@ -174,7 +174,7 @@ const projects: readonly ProjectWork[] = [
     screenshotDesktop: {
       src: '/assets/references/babyschlafberatung-v2-desktop.webp',
       srcset:
-        '/assets/references/babyschlafberatung-v2-desktop-800.webp 800w, /assets/references/babyschlafberatung-v2-desktop-1200.webp 1200w, /assets/references/babyschlafberatung-v2-desktop-1600.webp 1600w, /assets/references/babyschlafberatung-v2-desktop.webp 1904w',
+        '/assets/references/babyschlafberatung-v2-desktop-640.webp 640w, /assets/references/babyschlafberatung-v2-desktop-800.webp 800w, /assets/references/babyschlafberatung-v2-desktop-1200.webp 1200w, /assets/references/babyschlafberatung-v2-desktop-1600.webp 1600w, /assets/references/babyschlafberatung-v2-desktop.webp 1904w',
       width: 1904,
       height: 1322,
       alt: 'Startseite der Babyschlafberatung Anna-Lena Korb: schlafendes Neugeborenes im Arm, Überschrift „Ruhigere Nächte. Mit Nähe und einem klaren Plan.“ und Einladung zum kostenlosen Kennenlernen.',
@@ -259,7 +259,7 @@ const projects: readonly ProjectWork[] = [
     screenshotDesktop: {
       src: '/assets/references/kaya-doener-v2-desktop.webp',
       srcset:
-        '/assets/references/kaya-doener-v2-desktop-800.webp 800w, /assets/references/kaya-doener-v2-desktop-1200.webp 1200w, /assets/references/kaya-doener-v2-desktop-1600.webp 1600w, /assets/references/kaya-doener-v2-desktop.webp 1904w',
+        '/assets/references/kaya-doener-v2-desktop-640.webp 640w, /assets/references/kaya-doener-v2-desktop-800.webp 800w, /assets/references/kaya-doener-v2-desktop-1200.webp 1200w, /assets/references/kaya-doener-v2-desktop-1600.webp 1600w, /assets/references/kaya-doener-v2-desktop.webp 1904w',
       width: 1904,
       height: 910,
       alt: 'Neuer Auftritt von Kaya Döner Himmelstadt mit „Döner. Dürüm. Dein Kaya.“, großem Dönerfoto und direktem Anrufbutton.',
@@ -344,7 +344,7 @@ const projects: readonly ProjectWork[] = [
     screenshotDesktop: {
       src: '/assets/references/bestattungen-gorhau-desktop.webp',
       srcset:
-        '/assets/references/bestattungen-gorhau-desktop-800.webp 800w, /assets/references/bestattungen-gorhau-desktop-1200.webp 1200w, /assets/references/bestattungen-gorhau-desktop-1600.webp 1600w, /assets/references/bestattungen-gorhau-desktop.webp 1905w',
+        '/assets/references/bestattungen-gorhau-desktop-640.webp 640w, /assets/references/bestattungen-gorhau-desktop-800.webp 800w, /assets/references/bestattungen-gorhau-desktop-1200.webp 1200w, /assets/references/bestattungen-gorhau-desktop-1600.webp 1600w, /assets/references/bestattungen-gorhau-desktop.webp 1905w',
       width: 1905,
       height: 909,
       alt: 'Website-Entwurf von Bestattungen Gorhau mit grüner Baumlandschaft, der Überschrift „Wenn Worte fehlen. Sind wir da.“ und direktem Telefonkontakt.',
@@ -415,7 +415,7 @@ const projects: readonly ProjectWork[] = [
     screenshotDesktop: {
       src: '/assets/references/kinderkoerbchen-desktop.webp',
       srcset:
-        '/assets/references/kinderkoerbchen-desktop-800.webp 800w, /assets/references/kinderkoerbchen-desktop-1200.webp 1200w, /assets/references/kinderkoerbchen-desktop-1600.webp 1600w, /assets/references/kinderkoerbchen-desktop.webp 1905w',
+        '/assets/references/kinderkoerbchen-desktop-640.webp 640w, /assets/references/kinderkoerbchen-desktop-800.webp 800w, /assets/references/kinderkoerbchen-desktop-1200.webp 1200w, /assets/references/kinderkoerbchen-desktop-1600.webp 1600w, /assets/references/kinderkoerbchen-desktop.webp 1905w',
       width: 1905,
       height: 1014,
       alt: 'Startseite von Anna-Lena’s Kinderkörbchen: warme Farbwelt, Begrüßung „Schön, dass du da bist.“ und Porträtfoto.',
