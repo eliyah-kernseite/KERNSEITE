@@ -41,7 +41,6 @@ const allSchemas = [...baseSchemas, ...jsonLd];
     <link rel="mask-icon" href="/favicon.svg" color="#101214" />
     <link rel="manifest" href="/site.webmanifest" />
 
-    <!-- Kritische, lokal gehostete Schriften vorladen -->
     <link
       rel="preload"
       as="font"
@@ -57,8 +56,7 @@ const allSchemas = [...baseSchemas, ...jsonLd];
       crossorigin
     />
 
-    <!-- Gespeicherte Darstellungseinstellungen vor dem ersten Paint anwenden.
-         Externe Datei, damit die CSP ohne 'unsafe-inline' auskommt. -->
+    {/* Vor dem ersten Paint, extern wegen CSP */}
     <script src="/a11y-init.js" is:inline></script>
 
     <Seo

@@ -1,12 +1,4 @@
 ---
-/**
- * Google-Unternehmensprofil – Aufbau um den echten Screenshot.
- *
- * Eigene Komposition: kompakter Kopf, echter Profil-Screenshot mit
- * Erklärung, vier Optimierungsbereiche, die Verbindung zur Website und ein
- * echtes Referenzbeispiel. Keine erfundenen Zahlen, keine Platzierungs-
- * versprechen.
- */
 import PageLayout from '../../layouts/PageLayout.astro';
 import CtaBanner from '../../components/CtaBanner.astro';
 import RelatedServices from '../../components/RelatedServices.astro';
@@ -65,15 +57,15 @@ const areas = [
   },
   {
     t: 'Leistungen eindeutig darstellen',
-    b: 'Was ihr anbietet, steht als Leistung im Profil und nicht nur auf der Website.',
+    b: 'Was ihr anbietet, steht auch im Profil als Leistung drin.',
   },
   {
     t: 'Website und Profil verbinden',
-    b: 'Gleiche Angaben, gleiche Sprache, passende Landeseiten statt Startseiten-Link für alles.',
+    b: 'Auf beiden stehen dieselben Angaben, und das Profil verlinkt auf die passende Seite, nicht bloß auf die Startseite.',
   },
   {
     t: 'Bewertungen begleiten',
-    b: 'Ein Ablauf für Anfragen und Antworten. Sachlich, zeitnah und ohne gekaufte Sterne.',
+    b: 'Wir legen fest, wie ihr Kunden um Bewertungen bittet und wie ihr antwortet. Gekaufte Sterne gibt es bei uns nicht.',
   },
 ];
 ---
@@ -86,7 +78,6 @@ const areas = [
   breadcrumbs={breadcrumbs}
   extraJsonLd={[serviceJsonLd(service), faqPageJsonLd(pageFaqs)]}
 >
-  <!-- Echter Screenshot mit Erklärung -->
   <section class="section section--cream">
     <div class="content gsplit">
       <figure class="gsplit__shot">
@@ -104,8 +95,8 @@ const areas = [
       <div class="gsplit__text">
         <h2 class="g__h2">Was Google sieht, entscheidet mit.</h2>
         <p class="gsplit__body">
-          Viele Anfragen entstehen nicht auf der Website, sondern direkt in der Suche und in Maps.
-          Unvollständige oder widersprüchliche Angaben führen dazu, dass Google Angebot und Standort
+          Viele Anfragen entstehen schon in der Google-Suche oder in Maps, bevor jemand überhaupt
+          deine Website öffnet. Unvollständige oder widersprüchliche Angaben führen dazu, dass Google Angebot und Standort
           nicht eindeutig zuordnet.
         </p>
         <p class="gsplit__note">
@@ -116,7 +107,6 @@ const areas = [
     </div>
   </section>
 
-  <!-- Vier Optimierungsbereiche -->
   <section class="section section--paper">
     <div class="content">
       <h2 class="g__h2 g__h2--gap">Woran wir arbeiten.</h2>
@@ -133,16 +123,15 @@ const areas = [
     </div>
   </section>
 
-  <!-- Verbindung Website und Profil -->
   <section class="link section--dark on-dark">
     <div class="content">
       <p class="link__text">
-        Aktuelle Öffnungszeiten. Richtige Kontaktdaten. Eine Website, die zur Suche passt.
+        Wer dich bei Google findet, sollte die richtige Telefonnummer sehen und auf einer Seite
+        landen, die zur Suche passt.
       </p>
     </div>
   </section>
 
-  <!-- Echtes Referenzbeispiel -->
   {
     reference && (
       <section class="section section--surface">
@@ -150,8 +139,8 @@ const areas = [
           <div>
             <h2 class="g__h2">Ein Beispiel aus der Praxis.</h2>
             <p class="gref__body">
-              Für {reference.title} haben wir Website und Unternehmensprofil aufeinander abgestimmt:
-              gleiche Leistungen, gleiche Kontaktwege, gleiche Öffnungszeiten.
+              Für {reference.title} haben wir Website und Unternehmensprofil aufeinander abgestimmt.
+              Leistungen, Kontaktwege und Öffnungszeiten sind auf beiden identisch.
             </p>
             <a class="link-arrow gref__link" href={reference.href}>
               Projekt ansehen<span class="visually-hidden">: {reference.title}</span>{' '}

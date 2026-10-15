@@ -138,7 +138,7 @@ const projects: readonly ProjectWork[] = [
       {
         question: 'Wie entstehen Nähe und Vertrauen auf einer Beratungs-Website?',
         answer:
-          'Durch eine persönliche Vorstellung, eine ruhige Bildsprache und eine Sprache, die Eltern ernst nimmt. Die Website stellt Anna-Lena Korb in den Mittelpunkt und erklärt Angebote und Preise offen. So wissen Eltern schon vor dem ersten Gespräch, was sie erwartet.',
+          'Vor allem dadurch, dass man die Beraterin kennenlernt, bevor man sie anruft. Die Website stellt Anna-Lena Korb persönlich vor, die Bilder sind ruhig, die Sprache nimmt Eltern ernst, und Angebote und Preise stehen offen da. So wissen Eltern schon vor dem ersten Gespräch, was sie erwartet.',
       },
       {
         question: 'Wie ist die Seite aufgebaut?',
@@ -163,7 +163,7 @@ const projects: readonly ProjectWork[] = [
       {
         question: 'Welche Rolle spielen Bilder auf dieser Website?',
         answer:
-          'Eine große. Die Bildsprache ist bewusst ruhig und warm gehalten, mit viel Raum und sanften Farben. Ein schlafendes Baby im Einstieg zeigt sofort, worum es geht, ohne viele Worte. Gleichzeitig sorgen die Bilder dafür, dass die Seite nicht klinisch wirkt, sondern einladend und persönlich, so wie die Beratung selbst.',
+          'Eine große. Die Bildsprache ist bewusst ruhig und warm gehalten, mit viel Raum und sanften Farben. Ein schlafendes Baby im Einstieg zeigt sofort, worum es geht, ohne viele Worte. Außerdem wirkt die Seite durch die Bilder einladend und persönlich, so wie die Beratung selbst.',
       },
       {
         question: 'Wie ist das Projekt abgelaufen?',
@@ -205,7 +205,7 @@ const projects: readonly ProjectWork[] = [
     verified: true,
     filters: ['referenz', 'websites', 'gastronomie'],
     situation:
-      'Wer unterwegs nach einem Imbiss sucht, braucht schnell eine Antwort: Was gibt es, wann ist geöffnet und wie lässt sich bestellen? Für Kaya Döner in Himmelstadt standen diese Wege im Mittelpunkt.',
+      'Wer unterwegs nach einem Imbiss sucht, braucht schnell eine Antwort: Was gibt es, wann ist geöffnet und wie lässt sich bestellen? Bei Kaya Döner in Himmelstadt ging es deshalb vor allem um genau diese Wege.',
     solution:
       'Die Website führt von der Startseite zur digitalen Speisekarte, zu Wochenangeboten sowie Kontakt und Anfahrt. Anrufmöglichkeiten stehen direkt bei den entscheidenden Informationen. Das dunkle Design gibt den Speisen Raum und hält Text und Aktionen gut unterscheidbar.',
     scope: [
@@ -338,7 +338,7 @@ const projects: readonly ProjectWork[] = [
       {
         question: 'Was können andere Betriebe aus diesem Projekt mitnehmen?',
         answer:
-          'Dass Zurückhaltung eine bewusste gestalterische Entscheidung sein kann. Nicht jede Website muss auffallen. Manchmal ist die wichtigste Aufgabe, Menschen Halt zu geben, die richtigen Informationen zu ordnen und den Kontakt so einfach wie möglich zu machen.',
+          'Vor allem, dass Zurückhaltung eine bewusste gestalterische Entscheidung sein kann. Nicht jede Website muss auffallen. Bei einem Bestatter kommt es darauf an, die wichtigen Informationen zu ordnen und den Kontakt so einfach wie möglich zu machen, und dabei hätte jeder Effekt nur gestört.',
       },
     ],
     screenshotDesktop: {
@@ -369,7 +369,7 @@ const projects: readonly ProjectWork[] = [
         'Eltern lernen hier zuerst den Menschen kennen und finden danach alle Informationen zum Angebot und zur Kontaktaufnahme.',
     },
     tagline:
-      'Ein warmer, persönlicher Webauftritt, der Betreuung, Persönlichkeit und Vertrauen verständlich zusammenführt.',
+      'Ein warmer, persönlicher Webauftritt, auf dem Eltern zuerst die Betreuungsperson kennenlernen und danach alles zum Angebot finden.',
     // IDN: Punycode als href, Unicode als Anzeige.
     liveUrl: 'https://www.xn--kinderkrbchen-omb.com',
     liveLabel: 'www.kinderkörbchen.com',
@@ -394,7 +394,7 @@ const projects: readonly ProjectWork[] = [
       {
         question: 'Was macht diese Referenz besonders?',
         answer:
-          'Die warme Farbwelt und der persönliche Einstieg mit Porträtfoto und Begrüßung. Statt nüchterner Aufzählungen steht die Betreuungsperson im Mittelpunkt, ergänzt durch klar gegliederte Informationen zum Angebot.',
+          'Die warme Farbwelt und der persönliche Einstieg mit Porträtfoto und Begrüßung. Zuerst sieht man die Betreuungsperson, danach folgen klar gegliederte Informationen zum Angebot.',
       },
       {
         question: 'Welche Rolle spielt das Google-Unternehmensprofil?',

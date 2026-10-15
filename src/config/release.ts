@@ -6,13 +6,6 @@
  * strukturierten Daten. Sie steuern ausschließlich, ob
  * `pnpm build:production` überhaupt einen deploybaren Build erzeugen darf.
  *
- * Hintergrund: Bis zu dieser Runde reichte es aus, dass Entwurfshinweise im
- * Produktions-Build ausgeblendet werden. Damit sah ein Build „fertig“ aus,
- * obwohl tragende Angaben (Hosting, Mailversand, Aufbewahrung, endgültige
- * Domain) noch nicht bestätigt waren. Ein ausgeblendeter Hinweis ist keine
- * Klärung – deshalb blockieren diese Schalter den Build, statt nur den Text
- * zu verstecken.
- *
  * Jeder Schalter darf erst nach echter fachlicher Klärung von Hand auf `true`
  * gesetzt werden. Wer ihn setzt, bestätigt damit den jeweils genannten
  * Sachverhalt – nicht das Bestehen einer Prüfung durch dieses Repository.

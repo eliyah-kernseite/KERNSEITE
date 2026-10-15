@@ -74,7 +74,7 @@ export const faqs: readonly FaqItem[] = [
     question: 'Ist die Website für Smartphones optimiert?',
     services: ['websites', 'seo-geo'],
     answer:
-      'Ja. Das mobile Layout wird eigenständig gestaltet, nicht nur verkleinert. Navigation, Lesbarkeit und Kontaktwege werden auch auf kleinen Bildschirmen geprüft.',
+      'Ja. Das mobile Layout gestalten wir eigens, es ist keine verkleinerte Desktop-Version. Navigation, Lesbarkeit und Kontaktwege werden auch auf kleinen Bildschirmen geprüft.',
   },
   {
     question: 'Was bedeutet SEO und GEO?',
@@ -101,10 +101,10 @@ export const faqs: readonly FaqItem[] = [
       'Dein Vertragspartner ist KERNSEITE, Inhaber Eliyah Korb. Eliyah ist dein zentraler Ansprechpartner und begleitet dein Projekt von Anfang bis Ende.',
   },
   {
-    question: 'Bekomme ich alles aus einer Hand?',
+    question: 'Brauche ich für Video oder Werbung andere Dienstleister?',
     services: ['video', 'social', 'ki', 'branding', 'ads'],
     answer:
-      'Ja. Website, SEO, Branding, Social Media, Werbeanzeigen, Foto und Video sowie KI-Automatisierung kommen von KERNSEITE. Du hast einen festen Ansprechpartner und musst nicht zwischen verschiedenen Dienstleistern vermitteln.',
+      'Nein. Website, SEO, Branding, Social Media, Werbeanzeigen, Foto und Video sowie KI-Automatisierung kommen von KERNSEITE. Du hast einen festen Ansprechpartner und musst nicht zwischen verschiedenen Dienstleistern vermitteln.',
   },
   {
     question: 'Sind Datenschutz und Barrierefreiheit enthalten?',

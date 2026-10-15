@@ -49,7 +49,7 @@ export const services: readonly Service[] = [
     label: 'Websites',
     cardTitle: 'Individuelle Websites',
     teaser:
-      'Der Kern. Struktur, Design, Inhalte und Technik werden für dein Unternehmen entwickelt und nicht aus einem Template zusammengeklickt.',
+      'Individuell geplante Unternehmenswebsites. Struktur, Design, Texte und Technik entwickeln wir für deinen Betrieb und für die Fragen deiner Kunden.',
     example:
       'Beispiel: Ein Handwerksbetrieb bekommt eine klare Leistungsstruktur, schnelle Kontaktwege und eine Karriere-Sektion, die wirklich zum Betrieb passt. Keine Baukasten-Startseite.',
     detailH1: 'Websites, die nicht nur gut aussehen.',
@@ -120,7 +120,7 @@ export const services: readonly Service[] = [
     label: 'SEO & GEO',
     cardTitle: 'SEO & GEO',
     teaser:
-      'Gefunden werden: in der Google-Suche und in KI-Antworten. SEO sorgt für saubere, auffindbare Seiten, GEO und GAIO verbessern die Verständlichkeit deiner Inhalte für KI-Antwortsysteme.',
+      'Damit dich Kunden in der Google-Suche und in KI-Antworten finden: SEO sorgt für saubere, auffindbare Seiten, GEO und GAIO machen deine Inhalte für KI-Antwortsysteme verständlicher.',
     example:
       'Beispiel: Eine Praxis bekommt je Behandlungsschwerpunkt eine eigene, klar verständliche Seite. So finden Suchmaschinen und Antwortsysteme dieselbe Aussage.',
     detailH1: 'Gefunden werden. Und richtig wiedergegeben.',
@@ -173,7 +173,7 @@ export const services: readonly Service[] = [
     label: 'Google-Sichtbarkeit',
     cardTitle: 'Google-Unternehmensprofil',
     teaser:
-      'Gefunden werden, wenn es vor Ort zählt. Ein sauber gepflegtes Profil macht dein Angebot und deinen Standort für Google eindeutig.',
+      'Ein gepflegtes Google-Unternehmensprofil, damit Google Angebot und Standort richtig zuordnet und Menschen aus der Nähe dich finden.',
     example:
       'Beispiel: Eine Praxis erhält korrekte Kategorien, klare Leistungen, aktuelle Bilder und einen Prozess, um auf Bewertungen zu antworten.',
     detailH1: 'Gefunden werden, wenn es vor Ort zählt.',
@@ -229,7 +229,7 @@ export const services: readonly Service[] = [
     label: 'Branding & Design',
     cardTitle: 'Branding & Corporate Design',
     teaser:
-      'Ein klares, wiedererkennbares Gesicht für dein Unternehmen: Logo, Farben, Schriften und die Regeln dahinter. Damit du überall gleich stark auftrittst.',
+      'Logo, Farben, Schriften und die Regeln dahinter, damit dein Unternehmen auf Website, Visitenkarte und Instagram gleich aussieht.',
     example:
       'Beispiel: Ein Handwerksbetrieb bekommt ein überarbeitetes Logo, eine feste Farbwelt und Vorlagen für Visitenkarten, Fahrzeugbeschriftung und Social Media.',
     detailH1: 'Ein Auftritt, an den man sich erinnert.',
@@ -275,7 +275,7 @@ export const services: readonly Service[] = [
     label: 'Performance Marketing',
     cardTitle: 'Performance Marketing',
     teaser:
-      'Deine Angebote gezielt vor die richtigen Menschen bringen. Mit Google und Meta Ads, passenden Landingpages und Zahlen, die du verstehst.',
+      'Google und Meta Ads mit passender Landingpage und einer Auswertung, die zeigt, was die Anzeigen gebracht haben.',
     example:
       'Beispiel: Ein Betrieb sucht Azubis. Eine Kampagne auf Instagram führt auf eine eigene Karriereseite mit kurzem Bewerbungsformular.',
     detailH1: 'Mehr Anfragen. Planbar statt zufällig.',
@@ -321,7 +321,7 @@ export const services: readonly Service[] = [
     label: 'Foto & Video',
     cardTitle: 'Foto & Video Produktion',
     teaser:
-      'Zeig, was Texte allein nicht vermitteln können. Fotos und Filme mit echten Einblicken schaffen Vertrauen, auf der Website und in Social Media.',
+      'Fotos und Filme aus deinem Betrieb für Website und Social Media, vom Konzept bis zum fertigen Schnitt.',
     example:
       'Beispiel: Ein kurzer Website-Clip zeigt Team und Arbeitsweise. Datenschutzfreundlich eingebunden, ohne Autoplay mit Ton.',
     detailH1: 'Zeig, was Texte allein nicht vermitteln können.',
@@ -369,7 +369,7 @@ export const services: readonly Service[] = [
     label: 'Social Media',
     cardTitle: 'Social Media Content',
     teaser:
-      'Eine Marke muss nicht jeden Tag posten. Sie muss erkennbar bleiben. Strategie und Wiedererkennung statt Aktionismus.',
+      'Ein wiedererkennbarer Social-Media-Auftritt mit einem Themenplan, der zu deinen Kapazitäten passt. Täglich posten muss dafür niemand.',
     example:
       'Beispiel: Ein Brandbook definiert Look und Tonalität, ein Redaktionsplan sorgt für regelmäßige, erkennbare Beiträge.',
     detailH1: 'Eine Marke muss nicht jeden Tag posten. Sie muss erkennbar bleiben.',
@@ -415,7 +415,7 @@ export const services: readonly Service[] = [
     label: 'KI & Automatisierung',
     cardTitle: 'KI & Automatisierung',
     teaser:
-      'Automatisiere Arbeit. Nicht die Beziehung zum Kunden. Sinnvolle Werkzeuge für wiederkehrende Abläufe, mit klaren Grenzen.',
+      'Chatbots, Voice Agents und Automatisierungen für wiederkehrende Abläufe. Beratung und Entscheidungen bleiben bei einem Menschen.',
     example:
       'Beispiel: Ein Website-Chatbot beantwortet häufige Fragen und bereitet Anfragen vor. Die eigentliche Beratung übernimmt ein Mensch.',
     detailH1: 'Automatisiere Arbeit. Nicht die Beziehung zum Kunden.',
