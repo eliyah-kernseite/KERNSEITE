@@ -53,20 +53,20 @@ export const regions: readonly Region[] = [
     focusTitle: 'Was du von uns bekommst',
     focus: [
       {
-        title: 'Persönlich statt Callcenter',
+        title: 'Direkt beim Inhaber',
         body: 'Du sprichst direkt mit Eliyah Korb. Termine vor Ort sind nach Absprache gern möglich, vieles klären wir auch schnell per Telefon oder Video.',
       },
       {
         title: 'Websites, die zu dir passen',
-        body: 'Keine Vorlage mit ausgetauschtem Logo. Struktur, Texte und Gestaltung entstehen für dein Unternehmen und für die Fragen, die deine Kunden wirklich stellen.',
+        body: 'Eine Vorlage, bei der nur das Logo getauscht wird, bekommst du bei uns nicht. Struktur, Texte und Gestaltung entstehen für dein Unternehmen und für die Fragen, die deine Kunden wirklich stellen.',
       },
       {
         title: 'Gefunden werden in der Region',
         body: 'Saubere Technik, klare Inhalte und ein gepflegtes Google-Unternehmensprofil helfen, dass dich Menschen aus der Region bei der Suche finden.',
       },
       {
-        title: 'Alles aus einer Hand',
-        body: 'Website, SEO, Google-Profil und auf Wunsch Video und Social Media. Als kleine Digitalagentur stimmen wir alles aufeinander ab, statt einzelne Bausteine zu verkaufen.',
+        title: 'Website und mehr, abgestimmt',
+        body: 'Website, SEO, Google-Profil und auf Wunsch Video und Social Media. Als kleine Digitalagentur stimmen wir das alles aufeinander ab. Einzelne Bausteine ohne Zusammenhang verkaufen wir nicht.',
       },
     ],
     areaTitle: 'Für Unternehmen aus der ganzen Region',
@@ -122,7 +122,7 @@ export const regions: readonly Region[] = [
     focus: [
       {
         title: 'Mittelstand verständlich zeigen',
-        body: 'Viele Schweinfurter Unternehmen arbeiten für andere Firmen. Wir bringen erklärungsbedürftige Leistungen so auf den Punkt, dass Einkäufer und Entscheider schnell verstehen, was du kannst.',
+        body: 'Viele Schweinfurter Unternehmen arbeiten für andere Firmen. Wir beschreiben erklärungsbedürftige Leistungen so klar, dass Einkäufer und Entscheider schnell verstehen, was du kannst.',
       },
       {
         title: 'Fachkräfte gewinnen',

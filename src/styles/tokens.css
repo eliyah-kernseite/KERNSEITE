@@ -86,8 +86,7 @@
   --space-3xl: 4.5rem;
   --space-4xl: 4.5rem;
   --space-5xl: 6rem;
-  /* Abschnittsabstand: 56–88px mobil, 88–144px auf Desktop. Vorher bis
-     192px – dadurch entstanden große, inhaltslose Flächen. */
+  /* Abschnittsabstand: 56–88px mobil, 88–144px auf Desktop. */
   --section-y: clamp(3.25rem, 5.5vw, 5.75rem);
 
   /* --- Layout ------------------------------------------------------------ */
@@ -98,8 +97,7 @@
   --grid-gap: clamp(1.25rem, 0.5rem + 2vw, 3rem);
 
   /* --- Radien / Schatten (fast keine) ------------------------------------ */
-  /* Marketingelemente sind rechteckig mit sehr kleinem Radius. Es gibt
-     bewusst keinen Pillen-Radius mehr – vollrunde Chips wirken beliebig. */
+  /* Kleine Radien, keine Pillenform. */
   --radius-sm: 3px;
   --radius-md: 6px;
   --radius-image: 4px;

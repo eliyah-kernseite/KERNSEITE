@@ -1,16 +1,4 @@
-/**
- * Wendet die gespeicherten Barrierefreiheits-Einstellungen an, bevor die Seite
- * zum ersten Mal gezeichnet wird. Deshalb liegt dieses Skript als externe,
- * blockierende Datei im <head> und nicht im gebündelten Modul-Skript – ein
- * verzögertes Modul liefe erst nach dem ersten Paint und die Seite würde
- * sichtbar umspringen.
- *
- * Externe Datei statt Inline-Script: Die Content Security Policy dieser
- * Website kommt ohne 'unsafe-inline' aus.
- *
- * Gespeichert wird ausschließlich die eigene Darstellungspräferenz –
- * keine personenbezogenen Daten, kein Tracking, kein Cookie.
- */
+// Darstellungseinstellungen vor dem ersten Paint setzen (blockierend, extern wegen CSP).
 (function () {
   try {
     var raw = localStorage.getItem('kernseite-accessibility');
@@ -24,6 +12,6 @@
     if (s.contrast === true) root.dataset.a11yContrast = 'high';
     if (s.motion === true) root.dataset.a11yMotion = 'reduced';
   } catch {
-    /* Gesperrter Speicher: Standarddarstellung, keine Fehlermeldung. */
+    /* Speicher gesperrt: Standard */
   }
 })();

@@ -47,7 +47,6 @@ const schemas = jsonLd.filter((s): s is Record<string, unknown> => s != null);
   )
 }
 
-<!-- Open Graph -->
 <meta property="og:type" content={ogType} />
 <meta property="og:site_name" content={site.name} />
 <meta property="og:locale" content={site.locale} />
@@ -60,7 +59,6 @@ const schemas = jsonLd.filter((s): s is Record<string, unknown> => s != null);
 <meta property="og:image:height" content="630" />
 <meta property="og:image:alt" content="KERNSEITE: individuelle Websites für Unternehmen" />
 
-<!-- Twitter -->
 <meta name="twitter:card" content={seo.twitterCard} />
 <meta name="twitter:title" content={fullTitle} />
 <meta name="twitter:description" content={description} />

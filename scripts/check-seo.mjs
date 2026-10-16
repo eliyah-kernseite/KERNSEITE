@@ -82,9 +82,22 @@ const seenCanon = new Map();
 const pages = walk(DIST).sort();
 let indexable = 0;
 
+// Textplatzhalter wie [PERSÖNLICHE ANEKDOTE: …] dürfen nicht live gehen.
+// In CI- und Vorschau-Builds nur Warnung, im Produktions-Build ein Fehler.
+const PLACEHOLDER_RE = /\[(?:PERSÖNLICHE?S? [A-ZÄÖÜ]+|KUNDENSTIMME|ERSETZEN)[^\]]*\]/;
+const nonProduction = ['.ci-fixture', '.preview-build'].some((m) => existsSync(join(DIST, m)));
+const placeholderWarnings = [];
+
 for (const file of pages) {
   const html = readFileSync(file, 'utf8');
   const route = routeOf(file);
+
+  const placeholder = html.match(PLACEHOLDER_RE);
+  if (placeholder) {
+    const msg = `Textplatzhalter noch offen: ${placeholder[0].slice(0, 80)}`;
+    if (nonProduction) placeholderWarnings.push(`${route}: ${msg}`);
+    else add(route, msg);
+  }
 
   const robots = grab(html, /<meta\s+name="robots"\s+content="([^"]*)"/i);
   const noindex = /noindex/i.test(robots);
@@ -184,6 +197,7 @@ if (existsSync(sitemapFile)) {
 
 console.log(`\n▶ check-seo.mjs ${DIST}`);
 console.log(`  ${pages.length} Seiten geprüft, davon ${indexable} indexierbar.`);
+for (const w of placeholderWarnings) console.warn(`  ! ${w}`);
 
 if (problems.length) {
   console.error(`\n✗ ${problems.length} Befund(e):`);

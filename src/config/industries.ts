@@ -43,8 +43,9 @@ export const industries: readonly Industry[] = [
     metaDescription:
       'Website für Handwerksbetriebe: Leistungen verständlich zeigen, regional gefunden werden und Anfragen wie Bewerbungen einfach machen.',
     ctaLabel: 'Website fürs Handwerk besprechen',
-    argument: 'Zeig deine Qualität, gewinne Aufträge und Bewerber. Mit klaren Kontaktwegen.',
-    detailH1: 'Websites fürs Handwerk. Leistungen zeigen, Anfragen erleichtern.',
+    argument:
+      'Damit Kunden und Bewerber sehen, was dein Betrieb draufhat, und schnell anrufen können.',
+    detailH1: 'Websites fürs Handwerk, die Leistungen zeigen und Anfragen leichter machen.',
     intro:
       'Ein etablierter Betrieb verdient einen Auftritt, der die tatsächliche Qualität zeigt und neben Kunden auch Bewerber überzeugt.',
     focus: [
@@ -58,7 +59,7 @@ export const industries: readonly Industry[] = [
       },
       {
         title: 'Referenzen und Baustellen',
-        body: 'Abgeschlossene Projekte und Baustellen zeigen greifbar, was der Betrieb kann. Mit echten Bildern statt Stockfotos.',
+        body: 'Abgeschlossene Projekte und Baustellen zeigen greifbar, was der Betrieb kann. Am besten mit eigenen Fotos, Stockbilder wirken hier schnell beliebig.',
       },
       {
         title: 'Bewerber gewinnen',
@@ -85,7 +86,7 @@ export const industries: readonly Industry[] = [
       {
         question: 'Was gehört auf die Website eines Handwerksbetriebs?',
         answer:
-          'Im Mittelpunkt stehen deine Leistungen, dein Einsatzgebiet und echte Bilder aus deiner Arbeit. Dazu kommen eine kurze Vorstellung des Betriebs, Referenzen, Kontaktwege und bei Bedarf ein Bereich für Bewerber. Wichtig ist, dass Kunden schnell erkennen, ob du für ihr Anliegen der richtige Ansprechpartner bist.',
+          'Das Wichtigste sind deine Leistungen, dein Einsatzgebiet und echte Bilder aus deiner Arbeit. Dazu kommen eine kurze Vorstellung des Betriebs, Referenzen, Kontaktwege und bei Bedarf ein Bereich für Bewerber. Wichtig ist, dass Kunden schnell erkennen, ob du für ihr Anliegen der richtige Ansprechpartner bist.',
       },
       {
         question: 'Brauche ich als Handwerker eine Website, wenn die Auftragslage gut ist?',
@@ -118,7 +119,8 @@ export const industries: readonly Industry[] = [
     metaDescription:
       'Praxis-Website, die Vertrauen schafft: ruhige Nutzerführung, klar erklärte Leistungen und einfache Terminwege. Ganz ohne Heilversprechen.',
     ctaLabel: 'Praxis-Website besprechen',
-    argument: 'Vertrauen, ruhige Nutzerführung und klare Terminwege. Ohne Heilversprechen.',
+    argument:
+      'Ruhige Nutzerführung und klare Terminwege, die Vertrauen schaffen. Heilversprechen gibt es keine.',
     detailH1: 'Praxis-Websites, die Vertrauen schaffen und Termine erleichtern.',
     intro:
       'Patientinnen und Patienten entscheiden sich für Menschen, denen sie vertrauen. Eine ruhige, klare Website unterstützt genau das.',
@@ -204,7 +206,7 @@ export const industries: readonly Industry[] = [
     focus: [
       {
         title: 'Atmosphäre',
-        body: 'Die Stimmung des Hauses wird visuell erlebbar, mit hochwertigen Bildern und Videos statt Standardfotos.',
+        body: 'Wie es bei dir aussieht und sich anfühlt, zeigen hochwertige eigene Bilder und Videos. Mit Standardfotos klappt das kaum.',
       },
       {
         title: 'Für Restaurants: Speisekarte und Öffnungszeiten',
@@ -226,7 +228,7 @@ export const industries: readonly Industry[] = [
     relatedServices: ['websites', 'video', 'google'],
     ctaTitle: 'Eine Website, die Lust auf deinen Betrieb macht.',
     referenceText:
-      'So kann ein Gastro-Auftritt aussehen: Speisekarte und Wochenangebote stehen im Mittelpunkt, Anruf und Anfahrt sind jederzeit schnell erreichbar.',
+      'So kann ein Gastro-Auftritt aussehen: Speisekarte und Wochenangebote stehen ganz vorne, Anruf und Anfahrt sind jederzeit schnell erreichbar.',
     relatedTeasers: {
       websites:
         'Eine Website mit Speisekarte, Angeboten, Öffnungszeiten und Anfahrt, die auf dem Smartphone genauso gut funktioniert wie am Rechner.',
@@ -274,8 +276,9 @@ export const industries: readonly Industry[] = [
     metaDescription:
       'Website für lokale Dienstleister: Leistungen klar benennen, im Einzugsgebiet gefunden werden und die Kontaktaufnahme kurz halten.',
     ctaLabel: 'Website-Projekt besprechen',
-    argument: 'Klare Leistungen, regionale Auffindbarkeit und einfache Kontaktaufnahme.',
-    detailH1: 'Websites für Dienstleister. Verständlich, persönlich, erreichbar.',
+    argument:
+      'Leistungen, die man versteht, und ein Kontakt, der in der Region schnell gefunden ist.',
+    detailH1: 'Websites für Dienstleister, die verständlich erklären und leicht zu erreichen sind.',
     intro:
       'Ob Beratung, Pflege oder Service: Wer lokal Dienstleistungen anbietet, braucht Klarheit, Vertrauen und einen einfachen Weg zur Anfrage.',
     focus: [
@@ -416,7 +419,7 @@ export const industries: readonly Industry[] = [
       {
         question: 'Wie messen wir, ob die Website funktioniert?',
         answer:
-          'Mit deiner Freigabe werten wir die Google Search Console aus und schauen uns die Qualität der eingehenden Anfragen an. Wichtig ist nicht die reine Besucherzahl, sondern ob die richtigen Unternehmen Kontakt aufnehmen. Daraus leiten wir ab, welche Inhalte wir weiter verbessern.',
+          'Mit deiner Freigabe werten wir die Google Search Console aus und schauen uns die Qualität der eingehenden Anfragen an. Die reine Besucherzahl sagt dabei wenig, spannender ist, ob die richtigen Unternehmen Kontakt aufnehmen. Daraus leiten wir ab, welche Inhalte wir weiter verbessern.',
       },
     ],
   },
