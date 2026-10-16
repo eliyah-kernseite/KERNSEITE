@@ -91,7 +91,7 @@ const post = idx >= 0 ? industry.detailH1.slice(idx + accent.length) : '';
   }
 
   <div class="content branch-action">
-    <a class="btn btn--primary" href={`/kontakt/?branche=${industry.slug}`}
+    <a class="btn btn--primary" href={`/kontakt/#branche=${industry.slug}`}
       >{industry.ctaLabel} <span aria-hidden="true">↗</span></a
     >
   </div>
@@ -191,7 +191,7 @@ const post = idx >= 0 ? industry.detailH1.slice(idx + accent.length) : '';
     title={industry.ctaTitle}
     text={industry.ctaText}
     ctaLabel={industry.ctaLabel}
-    ctaHref={`/kontakt/?branche=${industry.slug}`}
+    ctaHref={`/kontakt/#branche=${industry.slug}`}
   />
 </PageLayout>
 

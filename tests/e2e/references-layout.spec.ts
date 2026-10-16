@@ -17,7 +17,7 @@ for (const slug of ['bestattungen-gorhau']) {
     await expect(page.locator('a[href*=".example"]')).toHaveCount(0);
     await expect(page.getByRole('link', { name: 'Ähnliche Website anfragen' })).toHaveAttribute(
       'href',
-      '/kontakt/?leistung=websites',
+      '/kontakt/#leistung=websites',
     );
     await testInfo.attach(slug, {
       body: await page.screenshot({ fullPage: true }),

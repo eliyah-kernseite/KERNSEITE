@@ -235,6 +235,22 @@ test.describe('Conversion – Preisorientierung und funktionierender Kontext', (
     await expect(page.locator('#cf-service')).toHaveValue('SEO & GEO');
   });
 
+  test('#leistung= und #branche= belegen das Formular ohne URL-Parameter vor', async ({ page }) => {
+    await page.goto('/kontakt/#leistung=seo-geo');
+    await expect(page.locator('#cf-service')).toHaveValue('SEO & GEO');
+    await page.goto('/kontakt/#branche=handwerk');
+    await page.reload();
+    await expect(page.locator('[data-branch-field]')).toHaveValue('Handwerk');
+  });
+
+  test('Interne Links enthalten keine dynamischen Parameter', async () => {
+    const seiten = ['index.html', 'leistungen/websites/index.html', 'branchen/handwerk/index.html'];
+    for (const seite of seiten) {
+      const html = readFileSync(join(DIST, seite), 'utf8');
+      expect(html, seite).not.toMatch(/href="\/[^"]*\?/);
+    }
+  });
+
   test('?branche= wird übernommen, aber nur aus der Whitelist', async ({ page }) => {
     await page.goto('/kontakt/?branche=handwerk');
     await expect(page.locator('[data-branch-field]')).toHaveValue('Handwerk');
