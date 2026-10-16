@@ -1,0 +1,1 @@
+var e=document.querySelector(`[data-consent-reset]`),t=document.querySelector(`[data-reset-status]`);e?.addEventListener(`click`,()=>{localStorage.removeItem(`kernseite-consent`),t&&(t.textContent=`Deine Auswahl wurde zurückgesetzt. Beim nächsten Seitenaufruf wirst du erneut gefragt.`)});
