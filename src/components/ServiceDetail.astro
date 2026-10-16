@@ -50,7 +50,7 @@ const service = getService(serviceKey);
   extraJsonLd={[serviceJsonLd(service), faqPageJsonLd(questions)]}
 >
   <div slot="hero-extra" class="detail-actions">
-    <a class="btn btn--primary" href={`/kontakt/?leistung=${serviceKey}`}
+    <a class="btn btn--primary" href={`/kontakt/#leistung=${serviceKey}`}
       >Vorhaben besprechen <span aria-hidden="true">↗</span></a
     >
   </div>
@@ -85,7 +85,7 @@ const service = getService(serviceKey);
   <CtaBanner
     title="Was möchtest du bewegen?"
     text={ctaText}
-    ctaHref={`/kontakt/?leistung=${serviceKey}`}
+    ctaHref={`/kontakt/#leistung=${serviceKey}`}
     ctaLabel="Idee besprechen"
   />
 </PageLayout>

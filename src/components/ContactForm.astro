@@ -292,12 +292,18 @@ const timings = [
   /**
    * Kontext aus der Adresszeile vorbelegen – ausschließlich über Whitelist.
    *
-   * Der Wert aus `?leistung=` / `?branche=` wird nur zum Vergleich benutzt.
+   * Interne Links übergeben den Kontext als Fragment (`#leistung=` / `#branche=`),
+   * damit Crawler keine URLs mit dynamischen Parametern sehen. Ältere Links mit
+   * `?leistung=` / `?branche=` funktionieren weiter.
+   * Der Wert wird nur zum Vergleich benutzt.
    * Gesetzt wird immer der Wert aus der serverseitig erzeugten Liste, nie der
    * Wert aus der URL. Kein Schreiben in innerHTML, keine Ausgabe im Text.
    */
   if (form) {
     const params = new URLSearchParams(window.location.search);
+    new URLSearchParams(window.location.hash.slice(1)).forEach((wert, schluessel) => {
+      params.set(schluessel, wert);
+    });
 
     const wunschLeistung = params.get('leistung');
     const erlaubteKeys = (form.dataset.serviceKeys ?? '').split(',').filter(Boolean);

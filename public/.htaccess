@@ -97,7 +97,11 @@ Options -Indexes
 </IfModule>
 
 # ----- MIME ------------------------------------------------------------------
+# Zeichensatz auch im HTTP-Header nennen (Content-Type: text/html; charset=utf-8),
+# nicht nur im <meta charset> des Dokuments.
+AddDefaultCharset utf-8
 <IfModule mod_mime.c>
+  AddCharset utf-8 .html .css .js .mjs .json .webmanifest .svg .xml .txt
   AddType application/manifest+json .webmanifest
   AddType font/woff2 .woff2
   AddType image/avif .avif
