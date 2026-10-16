@@ -23,7 +23,7 @@ Hostinger kann den Astro-Code nicht selbst bauen. Deshalb baut GitHub ihn:
 1. Jeder Push auf `main` startet `.github/workflows/deploy-hostinger.yml`.
    Der Workflow baut den Produktionsstand, führt die QA aus, installiert
    PHPMailer und legt das fertige Paket (Inhalt von `public_html`) auf den
-   Branch `hostinger-deploy`.
+   Branch `live`.
 2. Hostinger zieht genau diesen Branch nach `public_html`.
 
 Einmalige Einrichtung in Hostinger:
@@ -36,7 +36,7 @@ Einmalige Einrichtung in Hostinger:
    und in GitHub unter Repository → Settings → Deploy keys → Add deploy key
    eintragen (nur Lesezugriff).
 4. Repository: `git@github.com:eliyah-kernseite/KERNSEITE.git`,
-   Branch: `hostinger-deploy`, Verzeichnis: leer lassen (= `public_html`).
+   Branch: `live`, Verzeichnis: leer lassen (= `public_html`).
    **Erstellen**.
 5. Beim neuen Eintrag **Auto-Deployment** aktivieren und die angezeigte
    Webhook-URL in GitHub unter Settings → Webhooks → Add webhook eintragen
