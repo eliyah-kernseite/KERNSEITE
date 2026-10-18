@@ -1,0 +1,24 @@
+name: Fetch photos (temporär)
+on:
+  push:
+    branches: [claude/kernseite-feinschliff]
+    paths: [assets-source/neu/fetch-list.txt]
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          while read -r name id; do
+            [ -z "$name" ] && continue
+            curl -fsSL "https://unsplash.com/photos/$id/download?force=true&w=2400" -o "assets-source/neu/$name.jpg" || echo "FAILED $name"
+          done < assets-source/neu/fetch-list.txt
+          ls -la assets-source/neu
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          git add assets-source/neu/*.jpg
+          git commit -m "Fotos von Unsplash geladen" || true
+          git push
