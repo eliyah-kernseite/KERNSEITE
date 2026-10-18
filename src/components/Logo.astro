@@ -1,0 +1,42 @@
+---
+/**
+ * Logo – die Wortmarke KERNSEITE mit dem türkisen Kern als Quadrat.
+ *
+ * Das Quadrat ersetzt den Punkt und taucht überall wieder auf: im Favicon
+ * (`public/favicon.svg`, türkise Kachel mit „KS“), im großen Schriftzug im
+ * Footer. Beim Überfahren springt der Kern kurz nach oben.
+ */
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+---
+
+<span class:list={['logo', className]}>
+  KERNSEITE<span class="logo__core" aria-hidden="true"></span>
+</span>
+
+<style>
+  .logo {
+    display: inline-flex;
+    align-items: baseline;
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    line-height: 1;
+    color: var(--text);
+    white-space: nowrap;
+  }
+  .logo__core {
+    display: inline-block;
+    inline-size: 0.26em;
+    block-size: 0.26em;
+    margin-inline-start: 0.08em;
+    background: var(--ks-cyan);
+    transition: transform 500ms var(--ease-out);
+  }
+  :global(a:hover) > .logo .logo__core,
+  :global(a:focus-visible) > .logo .logo__core {
+    transform: translateY(-0.5em) rotate(90deg);
+  }
+</style>

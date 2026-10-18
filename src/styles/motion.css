@@ -1,0 +1,252 @@
+/* =============================================================================
+   KERNSEITE – Bewegung
+   Gegenstück zu src/scripts/motion.ts. Versteckt wird nur unter
+   `html.has-motion`; ohne JavaScript oder mit reduzierter Bewegung bleibt
+   alles sichtbar und ruhig.
+   ========================================================================== */
+
+/* --- Einblenden ----------------------------------------------------------- */
+html.has-motion [data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 2.2rem, 0);
+  transition:
+    opacity 900ms var(--ease-out) var(--reveal-delay, 0ms),
+    transform 1100ms var(--ease-out) var(--reveal-delay, 0ms);
+}
+html.has-motion [data-reveal='fade'] {
+  transform: none;
+}
+html.has-motion [data-reveal='scale'] {
+  transform: scale(0.94);
+}
+html.has-motion [data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* --- Überschriften Wort für Wort ---------------------------------------- */
+.split-w {
+  display: inline-block;
+  overflow: clip;
+  /* Platz für Unterlängen, sonst schneidet `overflow` g, p und y ab. */
+  padding-block-end: 0.12em;
+  margin-block-end: -0.12em;
+  vertical-align: top;
+}
+.split {
+  display: inline-block;
+}
+html.has-motion [data-split] .split {
+  transform: translate3d(0, 110%, 0);
+  transition: transform 1000ms var(--ease-out) var(--split-delay, 0ms);
+}
+html.has-motion [data-split].is-in .split {
+  transform: none;
+}
+
+/* --- Fließtext, der sich beim Scrollen einfärbt -------------------------- */
+html.has-motion .scrub {
+  color: color-mix(in srgb, currentColor 45%, transparent);
+  transition: color 400ms var(--ease-out);
+}
+html.has-motion .scrub.is-lit {
+  color: inherit;
+}
+
+/* --- Parallaxe ------------------------------------------------------------ */
+html.has-motion [data-parallax] {
+  transform: translate3d(0, var(--parallax, 0px), 0) scale(1.12);
+  will-change: transform;
+}
+
+/* --- Magnetische Schaltflächen ------------------------------------------- */
+[data-magnetic] {
+  transform: translate3d(var(--mx, 0px), var(--my, 0px), 0);
+  transition:
+    transform 450ms var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+
+/* --- Bild öffnet sich von unten ----------------------------------------- */
+/* Die Maske sitzt auf dem Kind: Ein komplett maskiertes Element würde der
+   IntersectionObserver nie als sichtbar melden. */
+html.has-motion [data-reveal='clip'] {
+  opacity: 1;
+  transform: none;
+}
+html.has-motion [data-reveal='clip'] > * {
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 1400ms var(--ease-out) var(--reveal-delay, 0ms);
+}
+html.has-motion [data-reveal='clip'].is-in > * {
+  clip-path: inset(0 0 0 0);
+}
+
+/* --- Zeilen, die seitlich wandern ---------------------------------------- */
+html.has-motion [data-drift] {
+  transform: translate3d(var(--drift, 0), 0, 0);
+  will-change: transform;
+}
+
+/* --- Kippen und Lichtfleck ------------------------------------------------ */
+[data-tilt] {
+  transform: perspective(1200px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 600ms var(--ease-out);
+}
+[data-spotlight] {
+  position: relative;
+  isolation: isolate;
+}
+[data-spotlight]::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(
+    420px circle at var(--sx, 50%) var(--sy, 50%),
+    color-mix(in srgb, var(--ks-cyan) 16%, transparent),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 400ms var(--ease-out);
+  pointer-events: none;
+}
+[data-spotlight]:hover::before {
+  opacity: 1;
+}
+
+/* --- Eigener Mauszeiger --------------------------------------------------- */
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  pointer-events: none;
+  display: none;
+}
+html.has-motion .cursor {
+  display: block;
+}
+.cursor::before {
+  content: '';
+  position: absolute;
+  inline-size: 10px;
+  block-size: 10px;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: var(--ks-cyan);
+  opacity: 0;
+  transition:
+    inline-size 350ms var(--ease-out),
+    block-size 350ms var(--ease-out),
+    background-color 350ms var(--ease-out),
+    opacity 300ms var(--ease-out);
+}
+.cursor.is-on::before {
+  opacity: 1;
+}
+.cursor.is-link::before {
+  inline-size: 44px;
+  block-size: 44px;
+  background: color-mix(in srgb, var(--ks-bone) 14%, transparent);
+}
+.cursor.is-label::before {
+  inline-size: 104px;
+  block-size: 104px;
+  background: var(--ks-bone);
+}
+.cursor__label {
+  position: absolute;
+  translate: -50% -50%;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--ks-black);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 250ms var(--ease-out);
+}
+.cursor.is-label .cursor__label {
+  opacity: 1;
+}
+
+/* --- Bildvorschau an Listenzeilen ---------------------------------------- */
+.preview {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 50;
+  inline-size: 300px;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+  scale: 0.85;
+  transition:
+    opacity 300ms var(--ease-out),
+    scale 400ms var(--ease-out);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+}
+.preview.is-on {
+  opacity: 1;
+  scale: 1;
+}
+.preview img {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+
+/* --- Weiches Scrollen (Lenis) ------------------------------------------- */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* --- Laufband ------------------------------------------------------------- */
+@keyframes ks-marquee {
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* --- Notbremse ----------------------------------------------------------
+   Lädt das Skript nicht, wird nach zwei Sekunden trotzdem alles sichtbar. */
+@keyframes ks-failsafe {
+  to {
+    opacity: 1;
+    transform: none;
+    clip-path: inset(0 0 0 0);
+  }
+}
+html.has-motion:not(.motion-ready) [data-reveal],
+html.has-motion:not(.motion-ready) [data-reveal='clip'] > *,
+html.has-motion:not(.motion-ready) [data-split] .split {
+  animation: ks-failsafe 0.01s linear 2s forwards;
+}
+
+/* --- Weniger Bewegung ----------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  [data-magnetic] {
+    transform: none;
+  }
+}
+:root[data-a11y-motion='reduced'] [data-magnetic],
+:root[data-a11y-motion='reduced'] [data-parallax],
+:root[data-a11y-motion='reduced'] [data-tilt] {
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-tilt] {
+    transform: none;
+  }
+}

@@ -56,7 +56,7 @@ const questions = [
   ]}
   extraJsonLd={[serviceJsonLd(service), faqPageJsonLd(questions)]}
 >
-  <div slot="hero-extra" class="page-actions">
+  <div slot="hero-extra" class="page-actions" data-reveal>
     <a class="btn btn--primary" href="/kontakt/#leistung=seo-geo"
       >Sichtbarkeit besprechen <span aria-hidden="true">↗</span></a
     >
@@ -82,7 +82,7 @@ const questions = [
     <div class="content">
       <div class="section-heading">
         <h2>Gut für Menschen<br />und für Suchsysteme.</h2>
-      </div><div class="seo-cards">
+      </div><div class="seo-cards" data-reveal-group>
         <article>
           <h3>Inhalte mit Antworten</h3><p>
             Leistungsseiten mit konkreten Antworten, nachvollziehbaren Beispielen und den Begriffen,
@@ -155,9 +155,10 @@ const questions = [
   }
   .questions-board {
     padding: clamp(1.5rem, 3vw, 3rem);
-    background: var(--ks-cyan);
-    border-radius: 1.2rem;
-    color: #101214;
+    background: var(--ks-cream);
+    box-shadow: inset 0 2px 0 var(--ks-cyan);
+    border-radius: 0;
+    color: var(--text);
   }
   .questions-board p {
     font-family: var(--font-display);
@@ -172,7 +173,7 @@ const questions = [
   }
   .seo-cards article {
     background: var(--ks-cream);
-    border-radius: 1rem;
+    border-radius: 0;
     padding: 2rem;
   }
   .seo-cards h3 {

@@ -6,18 +6,13 @@ import ProjectGrid from '../../components/ProjectGrid.astro';
 import CtaBanner from '../../components/CtaBanner.astro';
 const breadcrumbs = [
   { name: 'Start', path: '/' },
-  { name: 'Projekte', path: '/arbeiten/' },
+  { name: 'Arbeiten', path: '/arbeiten/' },
 ];
 const workFaqs = [
   {
-    question: 'Was ist der Unterschied zwischen Website und Website-Entwurf?',
-    answer:
-      'Bei Kaya Döner Himmelstadt, Anna-Lena’s Kinderkörbchen und der Babyschlafberatung Anna-Lena Korb siehst du veröffentlichte Websites. Bestattungen Gorhau zeigen wir als Website-Entwurf: Gestaltung und Struktur sind ausgearbeitet, die Veröffentlichung steht noch aus. Wir kennzeichnen das bei jedem Projekt.',
-  },
-  {
     question: 'Warum sieht jedes Projekt anders aus?',
     answer:
-      'Weil jedes Unternehmen einen eigenen Charakter hat. Ein Imbiss braucht schnelle Wege zur Speisekarte, eine Kindertagespflege einen warmen, persönlichen Einstieg und ein Bestattungsunternehmen Ruhe und Orientierung. Fertige Vorlagen nehmen wir deshalb nicht, Struktur und Gestaltung entstehen für jede Aufgabe neu.',
+      'Weil jedes Unternehmen einen eigenen Charakter hat. Ein Imbiss braucht schnelle Wege zur Speisekarte, eine Kindertagespflege einen warmen, persönlichen Einstieg und ein Videoteam bewegte Bilder ab der ersten Sekunde. Fertige Vorlagen nehmen wir deshalb nicht, Struktur und Gestaltung entstehen für jede Aufgabe neu.',
   },
   {
     question: 'Sind das echte Kundenprojekte?',
@@ -54,17 +49,15 @@ const workFaqs = [
 
 <PageLayout
   extraJsonLd={[faqPageJsonLd(workFaqs)]}
-  title="Webdesign-Projekte & Website-Entwürfe"
-  description="Webdesign von KERNSEITE: Kaya Döner, Kinderkörbchen, Babyschlafberatung und Bestattungen Gorhau. Einblicke in Gestaltung und Umsetzung."
+  title="Webdesign-Referenzen aus Würzburg"
+  description="Webdesign-Referenzen von KERNSEITE: Southframe Productions, Babyschlafberatung, Kaya Döner und Kinderkörbchen. Echte Kundenprojekte mit Live-Link."
   h1="Websites mit eigenem Charakter."
-  lead="Gastronomie, Betreuung und persönliche Beratung: Schau dir unsere Websites und aktuellen Entwürfe an. Jedes Projekt beginnt mit einer anderen Aufgabe."
+  lead="Videoproduktion, Gastronomie, Betreuung und Beratung: Alle Projekte sind echte Kundenseiten und online. Jedes beginnt mit einer anderen Aufgabe."
   breadcrumbs={breadcrumbs}
 >
   <section class="section section--cream">
     <div class="content">
-      <h2 class="visually-hidden">Websites und aktuelle Entwürfe</h2><ProjectGrid
-        context="arbeiten"
-      />
+      <h2 class="visually-hidden">Alle Referenzen</h2><ProjectGrid context="arbeiten" />
     </div>
   </section>
   <FaqSection items={workFaqs} title={['Fragen zu', 'unseren Projekten.']} variant="paper" />

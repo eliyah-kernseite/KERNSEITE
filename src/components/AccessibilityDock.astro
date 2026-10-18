@@ -1,72 +1,67 @@
 ---
 /**
- * AccessibilityDock – globaler Barrierefreiheits-Schalter unten links.
+ * AccessibilityDock – „Aa“-Schalter unten links mit dem Feld „Lesbarkeit“.
  *
- * Zwei Bedienbereiche in einer kompakten dunklen Kapsel:
- *   „Aa“   – öffnet die Textgröße-Einstellungen (100 / 112,5 / 125 Prozent)
- *   Kreis  – schaltet den Hochkontrastmodus um
- *
- * Im geöffneten Feld liegen zusätzlich „Bewegungen reduzieren“ und
- * „Einstellungen zurücksetzen“. Alles ist echtes HTML mit Buttons, ohne
- * externe Bibliothek, ohne Icon-Font und ohne Bilddatei; das Kontrastsymbol
- * ist eine CSS-Fläche.
+ * Gleiche Bedienung wie auf den Kundenseiten (z. B. Kaya Döner):
+ *   Schrift     A− / A+ in drei Stufen (100 / 112,5 / 125 Prozent)
+ *   Mehr Kontrast         An / Aus
+ *   Bewegung reduzieren   An / Aus (hält alle Animationen an)
+ *   Zurücksetzen
  *
  * Die Einstellungen liegen in `localStorage` unter `kernseite-accessibility`
- * und enthalten keine personenbezogenen Daten – deshalb ist dafür keine
- * Einwilligung nötig. Angewendet werden sie über ein sehr kurzes Skript im
- * `<head>` (siehe `BaseLayout.astro`), damit nichts aufflackert.
+ * und enthalten keine personenbezogenen Daten, deshalb ist dafür keine
+ * Einwilligung nötig. Angewendet werden sie vor dem ersten Paint durch
+ * `public/a11y-init.js`, damit nichts aufflackert.
  */
 ---
 
 <div class="a11y" data-a11y>
-  <div class="a11y__bar">
-    <button
-      type="button"
-      class="a11y__btn a11y__btn--text"
-      data-a11y-toggle
-      aria-expanded="false"
-      aria-controls="a11y-panel"
-      aria-label="Darstellung anpassen: Textgröße, Kontrast und Bewegung"
-    >
-      <span class="a11y__aa" aria-hidden="true">Aa</span>
-    </button>
-  </div>
-
   <div class="a11y__panel" id="a11y-panel" data-a11y-panel hidden>
-    <div class="a11y__panel-heading">
-      <strong>Darstellung anpassen</strong><button
+    <p class="a11y__title" id="a11y-title">Lesbarkeit</p>
+    <div class="a11y__row" role="group" aria-labelledby="a11y-size-label">
+      <span id="a11y-size-label">Schrift <span data-a11y-size-value>100 %</span></span>
+      <span class="a11y__pair">
+        <button type="button" class="a11y__btn" data-a11y-size="down" aria-label="Schrift kleiner"
+          >A−</button
+        >
+        <button type="button" class="a11y__btn" data-a11y-size="up" aria-label="Schrift größer"
+          >A+</button
+        >
+      </span>
+    </div>
+    <div class="a11y__row">
+      <span id="a11y-contrast-label">Mehr Kontrast</span>
+      <button
         type="button"
-        data-a11y-close
-        aria-label="Einstellungen schließen">×</button
+        class="a11y__btn a11y__btn--switch"
+        data-a11y-contrast-toggle
+        aria-pressed="false"
+        aria-labelledby="a11y-contrast-label">Aus</button
       >
     </div>
-    <button type="button" class="a11y__row" data-a11y-contrast-toggle aria-pressed="false"
-      >Hoher Kontrast</button
-    >
-    <fieldset class="a11y__group">
-      <legend class="a11y__legend">Textgröße</legend>
-      <div class="a11y__choices">
-        <button type="button" class="a11y__choice" data-a11y-size="1" aria-pressed="true">
-          Standard
-        </button>
-        <button type="button" class="a11y__choice" data-a11y-size="1.125" aria-pressed="false">
-          Größer
-        </button>
-        <button type="button" class="a11y__choice" data-a11y-size="1.25" aria-pressed="false">
-          Sehr groß
-        </button>
-      </div>
-    </fieldset>
-
-    <div class="a11y__group">
-      <button type="button" class="a11y__row" data-a11y-motion aria-pressed="false">
-        Bewegungen reduzieren
-      </button>
-      <button type="button" class="a11y__row a11y__row--quiet" data-a11y-reset>
-        Einstellungen zurücksetzen
-      </button>
+    <div class="a11y__row">
+      <span id="a11y-motion-label">Bewegung reduzieren</span>
+      <button
+        type="button"
+        class="a11y__btn a11y__btn--switch"
+        data-a11y-motion
+        aria-pressed="false"
+        aria-labelledby="a11y-motion-label">Aus</button
+      >
     </div>
+    <button type="button" class="a11y__reset" data-a11y-reset>Zurücksetzen</button>
   </div>
+
+  <button
+    type="button"
+    class="a11y__toggle"
+    data-a11y-toggle
+    aria-expanded="false"
+    aria-controls="a11y-panel"
+    aria-label="Lesbarkeit anpassen: Schriftgröße, Kontrast und Bewegung"
+  >
+    <span aria-hidden="true">Aa</span>
+  </button>
 
   <p class="a11y__status" role="status" aria-live="polite" data-a11y-status></p>
 </div>
@@ -102,15 +97,17 @@
     }
   }
 
-  /** Setzt die Werte am Wurzelelement – die CSS-Regeln hängen daran. */
+  /** Setzt die Werte am Wurzelelement, die CSS-Regeln hängen daran. */
   function apply(s: Settings) {
     const root = document.documentElement;
     root.style.setProperty('--a11y-scale', String(s.size));
-    root.dataset.a11yContrast = s.contrast ? 'high' : '';
-    root.dataset.a11yMotion = s.motion ? 'reduced' : '';
-    if (!s.contrast) delete root.dataset.a11yContrast;
-    if (!s.motion) delete root.dataset.a11yMotion;
+    if (s.contrast) root.dataset.a11yContrast = 'high';
+    else delete root.dataset.a11yContrast;
+    if (s.motion) root.dataset.a11yMotion = 'reduced';
+    else delete root.dataset.a11yMotion;
   }
+
+  const percent = (size: number) => `${String(size * 100).replace('.', ',')} %`;
 
   const dock = document.querySelector<HTMLElement>('[data-a11y]');
   if (dock) {
@@ -119,7 +116,9 @@
     const contrastBtn = dock.querySelector<HTMLButtonElement>('[data-a11y-contrast-toggle]')!;
     const motionBtn = dock.querySelector<HTMLButtonElement>('[data-a11y-motion]')!;
     const resetBtn = dock.querySelector<HTMLButtonElement>('[data-a11y-reset]')!;
-    const sizeBtns = [...dock.querySelectorAll<HTMLButtonElement>('[data-a11y-size]')];
+    const down = dock.querySelector<HTMLButtonElement>('[data-a11y-size="down"]')!;
+    const up = dock.querySelector<HTMLButtonElement>('[data-a11y-size="up"]')!;
+    const sizeValue = dock.querySelector<HTMLElement>('[data-a11y-size-value]')!;
     const status = dock.querySelector<HTMLElement>('[data-a11y-status]')!;
 
     let state = read();
@@ -130,10 +129,13 @@
 
     const paint = () => {
       contrastBtn.setAttribute('aria-pressed', String(state.contrast));
+      contrastBtn.textContent = state.contrast ? 'An' : 'Aus';
       motionBtn.setAttribute('aria-pressed', String(state.motion));
-      for (const b of sizeBtns) {
-        b.setAttribute('aria-pressed', String(Number(b.dataset.a11ySize) === state.size));
-      }
+      motionBtn.textContent = state.motion ? 'An' : 'Aus';
+      const i = SIZES.indexOf(state.size);
+      sizeValue.textContent = percent(state.size);
+      down.disabled = i <= 0;
+      up.disabled = i >= SIZES.length - 1;
     };
 
     const save = () => {
@@ -145,7 +147,7 @@
     const open = () => {
       panel.hidden = false;
       toggle.setAttribute('aria-expanded', 'true');
-      panel.querySelector<HTMLElement>('button')?.focus();
+      panel.querySelector<HTMLElement>('button:not([disabled])')?.focus();
     };
     const close = (focusToggle = false) => {
       panel.hidden = true;
@@ -158,25 +160,26 @@
       else close();
     });
 
+    const step = (by: number) => {
+      const i = Math.min(SIZES.length - 1, Math.max(0, SIZES.indexOf(state.size) + by));
+      state.size = SIZES[i];
+      save();
+      say(`Schriftgröße ${percent(state.size)}.`);
+    };
+    down.addEventListener('click', () => step(-1));
+    up.addEventListener('click', () => step(1));
+
     contrastBtn.addEventListener('click', () => {
       state.contrast = !state.contrast;
       save();
-      say(state.contrast ? 'Hoher Kontrast eingeschaltet.' : 'Hoher Kontrast ausgeschaltet.');
+      say(state.contrast ? 'Mehr Kontrast eingeschaltet.' : 'Mehr Kontrast ausgeschaltet.');
     });
 
     motionBtn.addEventListener('click', () => {
       state.motion = !state.motion;
       save();
-      say(state.motion ? 'Bewegungen reduziert.' : 'Bewegungen wieder erlaubt.');
+      say(state.motion ? 'Bewegung reduziert.' : 'Bewegung wieder erlaubt.');
     });
-
-    for (const b of sizeBtns) {
-      b.addEventListener('click', () => {
-        state.size = Number(b.dataset.a11ySize);
-        save();
-        say(`Textgröße: ${b.textContent?.trim()}.`);
-      });
-    }
 
     resetBtn.addEventListener('click', () => {
       state = { ...DEFAULTS };
@@ -193,7 +196,6 @@
       if (!dock.contains(e.target as Node)) close();
     });
 
-    dock.querySelector('[data-a11y-close]')?.addEventListener('click', () => close(true));
     paint();
   }
 </script>
@@ -205,8 +207,10 @@
     inset-block-end: calc(16px + env(safe-area-inset-bottom, 0px));
     inset-inline-start: calc(12px + env(safe-area-inset-left, 0px));
     display: grid;
-    gap: 0.5rem;
+    gap: 0.75rem;
     justify-items: start;
+    /* Feste Größen: Das Feld soll nicht mit der Schrift der Seite wachsen. */
+    font-size: 16px;
   }
   @media (min-width: 48rem) {
     .a11y {
@@ -214,198 +218,121 @@
       inset-inline-start: calc(20px + env(safe-area-inset-left, 0px));
     }
   }
-  /* Solange ein Einwilligungsbanner sichtbar ist, rückt der Schalter nach
-     oben, damit er nichts verdeckt. */
+  /* Solange ein Einwilligungsbanner sichtbar ist, rückt der Schalter nach oben. */
   :global(body:has(.consent:not([hidden]))) .a11y {
     inset-block-end: calc(96px + env(safe-area-inset-bottom, 0px));
   }
 
-  /* --- Kapsel -------------------------------------------------------------
-     Dunkel, kompakt, feine Lichtkante. Vollrund ist hier bewusst erlaubt:
-     Das ist ein Systemschalter, kein Marketingelement. */
-  .a11y__bar {
-    display: flex;
-    align-items: stretch;
-    block-size: 46px;
-    border-radius: 999px;
-    background: linear-gradient(180deg, #23262a 0%, #14171a 100%);
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
-    overflow: hidden;
-  }
-
-  .a11y__btn {
+  .a11y__toggle {
     display: grid;
     place-items: center;
-    inline-size: 48px;
-    min-block-size: 44px;
-    padding: 0;
-    border: 0;
-    background: none;
-    color: var(--ks-cream);
-    cursor: pointer;
-  }
-  .a11y__btn:hover {
-    background: rgba(255, 255, 255, 0.08);
-  }
-  .a11y__btn:focus-visible {
-    outline: 3px solid var(--ks-cyan);
-    outline-offset: -3px;
-  }
-
-  .a11y__aa {
-    font-family: var(--font-body);
-    font-weight: var(--fw-semibold);
-    font-size: 1rem;
-    line-height: 1;
-  }
-
-  .a11y__sep {
-    inline-size: 1px;
-    background: rgba(255, 255, 255, 0.18);
-  }
-
-  /* Kontrastsymbol: Kreis, zur Hälfte hell, zur Hälfte dunkel. */
-  .a11y__circle {
-    inline-size: 20px;
-    block-size: 20px;
+    inline-size: 52px;
+    block-size: 52px;
+    border: 1px solid rgba(7, 8, 9, 0.18);
     border-radius: 50%;
-    border: 1.5px solid var(--ks-cream);
-    background: linear-gradient(90deg, var(--ks-cream) 0 50%, transparent 50% 100%);
+    background: var(--ks-bone);
+    color: var(--ks-black);
+    font-family: var(--font-body);
+    font-size: 17px;
+    font-weight: 700;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+    transition: transform 400ms var(--ease-out);
   }
-  .a11y__btn--contrast[aria-pressed='true'] .a11y__circle {
-    border-color: var(--ks-cyan);
-    background: linear-gradient(90deg, var(--ks-cyan) 0 50%, transparent 50% 100%);
+  .a11y__toggle:hover {
+    transform: scale(1.06);
+  }
+  .a11y__toggle:focus-visible {
+    outline: 3px solid var(--ks-cyan);
+    outline-offset: 3px;
   }
 
-  /* --- Einstellungsfeld ---------------------------------------------------
-     Öffnet nach oben, damit es auf Mobil nicht aus dem Bild läuft. */
   .a11y__panel {
-    order: -1;
-    inline-size: max-content;
-    max-inline-size: calc(100vw - 24px);
-    padding: 0.9rem 1rem 1rem;
-    border-radius: var(--radius-md);
-    background: #14171a;
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
-    color: var(--ks-cream);
+    inline-size: min(320px, calc(100vw - 24px));
+    padding: 22px 22px 18px;
+    border: 1px solid rgba(7, 8, 9, 0.12);
+    border-radius: 0;
+    background: var(--ks-bone);
+    color: var(--ks-black);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    animation: a11y-in 300ms var(--ease-out);
   }
   .a11y__panel[hidden] {
     display: none;
   }
-
-  .a11y__group {
-    margin: 0;
-    padding: 0;
-    border: 0;
+  @keyframes a11y-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
   }
-  .a11y__group + .a11y__group {
-    margin-block-start: 0.9rem;
-    padding-block-start: 0.9rem;
-    border-block-start: 1px solid rgba(255, 255, 255, 0.14);
+  .a11y__title {
+    margin-block-end: 14px;
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
   }
-  .a11y__legend {
-    padding: 0;
-    font-size: var(--fs-small);
-    font-weight: var(--fw-semibold);
-    color: var(--ks-cyan);
-  }
-  .a11y__choices {
+  .a11y__row {
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-    margin-block-start: 0.6rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding-block: 8px;
+    font-size: 16px;
+    line-height: 1.3;
   }
-
-  .a11y__choice,
-  .a11y__row {
-    font-family: var(--font-body);
-    font-size: var(--fs-small);
-    font-weight: var(--fw-medium);
-    color: var(--ks-cream);
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: var(--radius-sm);
-    padding: 0.55rem 0.8rem;
-    min-block-size: 44px;
-    cursor: pointer;
-    text-align: start;
+  .a11y__pair {
+    display: flex;
+    gap: 6px;
   }
-  .a11y__row {
-    display: block;
-    inline-size: 100%;
+  .a11y__btn {
+    min-inline-size: 48px;
+    min-block-size: 48px;
+    padding-inline: 10px;
+    border: 1px solid rgba(7, 8, 9, 0.22);
+    border-radius: 0;
+    background: transparent;
+    color: var(--ks-black);
+    font-size: 16px;
+    font-weight: 700;
   }
-  .a11y__row + .a11y__row {
-    margin-block-start: 0.4rem;
+  .a11y__btn:hover:not(:disabled) {
+    border-color: var(--ks-black);
   }
-  .a11y__row--quiet {
-    background: none;
-    color: #b9bcc0;
+  .a11y__btn:disabled {
+    color: rgba(7, 8, 9, 0.4);
+    cursor: default;
   }
-  .a11y__choice:hover,
-  .a11y__row:hover {
-    background: rgba(255, 255, 255, 0.14);
+  .a11y__btn--switch {
+    min-inline-size: 58px;
   }
-  .a11y__choice:focus-visible,
-  .a11y__row:focus-visible {
-    outline: 3px solid var(--ks-cyan);
+  .a11y__btn--switch[aria-pressed='true'] {
+    background: var(--ks-black);
+    border-color: var(--ks-black);
+    color: var(--ks-bone);
+  }
+  .a11y__btn:focus-visible,
+  .a11y__reset:focus-visible {
+    outline: 3px solid var(--ks-black);
     outline-offset: 2px;
   }
-  .a11y__choice[aria-pressed='true'],
-  .a11y__row[aria-pressed='true'] {
-    background: var(--ks-cyan);
-    border-color: var(--ks-cyan);
+  .a11y__reset {
+    min-block-size: 44px;
+    margin-block-start: 10px;
+    padding: 0;
+    border: 0;
+    background: none;
     color: var(--ks-black);
+    font-size: 16px;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
   }
-
-  /* Statusmeldung nur für Screenreader. */
   .a11y__status {
     position: absolute;
     inline-size: 1px;
     block-size: 1px;
-    margin: -1px;
-    padding: 0;
     overflow: hidden;
-    clip-path: inset(50%);
+    clip: rect(0 0 0 0);
     white-space: nowrap;
-  }
-
-  @media print {
-    .a11y {
-      display: none;
-    }
-  }
-</style>
-
-<style>
-  .a11y__bar {
-    block-size: 50px;
-  }
-  .a11y__btn {
-    inline-size: 54px;
-  }
-  .a11y__panel {
-    max-height: calc(100dvh - 100px);
-    overflow: auto;
-    order: -1;
-  }
-  .a11y__panel-heading {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 1rem;
-    margin-bottom: 0.75rem;
-  }
-  .a11y__panel-heading button {
-    width: 44px;
-    height: 44px;
-    font-size: 1.6rem;
-  }
-  .a11y__row {
-    min-height: 44px;
-  }
-  .a11y__choice {
-    min-height: 44px;
   }
 </style>

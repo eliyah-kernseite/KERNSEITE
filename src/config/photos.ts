@@ -1,5 +1,5 @@
 /** Fotoregister. Quellen und Dateiprüfsummen: assets-source/photo-credits.json. */
-export type PhotoGroup = 'branchen' | 'leistungen';
+export type PhotoGroup = 'branchen' | 'leistungen' | 'agentur';
 export interface PhotoSource {
   readonly group: PhotoGroup;
   readonly alt: string;
@@ -17,6 +17,26 @@ export const photos = {
   'gastronomie-hotels': { group: 'branchen', alt: 'Restaurantinterieur mit Tischen und Stühlen' },
   'lokale-dienstleister': { group: 'branchen', alt: 'Glasreinigung an einer Gebäudefassade' },
   'b2b-mittelstand': { group: 'branchen', alt: 'Innenraum einer industriellen Produktionshalle' },
+  'handwerk-werkzeug': {
+    group: 'agentur',
+    alt: 'Handwerkzeug hängt an einer dunklen Werkstattwand',
+  },
+  'arbeitsplatz-abend': {
+    group: 'agentur',
+    alt: 'Laptop auf einem Holzschreibtisch im Licht einer Schreibtischlampe',
+  },
+  'laptop-notizbuch': {
+    group: 'agentur',
+    alt: 'Laptop, aufgeschlagenes Notizbuch und Kaffeetasse auf schwarzem Tisch',
+  },
+  'entwurf-skizze': {
+    group: 'agentur',
+    alt: 'Hand zeichnet mit Feinminenstift einen Entwurf auf Transparentpapier',
+  },
+  'werkbank-lampen': {
+    group: 'agentur',
+    alt: 'Werkbank mit Zangen und Werkzeug an der Wand im Licht zweier Lampen',
+  },
   hotelzimmer: { group: 'branchen', alt: 'Hotelzimmer mit Doppelbett und warmem Licht' },
 } as const satisfies Record<string, PhotoSource>;
 export type PhotoKey = keyof typeof photos;

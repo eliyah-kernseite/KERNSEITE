@@ -76,29 +76,28 @@ const post = idx >= 0 ? industry.detailH1.slice(idx + accent.length) : '';
   breadcrumbs={breadcrumbs}
   extraJsonLd={[faqPageJsonLd(industry.faqs)]}
 >
-  <h1 slot="h1">
+  <h1 slot="h1" data-split>
     {pre}{idx >= 0 && <AccentWord>{accent}</AccentWord>}{post}
   </h1>
 
-  {
-    heroPhoto && (
-      <section class="hero-img">
-        <div class="content--wide content">
+  <section class="hero-img">
+    {
+      heroPhoto && (
+        <div class="content--wide content" data-reveal="scale">
           <Photo photo={heroPhoto} ratio="21x9" sizes="100vw" priority />
         </div>
-      </section>
-    )
-  }
-
-  <div class="content branch-action">
-    <a class="btn btn--primary" href={`/kontakt/#branche=${industry.slug}`}
-      >{industry.ctaLabel} <span aria-hidden="true">↗</span></a
-    >
-  </div>
+      )
+    }
+    <div class="content branch-action">
+      <a class="btn btn--primary btn--lg" href={`/kontakt/#branche=${industry.slug}`} data-magnetic
+        >{industry.ctaLabel} <span aria-hidden="true">↗</span></a
+      >
+    </div>
+  </section>
   <section class="section section--cream">
     <div class="content">
-      <h2 class="sec">Worauf es hier ankommt</h2>
-      <ul class="focus" role="list">
+      <h2 class="sec" data-split>Worauf es hier ankommt.</h2>
+      <ul class="focus" role="list" data-reveal-group>
         {
           industry.focus.map((f) => (
             <li class="focus__item">
@@ -144,7 +143,7 @@ const post = idx >= 0 ? industry.detailH1.slice(idx + accent.length) : '';
 
   <section class="section section--paper">
     <div class="content">
-      <h2 class="sec">Das bringt dich hier weiter</h2>
+      <h2 class="sec" data-split>Das bringt dich hier weiter.</h2>
       <ul class="rel" role="list">
         {
           related.map((r) => (
@@ -197,7 +196,7 @@ const post = idx >= 0 ? industry.detailH1.slice(idx + accent.length) : '';
 
 <style>
   .hero-img {
-    padding-block-end: clamp(2rem, 1.5rem + 2vw, 3.5rem);
+    padding-block-end: clamp(3.5rem, 7vw, 6rem);
     background: var(--ks-paper);
   }
 
@@ -262,6 +261,12 @@ const post = idx >= 0 ? industry.detailH1.slice(idx + accent.length) : '';
     inline-size: 100%;
     block-size: auto;
     display: block;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    object-position: top;
+    border: 1px solid var(--line-strong);
+    border-radius: 0;
+    box-shadow: var(--shadow-media, 0 30px 60px rgba(0, 0, 0, 0.45));
   }
 
   .rel {
@@ -335,37 +340,52 @@ const post = idx >= 0 ? industry.detailH1.slice(idx + accent.length) : '';
 
 <style>
   .branch-action {
-    margin-top: 2rem;
+    margin-top: clamp(1.5rem, 3vw, 2.5rem);
   }
   .focus {
-    gap: 1.5rem !important;
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    display: grid;
+    gap: clamp(1rem, 2vw, 1.5rem);
+    border: 0;
   }
   .focus__item {
-    border: 0 !important;
-    padding: 2rem !important;
+    position: relative;
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+    border: 1px solid var(--line);
+    border-radius: 0;
     background: var(--ks-paper);
-    border-radius: 1rem;
+    transition: border-color 400ms var(--ease-out);
+  }
+  .focus__item:hover {
+    border-color: color-mix(in srgb, var(--ks-cyan) 45%, var(--line));
+  }
+  .focus__item::before {
+    content: '';
+    display: block;
+    inline-size: 2.5rem;
+    block-size: 2px;
+    margin-block-end: 1.5rem;
+    background: var(--ks-cyan);
   }
   .focus__title {
-    font-size: 1.7rem !important;
+    font-size: clamp(1.4rem, 2vw, 1.8rem);
   }
   .focus__text {
-    font-size: 1.05rem !important;
+    font-size: 1.02rem;
   }
   .rel__link {
-    border: 0 !important;
+    border: 1px solid var(--line);
     background: var(--ks-cream);
-    padding: 1.5rem !important;
-    border-radius: 1rem;
+    padding: clamp(1.25rem, 2.5vw, 1.75rem) !important;
+    border-radius: 0;
     margin-bottom: 1rem;
+    transition: border-color 400ms var(--ease-out);
   }
-  .sec {
-    font-size: var(--fs-h2);
+  .rel__link:hover {
+    border-color: color-mix(in srgb, var(--ks-cyan) 45%, var(--line));
   }
-  @media (max-width: 700px) {
+  @media (min-width: 44rem) {
     .focus {
-      grid-template-columns: 1fr !important;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 </style>

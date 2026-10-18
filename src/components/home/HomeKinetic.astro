@@ -1,0 +1,78 @@
+---
+/**
+ * HomeKinetic – was eine Website leisten soll, in drei riesigen Zeilen, die
+ * beim Scrollen gegeneinander wandern (siehe `[data-drift]`).
+ */
+const lines = [
+  { lead: 'Gefunden', drift: -18 },
+  { lead: 'Verstanden', drift: 14 },
+  { lead: 'Angefragt', drift: -12 },
+] as const;
+---
+
+<section class="kinetic section" aria-labelledby="kinetic-title">
+  <h2 id="kinetic-title" class="visually-hidden">
+    Was deine Website leisten soll: gefunden, verstanden und angefragt werden
+  </h2>
+  <div class="kinetic__lines" aria-hidden="true">
+    {
+      lines.map((l, i) => (
+        <p class={`kinetic__line kinetic__line--${i + 1}`} data-drift={l.drift}>
+          <span class="kinetic__lead">{l.lead}</span> werden.
+        </p>
+      ))
+    }
+  </div>
+  <div class="content kinetic__foot">
+    <p class="kinetic__text" data-reveal>
+      Genau dafür bauen wir jede Seite. Damit aus Besuchern Anfragen werden.
+    </p>
+  </div>
+</section>
+
+<style>
+  .kinetic {
+    overflow: clip;
+  }
+  .kinetic__lines {
+    display: grid;
+    gap: clamp(0.25rem, 1vw, 1rem);
+  }
+  .kinetic__line {
+    font-family: var(--font-display);
+    font-size: clamp(2.6rem, 8.8vw, 10rem);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.065em;
+    white-space: nowrap;
+    color: color-mix(in srgb, var(--ks-bone) 42%, transparent);
+  }
+  .kinetic__line--1 {
+    padding-inline-start: 4vw;
+  }
+  .kinetic__line--2 {
+    text-align: end;
+    padding-inline-end: 2vw;
+  }
+  .kinetic__line--3 {
+    padding-inline-start: 14vw;
+  }
+  .kinetic__lead {
+    color: var(--text);
+  }
+  .kinetic__line--2 .kinetic__lead {
+    color: var(--ks-cyan);
+  }
+  .kinetic__foot {
+    margin-block-start: clamp(2.5rem, 5vw, 4.5rem);
+  }
+  .kinetic__text {
+    max-width: 28ch;
+    margin-inline-start: auto;
+    font-size: clamp(1.25rem, 1.8vw, 1.7rem);
+    line-height: 1.4;
+  }
+  :global([data-a11y-contrast='high']) .kinetic__line {
+    color: var(--text);
+  }
+</style>

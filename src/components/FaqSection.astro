@@ -17,7 +17,7 @@ const { items, title = ['Noch eine', 'Frage offen?'], variant = 'paper' } = Astr
 <section class={`section section--${variant}`}>
   <div class="content faq-split">
     <div>
-      <h2>
+      <h2 data-split>
         {title.map((line, i) => (i === 0 ? line : [<br />, line]))}
       </h2>
     </div><FaqAccordion items={items} />

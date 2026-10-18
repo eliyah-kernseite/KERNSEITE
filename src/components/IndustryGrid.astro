@@ -25,7 +25,7 @@ const items = industries.map((ind) => ({
 }));
 ---
 
-<ul class="igrid" role="list">
+<ul class="igrid" role="list" data-reveal-group>
   {
     items.map((ind) => (
       <li class="igrid__cell">
@@ -95,7 +95,7 @@ const items = industries.map((ind) => ({
   .igrid__link:has(.igrid__name:focus-visible) {
     outline: 3px solid var(--focus-ring);
     outline-offset: 3px;
-    border-radius: 2px;
+    border-radius: 0;
   }
 
   /* Fehlt das Motiv, bleibt exakt derselbe Raum frei: gleiche Breite,
@@ -111,12 +111,18 @@ const items = industries.map((ind) => ({
      trägt deren Bereichskennung, nicht die dieser Datei. Ein markierter
      Selektor greift dort nicht – deshalb `:global()`, eingegrenzt durch
      den markierten Link davor. */
+  .igrid__link :global(.igrid__media),
+  .igrid__gap {
+    margin-block-end: 1.4rem;
+    overflow: hidden;
+    border-radius: 0;
+  }
   .igrid__link :global(.igrid__media img) {
-    transition: transform var(--dur-slow) var(--ease-out);
+    transition: transform 900ms var(--ease-out);
   }
   .igrid__link:hover :global(.igrid__media img),
   .igrid__link:focus-within :global(.igrid__media img) {
-    transform: scale(1.025);
+    transform: scale(1.05);
   }
 
   .igrid__name {

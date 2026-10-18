@@ -42,7 +42,8 @@ test.describe('Barrierefreiheits-Schalter – Zurücksetzen', () => {
 
     // 1.–4. Sehr große Schrift, hoher Kontrast, reduzierte Bewegung.
     await oeffnen(page);
-    await page.locator('[data-a11y-size="1.25"]').click();
+    await page.locator('[data-a11y-size="up"]').click();
+    await page.locator('[data-a11y-size="up"]').click();
     await page.locator('[data-a11y-motion]').click();
     await page.locator('[data-a11y-contrast-toggle]').click();
 
@@ -79,7 +80,7 @@ test.describe('Barrierefreiheits-Schalter – Zurücksetzen', () => {
     const gedrueckt = await page.evaluate(() =>
       [...document.querySelectorAll('[aria-pressed]')].map((el) => el.getAttribute('aria-pressed')),
     );
-    expect(gedrueckt.filter((v) => v === 'true')).toEqual(['true']); // nur „Standard“
+    expect(gedrueckt.filter((v) => v === 'true')).toEqual([]);
 
     // 11.–12. Auch nach dem Neuladen bleibt es beim Standard.
     await page.reload();
@@ -105,7 +106,7 @@ test.describe('Barrierefreiheits-Schalter – Zurücksetzen', () => {
 
     // Der Schalter bleibt bedienbar und schreibt einen sauberen Wert.
     await oeffnen(page);
-    await page.locator('[data-a11y-size="1.125"]').click();
+    await page.locator('[data-a11y-size="up"]').click();
     const danach = await zustand(page);
     expect(JSON.parse(danach.gespeichert!)).toMatchObject({ size: 1.125 });
   });
@@ -127,7 +128,8 @@ test.describe('Barrierefreiheits-Schalter – Zurücksetzen', () => {
 
     await page.goto('/');
     await oeffnen(page);
-    await page.locator('[data-a11y-size="1.25"]').click();
+    await page.locator('[data-a11y-size="up"]').click();
+    await page.locator('[data-a11y-size="up"]').click();
 
     // Die Darstellung ändert sich trotzdem, nur gespeichert wird nichts.
     const scale = await page.evaluate(() =>
@@ -161,7 +163,7 @@ test.describe('Barrierefreiheits-Schalter – Zurücksetzen', () => {
     await expect(live).toHaveAttribute('aria-live', /polite|assertive/);
 
     await oeffnen(page);
-    await page.locator('[data-a11y-size="1.25"]').click();
+    await page.locator('[data-a11y-size="up"]').click();
     await expect(live).not.toBeEmpty();
 
     await page.locator('[data-a11y-reset]').click();

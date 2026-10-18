@@ -1,0 +1,227 @@
+---
+/**
+ * HomeWork – die Arbeiten als Galerie, die beim Scrollen seitlich durchfährt.
+ * Auf großen Bildschirmen klebt der Abschnitt, während die Spur von rechts
+ * nach links wandert (`[data-pin]` + `[data-hscroll]`). Auf dem Handy und bei
+ * reduzierter Bewegung stehen die Projekte einfach untereinander.
+ */
+import { featuredProjects } from '../../config/cases';
+---
+
+<section class="work" id="arbeiten" aria-labelledby="work-title" data-pin>
+  <div class="work__stage">
+    <div class="content work__head">
+      <h2 id="work-title" class="work__title" data-split>Arbeiten</h2>
+    </div>
+    <div class="work__track" data-hscroll>
+      <ul class="work__list" role="list">
+        {
+          featuredProjects.map((p) => (
+            <li class="work__item">
+              <a class="work__card" href={p.href} data-cursor="Ansehen">
+                <span class="work__visual" data-tilt>
+                  <img
+                    class="work__shot"
+                    src={p.screenshotDesktop.src}
+                    srcset={p.screenshotDesktop.srcset}
+                    sizes="(min-width: 64rem) 58vw, 92vw"
+                    width={p.screenshotDesktop.width}
+                    height={p.screenshotDesktop.height}
+                    alt={p.screenshotDesktop.alt}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <img
+                    class="work__phone"
+                    src={p.screenshotMobile.src}
+                    srcset={p.screenshotMobile.srcset}
+                    sizes="(min-width: 64rem) 12vw, 26vw"
+                    width={p.screenshotMobile.width}
+                    height={p.screenshotMobile.height}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </span>
+                <span class="work__meta">
+                  <span class="work__name">{p.title.split(' · ').at(-1)}</span>
+                  <span class="work__industry">{p.industryLabel}</span>
+                </span>
+              </a>
+            </li>
+          ))
+        }
+        <li class="work__item work__item--all">
+          <a class="work__all" href="/arbeiten/" data-cursor="Alle">
+            Alle Projekte <span aria-hidden="true">→</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .work {
+    position: relative;
+    padding-block: var(--section-y);
+  }
+  .work__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1rem 3rem;
+    margin-block-end: clamp(2rem, 4vw, 3.5rem);
+  }
+  .work__title {
+    font-size: clamp(3.6rem, 13vw, 13rem);
+    line-height: 0.85;
+    letter-spacing: -0.07em;
+  }
+  .work__list {
+    display: grid;
+    gap: clamp(3rem, 6vw, 5rem);
+    margin: 0;
+    padding: 0 var(--gutter);
+  }
+  .work__card {
+    display: grid;
+    gap: 1.25rem;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .work__visual {
+    position: relative;
+    display: block;
+    padding: clamp(1rem, 3vw, 3rem) clamp(3rem, 9vw, 7rem) clamp(1rem, 3vw, 3rem)
+      clamp(1rem, 3vw, 3rem);
+    background:
+      radial-gradient(
+        90% 90% at 100% 100%,
+        color-mix(in srgb, var(--ks-cyan) 18%, transparent),
+        transparent 60%
+      ),
+      var(--ks-cream);
+    border: 1px solid var(--line);
+    overflow: hidden;
+    transition: border-color 500ms var(--ease-out);
+  }
+  .work__card:hover .work__visual,
+  .work__card:focus-visible .work__visual {
+    border-color: var(--ks-cyan);
+  }
+  .work__shot {
+    display: block;
+    inline-size: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    object-position: top;
+    border: 1px solid var(--line-strong);
+    transition: transform 900ms var(--ease-out);
+  }
+  .work__phone {
+    position: absolute;
+    right: clamp(0.75rem, 2vw, 1.75rem);
+    bottom: clamp(0.75rem, 2vw, 1.75rem);
+    inline-size: 21%;
+    aspect-ratio: 9 / 19.5;
+    object-fit: cover;
+    object-position: top;
+    border: 4px solid #000;
+    border-radius: 16px;
+    background: #000;
+    box-shadow: 0 24px 50px rgba(0, 0, 0, 0.55);
+    transition: transform 900ms var(--ease-out);
+  }
+  .work__card:hover .work__shot {
+    transform: scale(1.03);
+  }
+  .work__card:hover .work__phone {
+    transform: translateY(-14px) rotate(3deg);
+  }
+  .work__meta {
+    display: grid;
+    align-items: baseline;
+    gap: 0.2rem 1rem;
+  }
+  .work__name {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 3.4vw, 3.4rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.05em;
+  }
+  .work__industry {
+    color: var(--text-muted);
+    font-size: 1.05rem;
+  }
+  .work__all {
+    display: grid;
+    place-items: center;
+    min-height: 14rem;
+    border: 1px solid var(--line-strong);
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 4rem);
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    color: var(--text);
+    text-decoration: none;
+    transition:
+      background-color 400ms var(--ease-out),
+      color 400ms var(--ease-out);
+  }
+  .work__all:hover,
+  .work__all:focus-visible {
+    background: var(--ks-cream);
+    color: var(--ks-cyan);
+  }
+
+  /* Große Bildschirme mit Bewegung: Spur fährt seitlich durch. */
+  @media (min-width: 64rem) {
+    :global(html.has-motion) .work {
+      height: 420vh;
+      padding-block: 0;
+    }
+    :global(html.has-motion) .work__stage {
+      position: sticky;
+      top: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      block-size: 100vh;
+      padding-block-start: var(--header-h);
+      overflow: hidden;
+    }
+    :global(html.has-motion) .work__track {
+      overflow: visible;
+    }
+    :global(html.has-motion) .work__list {
+      display: flex;
+      inline-size: max-content;
+      gap: 4vw;
+      padding-inline: var(--gutter) 6vw;
+      transform: translate3d(var(--shift, 0px), 0, 0);
+      will-change: transform;
+    }
+    :global(html.has-motion) .work__item {
+      inline-size: min(58vw, calc((100vh - 18rem) * 1.6));
+    }
+    :global(html.has-motion) .work__item--all {
+      inline-size: 26vw;
+      align-self: stretch;
+      display: grid;
+    }
+    :global(html.has-motion) .work__head {
+      margin-block-end: 2rem;
+    }
+    :global(html.has-motion) .work__title {
+      font-size: clamp(4rem, 9vw, 9rem);
+    }
+  }
+  @media (min-width: 64rem) {
+    .work__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>

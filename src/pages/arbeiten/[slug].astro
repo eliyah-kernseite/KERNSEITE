@@ -46,7 +46,7 @@ const showGoogleProfile = work.slug === 'kinderkoerbchen';
   <header class="chero section--paper">
     <div class="content">
       <Breadcrumbs items={breadcrumbs} />
-      <h1 class="chero__title">{work.headline}</h1>
+      <h1 class="chero__title" data-split>{work.headline}</h1>
       <p class="chero__client">{work.title}</p>
       <p class="lead chero__lead">{work.tagline}</p>
       <ul class="tags chero__tags" role="list">
@@ -57,6 +57,7 @@ const showGoogleProfile = work.slug === 'kinderkoerbchen';
           work.liveUrl ? (
             <a
               class="btn btn--primary"
+              data-magnetic
               href={work.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
@@ -69,7 +70,9 @@ const showGoogleProfile = work.slug === 'kinderkoerbchen';
             </a>
           )
         }
-        <a class="link-arrow" href="/kontakt/#leistung=websites">Ähnliche Website anfragen</a>
+        <a class="link-arrow" href="/kontakt/#leistung=websites"
+          >Ähnliche Website anfragen <span class="arrow" aria-hidden="true">→</span></a
+        >
         <span class="chero__domain"
           >{work.previewDomain ? `${work.previewDomain} · Beispieladresse` : work.liveLabel}</span
         >
@@ -78,16 +81,33 @@ const showGoogleProfile = work.slug === 'kinderkoerbchen';
   </header>
 
   <section class="shot" id="projektvorschau" aria-label="Projektvorschau">
-    <div class="content--wide content">
-      <img
-        src={work.screenshotDesktop.src}
-        srcset={work.screenshotDesktop.srcset}
-        sizes="(min-width: 90rem) 1480px, 100vw"
-        width={work.screenshotDesktop.width}
-        height={work.screenshotDesktop.height}
-        alt={work.screenshotDesktop.alt}
-        decoding="async"
-      />
+    <div class="content shot__stage" data-reveal="scale">
+      <div class="shot__browser">
+        <span class="shot__bar" aria-hidden="true">
+          <span class="shot__url">{work.liveLabel}</span>
+        </span>
+        <img
+          src={work.screenshotDesktop.src}
+          srcset={work.screenshotDesktop.srcset}
+          sizes="(min-width: 90rem) 1200px, 92vw"
+          width={work.screenshotDesktop.width}
+          height={work.screenshotDesktop.height}
+          alt={work.screenshotDesktop.alt}
+          decoding="async"
+        />
+      </div>
+      <div class="shot__phone">
+        <img
+          src={work.screenshotMobile.src}
+          srcset={work.screenshotMobile.srcset}
+          sizes="(min-width: 64rem) 240px, 30vw"
+          width={work.screenshotMobile.width}
+          height={work.screenshotMobile.height}
+          alt={work.screenshotMobile.alt}
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
     </div>
   </section>
 
@@ -104,9 +124,9 @@ const showGoogleProfile = work.slug === 'kinderkoerbchen';
     </div>
   </section>
 
-  <section class="section section--paper">
+  <section class="section">
     <div class="content">
-      <h2 class="sec-title">Was umgesetzt wurde</h2>
+      <h2 class="sec-title" data-split>Was umgesetzt wurde</h2>
       <ul class="scope" role="list">
         {
           work.scope.map((item) => (
@@ -125,19 +145,23 @@ const showGoogleProfile = work.slug === 'kinderkoerbchen';
 
   {
     other && (
-      <section class="section section--surface">
-        <div class="content nextwork">
-          <h2 class="nextwork__title">
-            <a href={other.href}>{other.headline}</a>
-          </h2>
-          <p class="nextwork__meta">
-            {other.title} · {other.category}
-          </p>
-          <a class="link-arrow" href={other.href}>
-            Projekt ansehen<span class="visually-hidden">: {other.title}</span>{' '}
-            <span class="arrow" aria-hidden="true">
-              →
+      <section class="section nextwork-wrap">
+        <div class="content">
+          <a class="nextwork" href={other.href}>
+            <span class="nextwork__copy">
+              <span class="nextwork__label">Nächstes Projekt</span>
+              <span class="nextwork__title">{other.title.split(' · ').at(-1)}</span>
+              <span class="nextwork__meta">{other.headline}</span>
             </span>
+            <img
+              class="nextwork__img"
+              src={other.screenshotDesktop.src.replace('-1440.webp', '-960.webp')}
+              width="960"
+              height="600"
+              alt=""
+              loading="lazy"
+              decoding="async"
+            />
           </a>
         </div>
       </section>
@@ -152,14 +176,14 @@ const showGoogleProfile = work.slug === 'kinderkoerbchen';
 
 <style>
   .chero {
-    padding-block: clamp(2rem, 1.5rem + 3vw, 4rem) clamp(2.5rem, 2rem + 3vw, 4rem);
+    padding-block: clamp(3rem, 6vw, 6rem) clamp(2.5rem, 2rem + 3vw, 4rem);
   }
   .chero__title {
     margin-block-start: var(--space-xl);
     font-size: var(--fs-h1);
-    line-height: 1.15;
-    letter-spacing: var(--track-hero);
-    max-width: min(24ch, 100%);
+    line-height: 1.02;
+    letter-spacing: -0.055em;
+    max-width: min(16ch, 100%);
   }
   .chero__client {
     margin-block-start: var(--space-lg);
@@ -185,13 +209,106 @@ const showGoogleProfile = work.slug === 'kinderkoerbchen';
   }
 
   .shot {
-    padding-block-end: clamp(2rem, 1.5rem + 3vw, 4rem);
-    background: linear-gradient(to bottom, var(--ks-paper) 0 45%, var(--ks-cream) 45% 100%);
+    padding-block: clamp(1rem, 3vw, 3rem) clamp(3rem, 6vw, 6rem);
   }
-  .shot img {
+  .shot__stage {
+    position: relative;
+    padding-inline-end: clamp(2rem, 9vw, 9rem);
+  }
+  .shot__browser {
+    overflow: hidden;
+    border: 1px solid var(--line-strong);
+    border-radius: 0;
+    background: var(--ks-surface);
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
+  }
+  .shot__bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0.7rem 0.9rem;
+    border-block-end: 1px solid var(--line);
+  }
+  .shot__url {
+    margin-inline: auto;
+    padding: 0.2rem 1rem;
+    border-radius: 0;
+    background: var(--ks-paper);
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+  .shot__browser img {
     inline-size: 100%;
     block-size: auto;
     display: block;
+  }
+  .shot__phone {
+    position: absolute;
+    right: 0;
+    bottom: -2.5rem;
+    inline-size: clamp(5.5rem, 19%, 15rem);
+    overflow: hidden;
+    border: 6px solid #000;
+    border-radius: 28px;
+    background: #000;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+  }
+  .shot__phone img {
+    display: block;
+    inline-size: 100%;
+    aspect-ratio: 9 / 19.5;
+    object-fit: cover;
+    object-position: top;
+    border-radius: 22px;
+  }
+
+  .nextwork-wrap {
+    border-block-start: 1px solid var(--line);
+  }
+  .nextwork {
+    display: grid;
+    gap: 2rem;
+    align-items: center;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .nextwork__label {
+    font-size: 1.1rem;
+    color: var(--ks-cyan);
+    font-weight: 600;
+  }
+  .nextwork__copy {
+    display: grid;
+    gap: 1rem;
+  }
+  .nextwork__title {
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 6vw, 6rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.055em;
+    transition: color 400ms var(--ease-out);
+  }
+  .nextwork:hover .nextwork__title {
+    color: var(--ks-cyan);
+  }
+  .nextwork__meta {
+    color: var(--text-muted);
+    font-size: var(--fs-lead);
+  }
+  .nextwork__img {
+    inline-size: 100%;
+    border: 1px solid var(--line-strong);
+    border-radius: 0;
+    transition: transform 900ms var(--ease-out);
+  }
+  .nextwork:hover .nextwork__img {
+    transform: translateY(-8px) rotate(-1deg);
+  }
+  @media (min-width: 64rem) {
+    .nextwork {
+      grid-template-columns: 1.1fr 0.9fr;
+    }
   }
 
   .two {
@@ -231,28 +348,6 @@ const showGoogleProfile = work.slug === 'kinderkoerbchen';
     font-size: clamp(1.2rem, 2.2vw, 1.9rem);
     letter-spacing: -0.025em;
     line-height: 1.15;
-  }
-
-  .nextwork {
-    display: grid;
-    gap: var(--space-md);
-    justify-items: start;
-  }
-  .nextwork__title {
-    font-size: var(--fs-h3);
-    line-height: 1;
-    max-width: min(24ch, 100%);
-  }
-  .nextwork__title a {
-    color: inherit;
-    text-decoration: none;
-  }
-  .nextwork__meta {
-    color: var(--text-muted);
-    font-size: var(--fs-small);
-  }
-  .nextwork .link-arrow {
-    margin-block-start: var(--space-md);
   }
 
   @media (min-width: 64rem) {

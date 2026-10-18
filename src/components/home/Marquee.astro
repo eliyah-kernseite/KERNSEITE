@@ -1,0 +1,80 @@
+---
+/**
+ * Marquee – riesiges Laufband aus Stichworten. Läuft ruhig von selbst und
+ * bekommt beim Scrollen Schub (siehe `[data-marquee]` in src/scripts/motion.ts).
+ * Rein dekorativ, deshalb `aria-hidden`.
+ */
+interface Props {
+  items: readonly string[];
+  /** Laufrichtung. */
+  direction?: 'left' | 'right';
+  /** 'outline' zeigt jedes zweite Wort nur als Kontur. */
+  tone?: 'outline' | 'dark';
+}
+const { items, direction = 'left', tone = 'outline' } = Astro.props;
+const loop = [...items, ...items, ...items, ...items];
+---
+
+<div class={`marquee marquee--${tone}`} aria-hidden="true" data-marquee={direction}>
+  <div class="marquee__track">
+    {
+      loop.map((item, i) => (
+        <span class:list={['marquee__item', { 'marquee__item--hollow': i % 2 === 1 }]}>
+          {item}
+          <span class="marquee__sep" />
+        </span>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .marquee {
+    overflow: hidden;
+    padding-block: clamp(1.5rem, 3vw, 3rem);
+    user-select: none;
+  }
+  .marquee__track {
+    display: flex;
+    inline-size: max-content;
+    will-change: transform;
+  }
+  .marquee__item {
+    display: inline-flex;
+    align-items: center;
+    gap: clamp(1.5rem, 3vw, 3.5rem);
+    padding-inline-end: clamp(1.5rem, 3vw, 3.5rem);
+    font-family: var(--font-display);
+    font-size: clamp(3.5rem, 10vw, 10rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.06em;
+    white-space: nowrap;
+    color: var(--text);
+  }
+  .marquee__item--hollow {
+    color: transparent;
+    -webkit-text-stroke: 2px color-mix(in srgb, var(--ks-bone) 55%, transparent);
+  }
+  /* Feiner Schrägstrich als Trenner, bewusst leise. */
+  .marquee__sep {
+    inline-size: 0.045em;
+    block-size: 0.62em;
+    background: color-mix(in srgb, var(--ks-cyan) 70%, transparent);
+    transform: rotate(18deg);
+  }
+  .marquee--dark .marquee__item {
+    color: var(--ks-black);
+  }
+  .marquee--dark .marquee__item--hollow {
+    color: transparent;
+    -webkit-text-stroke: 2px var(--ks-black);
+  }
+  .marquee--dark .marquee__sep {
+    background: var(--ks-black);
+  }
+  :global([data-a11y-contrast='high']) .marquee__item--hollow {
+    color: var(--text);
+    -webkit-text-stroke: 0;
+  }
+</style>

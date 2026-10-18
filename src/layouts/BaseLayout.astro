@@ -3,6 +3,7 @@ import '../styles/tokens.css';
 import '../styles/fonts.css';
 import '../styles/global.css';
 import '../styles/redesign.css';
+import '../styles/motion.css';
 
 import Seo from '../components/Seo.astro';
 import Header from '../components/Header.astro';
@@ -34,12 +35,12 @@ const allSchemas = [...baseSchemas, ...jsonLd];
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#ede9e1" />
+    <meta name="theme-color" content="#0b0c0e" />
     <meta name="format-detection" content="telephone=no" />
 
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <link rel="mask-icon" href="/favicon.svg" color="#101214" />
+    <link rel="mask-icon" href="/favicon.svg" color="#00e3f2" />
     <link rel="manifest" href="/site.webmanifest" />
 
     <link
@@ -78,5 +79,8 @@ const allSchemas = [...baseSchemas, ...jsonLd];
     <Footer />
     <ConsentManager />
     <AccessibilityDock />
+    <script>
+      import '../scripts/motion';
+    </script>
   </body>
 </html>

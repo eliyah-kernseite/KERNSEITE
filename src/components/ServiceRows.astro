@@ -27,7 +27,7 @@ const copy: Record<string, string> = {
 };
 ---
 
-<div class="service-grid">
+<div class="service-grid" data-reveal-group>
   {
     rows.map((s) => (
       <article class:list={['service-tile', s.isCore && 'service-tile--core']}>
@@ -60,7 +60,7 @@ const copy: Record<string, string> = {
   .service-tile {
     position: relative;
     background: var(--ks-paper);
-    border-radius: 1.2rem;
+    border-radius: 0;
     text-decoration: none;
     color: var(--text);
     overflow: hidden;
@@ -119,11 +119,9 @@ const copy: Record<string, string> = {
     min-height: 44px;
   }
   .service-tile--core {
-    background: var(--ks-cyan);
+    background: var(--ks-cream);
+    box-shadow: inset 0 2px 0 var(--ks-cyan);
     grid-column: span 2;
-  }
-  .service-tile--core p {
-    color: var(--ks-black);
   }
   .service-tile :global(.photo) {
     border-radius: 0 !important;
@@ -131,7 +129,7 @@ const copy: Record<string, string> = {
   }
   .service-tile:nth-child(2) {
     background: var(--ks-black);
-    color: var(--ks-cream);
+    color: var(--ks-bone);
   }
   .service-tile:nth-child(2) h2,
   .service-tile:nth-child(2) h3 {

@@ -1,9 +1,10 @@
 ---
 /**
- * CtaBanner – vollbreite Abschluss-Sektion in KERNSEITE-Cyan.
- * Kein Kasten, kein Rahmen: die Fläche selbst ist der Handlungsaufruf.
+ * CtaBanner – vollbreite Abschluss-Sektion. Dunkle Fläche mit weichem
+ * türkisem Schein von unten, Türkis nur als Akzent statt als ganze Fläche.
  */
 import { activeCompany } from '../lib/config-validation';
+import Marquee from './home/Marquee.astro';
 
 interface Props {
   title?: string;
@@ -32,9 +33,10 @@ const {
 } = Astro.props;
 ---
 
-<section class="cta section--cyan">
+<section class="cta">
+  <Marquee items={[ctaLabel]} />
   <div class="content cta__inner">
-    <h2 class="cta__title">
+    <h2 class="cta__title" data-split>
       {
         title ? (
           title
@@ -51,12 +53,21 @@ const {
     </h2>
     <p class="cta__text">{text}</p>
     <div class="cta__actions">
-      <a class="btn btn--primary" href={ctaHref}>{ctaLabel}</a>
+      <a class="btn btn--primary btn--lg" href={ctaHref} data-magnetic
+        >{ctaLabel} <span aria-hidden="true">↗</span></a
+      >
       {
         secondaryLabel && secondaryHref && (
-          <a class="cta__mailto" href={secondaryHref}>
-            {secondaryLabel}
-          </a>
+          <span class="cta__mail">
+            <a class="cta__mailto" href={secondaryHref}>
+              {secondaryLabel}
+            </a>
+            {secondaryHref.startsWith('mailto:') && (
+              <button type="button" class="cta__copy" data-copy={secondaryLabel}>
+                Kopieren
+              </button>
+            )}
+          </span>
         )
       }
     </div>
@@ -65,7 +76,32 @@ const {
 
 <style>
   .cta {
-    padding-block: var(--section-y);
+    position: relative;
+    isolation: isolate;
+    overflow: clip;
+    padding-block: 0 calc(var(--section-y) * 1.1);
+    background: var(--ks-black);
+    border-block-start: 1px solid var(--line);
+  }
+  /* Weicher Schein statt voller Türkisfläche. */
+  .cta::before {
+    content: '';
+    position: absolute;
+    inset: auto -20% -55% auto;
+    z-index: -1;
+    inline-size: min(90vw, 70rem);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(
+      closest-side,
+      color-mix(in srgb, var(--ks-cyan) 13%, transparent),
+      transparent
+    );
+    pointer-events: none;
+  }
+  .cta :global(.marquee) {
+    margin-block-end: clamp(2rem, 5vw, 4rem);
+    border-block-end: 1px solid var(--line);
   }
   .cta__inner {
     display: grid;
@@ -76,18 +112,16 @@ const {
     min-inline-size: 0;
   }
   .cta__title {
-    font-size: clamp(2.5rem, 5.3vw, 5.3rem);
-    line-height: 1.08;
-    letter-spacing: var(--track-display);
-    max-width: min(19ch, 100%);
+    font-size: clamp(3rem, 9vw, 10rem);
+    font-weight: 800;
+    line-height: 0.98;
+    letter-spacing: -0.055em;
+    max-width: min(14ch, 100%);
   }
-  /* Hervorhebung auf der Cyan-Fläche: rein typografisch, keine Fläche */
   .cta__mark {
     font-style: normal;
     background: none;
-    color: var(--ks-black);
-    /* Keine Unterstreichung: Markierte Wörter tragen keine Linie. Auf der
-       Neon-Fläche trägt die Fläche selbst schon den Akzent. */
+    color: var(--ks-cyan);
     text-decoration: none;
     white-space: nowrap;
   }
@@ -101,7 +135,7 @@ const {
     font-size: var(--fs-lead);
     line-height: 1.5;
     max-width: min(46ch, 100%);
-    color: var(--ks-black);
+    color: var(--text-muted);
   }
   .cta__actions {
     display: flex;
@@ -110,11 +144,35 @@ const {
     gap: var(--space-lg) var(--space-xl);
     margin-block-start: var(--space-md);
   }
+  .cta__mail {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .cta__copy {
+    min-height: 44px;
+    padding: 0.4rem 0.9rem;
+    border: 1px solid var(--line-strong);
+    background: transparent;
+    color: var(--text);
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition:
+      border-color 300ms var(--ease-out),
+      background-color 300ms var(--ease-out);
+  }
+  .cta__copy:hover,
+  .cta__copy:focus-visible {
+    border-color: var(--ks-bone);
+    background: color-mix(in srgb, var(--ks-bone) 8%, transparent);
+  }
   .cta__mailto {
     /* Die E-Mail-Adresse ist ein langes zusammenhängendes Wort. */
     overflow-wrap: anywhere;
-    font-size: var(--fs-small);
-    color: var(--ks-black);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text);
     text-underline-offset: 0.3em;
   }
   @media (max-width: 30rem) {

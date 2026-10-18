@@ -10,10 +10,10 @@ export interface NavGroup {
 
 /** Hauptnavigation (Header, Desktop + Mobil). */
 export const mainNav: readonly NavItem[] = [
-  { label: 'Websites', href: '/leistungen/websites/' },
+  { label: 'Über uns', href: '/agentur/' },
+  { label: 'Arbeiten', href: '/arbeiten/' },
   { label: 'Leistungen', href: '/leistungen/' },
-  { label: 'Projekte', href: '/arbeiten/' },
-  { label: 'Agentur', href: '/agentur/' },
+  { label: 'Ablauf', href: '/prozess/' },
 ];
 
 /** Primärer Handlungsaufruf (Header). */
@@ -49,12 +49,12 @@ export const footerNav: readonly NavGroup[] = [
   {
     title: 'KERNSEITE',
     items: [
-      { label: 'Agentur', href: '/agentur/' },
+      { label: 'Über uns', href: '/agentur/' },
+      { label: 'Arbeiten', href: '/arbeiten/' },
+      { label: 'Ablauf', href: '/prozess/' },
+      { label: 'FAQ', href: '/faq/' },
       { label: 'Webdesign Würzburg', href: '/webdesign-wuerzburg/' },
       { label: 'Webdesign Schweinfurt', href: '/webdesign-schweinfurt/' },
-      { label: 'Prozess', href: '/prozess/' },
-      { label: 'Arbeiten', href: '/arbeiten/' },
-      { label: 'FAQ', href: '/faq/' },
       { label: 'Kontakt', href: '/kontakt/' },
     ],
   },

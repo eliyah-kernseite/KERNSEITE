@@ -1,0 +1,99 @@
+---
+/**
+ * HomeProcess – der Ablauf in drei Schritten mit großen Ziffern. Die Linie
+ * füllt sich mit dem Scrollfortschritt (`[data-progress]`). Ausführlich: /prozess/.
+ */
+const steps = [
+  {
+    title: 'Wir reden.',
+    text: 'Du erzählst, was du vorhast. Ich sage dir ehrlich, was es braucht.',
+  },
+  {
+    title: 'Du siehst alles.',
+    text: 'Texte, Bilder und Design stimmen wir ab, bevor gebaut wird.',
+  },
+  { title: 'Du gehst live.', text: 'Getestet auf Handy und Desktop, bereit für Google.' },
+] as const;
+---
+
+<section class="process section" aria-labelledby="process-title" data-progress-host>
+  <div class="content">
+    <div class="process__head">
+      <h2 id="process-title" class="process__title" data-split>So einfach geht’s.</h2>
+      <a class="link-arrow" href="/prozess/" data-reveal
+        >Ablauf im Detail <span class="arrow" aria-hidden="true">→</span></a
+      >
+    </div>
+    <div class="process__line" aria-hidden="true"><span data-progress></span></div>
+    <ol class="process__steps" role="list" data-reveal-group>
+      {
+        steps.map((s) => (
+          <li class="process__step" data-spotlight>
+            <h3 class="process__name">{s.title}</h3>
+            <p class="process__text">{s.text}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .process__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1rem 3rem;
+    margin-block-end: clamp(2rem, 4vw, 3.5rem);
+  }
+  .process__title {
+    font-size: clamp(3rem, 8vw, 8rem);
+    line-height: 0.9;
+    letter-spacing: -0.065em;
+  }
+  .process__line {
+    block-size: 2px;
+    background: var(--line-strong);
+    margin-block-end: clamp(1.5rem, 3vw, 2.5rem);
+  }
+  .process__line span {
+    display: block;
+    block-size: 100%;
+    background: var(--ks-cyan);
+    transform: scaleX(var(--progress, 1));
+    transform-origin: left;
+  }
+  :global(html.has-motion) .process__line span {
+    transform: scaleX(var(--progress, 0));
+  }
+  .process__steps {
+    display: grid;
+    gap: 1px;
+    margin: 0;
+    padding: 0;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .process__step {
+    display: grid;
+    align-content: start;
+    gap: 1rem;
+    padding: clamp(1.75rem, 3.5vw, 3rem);
+    background: var(--ks-paper);
+  }
+  .process__name {
+    font-size: clamp(1.7rem, 2.6vw, 2.5rem);
+    line-height: 1.05;
+  }
+  .process__text {
+    max-width: 28ch;
+    color: var(--text-muted);
+    font-size: 1.1rem;
+  }
+  @media (min-width: 56rem) {
+    .process__steps {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+</style>
