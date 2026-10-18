@@ -12,14 +12,11 @@ import { featuredProjects } from '../../config/cases';
   <div class="work__stage">
     <div class="content work__head">
       <h2 id="work-title" class="work__title" data-split>Arbeiten</h2>
-      <p class="work__count" aria-hidden="true">
-        <span>{String(featuredProjects.length).padStart(2, '0')}</span> echte Projekte, alle online
-      </p>
     </div>
     <div class="work__track" data-hscroll>
       <ul class="work__list" role="list">
         {
-          featuredProjects.map((p, i) => (
+          featuredProjects.map((p) => (
             <li class="work__item">
               <a class="work__card" href={p.href} data-cursor="Ansehen">
                 <span class="work__visual" data-tilt>
@@ -47,7 +44,6 @@ import { featuredProjects } from '../../config/cases';
                   />
                 </span>
                 <span class="work__meta">
-                  <span class="work__index">{String(i + 1).padStart(2, '0')}</span>
                   <span class="work__name">{p.title.split(' · ').at(-1)}</span>
                   <span class="work__industry">{p.industryLabel}</span>
                 </span>
@@ -82,14 +78,6 @@ import { featuredProjects } from '../../config/cases';
     font-size: clamp(3.6rem, 13vw, 13rem);
     line-height: 0.85;
     letter-spacing: -0.07em;
-  }
-  .work__count {
-    font-size: clamp(1.1rem, 1.5vw, 1.4rem);
-    color: var(--text-muted);
-  }
-  .work__count span {
-    color: var(--ks-cyan);
-    font-weight: 700;
   }
   .work__list {
     display: grid;
@@ -154,14 +142,8 @@ import { featuredProjects } from '../../config/cases';
   }
   .work__meta {
     display: grid;
-    grid-template-columns: auto 1fr;
     align-items: baseline;
     gap: 0.2rem 1rem;
-  }
-  .work__index {
-    font-family: var(--font-display);
-    font-weight: 700;
-    color: var(--ks-cyan);
   }
   .work__name {
     font-family: var(--font-display);
@@ -171,7 +153,6 @@ import { featuredProjects } from '../../config/cases';
     letter-spacing: -0.05em;
   }
   .work__industry {
-    grid-column: 2;
     color: var(--text-muted);
     font-size: 1.05rem;
   }
@@ -192,8 +173,8 @@ import { featuredProjects } from '../../config/cases';
   }
   .work__all:hover,
   .work__all:focus-visible {
-    background: var(--ks-cyan);
-    color: var(--ks-black);
+    background: var(--ks-cream);
+    color: var(--ks-cyan);
   }
 
   /* Große Bildschirme mit Bewegung: Spur fährt seitlich durch. */

@@ -346,11 +346,9 @@ const post = idx >= 0 ? industry.detailH1.slice(idx + accent.length) : '';
     display: grid;
     gap: clamp(1rem, 2vw, 1.5rem);
     border: 0;
-    counter-reset: focus;
   }
   .focus__item {
     position: relative;
-    counter-increment: focus;
     padding: clamp(1.5rem, 3vw, 2.5rem);
     border: 1px solid var(--line);
     border-radius: 0;
@@ -361,13 +359,12 @@ const post = idx >= 0 ? industry.detailH1.slice(idx + accent.length) : '';
     border-color: color-mix(in srgb, var(--ks-cyan) 45%, var(--line));
   }
   .focus__item::before {
-    content: counter(focus, decimal-leading-zero);
+    content: '';
     display: block;
-    margin-block-end: 1.25rem;
-    font-family: var(--font-display);
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: var(--ks-cyan);
+    inline-size: 2.5rem;
+    block-size: 2px;
+    margin-block-end: 1.5rem;
+    background: var(--ks-cyan);
   }
   .focus__title {
     font-size: clamp(1.4rem, 2vw, 1.8rem);

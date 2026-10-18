@@ -27,11 +27,8 @@ const steps = [
     <div class="process__line" aria-hidden="true"><span data-progress></span></div>
     <ol class="process__steps" role="list" data-reveal-group>
       {
-        steps.map((s, i) => (
+        steps.map((s) => (
           <li class="process__step" data-spotlight>
-            <span class="process__num" aria-hidden="true">
-              {String(i + 1).padStart(2, '0')}
-            </span>
             <h3 class="process__name">{s.title}</h3>
             <p class="process__text">{s.text}</p>
           </li>
@@ -85,19 +82,6 @@ const steps = [
     padding: clamp(1.75rem, 3.5vw, 3rem);
     background: var(--ks-paper);
   }
-  .process__num {
-    font-family: var(--font-display);
-    font-size: clamp(4rem, 9vw, 8.5rem);
-    font-weight: 800;
-    line-height: 0.85;
-    letter-spacing: -0.07em;
-    color: transparent;
-    -webkit-text-stroke: 2px var(--ks-cyan);
-    transition: color 500ms var(--ease-out);
-  }
-  .process__step:hover .process__num {
-    color: var(--ks-cyan);
-  }
   .process__name {
     font-size: clamp(1.7rem, 2.6vw, 2.5rem);
     line-height: 1.05;
@@ -106,9 +90,6 @@ const steps = [
     max-width: 28ch;
     color: var(--text-muted);
     font-size: 1.1rem;
-  }
-  :global([data-a11y-contrast='high']) .process__num {
-    color: var(--ks-cyan);
   }
   @media (min-width: 56rem) {
     .process__steps {

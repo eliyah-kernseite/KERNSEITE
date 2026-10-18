@@ -82,12 +82,9 @@ const processFaqs = [
       </div>
       <ol class="process-story" role="list" data-stack>
         {
-          steps.map((s, i) => (
+          steps.map((s) => (
             <li class="process-story__step">
               <div class="process-story__head">
-                <span class="process-story__num" aria-hidden="true">
-                  {String(i + 1).padStart(2, '0')}
-                </span>
                 <h3>{s.title}</h3>
                 <p>{s.text}</p>
               </div>
@@ -159,16 +156,6 @@ const processFaqs = [
   }
   .process-story__step:nth-child(5) {
     top: calc(var(--header-h) + 4rem);
-  }
-  .process-story__num {
-    display: block;
-    margin-block-end: 1.25rem;
-    font-family: var(--font-display);
-    font-size: clamp(3.5rem, 8vw, 7rem);
-    font-weight: 800;
-    line-height: 0.9;
-    letter-spacing: -0.06em;
-    color: var(--ks-cyan);
   }
   .process-story h3 {
     font-size: clamp(1.9rem, 3vw, 3rem);

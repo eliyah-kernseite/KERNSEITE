@@ -1,7 +1,7 @@
 ---
 /**
- * CtaBanner – vollbreite Abschluss-Sektion in KERNSEITE-Cyan.
- * Kein Kasten, kein Rahmen: die Fläche selbst ist der Handlungsaufruf.
+ * CtaBanner – vollbreite Abschluss-Sektion. Dunkle Fläche mit weichem
+ * türkisem Schein von unten, Türkis nur als Akzent statt als ganze Fläche.
  */
 import { activeCompany } from '../lib/config-validation';
 import Marquee from './home/Marquee.astro';
@@ -33,8 +33,8 @@ const {
 } = Astro.props;
 ---
 
-<section class="cta section--cyan">
-  <Marquee items={[ctaLabel]} tone="dark" />
+<section class="cta">
+  <Marquee items={[ctaLabel]} />
   <div class="content cta__inner">
     <h2 class="cta__title" data-split>
       {
@@ -77,12 +77,31 @@ const {
 <style>
   .cta {
     position: relative;
+    isolation: isolate;
     overflow: clip;
     padding-block: 0 calc(var(--section-y) * 1.1);
+    background: var(--ks-black);
+    border-block-start: 1px solid var(--line);
+  }
+  /* Weicher Schein statt voller Türkisfläche. */
+  .cta::before {
+    content: '';
+    position: absolute;
+    inset: auto -20% -55% auto;
+    z-index: -1;
+    inline-size: min(90vw, 70rem);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(
+      closest-side,
+      color-mix(in srgb, var(--ks-cyan) 13%, transparent),
+      transparent
+    );
+    pointer-events: none;
   }
   .cta :global(.marquee) {
     margin-block-end: clamp(2rem, 5vw, 4rem);
-    border-block-end: 2px solid var(--ks-black);
+    border-block-end: 1px solid var(--line);
   }
   .cta__inner {
     display: grid;
@@ -99,13 +118,10 @@ const {
     letter-spacing: -0.055em;
     max-width: min(14ch, 100%);
   }
-  /* Hervorhebung auf der Cyan-Fläche: rein typografisch, keine Fläche */
   .cta__mark {
     font-style: normal;
     background: none;
-    color: var(--ks-black);
-    /* Keine Unterstreichung: Markierte Wörter tragen keine Linie. Auf der
-       Neon-Fläche trägt die Fläche selbst schon den Akzent. */
+    color: var(--ks-cyan);
     text-decoration: none;
     white-space: nowrap;
   }
@@ -119,7 +135,7 @@ const {
     font-size: var(--fs-lead);
     line-height: 1.5;
     max-width: min(46ch, 100%);
-    color: var(--ks-black);
+    color: var(--text-muted);
   }
   .cta__actions {
     display: flex;
@@ -136,27 +152,27 @@ const {
   .cta__copy {
     min-height: 44px;
     padding: 0.4rem 0.9rem;
-    border: 2px solid var(--ks-black);
+    border: 1px solid var(--line-strong);
     background: transparent;
-    color: var(--ks-black);
+    color: var(--text);
     font-weight: 600;
     font-size: 0.95rem;
     cursor: pointer;
     transition:
-      background-color 300ms var(--ease-out),
-      color 300ms var(--ease-out);
+      border-color 300ms var(--ease-out),
+      background-color 300ms var(--ease-out);
   }
   .cta__copy:hover,
   .cta__copy:focus-visible {
-    background: var(--ks-black);
-    color: var(--ks-cyan);
+    border-color: var(--ks-bone);
+    background: color-mix(in srgb, var(--ks-bone) 8%, transparent);
   }
   .cta__mailto {
     /* Die E-Mail-Adresse ist ein langes zusammenhängendes Wort. */
     overflow-wrap: anywhere;
     font-size: 1.1rem;
     font-weight: 600;
-    color: var(--ks-black);
+    color: var(--text);
     text-underline-offset: 0.3em;
   }
   @media (max-width: 30rem) {

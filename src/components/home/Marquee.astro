@@ -56,10 +56,12 @@ const loop = [...items, ...items, ...items, ...items];
     color: transparent;
     -webkit-text-stroke: 2px color-mix(in srgb, var(--ks-bone) 55%, transparent);
   }
+  /* Feiner Schrägstrich als Trenner, bewusst leise. */
   .marquee__sep {
-    inline-size: 0.28em;
-    block-size: 0.28em;
-    background: var(--ks-cyan);
+    inline-size: 0.045em;
+    block-size: 0.62em;
+    background: color-mix(in srgb, var(--ks-cyan) 70%, transparent);
+    transform: rotate(18deg);
   }
   .marquee--dark .marquee__item {
     color: var(--ks-black);

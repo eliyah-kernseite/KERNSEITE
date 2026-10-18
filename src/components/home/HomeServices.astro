@@ -65,12 +65,9 @@ const [from] = websiteOffer.range.split('–');
 
     <ul class="services__list" role="list" data-preview>
       {
-        services.map((s, i) => (
+        services.map((s) => (
           <li data-img={s.img}>
             <a class="services__row" href={s.href}>
-              <span class="services__num" aria-hidden="true">
-                {String(i + 1).padStart(2, '0')}
-              </span>
               <span class="services__name">{s.name}</span>
               <span class="services__line">{s.line}</span>
               <span class="services__go" aria-hidden="true">
@@ -110,7 +107,7 @@ const [from] = websiteOffer.range.split('–');
     position: relative;
     isolation: isolate;
     display: grid;
-    grid-template-columns: 3rem minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
     gap: 0.25rem 1.5rem;
     padding-block: clamp(1.1rem, 2.2vw, 2rem);
@@ -129,29 +126,18 @@ const [from] = websiteOffer.range.split('–');
     position: absolute;
     inset: 0;
     z-index: -1;
-    background: var(--ks-cyan);
+    background: var(--ks-cream);
     transform: scaleY(0);
     transform-origin: bottom;
     transition: transform 450ms var(--ease-out);
   }
   .services__row:hover,
   .services__row:focus-visible {
-    color: var(--ks-black);
     padding-inline: 1.5rem;
   }
   .services__row:hover::before,
   .services__row:focus-visible::before {
     transform: scaleY(1);
-  }
-  .services__num {
-    font-family: var(--font-display);
-    font-weight: 700;
-    color: var(--ks-cyan);
-    transition: color 450ms var(--ease-out);
-  }
-  .services__row:hover .services__num,
-  .services__row:focus-visible .services__num {
-    color: var(--ks-black);
   }
   .services__name {
     font-family: var(--font-display);
@@ -161,31 +147,35 @@ const [from] = websiteOffer.range.split('–');
     letter-spacing: -0.055em;
   }
   .services__line {
-    grid-column: 2;
+    grid-column: 1;
     color: inherit;
     opacity: 0.7;
     font-size: 1.05rem;
   }
   .services__go {
     grid-row: 1 / span 2;
-    grid-column: 3;
+    grid-column: 2;
     font-size: clamp(1.5rem, 3vw, 2.6rem);
-    transition: transform 450ms var(--ease-out);
+    transition:
+      color 450ms var(--ease-out),
+      transform 450ms var(--ease-out);
   }
-  .services__row:hover .services__go {
+  .services__row:hover .services__go,
+  .services__row:focus-visible .services__go {
+    color: var(--ks-cyan);
     transform: rotate(45deg);
   }
   @media (min-width: 56rem) {
     .services__row {
-      grid-template-columns: 4rem minmax(0, 1fr) auto auto;
+      grid-template-columns: minmax(0, 1fr) auto auto;
     }
     .services__line {
-      grid-column: 3;
+      grid-column: 2;
       grid-row: 1;
       text-align: end;
     }
     .services__go {
-      grid-column: 4;
+      grid-column: 3;
       grid-row: 1;
     }
   }

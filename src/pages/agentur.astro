@@ -78,10 +78,6 @@ const agencyFaqs = [
             <Photo photo="werkbank-lampen" ratio="3x4" sizes="(min-width: 64rem) 40vw, 100vw" />
           </div>
         </div>
-        <div class="story__badge">
-          <span class="story__core" aria-hidden="true"></span>
-          <p>Eliyah Korb<br /><span>Gründer · Konzept · Webdesign</span></p>
-        </div>
       </div>
       <div class="story__text">
         <h2 class="story__title" data-split>Gute Arbeit allein reicht nicht.</h2>
@@ -108,11 +104,8 @@ const agencyFaqs = [
       </div>
       <ul class="values" role="list" data-reveal-group>
         {
-          values.map((v, i) => (
+          values.map((v) => (
             <li class="values__item">
-              <span class="values__num" aria-hidden="true">
-                0{i + 1}
-              </span>
               <h3 class="values__title">{v.title}</h3>
               <p class="values__body">{v.body}</p>
             </li>
@@ -182,36 +175,6 @@ const agencyFaqs = [
     overflow: hidden;
     border-radius: 0;
   }
-  .story__badge {
-    position: absolute;
-    left: clamp(1rem, 3vw, 2rem);
-    bottom: clamp(1rem, 3vw, 2rem);
-    display: flex;
-    align-items: center;
-    gap: 0.9rem;
-    padding: 0.9rem 1.2rem 0.9rem 0.9rem;
-    border: 1px solid color-mix(in srgb, var(--ks-bone) 14%, transparent);
-    border-radius: 0;
-    background: color-mix(in srgb, var(--ks-black) 72%, transparent);
-    -webkit-backdrop-filter: blur(12px);
-    backdrop-filter: blur(12px);
-  }
-  .story__core {
-    inline-size: 0.9rem;
-    block-size: 0.9rem;
-    flex: none;
-    background: var(--ks-cyan);
-  }
-  .story__badge p {
-    font-size: 0.95rem;
-    line-height: 1.35;
-    font-weight: 600;
-  }
-  .story__badge p span {
-    font-weight: 400;
-    font-size: 0.85rem;
-    color: var(--text-muted);
-  }
   .story__text {
     display: grid;
     gap: 1.5rem;
@@ -255,11 +218,6 @@ const agencyFaqs = [
   .values__item:hover {
     border-color: color-mix(in srgb, var(--ks-cyan) 45%, var(--line));
     transform: translateY(-4px);
-  }
-  .values__num {
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--ks-cyan);
   }
   .values__title {
     font-size: clamp(1.5rem, 2.2vw, 2rem);

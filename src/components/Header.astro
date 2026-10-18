@@ -61,9 +61,6 @@ function isActive(href: string): boolean {
           mainNav.map((item, i) => (
             <li class={`mobile-menu__item mobile-menu__item--${i + 1}`}>
               <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
-                <span class="mobile-menu__index" aria-hidden="true">
-                  0{i + 1}
-                </span>
                 {item.label}
               </a>
             </li>
@@ -271,13 +268,6 @@ function isActive(href: string): boolean {
     text-decoration: none;
     color: var(--text);
     border-block-end: 1px solid var(--line);
-  }
-  .mobile-menu__index {
-    font-family: var(--font-body);
-    font-size: 0.85rem;
-    font-weight: 500;
-    letter-spacing: 0;
-    color: var(--ks-cyan);
   }
   .mobile-menu__nav li a[aria-current='page'] {
     color: var(--ks-cyan);

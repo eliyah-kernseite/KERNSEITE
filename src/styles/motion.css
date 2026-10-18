@@ -132,16 +132,17 @@ html.has-motion .cursor {
 .cursor::before {
   content: '';
   position: absolute;
-  inline-size: 12px;
-  block-size: 12px;
+  inline-size: 10px;
+  block-size: 10px;
   translate: -50% -50%;
+  border-radius: 50%;
   background: var(--ks-cyan);
   opacity: 0;
   transition:
     inline-size 350ms var(--ease-out),
     block-size 350ms var(--ease-out),
-    opacity 300ms var(--ease-out),
-    rotate 500ms var(--ease-out);
+    background-color 350ms var(--ease-out),
+    opacity 300ms var(--ease-out);
 }
 .cursor.is-on::before {
   opacity: 1;
@@ -149,13 +150,12 @@ html.has-motion .cursor {
 .cursor.is-link::before {
   inline-size: 44px;
   block-size: 44px;
-  rotate: 45deg;
-  background: transparent;
-  outline: 2px solid var(--ks-cyan);
+  background: color-mix(in srgb, var(--ks-bone) 14%, transparent);
 }
 .cursor.is-label::before {
-  inline-size: 112px;
-  block-size: 112px;
+  inline-size: 104px;
+  block-size: 104px;
+  background: var(--ks-bone);
 }
 .cursor__label {
   position: absolute;
