@@ -2,8 +2,8 @@
 /**
  * HomeWork – die Arbeiten als Galerie, die beim Scrollen seitlich durchfährt.
  * Auf großen Bildschirmen klebt der Abschnitt, während die Spur von rechts
- * nach links wandert (`[data-pin]` + `[data-hscroll]`). Auf dem Handy und bei
- * reduzierter Bewegung stehen die Projekte einfach untereinander.
+ * nach links wandert (`[data-pin]` + `[data-hscroll]`). Auf Tablet und Handy
+ * wischt man die Reihe selbst, ohne scrollgebundene Bewegung.
  */
 import { featuredProjects } from '../../config/cases';
 ---
@@ -179,11 +179,11 @@ import { featuredProjects } from '../../config/cases';
 
   /* Große Bildschirme mit Bewegung: Spur fährt seitlich durch. */
   @media (min-width: 64rem) {
-    :global(html.has-motion) .work {
+    :global(html.has-scroll-fx) .work {
       height: 420vh;
       padding-block: 0;
     }
-    :global(html.has-motion) .work__stage {
+    :global(html.has-scroll-fx) .work__stage {
       position: sticky;
       top: 0;
       display: flex;
@@ -193,10 +193,10 @@ import { featuredProjects } from '../../config/cases';
       padding-block-start: var(--header-h);
       overflow: hidden;
     }
-    :global(html.has-motion) .work__track {
+    :global(html.has-scroll-fx) .work__track {
       overflow: visible;
     }
-    :global(html.has-motion) .work__list {
+    :global(html.has-scroll-fx) .work__list {
       display: flex;
       inline-size: max-content;
       gap: 4vw;
@@ -204,24 +204,45 @@ import { featuredProjects } from '../../config/cases';
       transform: translate3d(var(--shift, 0px), 0, 0);
       will-change: transform;
     }
-    :global(html.has-motion) .work__item {
+    :global(html.has-scroll-fx) .work__item {
       inline-size: min(58vw, calc((100vh - 18rem) * 1.6));
     }
-    :global(html.has-motion) .work__item--all {
+    :global(html.has-scroll-fx) .work__item--all {
       inline-size: 26vw;
       align-self: stretch;
       display: grid;
     }
-    :global(html.has-motion) .work__head {
+    :global(html.has-scroll-fx) .work__head {
       margin-block-end: 2rem;
     }
-    :global(html.has-motion) .work__title {
+    :global(html.has-scroll-fx) .work__title {
       font-size: clamp(4rem, 9vw, 9rem);
     }
   }
-  @media (min-width: 64rem) {
-    .work__list {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
+  /* Touchgeräte und ohne Skript: eine Reihe zum Wischen, nativ gescrollt. */
+  :global(html:not(.has-scroll-fx)) .work__list {
+    display: flex;
+    gap: clamp(1rem, 3vw, 2rem);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: none;
+    padding-block-end: 0.5rem;
+  }
+  :global(html:not(.has-scroll-fx)) .work__list::-webkit-scrollbar {
+    display: none;
+  }
+  :global(html:not(.has-scroll-fx)) .work__list::after {
+    content: '';
+    flex: 0 0 1px;
+  }
+  :global(html:not(.has-scroll-fx)) .work__item {
+    flex: 0 0 min(84vw, 44rem);
+    scroll-snap-align: start;
+  }
+  :global(html:not(.has-scroll-fx)) .work__item--all {
+    flex-basis: min(60vw, 20rem);
+    display: grid;
   }
 </style>

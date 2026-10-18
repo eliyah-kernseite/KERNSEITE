@@ -36,6 +36,7 @@ const items = industries.map((ind) => ({
               ratio="4x3"
               sizes="(min-width: 69rem) 30vw, (min-width: 48rem) 46vw, 100vw"
               class="igrid__media"
+              blend="bottom"
             />
           ) : (
             <span class="igrid__gap" aria-hidden="true" />
@@ -117,12 +118,17 @@ const items = industries.map((ind) => ({
     overflow: hidden;
     border-radius: 0;
   }
-  .igrid__link :global(.igrid__media img) {
-    transition: transform 900ms var(--ease-out);
-  }
   .igrid__link:hover :global(.igrid__media img),
   .igrid__link:focus-within :global(.igrid__media img) {
     transform: scale(1.05);
+    filter: saturate(1) brightness(0.92);
+  }
+  /* Der Name ragt in den unteren, ausgeblendeten Teil des Bildes. */
+  .igrid__link :global(.igrid__media) {
+    margin-block-end: -2.6rem;
+  }
+  .igrid__name {
+    position: relative;
   }
 
   .igrid__name {

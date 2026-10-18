@@ -95,7 +95,12 @@ const processFaqs = [
             steps.map((s) => (
               <li class="process-story__step">
                 <div class="process-story__media">
-                  <Photo photo={s.photo} ratio="4x3" sizes="(min-width: 64rem) 28vw, 100vw" />
+                  <Photo
+                    photo={s.photo}
+                    ratio="4x3"
+                    sizes="(min-width: 64rem) 28vw, 100vw"
+                    blend="bottom"
+                  />
                 </div>
                 <div class="process-story__body">
                   <h3>{s.title}</h3>
@@ -125,9 +130,9 @@ const processFaqs = [
   />
 </PageLayout>
 <style>
-  /* Ablauf als Reise: Auf großen Bildschirmen mit Bewegung bleibt der Abschnitt
-     stehen und die Schritte fahren seitlich vorbei, eine Linie zeigt den
-     Fortschritt. Sonst stehen die Schritte untereinander. */
+  /* Ablauf als Reise: Am Rechner bleibt der Abschnitt stehen und die Schritte
+     fahren seitlich vorbei, eine Linie zeigt den Fortschritt. Auf Touchgeräten
+     wischt man die Schritte selbst. */
   .journey-x {
     position: relative;
     padding-block: var(--section-y);
@@ -169,11 +174,9 @@ const processFaqs = [
   .process-story__media {
     overflow: hidden;
   }
-  .process-story__media :global(.photo) {
-    transition: transform 900ms var(--ease-out);
-  }
-  .process-story__step:hover .process-story__media :global(.photo) {
+  .process-story__step:hover .process-story__media :global(img) {
     transform: scale(1.04);
+    filter: saturate(1) brightness(0.9);
   }
   .process-story__body {
     display: grid;
@@ -212,21 +215,34 @@ const processFaqs = [
     margin: 0;
     font-size: 1rem;
   }
-  @media (min-width: 48rem) and (max-width: 63.99rem) {
-    .process-story__step {
-      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-    }
-    .process-story__media :global(.photo) {
-      block-size: 100%;
-    }
+  /* Touchgeräte und ohne Skript: Schritte als Reihe zum Wischen. */
+  :global(html:not(.has-scroll-fx)) .process-story {
+    display: flex;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: none;
+  }
+  :global(html:not(.has-scroll-fx)) .process-story::-webkit-scrollbar {
+    display: none;
+  }
+  :global(html:not(.has-scroll-fx)) .process-story::after {
+    content: '';
+    flex: 0 0 1px;
+  }
+  :global(html:not(.has-scroll-fx)) .process-story__step {
+    flex: 0 0 min(84vw, 30rem);
+    scroll-snap-align: start;
+    grid-template-rows: auto 1fr;
   }
 
   @media (min-width: 64rem) {
-    :global(html.has-motion) .journey-x {
+    :global(html.has-scroll-fx) .journey-x {
       height: 460vh;
       padding-block: 0;
     }
-    :global(html.has-motion) .journey-x__stage {
+    :global(html.has-scroll-fx) .journey-x__stage {
       position: sticky;
       top: 0;
       display: flex;
@@ -236,13 +252,13 @@ const processFaqs = [
       padding-block-start: var(--header-h);
       overflow: hidden;
     }
-    :global(html.has-motion) .journey-x__title {
+    :global(html.has-scroll-fx) .journey-x__title {
       font-size: clamp(3rem, 5.5vw, 5.5rem);
     }
-    :global(html.has-motion) .journey-x__bar span {
+    :global(html.has-scroll-fx) .journey-x__bar span {
       transform: scaleX(var(--p, 0));
     }
-    :global(html.has-motion) .process-story {
+    :global(html.has-scroll-fx) .process-story {
       display: flex;
       inline-size: max-content;
       gap: 3vw;
@@ -250,13 +266,15 @@ const processFaqs = [
       transform: translate3d(var(--shift, 0px), 0, 0);
       will-change: transform;
     }
-    :global(html.has-motion) .process-story__step {
+    :global(html.has-scroll-fx) .process-story__step {
       inline-size: min(64vw, calc((100vh - 16rem) * 1.75));
       grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
     }
-    :global(html.has-motion) .process-story__media :global(.photo) {
+    :global(html.has-scroll-fx) .process-story__media :global(.photo) {
       block-size: 100%;
       aspect-ratio: auto;
+      -webkit-mask-image: linear-gradient(to right, #000 50%, transparent);
+      mask-image: linear-gradient(to right, #000 50%, transparent);
     }
   }
 </style>

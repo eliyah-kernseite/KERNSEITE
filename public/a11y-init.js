@@ -17,5 +17,13 @@
   }
   // Scroll-Animationen nur, wenn niemand weniger Bewegung wünscht (siehe src/scripts/motion.ts).
   var calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!calm && root.dataset.a11yMotion !== 'reduced') root.classList.add('has-motion');
+  if (!calm && root.dataset.a11yMotion !== 'reduced') {
+    root.classList.add('has-motion');
+    // Scrollgebundene Effekte (Pinnen, seitliche Spuren, Zoom, Parallaxe) nur mit
+    // Maus oder Trackpad am Rechner. Tablets und Handys scrollen nativ und
+    // bekommen wischbare Reihen, sonst ruckelt es auf dem iPad.
+    var fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    var ipad = /Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1;
+    if (fine && !ipad) root.classList.add('has-scroll-fx');
+  }
 })();

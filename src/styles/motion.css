@@ -54,7 +54,7 @@ html.has-motion .scrub.is-lit {
 }
 
 /* --- Parallaxe ------------------------------------------------------------ */
-html.has-motion [data-parallax] {
+html.has-scroll-fx [data-parallax] {
   transform: translate3d(0, var(--parallax, 0px), 0) scale(1.12);
   will-change: transform;
 }
@@ -85,13 +85,13 @@ html.has-motion [data-reveal='clip'].is-in > * {
 }
 
 /* --- Zeilen, die seitlich wandern ---------------------------------------- */
-html.has-motion [data-drift] {
+html.has-scroll-fx [data-drift] {
   transform: translate3d(var(--drift, 0), 0, 0);
   will-change: transform;
 }
 
 /* --- Kippen und Lichtfleck ------------------------------------------------ */
-[data-tilt] {
+html.has-scroll-fx [data-tilt] {
   transform: perspective(1200px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
   transition: transform 600ms var(--ease-out);
 }

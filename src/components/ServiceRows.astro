@@ -10,7 +10,7 @@ interface Props {
 const { exclude = [], headingLevel = 'h3' } = Astro.props;
 const rows = services.filter((s) => !exclude.includes(s.key));
 const Tag = headingLevel;
-/** Ein Bild je Leistung, damit jede Kachel gleich aufgebaut ist. */
+/** Ein Bild je Leistung. Es steht als Stimmung in der Ecke und läuft in die Kachel aus. */
 const tilePhoto: Record<string, PhotoKey> = {
   websites: 'website-laptop',
   'seo-geo': 'seo-geo',
@@ -47,8 +47,8 @@ const copy: Record<string, string> = {
           <div class="service-tile__media">
             <Photo
               photo={tilePhoto[s.key]!}
-              ratio="21x9"
-              sizes={s.isCore ? '(min-width: 44rem) 94vw, 100vw' : '(min-width: 44rem) 46vw, 100vw'}
+              ratio="fill"
+              sizes={s.isCore ? '(min-width: 44rem) 55vw, 100vw' : '(min-width: 44rem) 30vw, 70vw'}
             />
           </div>
         )}
@@ -142,16 +142,57 @@ const copy: Record<string, string> = {
     box-shadow: inset 0 2px 0 var(--ks-cyan);
     grid-column: span 2;
   }
+  /* Das Bild sitzt oben rechts und verläuft nach links unten in die Fläche,
+     der Text steht davor. So verschmilzt es mit der Kachel statt als Block
+     darüber zu stehen. */
+  .service-tile {
+    isolation: isolate;
+    min-block-size: clamp(24rem, 34vw, 30rem);
+    justify-content: flex-end;
+  }
+  .service-tile__copy {
+    flex: 0 0 auto;
+  }
   .service-tile__media {
+    position: absolute;
+    inset: 0 0 auto auto;
+    z-index: -1;
+    inline-size: 72%;
+    block-size: 78%;
     overflow: hidden;
+    -webkit-mask-image: radial-gradient(120% 110% at 100% 0%, #000 30%, transparent 70%);
+    mask-image: radial-gradient(120% 110% at 100% 0%, #000 30%, transparent 70%);
+    pointer-events: none;
   }
   .service-tile__media :global(.photo) {
-    inline-size: 100%;
-    border-radius: 0 !important;
-    transition: transform 900ms var(--ease-out);
+    block-size: 100%;
+    min-block-size: 0;
+    background: transparent;
   }
-  .service-tile:hover .service-tile__media :global(.photo) {
-    transform: scale(1.05);
+  .service-tile__media :global(img) {
+    filter: saturate(0.6) brightness(0.62);
+    transition:
+      transform 1200ms var(--ease-out),
+      filter 700ms var(--ease-out);
+  }
+  .service-tile:hover .service-tile__media :global(img) {
+    transform: scale(1.06);
+    filter: saturate(0.95) brightness(0.8);
+  }
+  .service-tile--core {
+    min-block-size: clamp(22rem, 30vw, 28rem);
+  }
+  .service-tile--core .service-tile__media {
+    inline-size: 62%;
+    block-size: 100%;
+    -webkit-mask-image: radial-gradient(100% 120% at 100% 50%, #000 30%, transparent 72%);
+    mask-image: radial-gradient(100% 120% at 100% 50%, #000 30%, transparent 72%);
+  }
+  .service-tile--core .service-tile__media :global(img) {
+    filter: saturate(0.55) brightness(0.55);
+  }
+  .service-tile--core .service-tile__copy {
+    max-inline-size: 40rem;
   }
   .service-tile:nth-child(2) {
     background: var(--ks-black);
