@@ -35,15 +35,12 @@ const heroPhoto = (
   industry.slug in photos && resolvePhoto(industry.slug as PhotoKey) ? industry.slug : null
 ) as PhotoKey | null;
 
-/**
- * Zweites Motiv je Branche. Es sorgt dafür, dass die Detailseiten nicht
- * denselben Aufbau zeigen: mal ein breiter Bildstreifen, mal zwei Bilder
- * nebeneinander, mal gar keines.
- */
-const secondBySlug: Partial<Record<string, PhotoKey[]>> = {
-  'gastronomie-hotels': ['hotelzimmer'],
+/** Zweites Motiv je Branche, eingebettet neben den Schwerpunkten. */
+const secondBySlug: Partial<Record<string, PhotoKey>> = {
+  'gastronomie-hotels': 'hotelzimmer',
 };
-const secondPhotos = (secondBySlug[industry.slug] ?? []).filter((k) => resolvePhoto(k));
+const second = secondBySlug[industry.slug];
+const sidePhoto = second && resolvePhoto(second) ? second : null;
 
 // Branchentypische Referenz, wenn vorhanden.
 const projects = works.filter((w): w is ProjectWork => w.kind === 'project');
@@ -81,16 +78,24 @@ const post = idx >= 0 ? industry.detailH1.slice(idx + accent.length) : '';
     {pre}{idx >= 0 && <AccentWord>{accent}</AccentWord>}{post}
   </h1>
 
-  <section class="hero-img">
-    <div class="content branch-action">
-      <a class="btn btn--primary btn--lg" href={`/kontakt/#branche=${industry.slug}`} data-magnetic
-        >{industry.ctaLabel} <span aria-hidden="true">↗</span></a
-      >
-    </div>
-  </section>
+  <a
+    slot="hero-extra"
+    class="btn btn--primary btn--lg"
+    href={`/kontakt/#branche=${industry.slug}`}
+    data-magnetic>{industry.ctaLabel} <span aria-hidden="true">↗</span></a
+  >
   <section class="section section--cream">
-    <div class="content">
-      <h2 class="sec" data-split>Worauf es hier ankommt.</h2>
+    <div class:list={['content', 'focus-wrap', { 'focus-wrap--photo': !!sidePhoto }]}>
+      <div class="focus-wrap__side">
+        <h2 class="sec" data-split>Worauf es hier ankommt.</h2>
+        {
+          sidePhoto && (
+            <div class="focus-wrap__photo" data-reveal="fade">
+              <Photo photo={sidePhoto} ratio="3x4" sizes="(min-width: 64rem) 30vw, 90vw" />
+            </div>
+          )
+        }
+      </div>
       <ul class="focus" role="list" data-reveal-group>
         {
           industry.focus.map((f) => (
@@ -160,24 +165,6 @@ const post = idx >= 0 ? industry.detailH1.slice(idx + accent.length) : '';
     </div>
   </section>
 
-  {
-    secondPhotos.length > 0 && (
-      <section class="section section--cream">
-        <div class="content--wide content">
-          <div class:list={['gallery', { 'gallery--pair': secondPhotos.length > 1 }]}>
-            {secondPhotos.map((key, i) => (
-              <Photo
-                photo={key}
-                ratio={secondPhotos.length > 1 ? (i === 0 ? '4x3' : '3x4') : '21x9'}
-                sizes={secondPhotos.length > 1 ? '(min-width: 48rem) 48vw, 100vw' : '100vw'}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-    )
-  }
-
   <FaqSection items={industry.faqs} title={['Gut zu', 'wissen.']} variant="paper" />
 
   <CtaBanner
@@ -189,19 +176,32 @@ const post = idx >= 0 ? industry.detailH1.slice(idx + accent.length) : '';
 </PageLayout>
 
 <style>
-  .hero-img {
-    padding-block-end: clamp(3.5rem, 7vw, 6rem);
-    background: var(--ks-paper);
-  }
-
-  .gallery {
+  /* Schwerpunkte: links Überschrift und ein ins Grau verlaufendes Bild, das
+     beim Lesen stehen bleibt, rechts die Punkte. */
+  .focus-wrap {
     display: grid;
-    gap: clamp(1rem, 0.75rem + 1.5vw, 2rem);
+    gap: clamp(1.5rem, 3vw, 2.5rem);
   }
-  @media (min-width: 48rem) {
-    .gallery--pair {
-      grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+  .focus-wrap__photo {
+    max-inline-size: 26rem;
+    -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent);
+    mask-image: linear-gradient(to bottom, #000 55%, transparent);
+  }
+  .focus-wrap__photo :global(img) {
+    filter: saturate(0.75) brightness(0.85);
+  }
+  @media (min-width: 64rem) {
+    .focus-wrap--photo {
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+      gap: clamp(3rem, 5vw, 5rem);
       align-items: start;
+    }
+    .focus-wrap--photo .focus-wrap__side {
+      position: sticky;
+      top: calc(var(--header-h) + 2rem);
+    }
+    .focus-wrap--photo .focus {
+      grid-template-columns: minmax(0, 1fr) !important;
     }
   }
 
@@ -333,9 +333,6 @@ const post = idx >= 0 ? industry.detailH1.slice(idx + accent.length) : '';
 </style>
 
 <style>
-  .branch-action {
-    margin-top: clamp(1.5rem, 3vw, 2.5rem);
-  }
   .focus {
     display: grid;
     gap: clamp(1rem, 2vw, 1.5rem);

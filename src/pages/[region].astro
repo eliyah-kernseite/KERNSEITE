@@ -50,13 +50,9 @@ const reference =
   extraJsonLd={[faqPageJsonLd(region.faqs)]}
   photo={heroPhoto ?? undefined}
 >
-  <section class="hero-img">
-    <div class="content branch-action">
-      <a class="btn btn--primary btn--lg" href="/kontakt/" data-magnetic
-        >{region.ctaLabel} <span aria-hidden="true">↗</span></a
-      >
-    </div>
-  </section>
+  <a slot="hero-extra" class="btn btn--primary btn--lg" href="/kontakt/" data-magnetic
+    >{region.ctaLabel} <span aria-hidden="true">↗</span></a
+  >
 
   <section class="section section--cream">
     <div class="content">
@@ -154,22 +150,6 @@ const reference =
 </PageLayout>
 
 <style>
-  .hero-img {
-    padding-block-end: clamp(3.5rem, 7vw, 6rem);
-    background: var(--ks-paper);
-  }
-
-  .gallery {
-    display: grid;
-    gap: clamp(1rem, 0.75rem + 1.5vw, 2rem);
-  }
-  @media (min-width: 48rem) {
-    .gallery--pair {
-      grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
-      align-items: start;
-    }
-  }
-
   .sec {
     font-size: var(--fs-h2);
     max-width: min(16ch, 100%);
@@ -298,9 +278,6 @@ const reference =
 </style>
 
 <style>
-  .branch-action {
-    margin-top: clamp(1.5rem, 3vw, 2.5rem);
-  }
   .focus {
     display: grid;
     gap: clamp(1rem, 2vw, 1.5rem);

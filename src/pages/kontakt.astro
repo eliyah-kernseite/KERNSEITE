@@ -143,7 +143,12 @@ const contactFaqs = [
           persönlich, alles andere klappt per Telefon, Video und gemeinsamer Vorschau gut.
         </p>
       </div>
-      <Photo photo="standort-wuerzburg" ratio="16x9" sizes="(min-width: 64rem) 55vw, 100vw" />
+      <Photo
+        photo="standort-wuerzburg"
+        ratio="16x9"
+        sizes="(min-width: 64rem) 55vw, 100vw"
+        blend="edges"
+      />
     </div>
   </section>
   <FaqSection items={contactFaqs} title={['Bevor du', 'schreibst.']} variant="paper" />

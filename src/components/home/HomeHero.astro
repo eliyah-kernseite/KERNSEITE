@@ -81,7 +81,7 @@ const columns = [
     position: relative;
     background: var(--ks-black);
   }
-  :global(html.has-motion) .hero {
+  :global(html.has-scroll-fx) .hero {
     height: 155svh;
   }
   .hero__stage {
@@ -96,14 +96,14 @@ const columns = [
   }
   /* Beim Scrollen zoomt die Wand heran und wird heller: Die Kundenseiten
      treten nach vorn, während die Überschrift nach oben weicht. */
-  :global(html.has-motion) .hero__wall {
+  :global(html.has-scroll-fx) .hero__wall {
     transform: scale(calc(1 + var(--p, 0) * 0.35));
     will-change: transform;
   }
-  :global(html.has-motion) .hero__shade {
+  :global(html.has-scroll-fx) .hero__shade {
     opacity: calc(1 - var(--p, 0) * 0.75);
   }
-  :global(html.has-motion) .hero__content {
+  :global(html.has-scroll-fx) .hero__content {
     transform: translate3d(0, calc(var(--p, 0) * -18vh), 0);
     opacity: calc(1 - var(--p, 0) * 1.6);
   }

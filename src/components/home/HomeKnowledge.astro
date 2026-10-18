@@ -1,0 +1,134 @@
+---
+/**
+ * HomeKnowledge – was wir aus der Praxis wissen. Kurze Regeln, nach denen
+ * jede Seite gebaut wird, damit Besucher sehen, worauf es ankommt. Links
+ * bleibt die Überschrift stehen, rechts laufen die Regeln nacheinander ein.
+ */
+const insights = [
+  {
+    title: 'Die ersten Sekunden entscheiden.',
+    text: 'Besucher sehen sofort, ob sie hier richtig sind. Deshalb steht ganz oben, was du machst, für wen und wo. Und wie man dich erreicht.',
+  },
+  {
+    title: 'Jede Leistung bekommt ihre eigene Seite.',
+    text: 'Wer nach einer bestimmten Leistung in seiner Stadt sucht, will genau dazu etwas lesen und keine Liste mit allem. Google sieht das genauso.',
+  },
+  {
+    title: 'Langsam kostet Anfragen.',
+    text: 'Auf dem Handy wartet niemand lange. Kleine Bilder, sauberer Code und wenige Skripte sorgen dafür, dass deine Seite sofort steht.',
+  },
+  {
+    title: 'Google-Profil und Website gehören zusammen.',
+    text: 'Öffnungszeiten, Leistungen und Telefonnummer sollten überall gleich sein. Das hilft deinen Kunden und deiner Sichtbarkeit in der Umgebung.',
+  },
+  {
+    title: 'Jede Seite endet mit einem nächsten Schritt.',
+    text: 'Anrufen, schreiben oder einen Termin ausmachen. Wer bis unten gelesen hat, soll wissen, wie es weitergeht.',
+  },
+] as const;
+---
+
+<section class="know section" aria-labelledby="know-title">
+  <div class="content know__grid">
+    <div class="know__head">
+      <h2 id="know-title" class="know__title" data-split>Aus der Praxis.</h2>
+      <p class="know__lead" data-reveal>
+        Ein paar Regeln, nach denen wir jede Website bauen. Du kannst sie auch auf deine jetzige
+        Seite anwenden.
+      </p>
+    </div>
+    <ul class="know__list" role="list" data-reveal-group>
+      {
+        insights.map((item) => (
+          <li class="know__item" data-spotlight>
+            <h3 class="know__name">{item.title}</h3>
+            <p class="know__text">{item.text}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .know__grid {
+    display: grid;
+    gap: clamp(2.5rem, 5vw, 4rem);
+  }
+  .know__title {
+    font-size: clamp(3rem, 7vw, 7rem);
+    line-height: 0.92;
+    letter-spacing: -0.045em;
+  }
+  .know__lead {
+    margin-block-start: clamp(1.25rem, 2vw, 1.75rem);
+    max-width: 32ch;
+    font-size: var(--fs-lead);
+    color: var(--text-muted);
+  }
+  .know__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-block-start: 1px solid var(--line-strong);
+  }
+  .know__item {
+    position: relative;
+    display: grid;
+    gap: 0.75rem;
+    padding: clamp(1.5rem, 3vw, 2.5rem) clamp(0.25rem, 1.5vw, 1.5rem);
+    border-block-end: 1px solid var(--line);
+    transition: background-color 500ms var(--ease-out);
+  }
+  /* Feine Linie, die beim Hereinlaufen von links aufzieht. */
+  .know__item::after {
+    content: '';
+    position: absolute;
+    inset: -1px auto auto 0;
+    inline-size: 100%;
+    block-size: 1px;
+    background: var(--ks-cyan);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 1200ms var(--ease-out) var(--reveal-delay, 0ms);
+  }
+  .know__item:global(.is-in)::after {
+    transform: scaleX(0.18);
+  }
+  .know__item:hover {
+    background: color-mix(in srgb, var(--ks-cream) 70%, transparent);
+  }
+  .know__item:hover::after {
+    transform: scaleX(1);
+    transition-delay: 0ms;
+  }
+  .know__name {
+    font-size: clamp(1.5rem, 2.4vw, 2.3rem);
+    line-height: 1.08;
+    letter-spacing: -0.035em;
+    max-width: 22ch;
+    transition: color 400ms var(--ease-out);
+  }
+  .know__item:hover .know__name {
+    color: var(--ks-cyan);
+  }
+  .know__text {
+    max-width: 52ch;
+    color: var(--text-muted);
+    font-size: 1.05rem;
+  }
+  @media (min-width: 64rem) {
+    .know__grid {
+      grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+      gap: clamp(3rem, 6vw, 6rem);
+      align-items: start;
+    }
+    .know__head {
+      position: sticky;
+      top: calc(var(--header-h) + 2.5rem);
+    }
+  }
+  :global(:root:not(.has-motion)) .know__item::after {
+    transform: scaleX(0.18);
+  }
+</style>

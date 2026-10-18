@@ -24,7 +24,6 @@
  *   [data-copy]            Schaltfläche kopiert data-copy in die Zwischenablage
  *   [data-clock]           zeigt die aktuelle Uhrzeit in Würzburg
  *   [data-scroll-progress] Lesefortschritt der Seite als --scroll
- *   [data-expand]          Bildband öffnet sich beim Hereinscrollen; setzt --expand (0 bis 1)
  *
  * Weiches Scrollen übernimmt Lenis, ebenfalls nur ohne Bewegungswunsch.
  */
@@ -101,17 +100,22 @@ interface ScrubItem {
   words: HTMLElement[];
 }
 
+/** Pinnen, Spuren, Zoom und Parallaxe nur am Rechner (siehe public/a11y-init.js). */
+const scrollFx = (): boolean => root.classList.contains('has-scroll-fx');
+
 function setupScroll(): void {
+  const fx = scrollFx();
+  const fxOnly = (sel: string): HTMLElement[] =>
+    fx ? Array.from(document.querySelectorAll<HTMLElement>(sel)) : [];
   const scrubs: ScrubItem[] = Array.from(
     document.querySelectorAll<HTMLElement>('[data-scrub]'),
   ).map((el) => ({ el, words: splitWords(el, 'scrub') }));
-  const parallax = Array.from(document.querySelectorAll<HTMLElement>('[data-parallax]'));
+  const parallax = fxOnly('[data-parallax]');
   const stacks = Array.from(document.querySelectorAll<HTMLElement>('[data-stack] > *'));
   const progress = Array.from(document.querySelectorAll<HTMLElement>('[data-progress]'));
-  const pins = Array.from(document.querySelectorAll<HTMLElement>('[data-pin]'));
-  const drifts = Array.from(document.querySelectorAll<HTMLElement>('[data-drift]'));
+  const pins = fxOnly('[data-pin]');
+  const drifts = fxOnly('[data-drift]');
   const pageBars = Array.from(document.querySelectorAll<HTMLElement>('[data-scroll-progress]'));
-  const expands = Array.from(document.querySelectorAll<HTMLElement>('[data-expand]'));
 
   // Erst alles messen, dann alles schreiben: abwechselndes Lesen und Schreiben
   // zwingt den Browser zu einem neuen Layout pro Element und lässt das
@@ -197,14 +201,6 @@ function setupScroll(): void {
       if (!near(r, vh, 100)) continue;
       const p = Math.min(1, Math.max(0, (vh * 0.6 - r.top) / r.height));
       writes.push(() => el.style.setProperty('--progress', p.toFixed(4)));
-    }
-
-    for (const el of expands) {
-      const r = el.getBoundingClientRect();
-      if (!near(r, vh, 100)) continue;
-      // 0 solange die Oberkante unten im Bild steht, 1 wenn sie das obere Viertel erreicht.
-      const p = Math.min(1, Math.max(0, (vh - r.top) / (vh * 0.75)));
-      writes.push(() => el.style.setProperty('--expand', p.toFixed(4)));
     }
 
     for (const write of writes) write();
@@ -432,7 +428,7 @@ function setupMagnetic(): void {
 function init(): void {
   setupUtilities();
   if (reduced()) {
-    root.classList.remove('has-motion');
+    root.classList.remove('has-motion', 'has-scroll-fx');
     return;
   }
   root.classList.add('has-motion');
@@ -444,7 +440,8 @@ function init(): void {
   setupMarquees();
   setupCursor();
   setupPointerFx();
-  setupSmoothScroll();
+  // Auf Touchgeräten scrollt der Browser selbst am flüssigsten.
+  if (scrollFx()) setupSmoothScroll();
 }
 
 init();
@@ -452,7 +449,7 @@ init();
 // Wird „Bewegung reduzieren“ später eingeschaltet, sofort alles zeigen.
 new MutationObserver(() => {
   if (reduced()) {
-    root.classList.remove('has-motion');
+    root.classList.remove('has-motion', 'has-scroll-fx');
     lenis?.destroy();
     lenis = undefined;
   }

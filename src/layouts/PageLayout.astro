@@ -19,7 +19,7 @@ interface Props {
   noindex?: boolean;
   /** Hintergrund des Seitenkopfs. */
   variant?: 'paper' | 'cream' | 'surface' | 'dark';
-  /** Großes Bild unter dem Seitenkopf, das sich beim Scrollen zur vollen Breite öffnet. */
+  /** Stimmungsbild im Seitenkopf: rechts hinter der Überschrift, weich in den Grund verlaufend. */
   photo?: PhotoKey;
   photoAlt?: string;
 }
@@ -43,7 +43,29 @@ const jsonLd = [breadcrumbJsonLd(breadcrumbs), ...extraJsonLd];
 ---
 
 <BaseLayout title={title ?? h1} description={description} noindex={noindex} jsonLd={jsonLd}>
-  <header class={`page-hero section--${variant}${variant === 'dark' ? ' on-dark' : ''}`}>
+  <header
+    class:list={[
+      'page-hero',
+      `section--${variant}`,
+      { 'on-dark': variant === 'dark', 'page-hero--photo': !!photo },
+    ]}
+  >
+    {
+      photo && (
+        <div class="page-hero__media">
+          <div class="page-hero__img" data-parallax="0.06">
+            <Photo
+              photo={photo}
+              ratio="fill"
+              sizes="(min-width: 56rem) 70vw, 100vw"
+              priority
+              alt={photoAlt}
+              class="page-hero__photo"
+            />
+          </div>
+        </div>
+      )
+    }
     <div class:list={['content', 'page-hero__grid', { 'page-hero__grid--foot': hasFoot }]}>
       {breadcrumbs.length > 1 && <Breadcrumbs items={breadcrumbs} />}
       {
@@ -64,22 +86,6 @@ const jsonLd = [breadcrumbJsonLd(breadcrumbs), ...extraJsonLd];
         )
       }
     </div>
-    {
-      photo && (
-        <div class="page-hero__media" data-expand>
-          <div class="page-hero__img" data-parallax="0.08">
-            <Photo
-              photo={photo}
-              ratio="21x9"
-              sizes="100vw"
-              priority
-              alt={photoAlt}
-              class="page-hero__photo"
-            />
-          </div>
-        </div>
-      )
-    }
   </header>
   <slot />
 </BaseLayout>
@@ -139,20 +145,73 @@ const jsonLd = [breadcrumbJsonLd(breadcrumbs), ...extraJsonLd];
     }
   }
 
-  /* Bildband: startet eingerückt und öffnet sich beim Scrollen zur vollen Breite. */
-  .page-hero__media {
-    margin-block-start: clamp(3rem, 6vw, 5.5rem);
-    overflow: hidden;
+  /* Stimmungsbild: Das Foto steht rechts hinter der Überschrift und läuft nach
+     links und unten weich in den dunklen Grund aus. Die Überschrift ragt ins
+     Bild hinein, so wirkt der Kopf wie eine Komposition statt Text plus Kachel. */
+  .page-hero--photo {
+    isolation: isolate;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-block-size: clamp(34rem, 82svh, 58rem);
   }
-  :global(html.has-motion) .page-hero__media {
-    clip-path: inset(0 calc((1 - var(--expand, 0)) * max(var(--gutter), 8vw)));
+  .page-hero--photo > .content {
+    inline-size: 100%;
+  }
+  .page-hero__media {
+    position: absolute;
+    inset: 0 0 0 auto;
+    z-index: -1;
+    inline-size: min(70%, 80rem);
+    overflow: hidden;
+    -webkit-mask-image: radial-gradient(130% 105% at 100% 0%, #000 38%, transparent 74%);
+    mask-image: radial-gradient(130% 105% at 100% 0%, #000 38%, transparent 74%);
+    pointer-events: none;
+  }
+  .page-hero__media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      205deg,
+      color-mix(in srgb, var(--ks-cyan) 16%, transparent),
+      transparent 45%
+    );
+  }
+  .page-hero__img {
+    position: absolute;
+    inset: 0;
   }
   .page-hero__media :global(.page-hero__photo) {
-    min-block-size: 16rem;
+    block-size: 100%;
+    min-block-size: 0;
+    background: transparent;
   }
-  @media (max-width: 40rem) {
-    .page-hero__media :global(.page-hero__photo) {
-      aspect-ratio: 4 / 3;
+  .page-hero__media :global(img) {
+    filter: saturate(0.72) brightness(0.74) contrast(1.06);
+  }
+  :global(html.has-motion) .page-hero__media {
+    animation: hero-photo-in 1800ms var(--ease-out) both;
+  }
+  @keyframes hero-photo-in {
+    from {
+      opacity: 0;
+      transform: scale(1.06);
+    }
+  }
+  @media (max-width: 55.99rem) {
+    .page-hero--photo {
+      min-block-size: 0;
+      padding-block-start: clamp(10rem, 42vw, 16rem) !important;
+    }
+    .page-hero__media {
+      inline-size: 100%;
+      block-size: min(78%, 34rem);
+      -webkit-mask-image: linear-gradient(to bottom, #000 30%, transparent 96%);
+      mask-image: linear-gradient(to bottom, #000 30%, transparent 96%);
+    }
+    .page-hero__media :global(img) {
+      filter: saturate(0.7) brightness(0.6);
     }
   }
 </style>
