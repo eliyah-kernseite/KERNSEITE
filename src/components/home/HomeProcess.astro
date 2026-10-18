@@ -1,0 +1,117 @@
+---
+/**
+ * HomeProcess – der Ablauf in drei Schritten. Die Linie oben füllt sich mit
+ * dem Scrollfortschritt (`[data-progress]`). Ausführlich: /prozess/.
+ */
+import Photo from '../Photo.astro';
+import type { PhotoKey } from '../../config/photos';
+
+const steps: readonly { title: string; text: string; photo: PhotoKey }[] = [
+  {
+    title: 'Wir hören zu.',
+    text: 'Was bietest du an, und wen willst du erreichen? Daraus wird ein Vorschlag mit klarem Umfang und Preis.',
+    photo: 'laptop-notizbuch',
+  },
+  {
+    title: 'Du siehst, was entsteht.',
+    text: 'Texte, Bilder und Design stimmen wir mit dir ab. Gebaut wird erst, wenn dir der Entwurf gefällt.',
+    photo: 'entwurf-skizze',
+  },
+  {
+    title: 'Deine Website geht live.',
+    text: 'Vorher testen wir jede Seite und jeden Kontaktweg. Danach pflegst du selbst oder wir übernehmen das.',
+    photo: 'arbeitsplatz-abend',
+  },
+];
+---
+
+<section class="process section" aria-labelledby="process-title" data-progress-host>
+  <div class="content">
+    <div class="section-top section-top--split">
+      <div>
+        <p class="kicker" aria-hidden="true">So läuft es ab</p>
+        <h2 id="process-title" class="display-2" data-split>Du musst kein Webprofi sein.</h2>
+      </div>
+      <a class="link-arrow" href="/prozess/" data-reveal
+        >Ablauf im Detail <span class="arrow" aria-hidden="true">→</span></a
+      >
+    </div>
+
+    <div class="process__line" aria-hidden="true"><span data-progress></span></div>
+
+    <ol class="process__steps" role="list" data-reveal-group>
+      {
+        steps.map((s, i) => (
+          <li class="process__step">
+            <div class="process__media">
+              <Photo photo={s.photo} ratio="4x3" sizes="(min-width: 56rem) 30vw, 100vw" />
+            </div>
+            <p class="process__num">Schritt {i + 1}</p>
+            <h3 class="process__title">{s.title}</h3>
+            <p class="process__text">{s.text}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .process__line {
+    position: relative;
+    block-size: 2px;
+    margin-block-end: clamp(2rem, 4vw, 3rem);
+    background: var(--line);
+    overflow: hidden;
+  }
+  .process__line span {
+    position: absolute;
+    inset: 0;
+    background: var(--ks-cyan);
+    transform: scaleX(var(--progress, 1));
+    transform-origin: left;
+  }
+  .process__steps {
+    display: grid;
+    gap: clamp(2.5rem, 4vw, 2rem);
+    margin: 0;
+    padding: 0;
+  }
+  .process__media {
+    overflow: hidden;
+    border-radius: var(--radius-card);
+    margin-block-end: 1.5rem;
+  }
+  .process__media :global(img) {
+    transition: transform 1200ms var(--ease-out);
+  }
+  .process__step:hover .process__media :global(img) {
+    transform: scale(1.05);
+  }
+  .process__num {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--ks-cyan);
+  }
+  .process__title {
+    margin-block: 0.5rem 0.75rem;
+    font-size: clamp(1.6rem, 2.4vw, 2.2rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+  }
+  .process__text {
+    color: var(--text-muted);
+    max-width: 38ch;
+  }
+  @media (min-width: 56rem) {
+    .process__steps {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .process__step:nth-child(2) {
+      margin-block-start: 4rem;
+    }
+    .process__step:nth-child(3) {
+      margin-block-start: 8rem;
+    }
+  }
+</style>

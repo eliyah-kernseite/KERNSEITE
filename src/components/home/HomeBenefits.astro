@@ -1,0 +1,141 @@
+---
+/**
+ * HomeBenefits – was eine gute Website bei Kunden auslöst, in drei Gedanken.
+ */
+const items = [
+  {
+    thought: 'Das passt zu uns.',
+    text: 'Design, Bilder und Texte klingen nach deinem Betrieb. So fühlen sich genau die Kunden angesprochen, die du haben willst.',
+    href: '/leistungen/websites/',
+    link: 'Webdesign',
+  },
+  {
+    thought: 'Genau das suche ich.',
+    text: 'Klare Seiten zu deinen Leistungen helfen bei der Entscheidung. Google und die KI-Suche ordnen dein Angebot dadurch leichter ein.',
+    href: '/leistungen/seo-geo/',
+    link: 'SEO und KI-Suche',
+  },
+  {
+    thought: 'Da frage ich an.',
+    text: 'Telefon und Anfrageformular sind von jeder Seite aus schnell erreichbar, am Handy genauso wie am großen Bildschirm.',
+    href: '/kontakt/',
+    link: 'Projekt besprechen',
+  },
+] as const;
+---
+
+<section class="benefits section" aria-labelledby="benefits-title">
+  <div class="content">
+    <div class="section-top">
+      <p class="kicker" aria-hidden="true">Was eine gute Website bringt</p>
+      <h2 id="benefits-title" class="display-2" data-split>Was deine Kunden denken sollen.</h2>
+    </div>
+    <ol class="benefits__list" role="list" data-reveal-group>
+      {
+        items.map((item, i) => (
+          <li class="benefits__item">
+            <span class="benefits__num" aria-hidden="true">
+              0{i + 1}
+            </span>
+            <h3 class="benefits__thought">„{item.thought}“</h3>
+            <p>{item.text}</p>
+            <a class="benefits__link" href={item.href}>
+              {item.link} <span aria-hidden="true">↗</span>
+            </a>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .benefits__list {
+    display: grid;
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+  }
+  .benefits__item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    min-height: 22rem;
+    padding: clamp(1.75rem, 3vw, 2.6rem);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-card);
+    background: var(--ks-cream);
+    overflow: hidden;
+    transition:
+      border-color 500ms var(--ease-out),
+      transform 600ms var(--ease-out);
+  }
+  /* Türkiser Schein, der beim Überfahren von unten aufsteigt. */
+  .benefits__item::before {
+    content: '';
+    position: absolute;
+    inset: auto -20% -60% -20%;
+    block-size: 80%;
+    background: radial-gradient(
+      closest-side,
+      color-mix(in srgb, var(--ks-cyan) 22%, transparent),
+      transparent
+    );
+    opacity: 0;
+    transform: translateY(20%);
+    transition:
+      opacity 600ms var(--ease-out),
+      transform 800ms var(--ease-out);
+    pointer-events: none;
+  }
+  .benefits__item:hover {
+    border-color: color-mix(in srgb, var(--ks-cyan) 45%, var(--line));
+    transform: translateY(-6px);
+  }
+  .benefits__item:hover::before {
+    opacity: 1;
+    transform: none;
+  }
+  .benefits__num {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--ks-cyan);
+  }
+  .benefits__thought {
+    margin-block-start: auto;
+    font-size: clamp(2rem, 3.2vw, 3rem);
+    font-weight: 800;
+    line-height: 1.04;
+    letter-spacing: -0.045em;
+  }
+  .benefits__item p {
+    color: var(--text-muted);
+    max-width: 36ch;
+  }
+  .benefits__link {
+    position: relative;
+    align-self: flex-start;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .benefits__link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+  .benefits__item:has(.benefits__link:focus-visible) {
+    outline: 2px solid var(--ks-cyan);
+    outline-offset: 3px;
+  }
+  @media (min-width: 56rem) {
+    .benefits__list {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .benefits__item {
+      min-height: 30rem;
+    }
+  }
+</style>

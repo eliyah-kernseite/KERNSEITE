@@ -1,147 +1,51 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import HeroCinematic from '../components/HeroCinematic.astro';
-import ProjectGrid from '../components/ProjectGrid.astro';
-import WebsiteOffer from '../components/WebsiteOffer.astro';
+import HomeHero from '../components/home/HomeHero.astro';
+import Marquee from '../components/home/Marquee.astro';
+import HomeAbout from '../components/home/HomeAbout.astro';
+import HomeBenefits from '../components/home/HomeBenefits.astro';
+import HomeWork from '../components/home/HomeWork.astro';
+import HomeServices from '../components/home/HomeServices.astro';
+import HomeProcess from '../components/home/HomeProcess.astro';
 import FaqAccordion from '../components/FaqAccordion.astro';
 import CtaBanner from '../components/CtaBanner.astro';
-import Photo from '../components/Photo.astro';
 import { homeFaqs } from '../config/faq';
 import { faqPageJsonLd } from '../lib/jsonld';
+
+const ticker = [
+  'Webdesign',
+  'SEO & KI-Suche',
+  'Google-Unternehmensprofil',
+  'Texte',
+  'Branding',
+  'Foto & Video',
+  'Social Media',
+];
 ---
 
 <BaseLayout
-  title="Webdesign für Unternehmen | Agentur Würzburg"
-  description="Webdesign- und Digitalagentur bei Würzburg: individuelle Websites mit Design, Texten und SEO. Persönlich betreut, für Unternehmen in ganz Deutschland."
+  title="Webdesign Würzburg | Websites für Unternehmen"
+  description="Webdesign-Agentur aus Würzburg: individuelle Websites mit Design, Texten und SEO, die neue Kunden bringen. Persönlich betreut, für Betriebe in ganz Deutschland."
   jsonLd={[faqPageJsonLd(homeFaqs)]}
+  bodyClass="is-home"
 >
-  <HeroCinematic />
-  <section class="section section--paper">
-    <div class="content intro-grid">
-      <div>
-        <h2>Eine Website, die zeigt,<br />warum man dich wählen sollte.</h2><p class="intro-copy">
-          Wer dich noch nicht kennt, lernt dein Können oft zuerst online kennen. Bevor dort jemand
-          zum Telefon greift, sollte er verstehen, was du anbietest und warum er bei dir richtig
-          ist. Genau daran arbeiten wir, vom ersten Entwurf bis zur fertigen Website, persönlich
-          betreut von deiner Digitalagentur aus dem Raum Würzburg.
-        </p>
-      </div>
-    </div>
-  </section>
-  <section class="section section--cream" id="arbeiten">
-    <div class="content">
-      <div class="section-heading">
-        <div>
-          <h2>
-            Jeder Betrieb hat<br />seinen eigenen Charakter.
-          </h2>
-        </div><a class="link-arrow" href="/arbeiten/"
-          >Alle Projekte ansehen <span aria-hidden="true">↗</span></a
-        >
-      </div>
-      <ProjectGrid context="home" />
-    </div>
-  </section>
-  <section class="section section--paper">
-    <div class="content">
-      <div class="section-heading">
-        <div>
-          <h2>
-            Was deine Kunden<br />denken sollen.
-          </h2>
-        </div>
-      </div>
-      <div class="benefit-grid">
-        <article class="benefit benefit--cyan">
-          <h3>Das passt<br />zu uns.</h3><p>
-            Wenn Design und Bilder zu deinem Betrieb passen und die Texte nach dir klingen, fühlen
-            sich die richtigen Kunden angesprochen.
-          </p><a href="/leistungen/websites/"
-            >Webdesign kennenlernen <span aria-hidden="true">↗</span></a
-          >
-        </article>
-        <article class="benefit benefit--dark">
-          <h3>
-            Genau das<br />suche ich.
-          </h3><p>
-            Wer seine Leistungen verständlich beschreibt, hilft Kunden bei der Entscheidung. Google
-            und die KI-Suche ordnen dein Angebot dann auch leichter ein.
-          </p><a href="/leistungen/seo-geo/"
-            >SEO & KI-Suche verstehen <span aria-hidden="true">↗</span></a
-          >
-        </article>
-        <article class="benefit">
-          <h3>Da frage<br />ich an.</h3><p>
-            Der Weg zur Anfrage ist kurz und gut zu sehen, am Handy genauso wie am großen
-            Bildschirm.
-          </p><a href="/kontakt/">Dein Projekt besprechen <span aria-hidden="true">↗</span></a>
-        </article>
-      </div>
-    </div>
-  </section>
-  <WebsiteOffer />
-  <section class="section section--cream">
-    <div class="content founder-split">
-      <div class="founder-visual">
-        <Photo photo="standort-wuerzburg" ratio="4x3" sizes="(min-width: 900px) 50vw, 100vw" /><div
-          class="founder-caption"
-        >
-          <strong>Für dich überall erreichbar.</strong>
-        </div>
-      </div>
-      <div class="founder-copy">
-        <h2>
-          Du sprichst<br />direkt mit mir.
-        </h2><p>
-          Ich möchte verstehen, was du machst und warum deine Kunden zu dir kommen. Erst danach
-          überlege ich, wie dein Auftritt aussehen soll.
-        </p><p>
-          Bei KERNSEITE wirst du nicht an wechselnde Ansprechpartner weitergereicht. Deine Ideen
-          besprechen wir zusammen, die Entwürfe siehst du, bevor etwas gebaut wird, und wo dein
-          Projekt gerade steht, weißt du auch. Das gilt in Würzburg und Schweinfurt genauso wie
-          bundesweit.
-        </p><a class="link-arrow" href="/agentur/"
-          >Mehr über KERNSEITE <span aria-hidden="true">↗</span></a
-        >
-      </div>
-    </div>
-  </section>
-  <section class="section section--paper">
-    <div class="content journey">
-      <div>
-        <h2>
-          Du musst kein<br />Webprofi sein.
-        </h2><a class="link-arrow" href="/prozess/"
-          >Zusammenarbeit kennenlernen <span aria-hidden="true">↗</span></a
-        >
-      </div>
-      <div class="journey-steps">
-        <article>
-          <h3>Wir hören zu.</h3><p>
-            Was bietest du an? Wen möchtest du erreichen? Daraus machen wir einen Vorschlag mit
-            nachvollziehbarem Umfang und Preis.
-          </p>
-        </article><article>
-          <h3>Du siehst, was entsteht.</h3><p>
-            Texte, Bilder und Design stimmen wir mit dir ab. Deine Rückmeldung fließt ein, bevor die
-            Website veröffentlicht wird.
-          </p>
-        </article><article>
-          <h3>Dein Auftritt geht live.</h3><p>
-            Vor dem Start testen wir Seiten und Kontaktwege. Danach klären wir, wer die Website
-            künftig aktuell hält: du selbst oder wir.
-          </p>
-        </article>
-      </div>
-    </div>
-  </section>
-  <section class="section section--cream">
+  <HomeHero />
+  <Marquee items={ticker} />
+  <HomeAbout />
+  <HomeBenefits />
+  <HomeWork />
+  <HomeServices />
+  <HomeProcess />
+  <section class="section" aria-labelledby="faq-title">
     <div class="content faq-split">
       <div>
-        <h2>Noch eine<br />Frage offen?</h2><a class="link-arrow" href="/faq/"
-          >Alle Antworten <span aria-hidden="true">↗</span></a
+        <p class="kicker" aria-hidden="true">Häufige Fragen</p>
+        <h2 id="faq-title" class="display-2 faq-title" data-split>Noch eine Frage offen?</h2>
+        <a class="link-arrow" href="/faq/"
+          >Alle Antworten <span class="arrow" aria-hidden="true">→</span></a
         >
-      </div><FaqAccordion items={homeFaqs} />
+      </div>
+      <FaqAccordion items={homeFaqs} />
     </div>
   </section>
   <CtaBanner
@@ -150,3 +54,10 @@ import { faqPageJsonLd } from '../lib/jsonld';
     ctaLabel="Deine Website besprechen"
   />
 </BaseLayout>
+
+<style>
+  .faq-title {
+    margin-block: 1.25rem 0.5rem;
+    font-size: clamp(2.4rem, 4.6vw, 4.6rem);
+  }
+</style>

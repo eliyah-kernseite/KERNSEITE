@@ -1,0 +1,101 @@
+/* =============================================================================
+   KERNSEITE – Bewegung
+   Gegenstück zu src/scripts/motion.ts. Versteckt wird nur unter
+   `html.has-motion`; ohne JavaScript oder mit reduzierter Bewegung bleibt
+   alles sichtbar und ruhig.
+   ========================================================================== */
+
+/* --- Einblenden ----------------------------------------------------------- */
+html.has-motion [data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 2.2rem, 0);
+  transition:
+    opacity 900ms var(--ease-out) var(--reveal-delay, 0ms),
+    transform 1100ms var(--ease-out) var(--reveal-delay, 0ms);
+}
+html.has-motion [data-reveal='fade'] {
+  transform: none;
+}
+html.has-motion [data-reveal='scale'] {
+  transform: scale(0.94);
+}
+html.has-motion [data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* --- Überschriften Wort für Wort ---------------------------------------- */
+.split-w {
+  display: inline-block;
+  overflow: clip;
+  /* Platz für Unterlängen, sonst schneidet `overflow` g, p und y ab. */
+  padding-block-end: 0.12em;
+  margin-block-end: -0.12em;
+  vertical-align: top;
+}
+.split {
+  display: inline-block;
+}
+html.has-motion [data-split] .split {
+  transform: translate3d(0, 110%, 0);
+  transition: transform 1000ms var(--ease-out) var(--split-delay, 0ms);
+}
+html.has-motion [data-split].is-in .split {
+  transform: none;
+}
+
+/* --- Fließtext, der sich beim Scrollen einfärbt -------------------------- */
+html.has-motion .scrub {
+  color: color-mix(in srgb, currentColor 45%, transparent);
+  transition: color 400ms var(--ease-out);
+}
+html.has-motion .scrub.is-lit {
+  color: inherit;
+}
+
+/* --- Parallaxe ------------------------------------------------------------ */
+html.has-motion [data-parallax] {
+  transform: translate3d(0, var(--parallax, 0px), 0) scale(1.12);
+  will-change: transform;
+}
+
+/* --- Magnetische Schaltflächen ------------------------------------------- */
+[data-magnetic] {
+  transform: translate3d(var(--mx, 0px), var(--my, 0px), 0);
+  transition:
+    transform 450ms var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+
+/* --- Laufband ------------------------------------------------------------- */
+@keyframes ks-marquee {
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* --- Notbremse ----------------------------------------------------------
+   Lädt das Skript nicht, wird nach zwei Sekunden trotzdem alles sichtbar. */
+@keyframes ks-failsafe {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+html.has-motion:not(.motion-ready) [data-reveal],
+html.has-motion:not(.motion-ready) [data-split] .split {
+  animation: ks-failsafe 0.01s linear 2s forwards;
+}
+
+/* --- Weniger Bewegung ----------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  [data-magnetic] {
+    transform: none;
+  }
+}
+:root[data-a11y-motion='reduced'] [data-magnetic],
+:root[data-a11y-motion='reduced'] [data-parallax] {
+  transform: none;
+}

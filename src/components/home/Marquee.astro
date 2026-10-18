@@ -1,0 +1,75 @@
+---
+/**
+ * Marquee – laufendes Band mit Stichworten. Rein dekorativ: Die Inhalte
+ * stehen ausführlich weiter unten, deshalb `aria-hidden`.
+ */
+interface Props {
+  items: readonly string[];
+  /** 'cyan' (Standard) oder 'line' für ein ruhiges, umrandetes Band. */
+  tone?: 'cyan' | 'line';
+}
+const { items, tone = 'cyan' } = Astro.props;
+const loop = [...items, ...items, ...items, ...items];
+---
+
+<div class={`marquee marquee--${tone}`} aria-hidden="true">
+  <div class="marquee__track">
+    {
+      loop.map((item) => (
+        <span class="marquee__item">
+          {item}
+          <span class="marquee__sep" />
+        </span>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .marquee {
+    overflow: hidden;
+    padding-block: clamp(0.9rem, 1.6vw, 1.4rem);
+    white-space: nowrap;
+  }
+  .marquee--cyan {
+    background: var(--ks-cyan);
+    color: var(--ks-black);
+  }
+  .marquee--line {
+    border-block: 1px solid var(--line);
+    color: var(--text);
+  }
+  .marquee__track {
+    display: flex;
+    inline-size: max-content;
+    animation: ks-marquee 48s linear infinite;
+  }
+  .marquee__item {
+    display: inline-flex;
+    align-items: center;
+    gap: clamp(1.25rem, 2.5vw, 2.5rem);
+    padding-inline-end: clamp(1.25rem, 2.5vw, 2.5rem);
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 3.2vw, 2.9rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1.1;
+  }
+  .marquee__sep {
+    inline-size: 0.32em;
+    block-size: 0.32em;
+    border-radius: 50%;
+    background: currentColor;
+  }
+  .marquee--line .marquee__sep {
+    background: var(--ks-cyan);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .marquee__track {
+      animation: none;
+    }
+  }
+  :global(:root[data-a11y-motion='reduced']) .marquee__track {
+    animation: none;
+  }
+</style>

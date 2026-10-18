@@ -33,6 +33,7 @@ ROOT = Path(__file__).resolve().parents[1]
 GROUPS = [
     ROOT / 'public/assets/branchen',
     ROOT / 'public/assets/leistungen',
+    ROOT / 'public/assets/agentur',
 ]
 WIDTHS = [640, 960, 1280, 1600]
 ASPECT = 4 / 3

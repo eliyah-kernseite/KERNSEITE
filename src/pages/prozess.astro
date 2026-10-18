@@ -72,41 +72,40 @@ const processFaqs = [
   lead="Was dein Unternehmen ausmacht, weißt du am besten. Wie daraus eine Website wird, wissen wir, und so sieht die Zusammenarbeit dann aus."
   breadcrumbs={[
     { name: 'Start', path: '/' },
-    { name: 'Zusammenarbeit', path: '/prozess/' },
+    { name: 'Ablauf', path: '/prozess/' },
   ]}
 >
-  <section class="section section--cream">
-    <div class="content process-story">
-      {
-        steps.map((s) => (
-          <article>
-            <>
-              <div>
-                <>
-                  <h2>{s.title}</h2>
-                  <p>{s.text}</p>
-                </>
+  <section class="section" aria-labelledby="steps-title">
+    <div class="content">
+      <div class="section-top">
+        <p class="kicker" aria-hidden="true">In fünf Schritten</p>
+        <h2 id="steps-title" class="display-2" data-split>So entsteht deine Website.</h2>
+      </div>
+      <ol class="process-story" role="list" data-stack>
+        {
+          steps.map((s, i) => (
+            <li class="process-story__step">
+              <div class="process-story__head">
+                <span class="process-story__num" aria-hidden="true">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                <h3>{s.title}</h3>
+                <p>{s.text}</p>
               </div>
               <dl>
-                <>
-                  <div>
-                    <>
-                      <dt>Von dir</dt>
-                      <dd>{s.you}</dd>
-                    </>
-                  </div>
-                  <div>
-                    <>
-                      <dt>Von KERNSEITE</dt>
-                      <dd>{s.us}</dd>
-                    </>
-                  </div>
-                </>
+                <div>
+                  <dt>Von dir</dt>
+                  <dd>{s.you}</dd>
+                </div>
+                <div>
+                  <dt>Von KERNSEITE</dt>
+                  <dd>{s.us}</dd>
+                </div>
               </dl>
-            </>
-          </article>
-        ))
-      }
+            </li>
+          ))
+        }
+      </ol>
     </div>
   </section>
   <FaqSection items={processFaqs} title={['Fragen zum', 'Ablauf.']} variant="paper" />
@@ -118,20 +117,61 @@ const processFaqs = [
 <style>
   .process-story {
     display: grid;
-    gap: 1.5rem;
+    gap: clamp(1.25rem, 3vw, 2rem);
+    margin: 0;
+    padding: 0;
   }
-  .process-story article {
+  .process-story__step {
+    position: sticky;
+    top: calc(var(--header-h) + 1rem);
     display: grid;
-    grid-template-columns: 1.25fr 1fr;
-    gap: 4rem;
+    gap: 2rem;
     padding: clamp(1.5rem, 4vw, 4rem);
-    border-radius: 1rem;
-    background: var(--ks-paper);
+    border: 1px solid var(--line);
+    border-radius: calc(var(--radius-card) * 1.4);
+    background:
+      radial-gradient(
+        70% 90% at 100% 0%,
+        color-mix(in srgb, var(--ks-cyan) 9%, transparent),
+        transparent 60%
+      ),
+      var(--ks-cream);
+    overflow: hidden;
+    transform: scale(var(--stack-scale, 1));
+    transform-origin: 50% 0;
+    box-shadow: 0 -30px 60px rgba(0, 0, 0, 0.35);
   }
-  .process-story article:nth-child(2) {
-    background: var(--ks-cyan);
+  .process-story__step::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--ks-black);
+    opacity: var(--stack-dim, 0);
+    pointer-events: none;
   }
-  .process-story h2 {
+  .process-story__step:nth-child(2) {
+    top: calc(var(--header-h) + 1.75rem);
+  }
+  .process-story__step:nth-child(3) {
+    top: calc(var(--header-h) + 2.5rem);
+  }
+  .process-story__step:nth-child(4) {
+    top: calc(var(--header-h) + 3.25rem);
+  }
+  .process-story__step:nth-child(5) {
+    top: calc(var(--header-h) + 4rem);
+  }
+  .process-story__num {
+    display: block;
+    margin-block-end: 1.25rem;
+    font-family: var(--font-display);
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    font-weight: 800;
+    line-height: 0.9;
+    letter-spacing: -0.06em;
+    color: var(--ks-cyan);
+  }
+  .process-story h3 {
     font-size: clamp(1.9rem, 3vw, 3rem);
     max-width: 18ch;
   }
@@ -139,24 +179,40 @@ const processFaqs = [
     font-size: 1.05rem;
     margin-top: 1.2rem;
     max-width: 50ch;
+    color: var(--text-muted);
   }
   .process-story dl {
     display: grid;
-    gap: 1.5rem;
+    gap: 1rem;
+    align-content: end;
+    margin: 0;
+  }
+  .process-story dl > div {
+    padding: 1.25rem 1.4rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-card);
+    background: color-mix(in srgb, var(--ks-black) 45%, transparent);
   }
   .process-story dt {
     font-size: 0.875rem;
     font-weight: 600;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.4rem;
+    color: var(--ks-cyan);
   }
   .process-story dd {
     margin: 0;
     font-size: 1rem;
   }
-  @media (max-width: 800px) {
-    .process-story article {
-      grid-template-columns: 1fr;
-      gap: 2rem;
+  @media (min-width: 56rem) {
+    .process-story__step {
+      grid-template-columns: 1.25fr 1fr;
+      gap: 4rem;
+    }
+  }
+  @media (max-width: 40rem) {
+    .process-story__step {
+      position: relative;
+      top: auto !important;
     }
   }
 </style>

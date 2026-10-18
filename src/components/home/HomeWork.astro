@@ -1,0 +1,263 @@
+---
+/**
+ * HomeWork – ausgewählte Arbeiten als Karten, die beim Scrollen
+ * übereinandergleiten (siehe `[data-stack]` in src/scripts/motion.ts).
+ */
+import { featuredProjects } from '../../config/cases';
+---
+
+<section class="work section" id="arbeiten" aria-labelledby="work-title">
+  <div class="content">
+    <div class="section-top section-top--split">
+      <div>
+        <p class="kicker" aria-hidden="true">Ausgewählte Arbeiten</p>
+        <h2 id="work-title" class="display-2" data-split>Websites, die schon Kunden bringen.</h2>
+      </div>
+      <a class="link-arrow" href="/arbeiten/" data-reveal
+        >Alle Projekte <span class="arrow" aria-hidden="true">→</span></a
+      >
+    </div>
+
+    <div class="work__stack" data-stack>
+      {
+        featuredProjects.map((p, i) => (
+          <article class="work__card" aria-labelledby={`work-${p.slug}`}>
+            <div class="work__text">
+              <p class="work__meta">
+                <span class="work__index">0{i + 1}</span>
+                <span>{p.industryLabel}</span>
+              </p>
+              <h3 id={`work-${p.slug}`} class="work__title">
+                <a href={p.href}>
+                  {p.title.split(' · ')[0]}
+                  {p.title.includes(' · ') && (
+                    <span class="work__sub">{p.title.split(' · ')[1]}</span>
+                  )}
+                </a>
+              </h3>
+              <p class="work__blurb">{p.blurbs?.home ?? p.teaser}</p>
+              <span class="work__cta" aria-hidden="true">
+                Projekt ansehen <span>→</span>
+              </span>
+            </div>
+            <div class="work__visual">
+              <div class="work__browser">
+                <span class="work__bar" aria-hidden="true">
+                  <i />
+                  <i />
+                  <i />
+                  <span class="work__url">{p.liveLabel}</span>
+                </span>
+                <img
+                  src={p.screenshotDesktop.src}
+                  srcset={p.screenshotDesktop.srcset}
+                  sizes="(min-width: 64rem) 52vw, 92vw"
+                  width={p.screenshotDesktop.width}
+                  height={p.screenshotDesktop.height}
+                  alt={p.screenshotDesktop.alt}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="work__phone">
+                <img
+                  src={p.screenshotMobile.src}
+                  srcset={p.screenshotMobile.srcset}
+                  sizes="(min-width: 64rem) 12vw, 28vw"
+                  width={p.screenshotMobile.width}
+                  height={p.screenshotMobile.height}
+                  alt={p.screenshotMobile.alt}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .work__stack {
+    display: grid;
+    gap: clamp(1.25rem, 3vw, 2.5rem);
+  }
+  .work__card {
+    position: sticky;
+    top: calc(var(--header-h) + 1rem);
+    display: grid;
+    gap: clamp(1.5rem, 3vw, 3rem);
+    padding: clamp(1.25rem, 3vw, 3rem);
+    border: 1px solid var(--line);
+    border-radius: calc(var(--radius-card) * 1.4);
+    background: var(--ks-cream);
+    overflow: hidden;
+    transform: scale(var(--stack-scale, 1));
+    transform-origin: 50% 0;
+    box-shadow: 0 -30px 60px rgba(0, 0, 0, 0.35);
+  }
+  .work__card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--ks-black);
+    opacity: var(--stack-dim, 0);
+    pointer-events: none;
+  }
+  .work__card:nth-child(2) {
+    top: calc(var(--header-h) + 1.75rem);
+  }
+  .work__card:nth-child(3) {
+    top: calc(var(--header-h) + 2.5rem);
+  }
+  .work__card:nth-child(4) {
+    top: calc(var(--header-h) + 3.25rem);
+  }
+  .work__text {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .work__meta {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+  .work__index {
+    color: var(--ks-cyan);
+    font-weight: 600;
+  }
+  .work__title {
+    font-size: clamp(2rem, 4.2vw, 4rem);
+    font-weight: 800;
+    line-height: 1.02;
+    letter-spacing: -0.045em;
+  }
+  .work__title a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .work__sub {
+    display: block;
+    margin-block-start: 0.5rem;
+    font-size: 0.45em;
+    letter-spacing: -0.03em;
+    color: var(--text-muted);
+  }
+  /* Die ganze Karte ist klickbar, der Linktext bleibt der Projektname. */
+  .work__title a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+  }
+  .work__card:has(.work__title a:focus-visible) {
+    outline: 2px solid var(--ks-cyan);
+    outline-offset: 4px;
+  }
+  .work__blurb {
+    max-width: 40ch;
+    color: var(--text-muted);
+  }
+  .work__cta {
+    display: inline-flex;
+    gap: 0.6rem;
+    margin-block-start: auto;
+    padding-block-start: 1rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .work__cta span {
+    color: var(--ks-cyan);
+    transition: transform 400ms var(--ease-out);
+  }
+  .work__card:hover .work__cta span {
+    transform: translateX(6px);
+  }
+
+  .work__visual {
+    position: relative;
+    padding-inline-end: 12%;
+    padding-block-end: 6%;
+  }
+  .work__browser {
+    overflow: hidden;
+    border: 1px solid var(--line-strong);
+    border-radius: 12px;
+    background: var(--ks-surface);
+    transition: transform 900ms var(--ease-out);
+  }
+  .work__card:hover .work__browser {
+    transform: translateY(-6px) rotate(-0.6deg);
+  }
+  .work__bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0.6rem 0.8rem;
+    border-block-end: 1px solid var(--line);
+  }
+  .work__bar i {
+    inline-size: 9px;
+    block-size: 9px;
+    border-radius: 50%;
+    background: var(--line-strong);
+  }
+  .work__url {
+    margin-inline: auto;
+    padding: 0.15rem 0.9rem;
+    border-radius: 999px;
+    background: var(--ks-paper);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+  .work__browser img {
+    inline-size: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    object-position: top;
+  }
+  .work__phone {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    inline-size: 24%;
+    overflow: hidden;
+    border: 5px solid #000;
+    border-radius: 22px;
+    background: #000;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.55);
+    transition: transform 900ms var(--ease-out);
+  }
+  .work__card:hover .work__phone {
+    transform: translateY(-14px) rotate(2deg);
+  }
+  .work__phone img {
+    inline-size: 100%;
+    aspect-ratio: 9 / 19.5;
+    object-fit: cover;
+    object-position: top;
+    border-radius: 17px;
+  }
+
+  @media (min-width: 64rem) {
+    .work__card {
+      grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr);
+      align-items: stretch;
+      min-height: min(78vh, 46rem);
+    }
+    .work__text {
+      padding-block: 1rem;
+    }
+  }
+  @media (max-width: 40rem) {
+    .work__card {
+      position: relative;
+      top: 0;
+    }
+  }
+</style>

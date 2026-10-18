@@ -1,0 +1,274 @@
+---
+/**
+ * HomeServices – die Website als Kernleistung mit Preisrahmen, darunter die
+ * weiteren Leistungen als Liste. Die Kurztexte stehen bewusst nur hier,
+ * damit kein Absatz wortgleich auf zwei Seiten vorkommt.
+ */
+import { websiteOffer } from '../../config/pricing';
+
+const more = [
+  {
+    href: '/leistungen/seo-geo/',
+    name: 'SEO & KI-Suche',
+    line: 'Gefunden werden bei Google, ChatGPT und Co.',
+  },
+  {
+    href: '/leistungen/google-unternehmensprofil/',
+    name: 'Google-Unternehmensprofil',
+    line: 'Sichtbar in Maps und der lokalen Suche.',
+  },
+  {
+    href: '/leistungen/branding/',
+    name: 'Branding & Design',
+    line: 'Logo, Farben und Schrift, die zusammenpassen.',
+  },
+  {
+    href: '/leistungen/unternehmensvideo/',
+    name: 'Foto & Video',
+    line: 'Eigene Bilder, die echt wirken.',
+  },
+  {
+    href: '/leistungen/social-media/',
+    name: 'Social Media',
+    line: 'Beiträge, die zu deiner Website führen.',
+  },
+  {
+    href: '/leistungen/performance-marketing/',
+    name: 'Performance Marketing',
+    line: 'Anzeigen mit festem Budget und ehrlichen Zahlen.',
+  },
+  {
+    href: '/leistungen/ki-automatisierung/',
+    name: 'KI & Automatisierung',
+    line: 'Weniger Routine bei Anfragen und Terminen.',
+  },
+] as const;
+const [from, to] = websiteOffer.range.split('–');
+---
+
+<section class="services section" aria-labelledby="services-title">
+  <div class="content">
+    <div class="section-top">
+      <p class="kicker" aria-hidden="true">Leistungen und Preise</p>
+      <h2 id="services-title" class="display-2" data-split>Alles für deinen Auftritt.</h2>
+    </div>
+
+    <div class="offer" data-reveal>
+      <div class="offer__main">
+        <p class="offer__label">Kernleistung</p>
+        <h3 class="offer__title">Individuelle Website</h3>
+        <p class="offer__text">
+          Konzept, Design, Texte und Technik für deinen Betrieb. Optimiert für Handy und Google, mit
+          klaren Wegen zur Anfrage.
+        </p>
+        <div class="offer__actions">
+          <a class="btn btn--primary" href="/kontakt/#leistung=websites" data-magnetic
+            >Projekt einschätzen lassen <span aria-hidden="true">↗</span></a
+          >
+          <a class="link-arrow" href="/leistungen/websites/"
+            >Umfang ansehen <span class="arrow" aria-hidden="true">→</span></a
+          >
+        </div>
+      </div>
+      <div class="offer__price">
+        <p class="offer__range" aria-label={`Orientierungsrahmen ${from} bis ${to} Euro netto`}>
+          <span>{from}</span><span class="offer__to">bis</span><span>{to}</span>
+        </p>
+        <p class="offer__fine">
+          Netto, zzgl. gesetzlicher Umsatzsteuer, soweit diese anfällt. Den genauen Preis bekommst
+          du schriftlich im Angebot.
+        </p>
+      </div>
+    </div>
+
+    <ul class="svc" role="list" data-reveal-group>
+      {
+        more.map((s, i) => (
+          <li class="svc__row">
+            <a href={s.href}>
+              <span class="svc__num" aria-hidden="true">
+                {String(i + 2).padStart(2, '0')}
+              </span>
+              <span class="svc__name">{s.name}</span>
+              <span class="svc__line">{s.line}</span>
+              <span class="svc__arrow" aria-hidden="true">
+                →
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .offer {
+    display: grid;
+    gap: 2rem;
+    padding: clamp(1.75rem, 4vw, 3.5rem);
+    border-radius: calc(var(--radius-card) * 1.4);
+    background: var(--ks-cyan);
+    color: var(--ks-black);
+    --text: var(--ks-black);
+    --text-muted: #1d2a2c;
+    --line-strong: rgba(7, 8, 9, 0.35);
+    margin-block-end: clamp(2.5rem, 5vw, 4rem);
+  }
+  .offer__label {
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+  .offer__title {
+    margin-block: 0.6rem 1rem;
+    font-size: clamp(2.2rem, 4.5vw, 4.2rem);
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    line-height: 1;
+    color: var(--ks-black);
+  }
+  .offer__text {
+    max-width: 44ch;
+    font-size: var(--fs-lead);
+  }
+  .offer__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.75rem;
+    margin-block-start: 2rem;
+  }
+  .offer .btn--primary {
+    background: var(--ks-black);
+    border-color: var(--ks-black);
+    color: var(--ks-bone);
+  }
+  .offer .btn--primary:hover {
+    background: var(--ks-bone);
+    border-color: var(--ks-bone);
+    color: var(--ks-black);
+  }
+  .offer .link-arrow,
+  .offer .link-arrow .arrow {
+    color: var(--ks-black);
+  }
+  .offer :focus-visible {
+    outline-color: var(--ks-black);
+  }
+  .offer__range {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0 0.6rem;
+    font-family: var(--font-display);
+    font-size: clamp(2.6rem, 6vw, 5.5rem);
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+  .offer__to {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0;
+  }
+  .offer__fine {
+    margin-block-start: 1rem;
+    max-width: 38ch;
+    font-size: 0.9rem;
+  }
+
+  .svc {
+    margin: 0;
+    padding: 0;
+    border-block-start: 1px solid var(--line);
+  }
+  .svc__row a {
+    position: relative;
+    display: grid;
+    grid-template-columns: 2.5rem minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.25rem 1rem;
+    padding: clamp(1.1rem, 2vw, 1.6rem) 0.5rem;
+    border-block-end: 1px solid var(--line);
+    color: var(--text);
+    text-decoration: none;
+    isolation: isolate;
+    overflow: hidden;
+  }
+  /* Fläche schiebt sich beim Überfahren von links herein. */
+  .svc__row a::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--ks-bone);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 500ms var(--ease-out);
+  }
+  .svc__row a:hover::before,
+  .svc__row a:focus-visible::before {
+    transform: none;
+  }
+  .svc__row a:hover,
+  .svc__row a:focus-visible {
+    color: var(--ks-black);
+  }
+  .svc__num {
+    font-size: 0.85rem;
+    color: var(--ks-cyan);
+    font-weight: 600;
+  }
+  .svc__row a:hover .svc__num {
+    color: var(--ks-black);
+  }
+  .svc__name {
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 2.6vw, 2.4rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1.1;
+    transition: transform 500ms var(--ease-out);
+  }
+  .svc__row a:hover .svc__name {
+    transform: translateX(0.6rem);
+  }
+  .svc__line {
+    grid-column: 2;
+    grid-row: 2;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+  }
+  .svc__row a:hover .svc__line {
+    color: #33383d;
+  }
+  .svc__arrow {
+    grid-column: 3;
+    grid-row: 1 / span 2;
+    font-size: 1.5rem;
+    transition: transform 500ms var(--ease-out);
+  }
+  .svc__row a:hover .svc__arrow {
+    transform: rotate(-45deg);
+  }
+
+  @media (min-width: 56rem) {
+    .offer {
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+      align-items: end;
+    }
+    .svc__row a {
+      grid-template-columns: 4rem minmax(0, 1fr) minmax(0, 1fr) 2rem;
+    }
+    .svc__line {
+      grid-column: 3;
+      grid-row: 1;
+    }
+    .svc__arrow {
+      grid-column: 4;
+      grid-row: 1;
+      justify-self: end;
+    }
+  }
+</style>

@@ -1,4 +1,7 @@
 ---
+/**
+ * ProjectGrid – alle Referenzen als Raster mit Laptop- und Handy-Ansicht.
+ */
 import { featuredProjects } from '../config/cases';
 
 interface Props {
@@ -8,16 +11,21 @@ interface Props {
 const { context } = Astro.props;
 ---
 
-<ul class="projects" role="list">
+<ul class="projects" role="list" data-reveal-group>
   {
     featuredProjects.map((project) => (
-      <li>
-        <a class="project" href={project.href}>
-          <div class="project__image">
+      <li class="projects__item">
+        <div class="project__visual">
+          <div class="project__browser">
+            <span class="project__bar" aria-hidden="true">
+              <i />
+              <i />
+              <i />
+            </span>
             <img
               src={project.screenshotDesktop.src}
               srcset={project.screenshotDesktop.srcset}
-              sizes="(min-width: 80rem) 620px, (min-width: 48rem) 45vw, (min-width: 30.01rem) calc(100vw - 5.5rem), calc(100vw - 4rem)"
+              sizes="(min-width: 80rem) 600px, (min-width: 48rem) 42vw, 86vw"
               width={project.screenshotDesktop.width}
               height={project.screenshotDesktop.height}
               alt={project.screenshotDesktop.alt}
@@ -25,17 +33,29 @@ const { context } = Astro.props;
               decoding="async"
             />
           </div>
-          <div class="project__heading">
-            <>
-              <h3>{project.title}</h3>
-              <span aria-hidden="true">↗</span>
-            </>
+          <div class="project__phone" aria-hidden="true">
+            <img
+              src={project.screenshotMobile.src}
+              width={project.screenshotMobile.width}
+              height={project.screenshotMobile.height}
+              alt=""
+              loading="lazy"
+              decoding="async"
+            />
           </div>
-          <p class="project__category">
-            {project.industryLabel}
-            {project.stage === 'preview' ? ' · Website-Entwurf' : ' · Website'}
-          </p>
-        </a>
+        </div>
+        <div class="project__heading">
+          <h3>
+            <a class="project__link" href={project.href}>
+              {project.title}
+            </a>
+          </h3>
+          <span aria-hidden="true">↗</span>
+        </div>
+        <p class="project__category">
+          {project.industryLabel}
+          {project.stage === 'preview' ? ' · Website-Entwurf' : ' · Website'}
+        </p>
         <p class="project__description">
           {(context && project.blurbs?.[context]) ?? project.tagline}
         </p>
@@ -43,51 +63,118 @@ const { context } = Astro.props;
     ))
   }
 </ul>
+
 <style>
   .projects {
     display: grid;
-    gap: 3.5rem 2rem;
+    gap: 4rem 2rem;
+    margin: 0;
+    padding: 0;
   }
-  .projects > li {
+  .projects__item {
+    position: relative;
     min-width: 0;
   }
-  .project {
-    color: var(--text);
-    text-decoration: none;
-  }
-  .project__image {
-    display: flex;
-    flex-direction: column;
-    justify-content: end;
-    background: var(--surface-alt);
+  .project__visual {
+    position: relative;
+    padding: clamp(1.25rem, 3vw, 2.5rem) clamp(2.5rem, 7vw, 4.5rem) clamp(1.25rem, 3vw, 2.5rem)
+      clamp(1.25rem, 3vw, 2.5rem);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-card);
+    background:
+      radial-gradient(
+        120% 90% at 100% 100%,
+        color-mix(in srgb, var(--ks-cyan) 12%, transparent),
+        transparent 60%
+      ),
+      var(--ks-cream);
     overflow: hidden;
+    transition: border-color 500ms var(--ease-out);
+  }
+  .projects__item:hover .project__visual {
+    border-color: color-mix(in srgb, var(--ks-cyan) 45%, var(--line));
+  }
+  .project__browser {
+    overflow: hidden;
+    border: 1px solid var(--line-strong);
+    border-radius: 10px;
+    background: var(--ks-surface);
+    transition: transform 900ms var(--ease-out);
+  }
+  .project__bar {
+    display: flex;
+    gap: 5px;
+    padding: 0.5rem 0.7rem;
+    border-block-end: 1px solid var(--line);
+  }
+  .project__bar i {
+    inline-size: 8px;
+    block-size: 8px;
+    border-radius: 50%;
+    background: var(--line-strong);
+  }
+  .project__browser img {
+    inline-size: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    object-position: top;
+  }
+  .project__phone {
+    position: absolute;
+    right: clamp(0.75rem, 2vw, 1.5rem);
+    bottom: clamp(0.75rem, 2vw, 1.5rem);
+    inline-size: 22%;
+    overflow: hidden;
+    border: 4px solid #000;
+    border-radius: 18px;
+    background: #000;
+    box-shadow: 0 24px 50px rgba(0, 0, 0, 0.55);
+    transition: transform 900ms var(--ease-out);
+  }
+  .project__phone img {
+    inline-size: 100%;
+    aspect-ratio: 9 / 19.5;
+    object-fit: cover;
+    object-position: top;
     border-radius: 14px;
-    aspect-ratio: 1.6;
   }
-  .project__image img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    padding: 1.5rem;
-    transition: transform 0.4s ease;
+  .projects__item:hover .project__browser {
+    transform: translateY(-6px);
   }
-  .project:hover h3 {
-    text-decoration: underline;
-    text-underline-offset: 0.2em;
+  .projects__item:hover .project__phone {
+    transform: translateY(-12px) rotate(2deg);
   }
   .project__heading {
     display: flex;
     gap: 1rem;
     align-items: baseline;
     justify-content: space-between;
-    margin-block-start: 1.1rem;
+    margin-block-start: 1.4rem;
   }
   .project__heading h3 {
-    font-size: clamp(1.4rem, 2vw, 1.8rem);
-    line-height: 1.3;
+    font-size: clamp(1.5rem, 2.4vw, 2.2rem);
+    line-height: 1.15;
+  }
+  .project__link {
+    color: var(--text);
+    text-decoration: none;
+  }
+  .project__link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+  .projects__item:hover .project__link {
+    color: var(--ks-cyan);
+  }
+  .projects__item:has(.project__link:focus-visible) {
+    outline: 2px solid var(--ks-cyan);
+    outline-offset: 6px;
+    border-radius: var(--radius-card);
   }
   .project__heading > span {
     font-size: 1.25rem;
+    color: var(--ks-cyan);
   }
   .project__category {
     font-size: 0.9375rem;
@@ -103,33 +190,6 @@ const { context } = Astro.props;
   @media (min-width: 48rem) {
     .projects {
       grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-  }
-  @media (max-width: 30rem) {
-    .project__image {
-      aspect-ratio: auto;
-    }
-  }
-</style>
-
-<style>
-  .projects > li:nth-child(2) .project__image {
-    background: #242828;
-  }
-  .projects > li:nth-child(3) .project__image {
-    background: #d8ded5;
-  }
-  .project:hover img {
-    transform: scale(1.035);
-  }
-  @media (min-width: 48rem) {
-    .projects > li:nth-child(even) {
-      padding-top: 4rem;
-    }
-  }
-  @media (max-width: 30rem) {
-    .project__image img {
-      padding: 0.75rem;
     }
   }
 </style>

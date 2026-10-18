@@ -49,7 +49,7 @@ const service = getService(serviceKey);
   ]}
   extraJsonLd={[serviceJsonLd(service), faqPageJsonLd(questions)]}
 >
-  <div slot="hero-extra" class="detail-actions">
+  <div slot="hero-extra" class="detail-actions" data-reveal>
     <a class="btn btn--primary" href={`/kontakt/#leistung=${serviceKey}`}
       >Vorhaben besprechen <span aria-hidden="true">↗</span></a
     >
@@ -63,7 +63,10 @@ const service = getService(serviceKey);
   }
   <section class="section section--cream">
     <div class="content">
-      <div class="section-heading"><h2>{closing}</h2></div><div class="detail-blocks">
+      <div class="section-heading"><h2 data-split>{closing}</h2></div><div
+        class="detail-blocks"
+        data-reveal-group
+      >
         {
           blocks.map((b) => (
             <article>
@@ -79,7 +82,7 @@ const service = getService(serviceKey);
   </section>
   <section class="section section--paper">
     <div class="content faq-split">
-      <h2>Was Kunden<br />oft wissen wollen.</h2><FaqAccordion items={questions} />
+      <h2 data-split>Was Kunden<br />oft wissen wollen.</h2><FaqAccordion items={questions} />
     </div>
   </section>
   <CtaBanner

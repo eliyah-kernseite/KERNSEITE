@@ -27,7 +27,7 @@ const copy: Record<string, string> = {
 };
 ---
 
-<div class="service-grid">
+<div class="service-grid" data-reveal-group>
   {
     rows.map((s) => (
       <article class:list={['service-tile', s.isCore && 'service-tile--core']}>
@@ -131,7 +131,7 @@ const copy: Record<string, string> = {
   }
   .service-tile:nth-child(2) {
     background: var(--ks-black);
-    color: var(--ks-cream);
+    color: var(--ks-bone);
   }
   .service-tile:nth-child(2) h2,
   .service-tile:nth-child(2) h3 {

@@ -7,9 +7,7 @@ export type CaseFilter =
   | 'ki'
   | 'gastronomie'
   | 'lokale-dienstleister'
-  | 'konzeptstudie';
-
-export type MockupTheme = 'meisterwerk' | 'dentale-linie' | 'haus-am-fluss';
+  | 'kreativ';
 
 /** Gemeinsame Felder aller Arbeiten. */
 interface WorkCommon {
@@ -69,28 +67,109 @@ export interface ProjectWork extends WorkCommon {
   /** Leistungsumfang (beschreibend, keine erfundenen Kennzahlen). */
   readonly scope: readonly string[];
   readonly screenshotDesktop: WorkScreenshot;
+  readonly screenshotMobile: WorkScreenshot;
 }
 
-/** Konzeptstudie, kein Kundenprojekt (klar gekennzeichnet). */
-export interface ConceptWork extends WorkCommon {
-  readonly kind: 'concept';
-  /** Konzeptstudien werden getrennt von echten Projekten gezeigt. */
-  readonly isConceptStudy: true;
-  readonly badge: 'Konzeptstudie, kein Kundenprojekt';
-  readonly mockupTheme: MockupTheme;
-  readonly situation: string;
-  readonly goal: string;
-  readonly strategy: string;
-  readonly designSystem: string;
-  readonly services: readonly string[];
-  readonly highlights: readonly string[];
-  readonly optionalModules: readonly string[];
+export type Work = ProjectWork;
+
+/** Neue Screenshots (Oktober 2026), erzeugt mit `scripts/build-references.py`. */
+function screens(
+  file: string,
+  altDesktop: string,
+  altMobile: string,
+): Pick<ProjectWork, 'screenshotDesktop' | 'screenshotMobile'> {
+  const base = '/assets/references';
+  return {
+    screenshotDesktop: {
+      src: `${base}/${file}-desktop-1440.webp`,
+      srcset: [640, 960, 1440, 1920]
+        .map((w) => `${base}/${file}-desktop-${w}.webp ${w}w`)
+        .join(', '),
+      width: 1920,
+      height: 1200,
+      alt: altDesktop,
+    },
+    screenshotMobile: {
+      src: `${base}/${file}-mobile-390.webp`,
+      srcset: `${base}/${file}-mobile-390.webp 390w, ${base}/${file}-mobile-780.webp 780w`,
+      width: 780,
+      height: 1688,
+      alt: altMobile,
+    },
+  };
 }
 
-export type Work = ProjectWork | ConceptWork;
-
-/** Projektbeispiele mit bereitgestellten Screenshots. */
+/** Echte Kundenprojekte, in der Reihenfolge der Startseite. */
 const projects: readonly ProjectWork[] = [
+  {
+    kind: 'project',
+    slug: 'southframe-productions',
+    href: '/arbeiten/southframe-productions/',
+    title: 'Southframe Productions',
+    headline: 'Bewegung ab der ersten Sekunde.',
+    teaser:
+      'Dunkles Design mit viel Bewegung: Die Referenzvideos laufen als gebogene Filmrolle durch den Startbildschirm.',
+    client: 'Southframe Productions',
+    industryLabel: 'Videoproduktion',
+    category: 'Videoproduktion · Website · Motion Design',
+    ctaTitle: ['Deine Arbeit bewegt etwas.', 'Zeigt das deine ', 'Website', ' auch?'],
+    blurbs: {
+      home: 'Für zwei Videografen aus Würzburg, die Musikvideos und Clips für Artists drehen. Die Seite wirkt selbst wie ein Film.',
+      arbeiten:
+        'Filmrolle im Startbildschirm, eine Scroll-Fahrt durch Dreh, Schnitt und Grading und offene Preise direkt auf der Startseite.',
+      websites: 'Wer hier landet, sieht sofort echte Videos und findet die Preise ohne Suchen.',
+      leistungen:
+        'Viel Motion, offene Preise und ein kurzer Weg zur Anfrage: so stellt sich ein Videoteam online vor.',
+    },
+    tagline:
+      'Ein dunkler, filmischer Auftritt für ein Videoteam aus Würzburg, mit bewegten Referenzen, offenen Preisen und schnellem Weg zur Anfrage.',
+    liveUrl: 'https://southframeproductions.de',
+    liveLabel: 'southframeproductions.de',
+    verified: true,
+    filters: ['referenz', 'websites', 'kreativ'],
+    situation:
+      'Southframe Productions dreht Musikvideos und Hochkantclips für Rapper, Newcomer und Independent Artists. Wer ein Video sucht, will zuerst sehen, wie die Arbeit aussieht, und danach wissen, was sie kostet.',
+    solution:
+      'Die Startseite zeigt die Referenzvideos als gebogene Filmrolle, die beim Laden in Bewegung kommt. Beim Scrollen läuft der Ablauf von Dreh über Schnitt bis Grading mit. Die Preise stehen offen auf der Startseite, die Anfrage ist von jeder Seite aus einen Klick entfernt.',
+    scope: [
+      'Individuelle Website mit Motion Design',
+      'Bewegter Startbildschirm aus den eigenen Referenzvideos',
+      'Preisübersicht und Anfrageformular',
+      'SEO für Musikvideo und Videodreh in Würzburg',
+    ],
+    faqs: [
+      {
+        question: 'Warum so viel Bewegung auf der Website?',
+        answer:
+          'Southframe verkauft bewegte Bilder. Eine Website, die still steht, würde dazu nicht passen. Die Animationen zeigen den Stil des Teams, bevor jemand ein Video anklickt. Wer im Browser weniger Bewegung eingestellt hat, sieht die Seite ruhig.',
+      },
+      {
+        question: 'Warum stehen die Preise direkt auf der Startseite?',
+        answer:
+          'Artists mit kleinem Budget fragen oft gar nicht erst an, wenn sie den Preis nicht kennen. Offene Preise nehmen diese Hürde. Die Anfragen, die kommen, passen dadurch besser.',
+      },
+      {
+        question: 'Lädt die Seite trotz Videos schnell?',
+        answer:
+          'Ja. Die Videos werden erst geladen, wenn sie gebraucht werden, und der erste Bildschirm kommt mit leichten Vorschaubildern aus. So bleibt die Seite auch am Handy flott.',
+      },
+      {
+        question: 'Wo finde ich die Website?',
+        answer:
+          'Die Website ist unter southframeproductions.de online. Den direkten Link findest du oben auf dieser Seite.',
+      },
+      {
+        question: 'Geht so ein Auftritt auch für andere Kreative?',
+        answer:
+          'Ja, etwa für Fotografen, Musiker, Tattoo-Studios oder Eventtechnik. Wie viel Bewegung passt, klären wir am Anfang gemeinsam. Der Orientierungsrahmen für Unternehmenswebsites liegt meist bei 1.500 bis 5.500 Euro netto.',
+      },
+    ],
+    ...screens(
+      'southframe',
+      'Startseite von Southframe Productions am Laptop: „Musikvideos & Content für Artists“ über einer gebogenen Reihe aus Videostandbildern.',
+      'Startseite von Southframe Productions auf dem Smartphone mit großer Überschrift und bewegter Filmrolle.',
+    ),
+  },
   {
     kind: 'project',
     slug: 'babyschlafberatung',
@@ -171,14 +250,11 @@ const projects: readonly ProjectWork[] = [
           'Nach der Abstimmung des Entwurfs folgten Feinschliff an Texten und Bildern, die technische Umsetzung und eine gemeinsame Prüfung aller Seiten. Erst als alles passte, ging die Website online. Diesen Ablauf durchläuft jedes Projekt bei KERNSEITE, unabhängig von Branche und Umfang.',
       },
     ],
-    screenshotDesktop: {
-      src: '/assets/references/babyschlafberatung-v2-desktop.webp',
-      srcset:
-        '/assets/references/babyschlafberatung-v2-desktop-640.webp 640w, /assets/references/babyschlafberatung-v2-desktop-800.webp 800w, /assets/references/babyschlafberatung-v2-desktop-1200.webp 1200w, /assets/references/babyschlafberatung-v2-desktop-1600.webp 1600w, /assets/references/babyschlafberatung-v2-desktop.webp 1904w',
-      width: 1904,
-      height: 1322,
-      alt: 'Startseite der Babyschlafberatung Anna-Lena Korb: schlafendes Neugeborenes im Arm, Überschrift „Ruhigere Nächte. Mit Nähe und einem klaren Plan.“ und Einladung zum kostenlosen Kennenlernen.',
-    },
+    ...screens(
+      'babyschlafberatung',
+      'Startseite der Babyschlafberatung Anna-Lena Korb am Laptop: schlafendes Neugeborenes im Arm und die Überschrift „Ruhigere Nächte mit Nähe und einem Plan, der zu euch passt“.',
+      'Startseite der Babyschlafberatung auf dem Smartphone mit Überschrift und den Schaltflächen für Kennenlernen und Schlafberatung.',
+    ),
   },
   {
     kind: 'project',
@@ -256,99 +332,11 @@ const projects: readonly ProjectWork[] = [
           'Das hängt vom Umfang ab, etwa von der Zahl der Seiten, der Speisekarte und gewünschten Funktionen. Der Orientierungsrahmen für Unternehmenswebsites liegt meist bei 1.500 bis 5.500 Euro netto. Nach dem ersten Gespräch bekommst du ein schriftliches Angebot.',
       },
     ],
-    screenshotDesktop: {
-      src: '/assets/references/kaya-doener-v2-desktop.webp',
-      srcset:
-        '/assets/references/kaya-doener-v2-desktop-640.webp 640w, /assets/references/kaya-doener-v2-desktop-800.webp 800w, /assets/references/kaya-doener-v2-desktop-1200.webp 1200w, /assets/references/kaya-doener-v2-desktop-1600.webp 1600w, /assets/references/kaya-doener-v2-desktop.webp 1904w',
-      width: 1904,
-      height: 910,
-      alt: 'Neuer Auftritt von Kaya Döner Himmelstadt mit „Döner. Dürüm. Dein Kaya.“, großem Dönerfoto und direktem Anrufbutton.',
-    },
-  },
-  {
-    kind: 'project',
-    slug: 'bestattungen-gorhau',
-    href: '/arbeiten/bestattungen-gorhau/',
-    title: 'Bestattungen Gorhau',
-    headline: 'Orientierung in einem schweren Moment.',
-    teaser: 'Zurückhaltende Farbwelt, klare Navigation und die Telefonnummer gleich im Einstieg.',
-    client: 'Bestattungen Gorhau',
-    industryLabel: 'Bestattungsunternehmen',
-    category: 'Bestattungen · Website · Kontaktwege',
-    ctaTitle: ['Klarheit hilft in jedem Moment.', 'Bietet deine ', 'Website', ' sie auch?'],
-    blurbs: {
-      home: 'Ein Entwurf für ein Bestattungsunternehmen, bei dem Angehörige sofort sehen, wen sie im Trauerfall erreichen.',
-      arbeiten:
-        'Ein Entwurf mit großem Naturmotiv und verständlichen Wegen zu Trauerfall, Leistungen, Bestattungsarten und Vorsorge.',
-      websites:
-        'Wenn es schnell gehen muss, zählt Klarheit: Die Telefonnummer steht im Einstieg, die nächsten Schritte sind leicht zu finden.',
-    },
-    tagline:
-      'Ein ruhiger Auftritt mit verständlichen Informationen und einem direkt sichtbaren Kontakt für den Trauerfall.',
-    liveLabel: 'Projektvorschau',
-    stage: 'preview',
-    verified: false,
-    filters: ['referenz', 'websites', 'lokale-dienstleister'],
-    situation:
-      'Im Trauerfall müssen Angehörige schnell erkennen, wen sie erreichen können und welche Schritte als Nächstes wichtig sind.',
-    solution:
-      'Der gezeigte Entwurf setzt auf eine zurückhaltende Farbwelt, ein großflächiges Naturmotiv und klare Navigation zu Trauerfall, Leistungen, Bestattungsarten und Vorsorge. Die Telefonnummer steht direkt im Einstieg.',
-    scope: [
-      'Individuelle Gestaltung mit ruhiger Bildsprache',
-      'Verständliche Navigation zu Leistungen und Vorsorge',
-      'Direkter Telefonkontakt im Seitenkopf',
-      'Eigenständiger Auftritt für das Bestattungsunternehmen',
-    ],
-    faqs: [
-      {
-        question: 'Worauf kommt es bei der Website eines Bestattungsunternehmens an?',
-        answer:
-          'Angehörige suchen meist in einem schweren Moment nach Hilfe. Sie brauchen sofort Orientierung: Wen kann ich erreichen, was ist jetzt zu tun und welche Möglichkeiten gibt es? Die Website sollte diese Fragen ruhig und verständlich beantworten und die Telefonnummer jederzeit sichtbar halten.',
-      },
-      {
-        question: 'Warum eine so zurückhaltende Gestaltung?',
-        answer:
-          'Laute Farben, Effekte oder Werbesprache wären hier fehl am Platz. Der Entwurf setzt auf ein großflächiges Naturmotiv, gedeckte Farben und viel Ruhe. Die Gestaltung tritt zurück, damit die wichtigen Informationen im Vordergrund stehen.',
-      },
-      {
-        question: 'Welche Inhalte deckt der Entwurf ab?',
-        answer:
-          'Die Navigation führt zu den Bereichen Trauerfall, Leistungen, Bestattungsarten und Vorsorge. So finden sowohl Menschen, die gerade einen Angehörigen verloren haben, als auch Menschen, die frühzeitig vorsorgen möchten, schnell den passenden Einstieg.',
-      },
-      {
-        question: 'Warum ist die mobile Ansicht hier so wichtig?',
-        answer:
-          'Im Trauerfall greifen viele Angehörige zum Smartphone, oft unterwegs oder zu ungewöhnlichen Zeiten. Deshalb muss die Telefonnummer auch auf kleinen Bildschirmen sofort erreichbar sein und die Navigation ohne Umwege funktionieren.',
-      },
-      {
-        question: 'Ist die Website bereits veröffentlicht?',
-        answer:
-          'Nein. Gezeigt wird ein Website-Entwurf in der Projektvorschau. Struktur und Gestaltung sind ausgearbeitet, die Veröffentlichung steht noch aus.',
-      },
-      {
-        question: 'Lässt sich das auf andere sensible Bereiche übertragen?',
-        answer:
-          'Ja. Überall dort, wo Menschen in einer belastenden Situation Hilfe suchen, gelten ähnliche Regeln: klare Kontaktwege, eine ruhige Sprache und keine Ablenkung. Das betrifft zum Beispiel Pflegedienste, Hospize oder Beratungsstellen.',
-      },
-      {
-        question: 'Wie wird die Telefonnummer im Entwurf eingebunden?',
-        answer:
-          'Die Telefonnummer steht direkt im Einstieg und im Seitenkopf. Wer die Seite öffnet, sieht sofort, wie er Bestattungen Gorhau erreichen kann, ohne erst suchen oder scrollen zu müssen. Gerade in einer belastenden Situation ist dieser direkte Weg wichtiger als jede gestalterische Idee.',
-      },
-      {
-        question: 'Was können andere Betriebe aus diesem Projekt mitnehmen?',
-        answer:
-          'Vor allem, dass Zurückhaltung eine bewusste gestalterische Entscheidung sein kann. Nicht jede Website muss auffallen. Bei einem Bestatter kommt es darauf an, die wichtigen Informationen zu ordnen und den Kontakt so einfach wie möglich zu machen, und dabei hätte jeder Effekt nur gestört.',
-      },
-    ],
-    screenshotDesktop: {
-      src: '/assets/references/bestattungen-gorhau-desktop.webp',
-      srcset:
-        '/assets/references/bestattungen-gorhau-desktop-640.webp 640w, /assets/references/bestattungen-gorhau-desktop-800.webp 800w, /assets/references/bestattungen-gorhau-desktop-1200.webp 1200w, /assets/references/bestattungen-gorhau-desktop-1600.webp 1600w, /assets/references/bestattungen-gorhau-desktop.webp 1905w',
-      width: 1905,
-      height: 909,
-      alt: 'Website-Entwurf von Bestattungen Gorhau mit grüner Baumlandschaft, der Überschrift „Wenn Worte fehlen. Sind wir da.“ und direktem Telefonkontakt.',
-    },
+    ...screens(
+      'kaya-doener',
+      'Startseite von Kaya Döner Himmelstadt am Laptop: „Döner. Dürüm. Dein Kaya.“ in großer Schrift neben einem Dönerfoto.',
+      'Startseite von Kaya Döner auf dem Smartphone mit Claim, Speisekarten-Button und Anrufbutton.',
+    ),
   },
   {
     kind: 'project',
@@ -412,121 +400,18 @@ const projects: readonly ProjectWork[] = [
           'Die Website ist responsiv aufgebaut und passt sich jeder Bildschirmgröße an. Viele Eltern informieren sich zwischendurch auf dem Handy. Deshalb sind Texte gut lesbar, Bilder sauber skaliert und die Kontaktmöglichkeiten auch auf kleinen Displays schnell zu finden.',
       },
     ],
-    screenshotDesktop: {
-      src: '/assets/references/kinderkoerbchen-desktop.webp',
-      srcset:
-        '/assets/references/kinderkoerbchen-desktop-640.webp 640w, /assets/references/kinderkoerbchen-desktop-800.webp 800w, /assets/references/kinderkoerbchen-desktop-1200.webp 1200w, /assets/references/kinderkoerbchen-desktop-1600.webp 1600w, /assets/references/kinderkoerbchen-desktop.webp 1905w',
-      width: 1905,
-      height: 1014,
-      alt: 'Startseite von Anna-Lena’s Kinderkörbchen: warme Farbwelt, Begrüßung „Schön, dass du da bist.“ und Porträtfoto.',
-    },
+    ...screens(
+      'kinderkoerbchen',
+      'Startseite von Anna-Lena’s Kinderkörbchen am Laptop: „Tagesmutter in Eisingen bei Würzburg“ neben einem Porträtfoto.',
+      'Startseite von Anna-Lena’s Kinderkörbchen auf dem Smartphone mit Hinweis auf einen freien Betreuungsplatz.',
+    ),
   },
 ];
 
-/**
- * Konzeptstudien – fiktiv, klar als „Konzeptstudie, kein Kundenprojekt“ gekennzeichnet.
- * KEINE echten Kundennamen, Ergebnisse, Kennzahlen, Bewertungen oder Testimonials.
- */
-const concepts: readonly ConceptWork[] = [
-  {
-    kind: 'concept',
-    slug: 'meisterwerk',
-    href: '/arbeiten/meisterwerk/',
-    isConceptStudy: true,
-    badge: 'Konzeptstudie, kein Kundenprojekt',
-    title: 'Meisterwerk',
-    industryLabel: 'Handwerksbetrieb',
-    tagline: 'Ein moderner Handwerksbetrieb, der Qualität sichtbar macht.',
-    filters: ['websites', 'google', 'konzeptstudie'],
-    mockupTheme: 'meisterwerk',
-    situation:
-      'Ein etablierter Handwerksbetrieb wirkt online deutlich schwächer als in der Realität: veraltete Seite, unklare Leistungen, kaum Kontaktwege.',
-    goal: 'Der Auftritt soll die tatsächliche Qualität zeigen, Anfragen erleichtern und Bewerber ansprechen.',
-    strategy:
-      'Klare Leistungsstruktur, prominente Kontaktwege, eine ehrliche Karriere-Sektion und eine kräftige, handwerklich-selbstbewusste Bildsprache.',
-    designSystem:
-      'Kräftiges Ultramarin als Ankerfarbe, große Typografie, ruhige Flächen und viel Raum für echte Baustellen- und Teambilder.',
-    services: ['websites', 'google'],
-    highlights: [
-      'Leistungsübersicht mit klarer Gliederung',
-      'Referenz-/Baustellen-Sektion',
-      'Karriere-Bereich für Bewerber',
-      'Schnelle Kontaktwege (Anruf, Rückruf, Formular)',
-    ],
-    optionalModules: ['Google-Unternehmensprofil'],
-  },
-  {
-    kind: 'concept',
-    slug: 'dentale-linie',
-    href: '/arbeiten/dentale-linie/',
-    isConceptStudy: true,
-    badge: 'Konzeptstudie, kein Kundenprojekt',
-    title: 'Dentale Linie',
-    industryLabel: 'Zahnarztpraxis',
-    tagline: 'Eine Zahnarztpraxis mit ruhiger, vertrauensbildender Nutzerführung.',
-    filters: ['websites', 'ki', 'konzeptstudie'],
-    mockupTheme: 'dentale-linie',
-    situation:
-      'Eine Praxis möchte online ruhiger und vertrauenswürdiger wirken und den Weg zum Termin vereinfachen, ganz ohne reißerische Versprechen.',
-    goal: 'Vertrauen aufbauen, Behandlungsschwerpunkte verständlich zeigen und Terminwege klar machen.',
-    strategy:
-      'Reduzierte, helle Gestaltung, verständliche Sprache, klare Terminwege und ein sympathisches Team-Kapitel.',
-    designSystem:
-      'Helle Papierflächen, feines Electric Cyan als Akzent, viel Weißraum und eine ruhige, seriöse Typografie.',
-    services: ['websites', 'ki'],
-    highlights: [
-      'Verständliche Behandlungsschwerpunkte',
-      'Team-Kapitel',
-      'Klare Terminwege',
-      'FAQ zu Ablauf und Angst-Themen',
-    ],
-    optionalModules: ['Website-Chatbot für häufige Fragen'],
-  },
-  {
-    kind: 'concept',
-    slug: 'haus-am-fluss',
-    href: '/arbeiten/haus-am-fluss/',
-    isConceptStudy: true,
-    badge: 'Konzeptstudie, kein Kundenprojekt',
-    title: 'Haus am Fluss',
-    industryLabel: 'Boutique-Hotel',
-    tagline: 'Ein Boutique-Hotel, das seine Atmosphäre spürbar macht.',
-    filters: ['websites', 'video', 'social', 'konzeptstudie'],
-    mockupTheme: 'haus-am-fluss',
-    situation:
-      'Ein kleines Hotel mit besonderer Atmosphäre transportiert online zu wenig von seinem Charakter und macht die Buchung zu umständlich.',
-    goal: 'Die Atmosphäre erlebbar machen und den Weg zur Buchung deutlich vereinfachen.',
-    strategy:
-      'Bild- und videostarke Gestaltung, klare Zimmerdarstellung und ein prominenter, datenschutzfreundlicher Buchungsweg.',
-    designSystem:
-      'Tiefes Marineblau für stimmungsvolle Kapitel, warme Papierflächen und großformatige, ruhige Bildwelten.',
-    services: ['websites', 'video', 'social'],
-    highlights: [
-      'Stimmungsvolle Startsequenz',
-      'Zimmer- und Angebotsübersicht',
-      'Prominenter Buchungsweg',
-      'Anbindung an Social-Media-Inhalte',
-    ],
-    optionalModules: ['Kurzer Website-Clip', 'Social-Media-Vorschau'],
-  },
-];
+/** Alle Arbeiten sind echte Kundenprojekte. */
+export const works: readonly Work[] = projects;
 
-/**
- * Konzeptstudien sind derzeit NICHT veröffentlicht. Sie wurden mit gezeichneten
- * Mockups dargestellt und sollen nicht neben echten Kundenprojekten stehen.
- * Zum Wiederveröffentlichen: `PUBLISH_CONCEPTS` auf `true` setzen – dann
- * erscheinen sie ausschließlich in einem eigenen Abschnitt unterhalb der
- * echten Arbeiten und niemals auf der Startseite.
- */
-export const PUBLISH_CONCEPTS = false;
-
-/** Öffentlich sichtbare Arbeiten: aktuell ausschließlich echte Referenzen. */
-export const works: readonly Work[] = PUBLISH_CONCEPTS ? [...projects, ...concepts] : [...projects];
-
-/** Alle Konzeptstudien (unabhängig von der Veröffentlichung). */
-export const conceptStudies: readonly ConceptWork[] = concepts;
-
-/** Nur echte Referenzprojekte (z. B. für „Ausgewählte Arbeiten“ auf der Startseite). */
+/** Referenzen für „Ausgewählte Arbeiten“ auf der Startseite. */
 export const featuredProjects: readonly ProjectWork[] = projects;
 
 export function getWork(slug: string): Work | undefined {
@@ -536,5 +421,6 @@ export function getWork(slug: string): Work | undefined {
 export const workFilters: readonly { readonly key: CaseFilter; readonly label: string }[] = [
   { key: 'websites', label: 'Websites' },
   { key: 'gastronomie', label: 'Gastronomie' },
+  { key: 'kreativ', label: 'Kreative' },
   { key: 'lokale-dienstleister', label: 'Lokale Dienstleister' },
 ];

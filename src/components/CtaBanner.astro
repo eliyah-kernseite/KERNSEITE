@@ -33,8 +33,19 @@ const {
 ---
 
 <section class="cta section--cyan">
+  <svg class="cta__badge" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
+    <defs>
+      <path id="cta-ring" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0"></path>
+    </defs>
+    <text
+      ><textPath href="#cta-ring" textLength="486" lengthAdjust="spacing"
+        >Website anfragen · Website anfragen ·</textPath
+      ></text
+    >
+    <circle cx="100" cy="100" r="16"></circle>
+  </svg>
   <div class="content cta__inner">
-    <h2 class="cta__title">
+    <h2 class="cta__title" data-split>
       {
         title ? (
           title
@@ -51,7 +62,9 @@ const {
     </h2>
     <p class="cta__text">{text}</p>
     <div class="cta__actions">
-      <a class="btn btn--primary" href={ctaHref}>{ctaLabel}</a>
+      <a class="btn btn--primary btn--lg" href={ctaHref} data-magnetic
+        >{ctaLabel} <span aria-hidden="true">↗</span></a
+      >
       {
         secondaryLabel && secondaryHref && (
           <a class="cta__mailto" href={secondaryHref}>
@@ -65,7 +78,47 @@ const {
 
 <style>
   .cta {
-    padding-block: var(--section-y);
+    position: relative;
+    overflow: clip;
+    padding-block: calc(var(--section-y) * 1.2);
+  }
+  .cta__badge {
+    position: absolute;
+    right: var(--gutter);
+    top: 50%;
+    display: none;
+    inline-size: clamp(10rem, 16vw, 15rem);
+    translate: 0 -50%;
+    animation: cta-spin 22s linear infinite;
+  }
+  .cta__badge text {
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    fill: var(--ks-black);
+  }
+  .cta__badge circle {
+    fill: var(--ks-black);
+  }
+  @keyframes cta-spin {
+    to {
+      rotate: 360deg;
+    }
+  }
+  @media (min-width: 72rem) {
+    .cta__badge {
+      display: block;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cta__badge {
+      animation: none;
+    }
+  }
+  :global(:root[data-a11y-motion='reduced']) .cta__badge {
+    animation: none;
   }
   .cta__inner {
     display: grid;
@@ -76,10 +129,11 @@ const {
     min-inline-size: 0;
   }
   .cta__title {
-    font-size: clamp(2.5rem, 5.3vw, 5.3rem);
-    line-height: 1.08;
-    letter-spacing: var(--track-display);
-    max-width: min(19ch, 100%);
+    font-size: clamp(2.8rem, 7.4vw, 8rem);
+    font-weight: 800;
+    line-height: 0.98;
+    letter-spacing: -0.055em;
+    max-width: min(14ch, 100%);
   }
   /* Hervorhebung auf der Cyan-Fläche: rein typografisch, keine Fläche */
   .cta__mark {

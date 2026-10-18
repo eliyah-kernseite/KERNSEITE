@@ -1,5 +1,7 @@
 ---
+import Logo from './Logo.astro';
 import { mainNav, primaryCta } from '../config/navigation';
+import { activeCompany as c } from '../lib/config-validation';
 
 const currentPath = Astro.url.pathname;
 function isActive(href: string): boolean {
@@ -11,8 +13,8 @@ function isActive(href: string): boolean {
 
 <header class="site-header" data-header>
   <div class="site-header__inner container">
-    <a class="wordmark" href="/" aria-label="KERNSEITE, zur Startseite">
-      <span>KERNSEITE</span><span class="wordmark__dot" aria-hidden="true">.</span>
+    <a class="site-header__brand" href="/" aria-label="KERNSEITE, zur Startseite">
+      <Logo />
     </a>
 
     <nav class="primary-nav" aria-label="Hauptnavigation">
@@ -21,7 +23,9 @@ function isActive(href: string): boolean {
           mainNav.map((item) => (
             <li>
               <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
-                {item.label}
+                <span class="primary-nav__label" data-label={item.label}>
+                  {item.label}
+                </span>
               </a>
             </li>
           ))
@@ -30,7 +34,9 @@ function isActive(href: string): boolean {
     </nav>
 
     <div class="site-header__actions">
-      <a class="btn btn--primary site-header__cta" href={primaryCta.href}>{primaryCta.label}</a>
+      <a class="btn btn--primary site-header__cta" href={primaryCta.href} data-magnetic
+        >{primaryCta.label} <span aria-hidden="true">↗</span></a
+      >
       <button
         type="button"
         class="burger"
@@ -39,7 +45,6 @@ function isActive(href: string): boolean {
         aria-controls="mobile-menu"
       >
         <span class="burger__box" aria-hidden="true">
-          <span class="burger__line"></span>
           <span class="burger__line"></span>
           <span class="burger__line"></span>
         </span>
@@ -52,9 +57,12 @@ function isActive(href: string): boolean {
     <nav class="mobile-menu__nav" aria-label="Mobile Navigation">
       <ul role="list">
         {
-          mainNav.map((item) => (
-            <li>
+          mainNav.map((item, i) => (
+            <li class={`mobile-menu__item mobile-menu__item--${i + 1}`}>
               <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
+                <span class="mobile-menu__index" aria-hidden="true">
+                  0{i + 1}
+                </span>
                 {item.label}
               </a>
             </li>
@@ -62,21 +70,39 @@ function isActive(href: string): boolean {
         }
       </ul>
       <a class="btn btn--primary mobile-menu__cta" href={primaryCta.href}>{primaryCta.label}</a>
+      <p class="mobile-menu__contact">
+        <a href={`mailto:${c.email}`}>{c.email}</a>
+        <a href={`tel:+49${c.phone.replace(/\D/g, '').replace(/^0/, '')}`}>{c.phone}</a>
+      </p>
     </nav>
   </div>
 </header>
 
 <style>
   .site-header {
-    position: sticky;
-    top: 0;
+    position: fixed;
+    inset: 0 0 auto;
     z-index: var(--z-header);
-    background: var(--ks-paper);
+    color: var(--text);
+    transition:
+      transform 500ms var(--ease-out),
+      background-color var(--dur-base) var(--ease-out),
+      border-color var(--dur-base) var(--ease-out);
     border-block-end: 1px solid transparent;
-    transition: border-color var(--dur-base) var(--ease-out);
   }
   .site-header[data-scrolled] {
-    border-block-end-color: var(--line);
+    background: color-mix(in srgb, var(--ks-paper) 78%, transparent);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    backdrop-filter: blur(16px) saturate(140%);
+    border-block-end-color: color-mix(in srgb, var(--ks-bone) 8%, transparent);
+  }
+  /* Beim Herunterscrollen weicht die Kopfzeile, beim Hochscrollen kommt sie zurück. */
+  .site-header[data-hidden] {
+    transform: translate3d(0, -100%, 0);
+  }
+  :global(html[data-menu-open]) .site-header {
+    transform: none;
+    background: var(--ks-paper);
   }
 
   .site-header__inner {
@@ -84,20 +110,14 @@ function isActive(href: string): boolean {
     align-items: center;
     justify-content: space-between;
     gap: var(--space-lg);
-    min-height: 60px;
+    min-height: var(--header-h);
   }
 
-  .wordmark {
-    font-family: var(--font-display);
-    font-weight: var(--fw-bold);
-    font-size: 1.4rem;
-    letter-spacing: -0.045em;
+  .site-header__brand {
+    font-size: 1.45rem;
     text-decoration: none;
     color: var(--text);
-    white-space: nowrap;
-  }
-  .wordmark__dot {
-    color: var(--accent);
+    --logo-ground: var(--ks-paper);
   }
 
   .primary-nav {
@@ -105,34 +125,53 @@ function isActive(href: string): boolean {
   }
   .primary-nav ul {
     display: flex;
-    gap: clamp(0.75rem, 0.2rem + 1.6vw, 2rem);
+    gap: clamp(0.5rem, 0.2rem + 1.4vw, 2.25rem);
     margin: 0;
     padding: 0;
   }
   .primary-nav a {
     display: inline-block;
-    padding: 0.45rem 0.15rem;
-    font-size: var(--fs-small);
+    padding: 0.6rem 0.2rem;
+    font-size: 0.975rem;
     font-weight: var(--fw-medium);
     text-decoration: none;
     color: var(--text);
     position: relative;
   }
-  .primary-nav a::after {
+  /* Wort rollt beim Überfahren nach oben aus, die Kopie rollt nach. */
+  .primary-nav__label {
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    vertical-align: top;
+  }
+  .primary-nav__label::after {
+    content: attr(data-label);
+    position: absolute;
+    inset: 100% 0 auto;
+    color: var(--ks-cyan);
+  }
+  .primary-nav__label,
+  .primary-nav__label::after {
+    transition: transform 450ms var(--ease-out);
+  }
+  .primary-nav a:hover .primary-nav__label,
+  .primary-nav a:focus-visible .primary-nav__label {
+    transform: translateY(-100%);
+  }
+  .primary-nav__label {
+    transform: translateY(0);
+  }
+  .primary-nav a[aria-current='page']::before {
     content: '';
     position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 2px;
-    background: var(--accent);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform var(--dur-fast) var(--ease-out);
-  }
-  .primary-nav a:hover::after,
-  .primary-nav a[aria-current='page']::after {
-    transform: scaleX(1);
+    left: 50%;
+    bottom: 0.1rem;
+    inline-size: 5px;
+    block-size: 5px;
+    border-radius: 50%;
+    background: var(--ks-cyan);
+    transform: translateX(-50%);
   }
 
   .site-header__actions {
@@ -140,113 +179,139 @@ function isActive(href: string): boolean {
     align-items: center;
     gap: var(--space-md);
   }
-  /* Kompakter CTA statt großer schwarzer Pille */
   .site-header__cta {
     display: none;
-    min-height: 44px;
-    padding: 0.55rem 1.15rem;
-    font-size: var(--fs-small);
+    min-height: 46px;
+    padding: 0.6rem 1.35rem;
   }
 
-  /* 44 × 44 px Touchfläche, aber ohne sichtbaren Kasten */
   .burger {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    inline-size: 44px;
-    block-size: 44px;
+    inline-size: 48px;
+    block-size: 48px;
     margin-inline-end: -0.5rem;
     border: 0;
+    border-radius: 50%;
     background: transparent;
   }
   .burger__box {
     display: grid;
-    gap: 4px;
-    inline-size: 20px;
+    gap: 7px;
+    inline-size: 26px;
   }
   .burger__line {
     display: block;
-    block-size: 1.5px;
+    block-size: 2px;
     background: var(--text);
+    transition: transform 400ms var(--ease-out);
+  }
+  .burger__line:nth-child(2) {
+    inline-size: 70%;
+    justify-self: end;
     transition:
-      transform var(--dur-fast) var(--ease-out),
-      opacity var(--dur-fast) var(--ease-out);
+      transform 400ms var(--ease-out),
+      inline-size 400ms var(--ease-out);
   }
   .burger[aria-expanded='true'] .burger__line:nth-child(1) {
-    transform: translateY(5.5px) rotate(45deg);
+    transform: translateY(4.5px) rotate(45deg);
   }
   .burger[aria-expanded='true'] .burger__line:nth-child(2) {
-    opacity: 0;
-  }
-  .burger[aria-expanded='true'] .burger__line:nth-child(3) {
-    transform: translateY(-5.5px) rotate(-45deg);
+    inline-size: 100%;
+    transform: translateY(-4.5px) rotate(-45deg);
   }
 
   .mobile-menu {
-    border-block-start: 1px solid var(--line);
-    background: var(--ks-cream);
+    position: fixed;
+    inset: var(--header-h) 0 0;
+    overflow-y: auto;
+    background: var(--ks-paper);
   }
   .mobile-menu[hidden] {
     display: none;
   }
   .mobile-menu__nav {
-    padding: var(--space-lg) var(--gutter) var(--space-2xl);
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    padding: var(--space-xl) var(--gutter) var(--space-2xl);
   }
   .mobile-menu__nav ul {
     display: grid;
-    margin: 0 0 var(--space-xl);
+    margin: 0 0 var(--space-2xl);
     padding: 0;
   }
-  .mobile-menu__nav a:not(.btn) {
-    display: block;
-    padding: 0.95rem 0;
+  .mobile-menu__nav li a {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 0.9rem 0;
     font-family: var(--font-display);
-    font-size: 1.6rem;
-    font-weight: var(--fw-bold);
-    letter-spacing: -0.035em;
+    font-size: clamp(2.2rem, 10vw, 3.4rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.045em;
     text-decoration: none;
     color: var(--text);
     border-block-end: 1px solid var(--line);
   }
-  .mobile-menu__nav a:not(.btn)[aria-current='page'] {
-    color: var(--accent-ink);
+  .mobile-menu__index {
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    color: var(--ks-cyan);
+  }
+  .mobile-menu__nav li a[aria-current='page'] {
+    color: var(--ks-cyan);
+  }
+  .mobile-menu__item {
+    animation: menu-in 700ms var(--ease-out) both;
+  }
+  .mobile-menu__item--2 {
+    animation-delay: 60ms;
+  }
+  .mobile-menu__item--3 {
+    animation-delay: 120ms;
+  }
+  .mobile-menu__item--4 {
+    animation-delay: 180ms;
+  }
+  @keyframes menu-in {
+    from {
+      opacity: 0;
+      transform: translateY(1.5rem);
+    }
   }
   .mobile-menu__cta {
     inline-size: 100%;
   }
-
-  /* Sehr schmal (etwa 360px bei 200% Zoom): Wortmarke verkleinern, damit
-     Marke und Menütaste nebeneinander in die Zeile passen. */
-  @media (max-width: 26rem) {
-    .site-header__inner {
-      gap: var(--space-sm);
-    }
-    .wordmark {
-      font-size: 1.15rem;
-    }
-    .burger {
-      margin-inline-end: -0.75rem;
-    }
+  .mobile-menu__contact {
+    display: grid;
+    gap: 0.4rem;
+    margin-block-start: auto;
+    padding-block-start: var(--space-2xl);
   }
-  @media (max-width: 22rem) {
-    .wordmark {
-      font-size: 1rem;
+  .mobile-menu__contact a {
+    color: var(--text-muted);
+    text-decoration: none;
+  }
+
+  @media (max-width: 26rem) {
+    .site-header__brand {
+      font-size: 1.2rem;
     }
   }
 
   @media (min-width: 64rem) {
-    .site-header__inner {
-      min-height: 76px;
-    }
     .primary-nav {
       display: block;
     }
     .site-header__cta {
       display: inline-flex;
     }
-    .burger {
-      display: none;
-    }
+    .burger,
     .mobile-menu {
       display: none;
     }
@@ -262,9 +327,17 @@ function isActive(href: string): boolean {
   // Kompakt-Zustand beim Scrollen
   if (header) {
     let ticking = false;
+    let lastY = 0;
     const update = () => {
-      if (window.scrollY > 8) header.setAttribute('data-scrolled', '');
+      const y = window.scrollY;
+      if (y > 8) header.setAttribute('data-scrolled', '');
       else header.removeAttribute('data-scrolled');
+      // Ausblenden nur nach echtem Herunterscrollen und nie bei offenem Menü oder Fokus darin.
+      const down = y > lastY + 4 && y > 240;
+      const up = y < lastY - 4;
+      if (down && !header.contains(document.activeElement)) header.setAttribute('data-hidden', '');
+      else if (up || y <= 240) header.removeAttribute('data-hidden');
+      lastY = y;
       ticking = false;
     };
     // Erste Prüfung im nächsten Frame: scrollY direkt beim Laden erzwingt sonst

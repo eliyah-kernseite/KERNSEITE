@@ -2,19 +2,19 @@ import { test, expect } from '@playwright/test';
 
 test('Startseite erklärt das Angebot und führt zu Projekt und Anfrage', async ({ page }) => {
   await page.goto('/');
-  const hero = page.locator('.home-hero');
+  const hero = page.locator('.hero');
   await expect(hero.getByRole('heading', { level: 1 })).toContainText('Dein Können.');
-  await expect(hero.getByRole('link', { name: 'Lass uns deine Website planen' })).toHaveAttribute(
+  await expect(hero.getByRole('link', { name: 'Website anfragen' })).toHaveAttribute(
     'href',
     '/kontakt/',
   );
-  await expect(hero.getByRole('link', { name: 'Projekte entdecken' })).toHaveAttribute(
+  await expect(hero.getByRole('link', { name: 'Arbeiten ansehen' })).toHaveAttribute(
     'href',
-    '/arbeiten/',
+    '#arbeiten',
   );
-  await expect(
-    hero.locator('[data-slide][href="/arbeiten/kaya-doener-himmelstadt/"] img'),
-  ).toBeVisible();
+  // Die Wand aus Kundenseiten ist reine Dekoration.
+  await expect(hero.locator('.hero__wall')).toHaveAttribute('aria-hidden', 'true');
+  await expect(hero.locator('.hero__wall img').first()).toBeVisible();
   await expect(hero.locator('canvas, video')).toHaveCount(0);
 });
 
@@ -33,7 +33,7 @@ test('Der zentrale Kontaktweg ist ohne Scrollen sichtbar', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/');
   await page.evaluate(() => document.fonts.ready);
-  await expect(page.locator('.hero-intro .btn')).toBeInViewport();
+  await expect(page.locator('.hero__actions .btn').first()).toBeInViewport();
 });
 
 for (const width of [320, 390, 768, 1440]) {
@@ -68,7 +68,7 @@ for (const width of [320, 390, 768, 1440]) {
         [390, 1440].includes(width) &&
         ['/', '/leistungen/websites/', '/agentur/', '/kontakt/'].includes(path)
       ) {
-        for (const img of await page.locator('img:visible').all())
+        for (const img of await page.locator('img:visible:not(.hero__shot)').all())
           await img.scrollIntoViewIfNeeded();
         await page.evaluate(() =>
           Promise.all(

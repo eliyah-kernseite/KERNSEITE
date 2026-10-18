@@ -38,8 +38,22 @@ const jsonLd = [breadcrumbJsonLd(breadcrumbs), ...extraJsonLd];
   <header class={`page-hero section--${variant}${variant === 'dark' ? ' on-dark' : ''}`}>
     <div class="content">
       {breadcrumbs.length > 1 && <Breadcrumbs items={breadcrumbs} />}
-      {h1Slot ? <slot name="h1" /> : <h1 class="page-hero__title">{h1}</h1>}
-      {lead && <p class="lead page-hero__lead">{lead}</p>}
+      {
+        h1Slot ? (
+          <slot name="h1" />
+        ) : (
+          <h1 class="page-hero__title" data-split>
+            {h1}
+          </h1>
+        )
+      }
+      {
+        lead && (
+          <p class="lead page-hero__lead" data-reveal>
+            {lead}
+          </p>
+        )
+      }
       <slot name="hero-extra" />
     </div>
   </header>
