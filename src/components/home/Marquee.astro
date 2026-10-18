@@ -1,22 +1,25 @@
 ---
 /**
- * Marquee – laufendes Band mit Stichworten. Rein dekorativ: Die Inhalte
- * stehen ausführlich weiter unten, deshalb `aria-hidden`.
+ * Marquee – riesiges Laufband aus Stichworten. Läuft ruhig von selbst und
+ * bekommt beim Scrollen Schub (siehe `[data-marquee]` in src/scripts/motion.ts).
+ * Rein dekorativ, deshalb `aria-hidden`.
  */
 interface Props {
   items: readonly string[];
-  /** 'cyan' (Standard) oder 'line' für ein ruhiges, umrandetes Band. */
-  tone?: 'cyan' | 'line';
+  /** Laufrichtung. */
+  direction?: 'left' | 'right';
+  /** 'outline' zeigt jedes zweite Wort nur als Kontur. */
+  tone?: 'outline' | 'dark';
 }
-const { items, tone = 'cyan' } = Astro.props;
+const { items, direction = 'left', tone = 'outline' } = Astro.props;
 const loop = [...items, ...items, ...items, ...items];
 ---
 
-<div class={`marquee marquee--${tone}`} aria-hidden="true">
+<div class={`marquee marquee--${tone}`} aria-hidden="true" data-marquee={direction}>
   <div class="marquee__track">
     {
-      loop.map((item) => (
-        <span class="marquee__item">
+      loop.map((item, i) => (
+        <span class:list={['marquee__item', { 'marquee__item--hollow': i % 2 === 1 }]}>
           {item}
           <span class="marquee__sep" />
         </span>
@@ -28,48 +31,48 @@ const loop = [...items, ...items, ...items, ...items];
 <style>
   .marquee {
     overflow: hidden;
-    padding-block: clamp(0.9rem, 1.6vw, 1.4rem);
-    white-space: nowrap;
-  }
-  .marquee--cyan {
-    background: var(--ks-cyan);
-    color: var(--ks-black);
-  }
-  .marquee--line {
-    border-block: 1px solid var(--line);
-    color: var(--text);
+    padding-block: clamp(1.5rem, 3vw, 3rem);
+    user-select: none;
   }
   .marquee__track {
     display: flex;
     inline-size: max-content;
-    animation: ks-marquee 48s linear infinite;
+    will-change: transform;
   }
   .marquee__item {
     display: inline-flex;
     align-items: center;
-    gap: clamp(1.25rem, 2.5vw, 2.5rem);
-    padding-inline-end: clamp(1.25rem, 2.5vw, 2.5rem);
+    gap: clamp(1.5rem, 3vw, 3.5rem);
+    padding-inline-end: clamp(1.5rem, 3vw, 3.5rem);
     font-family: var(--font-display);
-    font-size: clamp(1.5rem, 3.2vw, 2.9rem);
+    font-size: clamp(3.5rem, 10vw, 10rem);
     font-weight: 800;
-    letter-spacing: -0.04em;
-    line-height: 1.1;
+    line-height: 1;
+    letter-spacing: -0.06em;
+    white-space: nowrap;
+    color: var(--text);
+  }
+  .marquee__item--hollow {
+    color: transparent;
+    -webkit-text-stroke: 2px color-mix(in srgb, var(--ks-bone) 55%, transparent);
   }
   .marquee__sep {
-    inline-size: 0.32em;
-    block-size: 0.32em;
-    border-radius: 50%;
-    background: currentColor;
-  }
-  .marquee--line .marquee__sep {
+    inline-size: 0.28em;
+    block-size: 0.28em;
     background: var(--ks-cyan);
   }
-  @media (prefers-reduced-motion: reduce) {
-    .marquee__track {
-      animation: none;
-    }
+  .marquee--dark .marquee__item {
+    color: var(--ks-black);
   }
-  :global(:root[data-a11y-motion='reduced']) .marquee__track {
-    animation: none;
+  .marquee--dark .marquee__item--hollow {
+    color: transparent;
+    -webkit-text-stroke: 2px var(--ks-black);
+  }
+  .marquee--dark .marquee__sep {
+    background: var(--ks-black);
+  }
+  :global([data-a11y-contrast='high']) .marquee__item--hollow {
+    color: var(--text);
+    -webkit-text-stroke: 0;
   }
 </style>

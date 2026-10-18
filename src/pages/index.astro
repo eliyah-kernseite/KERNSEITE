@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import HomeHero from '../components/home/HomeHero.astro';
 import Marquee from '../components/home/Marquee.astro';
 import HomeAbout from '../components/home/HomeAbout.astro';
-import HomeBenefits from '../components/home/HomeBenefits.astro';
+import HomeKinetic from '../components/home/HomeKinetic.astro';
 import HomeWork from '../components/home/HomeWork.astro';
 import HomeServices from '../components/home/HomeServices.astro';
 import HomeProcess from '../components/home/HomeProcess.astro';
@@ -12,15 +12,7 @@ import CtaBanner from '../components/CtaBanner.astro';
 import { homeFaqs } from '../config/faq';
 import { faqPageJsonLd } from '../lib/jsonld';
 
-const ticker = [
-  'Webdesign',
-  'SEO & KI-Suche',
-  'Google-Unternehmensprofil',
-  'Texte',
-  'Branding',
-  'Foto & Video',
-  'Social Media',
-];
+const ticker = ['Webdesign', 'SEO', 'Google-Profil', 'Branding', 'Texte', 'Foto & Video'];
 ---
 
 <BaseLayout
@@ -32,15 +24,14 @@ const ticker = [
   <HomeHero />
   <Marquee items={ticker} />
   <HomeAbout />
-  <HomeBenefits />
+  <HomeKinetic />
   <HomeWork />
   <HomeServices />
   <HomeProcess />
   <section class="section" aria-labelledby="faq-title">
     <div class="content faq-split">
       <div>
-        <p class="kicker" aria-hidden="true">Häufige Fragen</p>
-        <h2 id="faq-title" class="display-2 faq-title" data-split>Noch eine Frage offen?</h2>
+        <h2 id="faq-title" class="display-2 faq-title" data-split>Noch Fragen?</h2>
         <a class="link-arrow" href="/faq/"
           >Alle Antworten <span class="arrow" aria-hidden="true">→</span></a
         >
@@ -49,15 +40,15 @@ const ticker = [
     </div>
   </section>
   <CtaBanner
-    title="Machen wir etwas Gutes daraus."
-    text="Ob neue Website oder bisher nur eine grobe Idee: Erzähl uns davon. Das erste Gespräch ist unverbindlich."
-    ctaLabel="Deine Website besprechen"
+    title="Lass uns reden."
+    text="Erzähl kurz, was du vorhast. Das erste Gespräch ist unverbindlich."
+    ctaLabel="Website anfragen"
   />
 </BaseLayout>
 
 <style>
   .faq-title {
     margin-block: 1.25rem 0.5rem;
-    font-size: clamp(2.4rem, 4.6vw, 4.6rem);
+    font-size: clamp(3rem, 7vw, 7rem);
   }
 </style>

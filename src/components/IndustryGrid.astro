@@ -95,7 +95,7 @@ const items = industries.map((ind) => ({
   .igrid__link:has(.igrid__name:focus-visible) {
     outline: 3px solid var(--focus-ring);
     outline-offset: 3px;
-    border-radius: 2px;
+    border-radius: 0;
   }
 
   /* Fehlt das Motiv, bleibt exakt derselbe Raum frei: gleiche Breite,
@@ -115,7 +115,7 @@ const items = industries.map((ind) => ({
   .igrid__gap {
     margin-block-end: 1.4rem;
     overflow: hidden;
-    border-radius: var(--radius-card);
+    border-radius: 0;
   }
   .igrid__link :global(.igrid__media img) {
     transition: transform 900ms var(--ease-out);

@@ -45,9 +45,15 @@ const letters = 'KERNSEITE'.split('');
       <div class="ft__group ft__contact">
         <h2 class="ft__label">Kontakt</h2>
         <ul role="list">
-          <li><a href={`mailto:${c.email}`}>{c.email}</a></li>
+          <li class="ft__mail">
+            <a href={`mailto:${c.email}`}>{c.email}</a>
+            <button type="button" class="ft__copy-btn" data-copy={c.email}>Kopieren</button>
+          </li>
           <li><a href={tel}>{c.phone}</a></li>
           <li class="ft__region">{site.region.claim}</li>
+          <li class="ft__clock">
+            Ortszeit <time data-clock>--:--</time> Uhr
+          </li>
         </ul>
         <a class="btn btn--primary ft__cta" href="/kontakt/" data-magnetic
           >Website anfragen <span aria-hidden="true">↗</span></a
@@ -59,8 +65,7 @@ const letters = 'KERNSEITE'.split('');
   <a class="ft__word" href="/" aria-label="KERNSEITE, zur Startseite" data-reveal="fade">
     <span class="ft__word-inner" aria-hidden="true">
       {letters.map((l) => <span class="ft__letter">{l}</span>)}<span
-        class="ft__letter ft__letter--dot">.</span
-      >
+        class="ft__letter ft__letter--core"></span>
     </span>
   </a>
 
@@ -113,7 +118,6 @@ const letters = 'KERNSEITE'.split('');
     font-size: 1.5rem;
     text-decoration: none;
     color: var(--text);
-    --logo-ground: var(--ks-black);
   }
   .ft__brand p {
     max-width: 34ch;
@@ -192,8 +196,14 @@ const letters = 'KERNSEITE'.split('');
       transform 600ms var(--ease-out),
       color 400ms var(--ease-out);
   }
-  .ft__letter--dot {
-    color: var(--ks-cyan);
+  /* Der Kern als Quadrat statt Punkt, wie im Logo. */
+  .ft__letter--core {
+    inline-size: 0.2em;
+    block-size: 0.2em;
+    margin-inline-start: 0.06em;
+    align-self: flex-end;
+    margin-block-end: 0.02em;
+    background: var(--ks-cyan);
   }
   .ft__letter:hover {
     transform: translateY(-0.08em);
@@ -240,6 +250,34 @@ const letters = 'KERNSEITE'.split('');
     transition-delay: 360ms;
   }
 
+  .ft__mail {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem 0.75rem;
+  }
+  .ft__copy-btn {
+    min-height: 32px;
+    padding: 0.2rem 0.6rem;
+    border: 1px solid var(--line-strong);
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition:
+      border-color 300ms var(--ease-out),
+      color 300ms var(--ease-out);
+  }
+  .ft__copy-btn:hover,
+  .ft__copy-btn:focus-visible {
+    border-color: var(--ks-cyan);
+    color: var(--ks-cyan);
+  }
+  .ft__clock {
+    padding-block: 0.4rem;
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+  }
   .ft__bottom {
     display: flex;
     flex-wrap: wrap;

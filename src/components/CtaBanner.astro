@@ -4,6 +4,7 @@
  * Kein Kasten, kein Rahmen: die Fläche selbst ist der Handlungsaufruf.
  */
 import { activeCompany } from '../lib/config-validation';
+import Marquee from './home/Marquee.astro';
 
 interface Props {
   title?: string;
@@ -33,17 +34,7 @@ const {
 ---
 
 <section class="cta section--cyan">
-  <svg class="cta__badge" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
-    <defs>
-      <path id="cta-ring" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0"></path>
-    </defs>
-    <text
-      ><textPath href="#cta-ring" textLength="486" lengthAdjust="spacing"
-        >Website anfragen · Website anfragen ·</textPath
-      ></text
-    >
-    <circle cx="100" cy="100" r="16"></circle>
-  </svg>
+  <Marquee items={[ctaLabel]} tone="dark" />
   <div class="content cta__inner">
     <h2 class="cta__title" data-split>
       {
@@ -67,9 +58,16 @@ const {
       >
       {
         secondaryLabel && secondaryHref && (
-          <a class="cta__mailto" href={secondaryHref}>
-            {secondaryLabel}
-          </a>
+          <span class="cta__mail">
+            <a class="cta__mailto" href={secondaryHref}>
+              {secondaryLabel}
+            </a>
+            {secondaryHref.startsWith('mailto:') && (
+              <button type="button" class="cta__copy" data-copy={secondaryLabel}>
+                Kopieren
+              </button>
+            )}
+          </span>
         )
       }
     </div>
@@ -80,45 +78,11 @@ const {
   .cta {
     position: relative;
     overflow: clip;
-    padding-block: calc(var(--section-y) * 1.2);
+    padding-block: 0 calc(var(--section-y) * 1.1);
   }
-  .cta__badge {
-    position: absolute;
-    right: var(--gutter);
-    top: 50%;
-    display: none;
-    inline-size: clamp(10rem, 16vw, 15rem);
-    translate: 0 -50%;
-    animation: cta-spin 22s linear infinite;
-  }
-  .cta__badge text {
-    font-family: var(--font-display);
-    font-size: 17px;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    fill: var(--ks-black);
-  }
-  .cta__badge circle {
-    fill: var(--ks-black);
-  }
-  @keyframes cta-spin {
-    to {
-      rotate: 360deg;
-    }
-  }
-  @media (min-width: 72rem) {
-    .cta__badge {
-      display: block;
-    }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .cta__badge {
-      animation: none;
-    }
-  }
-  :global(:root[data-a11y-motion='reduced']) .cta__badge {
-    animation: none;
+  .cta :global(.marquee) {
+    margin-block-end: clamp(2rem, 5vw, 4rem);
+    border-block-end: 2px solid var(--ks-black);
   }
   .cta__inner {
     display: grid;
@@ -129,7 +93,7 @@ const {
     min-inline-size: 0;
   }
   .cta__title {
-    font-size: clamp(2.8rem, 7.4vw, 8rem);
+    font-size: clamp(3rem, 9vw, 10rem);
     font-weight: 800;
     line-height: 0.98;
     letter-spacing: -0.055em;
@@ -164,10 +128,34 @@ const {
     gap: var(--space-lg) var(--space-xl);
     margin-block-start: var(--space-md);
   }
+  .cta__mail {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .cta__copy {
+    min-height: 44px;
+    padding: 0.4rem 0.9rem;
+    border: 2px solid var(--ks-black);
+    background: transparent;
+    color: var(--ks-black);
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition:
+      background-color 300ms var(--ease-out),
+      color 300ms var(--ease-out);
+  }
+  .cta__copy:hover,
+  .cta__copy:focus-visible {
+    background: var(--ks-black);
+    color: var(--ks-cyan);
+  }
   .cta__mailto {
     /* Die E-Mail-Adresse ist ein langes zusammenhängendes Wort. */
     overflow-wrap: anywhere;
-    font-size: var(--fs-small);
+    font-size: 1.1rem;
+    font-weight: 600;
     color: var(--ks-black);
     text-underline-offset: 0.3em;
   }

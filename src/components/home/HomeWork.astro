@@ -1,263 +1,246 @@
 ---
 /**
- * HomeWork – ausgewählte Arbeiten als Karten, die beim Scrollen
- * übereinandergleiten (siehe `[data-stack]` in src/scripts/motion.ts).
+ * HomeWork – die Arbeiten als Galerie, die beim Scrollen seitlich durchfährt.
+ * Auf großen Bildschirmen klebt der Abschnitt, während die Spur von rechts
+ * nach links wandert (`[data-pin]` + `[data-hscroll]`). Auf dem Handy und bei
+ * reduzierter Bewegung stehen die Projekte einfach untereinander.
  */
 import { featuredProjects } from '../../config/cases';
 ---
 
-<section class="work section" id="arbeiten" aria-labelledby="work-title">
-  <div class="content">
-    <div class="section-top section-top--split">
-      <div>
-        <p class="kicker" aria-hidden="true">Ausgewählte Arbeiten</p>
-        <h2 id="work-title" class="display-2" data-split>Websites, die schon Kunden bringen.</h2>
-      </div>
-      <a class="link-arrow" href="/arbeiten/" data-reveal
-        >Alle Projekte <span class="arrow" aria-hidden="true">→</span></a
-      >
+<section class="work" id="arbeiten" aria-labelledby="work-title" data-pin>
+  <div class="work__stage">
+    <div class="content work__head">
+      <h2 id="work-title" class="work__title" data-split>Arbeiten</h2>
+      <p class="work__count" aria-hidden="true">
+        <span>{String(featuredProjects.length).padStart(2, '0')}</span> echte Projekte, alle online
+      </p>
     </div>
-
-    <div class="work__stack" data-stack>
-      {
-        featuredProjects.map((p, i) => (
-          <article class="work__card" aria-labelledby={`work-${p.slug}`}>
-            <div class="work__text">
-              <p class="work__meta">
-                <span class="work__index">0{i + 1}</span>
-                <span>{p.industryLabel}</span>
-              </p>
-              <h3 id={`work-${p.slug}`} class="work__title">
-                <a href={p.href}>
-                  {p.title.split(' · ')[0]}
-                  {p.title.includes(' · ') && (
-                    <span class="work__sub">{p.title.split(' · ')[1]}</span>
-                  )}
-                </a>
-              </h3>
-              <p class="work__blurb">{p.blurbs?.home ?? p.teaser}</p>
-              <span class="work__cta" aria-hidden="true">
-                Projekt ansehen <span>→</span>
-              </span>
-            </div>
-            <div class="work__visual">
-              <div class="work__browser">
-                <span class="work__bar" aria-hidden="true">
-                  <i />
-                  <i />
-                  <i />
-                  <span class="work__url">{p.liveLabel}</span>
+    <div class="work__track" data-hscroll>
+      <ul class="work__list" role="list">
+        {
+          featuredProjects.map((p, i) => (
+            <li class="work__item">
+              <a class="work__card" href={p.href} data-cursor="Ansehen">
+                <span class="work__visual" data-tilt>
+                  <img
+                    class="work__shot"
+                    src={p.screenshotDesktop.src}
+                    srcset={p.screenshotDesktop.srcset}
+                    sizes="(min-width: 64rem) 58vw, 92vw"
+                    width={p.screenshotDesktop.width}
+                    height={p.screenshotDesktop.height}
+                    alt={p.screenshotDesktop.alt}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <img
+                    class="work__phone"
+                    src={p.screenshotMobile.src}
+                    srcset={p.screenshotMobile.srcset}
+                    sizes="(min-width: 64rem) 12vw, 26vw"
+                    width={p.screenshotMobile.width}
+                    height={p.screenshotMobile.height}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                  />
                 </span>
-                <img
-                  src={p.screenshotDesktop.src}
-                  srcset={p.screenshotDesktop.srcset}
-                  sizes="(min-width: 64rem) 52vw, 92vw"
-                  width={p.screenshotDesktop.width}
-                  height={p.screenshotDesktop.height}
-                  alt={p.screenshotDesktop.alt}
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-              <div class="work__phone">
-                <img
-                  src={p.screenshotMobile.src}
-                  srcset={p.screenshotMobile.srcset}
-                  sizes="(min-width: 64rem) 12vw, 28vw"
-                  width={p.screenshotMobile.width}
-                  height={p.screenshotMobile.height}
-                  alt={p.screenshotMobile.alt}
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-            </div>
-          </article>
-        ))
-      }
+                <span class="work__meta">
+                  <span class="work__index">{String(i + 1).padStart(2, '0')}</span>
+                  <span class="work__name">{p.title.split(' · ').at(-1)}</span>
+                  <span class="work__industry">{p.industryLabel}</span>
+                </span>
+              </a>
+            </li>
+          ))
+        }
+        <li class="work__item work__item--all">
+          <a class="work__all" href="/arbeiten/" data-cursor="Alle">
+            Alle Projekte <span aria-hidden="true">→</span>
+          </a>
+        </li>
+      </ul>
     </div>
   </div>
 </section>
 
 <style>
-  .work__stack {
-    display: grid;
-    gap: clamp(1.25rem, 3vw, 2.5rem);
-  }
-  .work__card {
-    position: sticky;
-    top: calc(var(--header-h) + 1rem);
-    display: grid;
-    gap: clamp(1.5rem, 3vw, 3rem);
-    padding: clamp(1.25rem, 3vw, 3rem);
-    border: 1px solid var(--line);
-    border-radius: calc(var(--radius-card) * 1.4);
-    background: var(--ks-cream);
-    overflow: hidden;
-    transform: scale(var(--stack-scale, 1));
-    transform-origin: 50% 0;
-    box-shadow: 0 -30px 60px rgba(0, 0, 0, 0.35);
-  }
-  .work__card::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--ks-black);
-    opacity: var(--stack-dim, 0);
-    pointer-events: none;
-  }
-  .work__card:nth-child(2) {
-    top: calc(var(--header-h) + 1.75rem);
-  }
-  .work__card:nth-child(3) {
-    top: calc(var(--header-h) + 2.5rem);
-  }
-  .work__card:nth-child(4) {
-    top: calc(var(--header-h) + 3.25rem);
-  }
-  .work__text {
+  .work {
     position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+    padding-block: var(--section-y);
   }
-  .work__meta {
+  .work__head {
     display: flex;
-    gap: 1rem;
-    font-size: 0.9rem;
-    color: var(--text-muted);
-  }
-  .work__index {
-    color: var(--ks-cyan);
-    font-weight: 600;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1rem 3rem;
+    margin-block-end: clamp(2rem, 4vw, 3.5rem);
   }
   .work__title {
-    font-size: clamp(2rem, 4.2vw, 4rem);
-    font-weight: 800;
-    line-height: 1.02;
-    letter-spacing: -0.045em;
+    font-size: clamp(3.6rem, 13vw, 13rem);
+    line-height: 0.85;
+    letter-spacing: -0.07em;
   }
-  .work__title a {
-    color: inherit;
+  .work__count {
+    font-size: clamp(1.1rem, 1.5vw, 1.4rem);
+    color: var(--text-muted);
+  }
+  .work__count span {
+    color: var(--ks-cyan);
+    font-weight: 700;
+  }
+  .work__list {
+    display: grid;
+    gap: clamp(3rem, 6vw, 5rem);
+    margin: 0;
+    padding: 0 var(--gutter);
+  }
+  .work__card {
+    display: grid;
+    gap: 1.25rem;
+    color: var(--text);
     text-decoration: none;
   }
-  .work__sub {
-    display: block;
-    margin-block-start: 0.5rem;
-    font-size: 0.45em;
-    letter-spacing: -0.03em;
-    color: var(--text-muted);
-  }
-  /* Die ganze Karte ist klickbar, der Linktext bleibt der Projektname. */
-  .work__title a::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: 2;
-  }
-  .work__card:has(.work__title a:focus-visible) {
-    outline: 2px solid var(--ks-cyan);
-    outline-offset: 4px;
-  }
-  .work__blurb {
-    max-width: 40ch;
-    color: var(--text-muted);
-  }
-  .work__cta {
-    display: inline-flex;
-    gap: 0.6rem;
-    margin-block-start: auto;
-    padding-block-start: 1rem;
-    font-weight: 600;
-    color: var(--text);
-  }
-  .work__cta span {
-    color: var(--ks-cyan);
-    transition: transform 400ms var(--ease-out);
-  }
-  .work__card:hover .work__cta span {
-    transform: translateX(6px);
-  }
-
   .work__visual {
     position: relative;
-    padding-inline-end: 12%;
-    padding-block-end: 6%;
-  }
-  .work__browser {
+    display: block;
+    padding: clamp(1rem, 3vw, 3rem) clamp(3rem, 9vw, 7rem) clamp(1rem, 3vw, 3rem)
+      clamp(1rem, 3vw, 3rem);
+    background:
+      radial-gradient(
+        90% 90% at 100% 100%,
+        color-mix(in srgb, var(--ks-cyan) 18%, transparent),
+        transparent 60%
+      ),
+      var(--ks-cream);
+    border: 1px solid var(--line);
     overflow: hidden;
-    border: 1px solid var(--line-strong);
-    border-radius: 12px;
-    background: var(--ks-surface);
-    transition: transform 900ms var(--ease-out);
+    transition: border-color 500ms var(--ease-out);
   }
-  .work__card:hover .work__browser {
-    transform: translateY(-6px) rotate(-0.6deg);
+  .work__card:hover .work__visual,
+  .work__card:focus-visible .work__visual {
+    border-color: var(--ks-cyan);
   }
-  .work__bar {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 0.6rem 0.8rem;
-    border-block-end: 1px solid var(--line);
-  }
-  .work__bar i {
-    inline-size: 9px;
-    block-size: 9px;
-    border-radius: 50%;
-    background: var(--line-strong);
-  }
-  .work__url {
-    margin-inline: auto;
-    padding: 0.15rem 0.9rem;
-    border-radius: 999px;
-    background: var(--ks-paper);
-    font-size: 0.75rem;
-    color: var(--text-muted);
-  }
-  .work__browser img {
+  .work__shot {
+    display: block;
     inline-size: 100%;
     aspect-ratio: 16 / 10;
     object-fit: cover;
     object-position: top;
+    border: 1px solid var(--line-strong);
+    transition: transform 900ms var(--ease-out);
   }
   .work__phone {
     position: absolute;
-    right: 0;
-    bottom: 0;
-    inline-size: 24%;
-    overflow: hidden;
-    border: 5px solid #000;
-    border-radius: 22px;
-    background: #000;
-    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.55);
-    transition: transform 900ms var(--ease-out);
-  }
-  .work__card:hover .work__phone {
-    transform: translateY(-14px) rotate(2deg);
-  }
-  .work__phone img {
-    inline-size: 100%;
+    right: clamp(0.75rem, 2vw, 1.75rem);
+    bottom: clamp(0.75rem, 2vw, 1.75rem);
+    inline-size: 21%;
     aspect-ratio: 9 / 19.5;
     object-fit: cover;
     object-position: top;
-    border-radius: 17px;
+    border: 4px solid #000;
+    border-radius: 16px;
+    background: #000;
+    box-shadow: 0 24px 50px rgba(0, 0, 0, 0.55);
+    transition: transform 900ms var(--ease-out);
+  }
+  .work__card:hover .work__shot {
+    transform: scale(1.03);
+  }
+  .work__card:hover .work__phone {
+    transform: translateY(-14px) rotate(3deg);
+  }
+  .work__meta {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: baseline;
+    gap: 0.2rem 1rem;
+  }
+  .work__index {
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--ks-cyan);
+  }
+  .work__name {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 3.4vw, 3.4rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.05em;
+  }
+  .work__industry {
+    grid-column: 2;
+    color: var(--text-muted);
+    font-size: 1.05rem;
+  }
+  .work__all {
+    display: grid;
+    place-items: center;
+    min-height: 14rem;
+    border: 1px solid var(--line-strong);
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 4rem);
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    color: var(--text);
+    text-decoration: none;
+    transition:
+      background-color 400ms var(--ease-out),
+      color 400ms var(--ease-out);
+  }
+  .work__all:hover,
+  .work__all:focus-visible {
+    background: var(--ks-cyan);
+    color: var(--ks-black);
   }
 
+  /* Große Bildschirme mit Bewegung: Spur fährt seitlich durch. */
   @media (min-width: 64rem) {
-    .work__card {
-      grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr);
-      align-items: stretch;
-      min-height: min(78vh, 46rem);
+    :global(html.has-motion) .work {
+      height: 420vh;
+      padding-block: 0;
     }
-    .work__text {
-      padding-block: 1rem;
+    :global(html.has-motion) .work__stage {
+      position: sticky;
+      top: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      block-size: 100vh;
+      padding-block-start: var(--header-h);
+      overflow: hidden;
+    }
+    :global(html.has-motion) .work__track {
+      overflow: visible;
+    }
+    :global(html.has-motion) .work__list {
+      display: flex;
+      inline-size: max-content;
+      gap: 4vw;
+      padding-inline: var(--gutter) 6vw;
+      transform: translate3d(var(--shift, 0px), 0, 0);
+      will-change: transform;
+    }
+    :global(html.has-motion) .work__item {
+      inline-size: min(58vw, calc((100vh - 18rem) * 1.6));
+    }
+    :global(html.has-motion) .work__item--all {
+      inline-size: 26vw;
+      align-self: stretch;
+      display: grid;
+    }
+    :global(html.has-motion) .work__head {
+      margin-block-end: 2rem;
+    }
+    :global(html.has-motion) .work__title {
+      font-size: clamp(4rem, 9vw, 9rem);
     }
   }
-  @media (max-width: 40rem) {
-    .work__card {
-      position: relative;
-      top: 0;
+  @media (min-width: 64rem) {
+    .work__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 </style>

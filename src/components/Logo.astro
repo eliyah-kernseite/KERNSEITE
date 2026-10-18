@@ -1,76 +1,42 @@
 ---
 /**
- * Logo – Bildzeichen und Wortmarke von KERNSEITE.
+ * Logo – die Wortmarke KERNSEITE mit dem türkisen Kern als Quadrat.
  *
- * Das Zeichen zeigt eine Seite mit ihrem Kern: eine helle, hochkant
- * stehende Fläche und der türkise Punkt, der auch die Wortmarke abschließt.
- * Gleichzeitig liest es sich als abstraktes „K.“. Dieselbe Form liegt als
- * `public/favicon.svg` vor.
+ * Das Quadrat ersetzt den Punkt und taucht überall wieder auf: im Favicon
+ * (`public/favicon.svg`, türkise Kachel mit „KS“), im großen Schriftzug im
+ * Footer und im Cursor. Beim Überfahren springt der Kern kurz nach oben.
  */
 interface Props {
-  /** Nur das Zeichen, ohne Wortmarke. */
-  markOnly?: boolean;
   class?: string;
 }
-const { markOnly = false, class: className } = Astro.props;
+const { class: className } = Astro.props;
 ---
 
 <span class:list={['logo', className]}>
-  <svg class="logo__mark" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
-    <rect class="logo__page" x="13" y="12" width="24" height="40" rx="5"></rect>
-    <circle class="logo__cut" cx="40" cy="32" r="12.5"></circle>
-    <circle class="logo__core" cx="40" cy="32" r="9"></circle>
-  </svg>
-  {
-    !markOnly && (
-      <span class="logo__word">
-        KERNSEITE<span class="logo__dot">.</span>
-      </span>
-    )
-  }
+  KERNSEITE<span class="logo__core" aria-hidden="true"></span>
 </span>
 
 <style>
   .logo {
     display: inline-flex;
-    align-items: center;
-    gap: 0.45em;
+    align-items: baseline;
     font-family: var(--font-display);
     font-weight: 800;
-    letter-spacing: -0.045em;
+    letter-spacing: -0.05em;
     line-height: 1;
     color: var(--text);
     white-space: nowrap;
   }
-  .logo__mark {
-    inline-size: 1.55em;
-    block-size: 1.55em;
-    flex: none;
-    /* Das Zeichen sitzt ohne Kachel direkt auf dem Grund. */
-    margin-inline: -0.28em -0.12em;
-  }
-  .logo__page {
-    fill: currentColor;
-    transition: transform 500ms var(--ease-out);
-    transform-origin: 25px 32px;
-  }
-  .logo__cut {
-    fill: var(--logo-ground, var(--bg));
-  }
   .logo__core {
-    fill: var(--ks-cyan);
+    display: inline-block;
+    inline-size: 0.26em;
+    block-size: 0.26em;
+    margin-inline-start: 0.08em;
+    background: var(--ks-cyan);
     transition: transform 500ms var(--ease-out);
-    transform-origin: 40px 32px;
-  }
-  .logo__dot {
-    color: var(--ks-cyan);
   }
   :global(a:hover) > .logo .logo__core,
   :global(a:focus-visible) > .logo .logo__core {
-    transform: scale(1.18);
-  }
-  :global(a:hover) > .logo .logo__page,
-  :global(a:focus-visible) > .logo .logo__page {
-    transform: rotate(-6deg);
+    transform: translateY(-0.5em) rotate(90deg);
   }
 </style>

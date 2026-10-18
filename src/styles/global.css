@@ -170,7 +170,7 @@ strong {
 :focus-visible {
   outline: 3px solid var(--accent);
   outline-offset: 3px;
-  border-radius: 2px;
+  border-radius: 0;
 }
 .on-dark :focus-visible,
 .section--dark :focus-visible,
@@ -406,7 +406,7 @@ strong {
   font-size: var(--fs-small);
   text-decoration: none;
   border: 1.5px solid transparent;
-  border-radius: var(--radius-md);
+  border-radius: 0;
   box-shadow: none;
   transition:
     background-color var(--dur-fast) var(--ease-out),

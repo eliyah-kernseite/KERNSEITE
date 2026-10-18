@@ -62,4 +62,4 @@ Die Referenz Bestattungen Gorhau und alle Konzeptstudien wurden entfernt, ebenso
 
 Die fünf neuen Fotos der Startseite und der Seite „Über uns“ (Gruppe `agentur`) stammen von Unsplash und zeigen Werkstatt und Arbeitsplatz als Stimmung, nicht das KERNSEITE-Team oder eigene Räume.
 
-Logo, Favicon, App-Symbole (`apple-touch-icon.png`, `icon-192.png`, `icon-512.png`) und das Open-Graph-Bild wurden mit der neuen Bildmarke (Seite mit leuchtendem Kern) neu gestaltet.
+Logo (Wortmarke mit türkisem Kern-Quadrat), Favicon („KS“ auf türkiser Kachel, Konturen aus Bricolage Grotesque), App-Symbole (`apple-touch-icon.png`, `icon-192.png`, `icon-512.png`) und das Open-Graph-Bild wurden neu gestaltet.

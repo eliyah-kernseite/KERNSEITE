@@ -13,7 +13,21 @@
  *   [data-stack]           Projektkarten, die beim Scrollen übereinander gleiten
  *   [data-progress]        Linie, die sich mit dem Scrollfortschritt eines Abschnitts füllt
  *   [data-magnetic]        Schaltfläche folgt dem Mauszeiger ein kleines Stück
+ *   [data-pin]             hoher Abschnitt mit klebendem Inhalt; setzt --p (0 bis 1)
+ *   [data-hscroll]         Spur in einem [data-pin], die beim Scrollen seitlich fährt
+ *   [data-drift]           Zeile wandert beim Scrollen seitlich (Wert = Weg in vw)
+ *   [data-marquee]         Laufband, das mit der Scrollgeschwindigkeit schneller wird
+ *   [data-cursor]          eigener Mauszeiger zeigt hier ein Wort (z. B. „Ansehen“)
+ *   [data-spotlight]       Lichtfleck folgt dem Mauszeiger auf einer Fläche
+ *   [data-tilt]            Fläche kippt leicht zum Mauszeiger
+ *   [data-preview]         Liste, deren Zeilen ein Bild am Mauszeiger zeigen (data-img)
+ *   [data-copy]            Schaltfläche kopiert data-copy in die Zwischenablage
+ *   [data-clock]           zeigt die aktuelle Uhrzeit in Würzburg
+ *   [data-scroll-progress] Lesefortschritt der Seite als --scroll
+ *
+ * Weiches Scrollen übernimmt Lenis, ebenfalls nur ohne Bewegungswunsch.
  */
+import Lenis from 'lenis';
 
 const root = document.documentElement;
 const media = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -93,7 +107,9 @@ function setupScroll(): void {
   const parallax = Array.from(document.querySelectorAll<HTMLElement>('[data-parallax]'));
   const stacks = Array.from(document.querySelectorAll<HTMLElement>('[data-stack] > *'));
   const progress = Array.from(document.querySelectorAll<HTMLElement>('[data-progress]'));
-  if (!scrubs.length && !parallax.length && !stacks.length && !progress.length) return;
+  const pins = Array.from(document.querySelectorAll<HTMLElement>('[data-pin]'));
+  const drifts = Array.from(document.querySelectorAll<HTMLElement>('[data-drift]'));
+  const pageBars = Array.from(document.querySelectorAll<HTMLElement>('[data-scroll-progress]'));
 
   let ticking = false;
   const update = (): void => {
@@ -130,6 +146,34 @@ function setupScroll(): void {
       card.style.setProperty('--stack-dim', (covered * 0.55).toFixed(3));
     });
 
+    for (const pin of pins) {
+      const r = pin.getBoundingClientRect();
+      const span = Math.max(1, r.height - vh);
+      const p = Math.min(1, Math.max(0, -r.top / span));
+      pin.style.setProperty('--p', p.toFixed(4));
+      const track = pin.querySelector<HTMLElement>('[data-hscroll]');
+      if (track) {
+        // Breite der Liste selbst messen: Ihre Verschiebung ändert scrollWidth.
+        const inner = track.firstElementChild as HTMLElement | null;
+        const distance = Math.max(0, (inner?.offsetWidth ?? 0) - track.clientWidth);
+        track.style.setProperty('--shift', `${(-p * distance).toFixed(1)}px`);
+      }
+    }
+
+    for (const el of drifts) {
+      const r = el.getBoundingClientRect();
+      if (r.bottom < -200 || r.top > vh + 200) continue;
+      const p = (vh - r.top) / (vh + r.height) - 0.5;
+      const amount = Number(el.dataset.drift) || 10;
+      el.style.setProperty('--drift', `${(p * amount).toFixed(2)}vw`);
+    }
+
+    if (pageBars.length) {
+      const max = document.documentElement.scrollHeight - vh;
+      const p = max > 0 ? Math.min(1, window.scrollY / max) : 0;
+      for (const bar of pageBars) bar.style.setProperty('--scroll', p.toFixed(4));
+    }
+
     for (const el of progress) {
       const host = el.closest<HTMLElement>('[data-progress-host]') ?? el.parentElement;
       if (!host) continue;
@@ -147,6 +191,167 @@ function setupScroll(): void {
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', onScroll, { passive: true });
   update();
+}
+
+/* --- Laufband mit Scrollgeschwindigkeit --------------------------------- */
+function setupMarquees(): void {
+  const items = Array.from(document.querySelectorAll<HTMLElement>('[data-marquee]')).map((el) => ({
+    el,
+    track: el.firstElementChild as HTMLElement,
+    x: 0,
+    dir: el.dataset.marquee === 'right' ? 1 : -1,
+  }));
+  if (!items.length) return;
+  let lastY = window.scrollY;
+  let boost = 0;
+  const tick = (): void => {
+    const y = window.scrollY;
+    const v = y - lastY;
+    lastY = y;
+    // Scrollen gibt Schub, der sanft ausläuft; die Richtung folgt dem Scrollen.
+    boost += (Math.min(40, Math.abs(v)) - boost) * 0.1;
+    const sign = v < 0 ? -1 : 1;
+    for (const m of items) {
+      if (!m.track) continue;
+      const half = m.track.scrollWidth / 2;
+      m.x += (0.6 + boost * 0.35) * m.dir * (v === 0 ? 1 : sign);
+      if (m.x <= -half) m.x += half;
+      if (m.x > 0) m.x -= half;
+      m.track.style.transform = `translate3d(${m.x.toFixed(1)}px,0,0)`;
+    }
+    if (!reduced()) requestAnimationFrame(tick);
+    else items.forEach((m) => m.track && (m.track.style.transform = ''));
+  };
+  requestAnimationFrame(tick);
+}
+
+/* --- Eigener Mauszeiger -------------------------------------------------- */
+function setupCursor(): void {
+  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  const cursor = document.createElement('div');
+  cursor.className = 'cursor';
+  cursor.setAttribute('aria-hidden', 'true');
+  cursor.innerHTML = '<span class="cursor__label"></span>';
+  document.body.append(cursor);
+  const label = cursor.firstElementChild as HTMLElement;
+  let x = -100;
+  let y = -100;
+  let cx = x;
+  let cy = y;
+  window.addEventListener(
+    'pointermove',
+    (e) => {
+      x = e.clientX;
+      y = e.clientY;
+      cursor.classList.add('is-on');
+      const target = (e.target as Element).closest<HTMLElement>(
+        '[data-cursor], a, button, summary, label',
+      );
+      const word = target?.closest<HTMLElement>('[data-cursor]')?.dataset.cursor ?? '';
+      cursor.classList.toggle('is-link', !!target && !word);
+      cursor.classList.toggle('is-label', !!word);
+      if (word && label.textContent !== word) label.textContent = word;
+    },
+    { passive: true },
+  );
+  document.addEventListener('pointerleave', () => cursor.classList.remove('is-on'));
+  const loop = (): void => {
+    cx += (x - cx) * 0.2;
+    cy += (y - cy) * 0.2;
+    cursor.style.transform = `translate3d(${cx.toFixed(1)}px,${cy.toFixed(1)}px,0)`;
+    if (!reduced()) requestAnimationFrame(loop);
+    else cursor.remove();
+  };
+  requestAnimationFrame(loop);
+}
+
+/* --- Lichtfleck und Kippen ----------------------------------------------- */
+function setupPointerFx(): void {
+  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  for (const el of document.querySelectorAll<HTMLElement>('[data-spotlight]')) {
+    el.addEventListener('pointermove', (e) => {
+      const r = el.getBoundingClientRect();
+      el.style.setProperty('--sx', `${e.clientX - r.left}px`);
+      el.style.setProperty('--sy', `${e.clientY - r.top}px`);
+    });
+  }
+  for (const el of document.querySelectorAll<HTMLElement>('[data-tilt]')) {
+    el.addEventListener('pointermove', (e) => {
+      if (reduced()) return;
+      const r = el.getBoundingClientRect();
+      const rx = ((e.clientY - r.top) / r.height - 0.5) * -6;
+      const ry = ((e.clientX - r.left) / r.width - 0.5) * 8;
+      el.style.setProperty('--rx', `${rx.toFixed(2)}deg`);
+      el.style.setProperty('--ry', `${ry.toFixed(2)}deg`);
+    });
+    el.addEventListener('pointerleave', () => {
+      el.style.setProperty('--rx', '0deg');
+      el.style.setProperty('--ry', '0deg');
+    });
+  }
+  for (const list of document.querySelectorAll<HTMLElement>('[data-preview]')) {
+    // Das Vorschaubild entsteht erst beim ersten Überfahren, damit kein
+    // leeres <img> im Dokument steht.
+    let box: HTMLDivElement | undefined;
+    let img: HTMLImageElement | undefined;
+    const ensure = (): void => {
+      if (box) return;
+      box = document.createElement('div');
+      box.className = 'preview';
+      box.setAttribute('aria-hidden', 'true');
+      img = document.createElement('img');
+      img.alt = '';
+      img.decoding = 'async';
+      box.append(img);
+      document.body.append(box);
+    };
+    for (const row of list.querySelectorAll<HTMLElement>('[data-img]')) {
+      row.addEventListener('pointerenter', () => {
+        if (reduced()) return;
+        ensure();
+        img!.src = row.dataset.img ?? '';
+        box!.classList.add('is-on');
+      });
+      row.addEventListener('pointerleave', () => box?.classList.remove('is-on'));
+    }
+    list.addEventListener('pointermove', (e) => {
+      if (box) box.style.transform = `translate3d(${e.clientX + 24}px,${e.clientY - 90}px,0)`;
+    });
+  }
+}
+
+/* --- Kleine Helfer, die auch ohne Bewegung laufen ------------------------ */
+function setupUtilities(): void {
+  for (const btn of document.querySelectorAll<HTMLButtonElement>('[data-copy]')) {
+    const original = btn.textContent;
+    btn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(btn.dataset.copy ?? '');
+        btn.textContent = 'Kopiert';
+      } catch {
+        window.location.href = `mailto:${btn.dataset.copy}`;
+        return;
+      }
+      window.setTimeout(() => (btn.textContent = original), 1800);
+    });
+  }
+  const clocks = document.querySelectorAll<HTMLElement>('[data-clock]');
+  if (clocks.length) {
+    const fmt = new Intl.DateTimeFormat('de-DE', {
+      hour: '2-digit',
+      minute: '2-digit',
+      timeZone: 'Europe/Berlin',
+    });
+    const set = (): void => clocks.forEach((c) => (c.textContent = fmt.format(new Date())));
+    set();
+    window.setInterval(set, 15000);
+  }
+}
+
+/* --- Weiches Scrollen ----------------------------------------------------- */
+let lenis: Lenis | undefined;
+function setupSmoothScroll(): void {
+  lenis = new Lenis({ lerp: 0.11, anchors: { offset: -80 }, autoRaf: true });
 }
 
 /* --- Magnetische Schaltflächen ------------------------------------------- */
@@ -169,6 +374,7 @@ function setupMagnetic(): void {
 }
 
 function init(): void {
+  setupUtilities();
   if (reduced()) {
     root.classList.remove('has-motion');
     return;
@@ -179,11 +385,19 @@ function init(): void {
   root.classList.add('motion-ready');
   setupScroll();
   setupMagnetic();
+  setupMarquees();
+  setupCursor();
+  setupPointerFx();
+  setupSmoothScroll();
 }
 
 init();
 
 // Wird „Bewegung reduzieren“ später eingeschaltet, sofort alles zeigen.
 new MutationObserver(() => {
-  if (reduced()) root.classList.remove('has-motion');
+  if (reduced()) {
+    root.classList.remove('has-motion');
+    lenis?.destroy();
+    lenis = undefined;
+  }
 }).observe(root, { attributes: true, attributeFilter: ['data-a11y-motion'] });

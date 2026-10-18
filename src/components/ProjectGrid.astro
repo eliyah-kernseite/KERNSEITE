@@ -18,9 +18,7 @@ const { context } = Astro.props;
         <div class="project__visual">
           <div class="project__browser">
             <span class="project__bar" aria-hidden="true">
-              <i />
-              <i />
-              <i />
+              {project.liveLabel}
             </span>
             <img
               src={project.screenshotDesktop.src}
@@ -80,7 +78,7 @@ const { context } = Astro.props;
     padding: clamp(1.25rem, 3vw, 2.5rem) clamp(2.5rem, 7vw, 4.5rem) clamp(1.25rem, 3vw, 2.5rem)
       clamp(1.25rem, 3vw, 2.5rem);
     border: 1px solid var(--line);
-    border-radius: var(--radius-card);
+    border-radius: 0;
     background:
       radial-gradient(
         120% 90% at 100% 100%,
@@ -97,21 +95,18 @@ const { context } = Astro.props;
   .project__browser {
     overflow: hidden;
     border: 1px solid var(--line-strong);
-    border-radius: 10px;
+    border-radius: 0;
     background: var(--ks-surface);
     transition: transform 900ms var(--ease-out);
   }
   .project__bar {
     display: flex;
     gap: 5px;
-    padding: 0.5rem 0.7rem;
+    min-block-size: 1.9rem;
+    padding: 0.45rem 0.7rem;
+    font-size: 0.7rem;
+    color: var(--text-muted);
     border-block-end: 1px solid var(--line);
-  }
-  .project__bar i {
-    inline-size: 8px;
-    block-size: 8px;
-    border-radius: 50%;
-    background: var(--line-strong);
   }
   .project__browser img {
     inline-size: 100%;
@@ -170,7 +165,7 @@ const { context } = Astro.props;
   .projects__item:has(.project__link:focus-visible) {
     outline: 2px solid var(--ks-cyan);
     outline-offset: 6px;
-    border-radius: var(--radius-card);
+    border-radius: 0;
   }
   .project__heading > span {
     font-size: 1.25rem;

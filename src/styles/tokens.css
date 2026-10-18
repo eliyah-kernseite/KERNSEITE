@@ -100,9 +100,9 @@
 
   /* --- Radien / Schatten (fast keine) ------------------------------------ */
   /* Kleine Radien, keine Pillenform. */
-  --radius-sm: 3px;
-  --radius-md: 6px;
-  --radius-image: 4px;
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-image: 0;
   --shadow-media: 0 40px 90px rgba(0, 0, 0, 0.45);
 
   /* --- Bewegung ---------------------------------------------------------- */

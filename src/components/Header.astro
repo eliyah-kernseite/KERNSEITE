@@ -12,6 +12,7 @@ function isActive(href: string): boolean {
 ---
 
 <header class="site-header" data-header>
+  <span class="site-header__progress" data-scroll-progress aria-hidden="true"></span>
   <div class="site-header__inner container">
     <a class="site-header__brand" href="/" aria-label="KERNSEITE, zur Startseite">
       <Logo />
@@ -105,6 +106,16 @@ function isActive(href: string): boolean {
     background: var(--ks-paper);
   }
 
+  /* Lesefortschritt: dünne türkise Linie an der Unterkante. */
+  .site-header__progress {
+    position: absolute;
+    inset: auto 0 -1px;
+    block-size: 2px;
+    background: var(--ks-cyan);
+    transform: scaleX(var(--scroll, 0));
+    transform-origin: left;
+    pointer-events: none;
+  }
   .site-header__inner {
     display: flex;
     align-items: center;
@@ -117,7 +128,6 @@ function isActive(href: string): boolean {
     font-size: 1.45rem;
     text-decoration: none;
     color: var(--text);
-    --logo-ground: var(--ks-paper);
   }
 
   .primary-nav {
@@ -162,16 +172,23 @@ function isActive(href: string): boolean {
   .primary-nav__label {
     transform: translateY(0);
   }
-  .primary-nav a[aria-current='page']::before {
+  /* Aktuelle Seite: türkiser Strich unter dem Wort. */
+  .primary-nav a::before {
     content: '';
     position: absolute;
-    left: 50%;
-    bottom: 0.1rem;
-    inline-size: 5px;
-    block-size: 5px;
-    border-radius: 50%;
+    left: 0.2rem;
+    right: 0.2rem;
+    bottom: 0.2rem;
+    block-size: 2px;
     background: var(--ks-cyan);
-    transform: translateX(-50%);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 450ms var(--ease-out);
+  }
+  .primary-nav a[aria-current='page']::before,
+  .primary-nav a:hover::before {
+    transform: scaleX(1);
+    transform-origin: left;
   }
 
   .site-header__actions {
@@ -193,7 +210,6 @@ function isActive(href: string): boolean {
     block-size: 48px;
     margin-inline-end: -0.5rem;
     border: 0;
-    border-radius: 50%;
     background: transparent;
   }
   .burger__box {

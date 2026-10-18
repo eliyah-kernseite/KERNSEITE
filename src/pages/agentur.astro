@@ -4,7 +4,6 @@ import FaqSection from '../components/FaqSection.astro';
 import { faqPageJsonLd } from '../lib/jsonld';
 import CtaBanner from '../components/CtaBanner.astro';
 import Photo from '../components/Photo.astro';
-import Logo from '../components/Logo.astro';
 
 const breadcrumbs = [
   { name: 'Start', path: '/' },
@@ -80,12 +79,11 @@ const agencyFaqs = [
           </div>
         </div>
         <div class="story__badge">
-          <Logo markOnly />
+          <span class="story__core" aria-hidden="true"></span>
           <p>Eliyah Korb<br /><span>Gründer · Konzept · Webdesign</span></p>
         </div>
       </div>
       <div class="story__text">
-        <p class="kicker">Warum es KERNSEITE gibt</p>
         <h2 class="story__title" data-split>Gute Arbeit allein reicht nicht.</h2>
         <p class="lead" data-reveal>
           Ich habe selbst als Handwerker gearbeitet und bei meinem damaligen Chef miterlebt, wie
@@ -106,7 +104,6 @@ const agencyFaqs = [
   <section class="section section--cream">
     <div class="content">
       <div class="section-top">
-        <p class="kicker" aria-hidden="true">Arbeitsweise</p>
         <h2 class="display-2" data-split>Wie wir arbeiten.</h2>
       </div>
       <ul class="values" role="list" data-reveal-group>
@@ -183,7 +180,7 @@ const agencyFaqs = [
   }
   .story__frame {
     overflow: hidden;
-    border-radius: var(--radius-card);
+    border-radius: 0;
   }
   .story__badge {
     position: absolute;
@@ -194,12 +191,16 @@ const agencyFaqs = [
     gap: 0.9rem;
     padding: 0.9rem 1.2rem 0.9rem 0.9rem;
     border: 1px solid color-mix(in srgb, var(--ks-bone) 14%, transparent);
-    border-radius: 14px;
+    border-radius: 0;
     background: color-mix(in srgb, var(--ks-black) 72%, transparent);
     -webkit-backdrop-filter: blur(12px);
     backdrop-filter: blur(12px);
-    font-size: 2rem;
-    --logo-ground: var(--ks-black);
+  }
+  .story__core {
+    inline-size: 0.9rem;
+    block-size: 0.9rem;
+    flex: none;
+    background: var(--ks-cyan);
   }
   .story__badge p {
     font-size: 0.95rem;
@@ -245,7 +246,7 @@ const agencyFaqs = [
     align-content: start;
     padding: clamp(1.75rem, 3vw, 2.5rem);
     border: 1px solid var(--line);
-    border-radius: var(--radius-card);
+    border-radius: 0;
     background: var(--ks-paper);
     transition:
       border-color 500ms var(--ease-out),
@@ -307,7 +308,7 @@ const agencyFaqs = [
   }
   .region__photo {
     overflow: hidden;
-    border-radius: var(--radius-card);
+    border-radius: 0;
   }
   @media (min-width: 64rem) {
     .region {

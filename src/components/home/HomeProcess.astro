@@ -1,53 +1,38 @@
 ---
 /**
- * HomeProcess – der Ablauf in drei Schritten. Die Linie oben füllt sich mit
- * dem Scrollfortschritt (`[data-progress]`). Ausführlich: /prozess/.
+ * HomeProcess – der Ablauf in drei Schritten mit großen Ziffern. Die Linie
+ * füllt sich mit dem Scrollfortschritt (`[data-progress]`). Ausführlich: /prozess/.
  */
-import Photo from '../Photo.astro';
-import type { PhotoKey } from '../../config/photos';
-
-const steps: readonly { title: string; text: string; photo: PhotoKey }[] = [
+const steps = [
   {
-    title: 'Wir hören zu.',
-    text: 'Was bietest du an, und wen willst du erreichen? Daraus wird ein Vorschlag mit klarem Umfang und Preis.',
-    photo: 'laptop-notizbuch',
+    title: 'Wir reden.',
+    text: 'Du erzählst, was du vorhast. Ich sage dir ehrlich, was es braucht.',
   },
   {
-    title: 'Du siehst, was entsteht.',
-    text: 'Texte, Bilder und Design stimmen wir mit dir ab. Gebaut wird erst, wenn dir der Entwurf gefällt.',
-    photo: 'entwurf-skizze',
+    title: 'Du siehst alles.',
+    text: 'Texte, Bilder und Design stimmen wir ab, bevor gebaut wird.',
   },
-  {
-    title: 'Deine Website geht live.',
-    text: 'Vorher testen wir jede Seite und jeden Kontaktweg. Danach pflegst du selbst oder wir übernehmen das.',
-    photo: 'arbeitsplatz-abend',
-  },
-];
+  { title: 'Du gehst live.', text: 'Getestet auf Handy und Desktop, bereit für Google.' },
+] as const;
 ---
 
 <section class="process section" aria-labelledby="process-title" data-progress-host>
   <div class="content">
-    <div class="section-top section-top--split">
-      <div>
-        <p class="kicker" aria-hidden="true">So läuft es ab</p>
-        <h2 id="process-title" class="display-2" data-split>Du musst kein Webprofi sein.</h2>
-      </div>
+    <div class="process__head">
+      <h2 id="process-title" class="process__title" data-split>So einfach geht’s.</h2>
       <a class="link-arrow" href="/prozess/" data-reveal
         >Ablauf im Detail <span class="arrow" aria-hidden="true">→</span></a
       >
     </div>
-
     <div class="process__line" aria-hidden="true"><span data-progress></span></div>
-
     <ol class="process__steps" role="list" data-reveal-group>
       {
         steps.map((s, i) => (
-          <li class="process__step">
-            <div class="process__media">
-              <Photo photo={s.photo} ratio="4x3" sizes="(min-width: 56rem) 30vw, 100vw" />
-            </div>
-            <p class="process__num">Schritt {i + 1}</p>
-            <h3 class="process__title">{s.title}</h3>
+          <li class="process__step" data-spotlight>
+            <span class="process__num" aria-hidden="true">
+              {String(i + 1).padStart(2, '0')}
+            </span>
+            <h3 class="process__name">{s.title}</h3>
             <p class="process__text">{s.text}</p>
           </li>
         ))
@@ -57,61 +42,77 @@ const steps: readonly { title: string; text: string; photo: PhotoKey }[] = [
 </section>
 
 <style>
+  .process__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1rem 3rem;
+    margin-block-end: clamp(2rem, 4vw, 3.5rem);
+  }
+  .process__title {
+    font-size: clamp(3rem, 8vw, 8rem);
+    line-height: 0.9;
+    letter-spacing: -0.065em;
+  }
   .process__line {
-    position: relative;
     block-size: 2px;
-    margin-block-end: clamp(2rem, 4vw, 3rem);
-    background: var(--line);
-    overflow: hidden;
+    background: var(--line-strong);
+    margin-block-end: clamp(1.5rem, 3vw, 2.5rem);
   }
   .process__line span {
-    position: absolute;
-    inset: 0;
+    display: block;
+    block-size: 100%;
     background: var(--ks-cyan);
     transform: scaleX(var(--progress, 1));
     transform-origin: left;
   }
+  :global(html.has-motion) .process__line span {
+    transform: scaleX(var(--progress, 0));
+  }
   .process__steps {
     display: grid;
-    gap: clamp(2.5rem, 4vw, 2rem);
+    gap: 1px;
     margin: 0;
     padding: 0;
+    background: var(--line);
+    border: 1px solid var(--line);
   }
-  .process__media {
-    overflow: hidden;
-    border-radius: var(--radius-card);
-    margin-block-end: 1.5rem;
-  }
-  .process__media :global(img) {
-    transition: transform 1200ms var(--ease-out);
-  }
-  .process__step:hover .process__media :global(img) {
-    transform: scale(1.05);
+  .process__step {
+    display: grid;
+    align-content: start;
+    gap: 1rem;
+    padding: clamp(1.75rem, 3.5vw, 3rem);
+    background: var(--ks-paper);
   }
   .process__num {
-    font-size: 0.9rem;
-    font-weight: 600;
+    font-family: var(--font-display);
+    font-size: clamp(4rem, 9vw, 8.5rem);
+    font-weight: 800;
+    line-height: 0.85;
+    letter-spacing: -0.07em;
+    color: transparent;
+    -webkit-text-stroke: 2px var(--ks-cyan);
+    transition: color 500ms var(--ease-out);
+  }
+  .process__step:hover .process__num {
     color: var(--ks-cyan);
   }
-  .process__title {
-    margin-block: 0.5rem 0.75rem;
-    font-size: clamp(1.6rem, 2.4vw, 2.2rem);
-    font-weight: 800;
-    letter-spacing: -0.04em;
+  .process__name {
+    font-size: clamp(1.7rem, 2.6vw, 2.5rem);
+    line-height: 1.05;
   }
   .process__text {
+    max-width: 28ch;
     color: var(--text-muted);
-    max-width: 38ch;
+    font-size: 1.1rem;
+  }
+  :global([data-a11y-contrast='high']) .process__num {
+    color: var(--ks-cyan);
   }
   @media (min-width: 56rem) {
     .process__steps {
       grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-    .process__step:nth-child(2) {
-      margin-block-start: 4rem;
-    }
-    .process__step:nth-child(3) {
-      margin-block-start: 8rem;
     }
   }
 </style>

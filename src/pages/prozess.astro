@@ -78,7 +78,6 @@ const processFaqs = [
   <section class="section" aria-labelledby="steps-title">
     <div class="content">
       <div class="section-top">
-        <p class="kicker" aria-hidden="true">In fünf Schritten</p>
         <h2 id="steps-title" class="display-2" data-split>So entsteht deine Website.</h2>
       </div>
       <ol class="process-story" role="list" data-stack>
@@ -128,7 +127,7 @@ const processFaqs = [
     gap: 2rem;
     padding: clamp(1.5rem, 4vw, 4rem);
     border: 1px solid var(--line);
-    border-radius: calc(var(--radius-card) * 1.4);
+    border-radius: 0;
     background:
       radial-gradient(
         70% 90% at 100% 0%,
@@ -190,7 +189,7 @@ const processFaqs = [
   .process-story dl > div {
     padding: 1.25rem 1.4rem;
     border: 1px solid var(--line);
-    border-radius: var(--radius-card);
+    border-radius: 0;
     background: color-mix(in srgb, var(--ks-black) 45%, transparent);
   }
   .process-story dt {
