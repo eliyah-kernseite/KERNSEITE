@@ -2,7 +2,6 @@
 import PageLayout from '../layouts/PageLayout.astro';
 import CtaBanner from '../components/CtaBanner.astro';
 import FaqAccordion from '../components/FaqAccordion.astro';
-import Photo from '../components/Photo.astro';
 import { regions, type Region } from '../config/regions';
 import { resolvePhoto } from '../lib/photo';
 import { getService } from '../config/services';
@@ -49,15 +48,9 @@ const reference =
   lead={region.lead}
   breadcrumbs={breadcrumbs}
   extraJsonLd={[faqPageJsonLd(region.faqs)]}
+  photo={heroPhoto ?? undefined}
 >
   <section class="hero-img">
-    {
-      heroPhoto && (
-        <div class="content--wide content" data-reveal="scale">
-          <Photo photo={heroPhoto} ratio="21x9" sizes="100vw" priority />
-        </div>
-      )
-    }
     <div class="content branch-action">
       <a class="btn btn--primary btn--lg" href="/kontakt/" data-magnetic
         >{region.ctaLabel} <span aria-hidden="true">↗</span></a

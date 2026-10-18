@@ -48,6 +48,8 @@ FOCUS: dict[str, float] = {
     'zahnarztpraxen': 0.42,
     # Die Reinigungskraft steht am unteren Bildrand.
     'lokale-dienstleister': 1.0,
+    # Hochformat: Hand und Smartphone sitzen in der unteren Bildhälfte.
+    'google-karte': 0.72,
 }
 DEFAULT_FOCUS = 0.5
 

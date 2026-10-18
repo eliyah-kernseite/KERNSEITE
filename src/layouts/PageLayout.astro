@@ -1,6 +1,8 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Photo from '../components/Photo.astro';
+import type { PhotoKey } from '../config/photos';
 import type { Crumb } from '../components/Breadcrumbs.astro';
 import { breadcrumbJsonLd } from '../lib/jsonld';
 
@@ -17,6 +19,9 @@ interface Props {
   noindex?: boolean;
   /** Hintergrund des Seitenkopfs. */
   variant?: 'paper' | 'cream' | 'surface' | 'dark';
+  /** Großes Bild unter dem Seitenkopf, das sich beim Scrollen zur vollen Breite öffnet. */
+  photo?: PhotoKey;
+  photoAlt?: string;
 }
 
 const {
@@ -29,14 +34,17 @@ const {
   extraJsonLd = [],
   noindex = false,
   variant = 'paper',
+  photo,
+  photoAlt,
 } = Astro.props;
+const hasFoot = !!lead || Astro.slots.has('hero-extra');
 
 const jsonLd = [breadcrumbJsonLd(breadcrumbs), ...extraJsonLd];
 ---
 
 <BaseLayout title={title ?? h1} description={description} noindex={noindex} jsonLd={jsonLd}>
   <header class={`page-hero section--${variant}${variant === 'dark' ? ' on-dark' : ''}`}>
-    <div class="content">
+    <div class:list={['content', 'page-hero__grid', { 'page-hero__grid--foot': hasFoot }]}>
       {breadcrumbs.length > 1 && <Breadcrumbs items={breadcrumbs} />}
       {
         h1Slot ? (
@@ -48,32 +56,103 @@ const jsonLd = [breadcrumbJsonLd(breadcrumbs), ...extraJsonLd];
         )
       }
       {
-        lead && (
-          <p class="lead page-hero__lead" data-reveal>
-            {lead}
-          </p>
+        hasFoot && (
+          <div class="page-hero__foot" data-reveal>
+            {lead && <p class="lead page-hero__lead">{lead}</p>}
+            <slot name="hero-extra" />
+          </div>
         )
       }
-      <slot name="hero-extra" />
     </div>
+    {
+      photo && (
+        <div class="page-hero__media" data-expand>
+          <div class="page-hero__img" data-parallax="0.08">
+            <Photo
+              photo={photo}
+              ratio="21x9"
+              sizes="100vw"
+              priority
+              alt={photoAlt}
+              class="page-hero__photo"
+            />
+          </div>
+        </div>
+      )
+    }
   </header>
   <slot />
 </BaseLayout>
 
 <style>
-  .page-hero {
-    padding-block: clamp(2rem, 1.5rem + 3vw, 4rem) clamp(2.5rem, 2rem + 4vw, 5.5rem);
+  /* Raster des Seitenkopfs: oben die große Überschrift, darunter eine Zeile mit
+     Linie, links der Pfad, rechts Einleitung und Schaltflächen. So stehen die
+     kleinen Texte an festen Plätzen statt lose auf der Fläche. */
+  .page-hero__grid {
+    display: grid;
+    grid-template-areas:
+      'title'
+      'crumbs'
+      'foot';
+    row-gap: clamp(1.25rem, 2.5vw, 2rem);
+  }
+  .page-hero__grid > :global(.breadcrumbs) {
+    grid-area: crumbs;
+  }
+  .page-hero__grid > :global(h1) {
+    grid-area: title;
+  }
+  .page-hero__foot {
+    grid-area: foot;
+    display: grid;
+    gap: var(--space-lg);
+    justify-items: start;
   }
   .page-hero :global(h1) {
-    margin-block-start: var(--space-md);
-    font-size: var(--fs-h1);
-    line-height: 1.15;
-    letter-spacing: var(--track-hero);
-    max-width: min(25ch, 100%);
+    font-size: clamp(3rem, 1.6rem + 6.4vw, 8.5rem) !important;
+    line-height: 0.95 !important;
+    letter-spacing: -0.065em !important;
+    max-width: min(15ch, 100%) !important;
   }
   .page-hero__lead {
-    margin-block-start: var(--space-xl);
     font-size: var(--fs-lead);
-    max-width: min(52ch, 100%);
+    max-width: min(46ch, 100%) !important;
+    color: var(--text-muted);
+  }
+  .page-hero__foot :global(.page-actions),
+  .page-hero__foot :global(.detail-actions) {
+    margin: 0;
+  }
+  @media (min-width: 56rem) {
+    .page-hero__grid--foot {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+      grid-template-areas:
+        'title title'
+        'crumbs foot';
+      align-items: start;
+    }
+    .page-hero__grid--foot > :global(.breadcrumbs),
+    .page-hero__foot {
+      margin-block-start: clamp(1.5rem, 3vw, 2.5rem);
+      padding-block-start: clamp(1.25rem, 2vw, 1.75rem);
+      border-block-start: 1px solid var(--line-strong);
+    }
+  }
+
+  /* Bildband: startet eingerückt und öffnet sich beim Scrollen zur vollen Breite. */
+  .page-hero__media {
+    margin-block-start: clamp(3rem, 6vw, 5.5rem);
+    overflow: hidden;
+  }
+  :global(html.has-motion) .page-hero__media {
+    clip-path: inset(0 calc((1 - var(--expand, 0)) * max(var(--gutter), 8vw)));
+  }
+  .page-hero__media :global(.page-hero__photo) {
+    min-block-size: 16rem;
+  }
+  @media (max-width: 40rem) {
+    .page-hero__media :global(.page-hero__photo) {
+      aspect-ratio: 4 / 3;
+    }
   }
 </style>

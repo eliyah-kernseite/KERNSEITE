@@ -24,6 +24,7 @@
  *   [data-copy]            Schaltfläche kopiert data-copy in die Zwischenablage
  *   [data-clock]           zeigt die aktuelle Uhrzeit in Würzburg
  *   [data-scroll-progress] Lesefortschritt der Seite als --scroll
+ *   [data-expand]          Bildband öffnet sich beim Hereinscrollen; setzt --expand (0 bis 1)
  *
  * Weiches Scrollen übernimmt Lenis, ebenfalls nur ohne Bewegungswunsch.
  */
@@ -110,77 +111,103 @@ function setupScroll(): void {
   const pins = Array.from(document.querySelectorAll<HTMLElement>('[data-pin]'));
   const drifts = Array.from(document.querySelectorAll<HTMLElement>('[data-drift]'));
   const pageBars = Array.from(document.querySelectorAll<HTMLElement>('[data-scroll-progress]'));
+  const expands = Array.from(document.querySelectorAll<HTMLElement>('[data-expand]'));
+
+  // Erst alles messen, dann alles schreiben: abwechselndes Lesen und Schreiben
+  // zwingt den Browser zu einem neuen Layout pro Element und lässt das
+  // Scrollen auf Tablets ruckeln.
+  const lastLit = new Map<HTMLElement, number>();
+  const near = (r: DOMRect, vh: number, pad: number): boolean =>
+    r.bottom > -pad && r.top < vh + pad;
 
   let ticking = false;
   const update = (): void => {
     ticking = false;
     const vh = window.innerHeight;
+    const writes: Array<() => void> = [];
 
     for (const { el, words } of scrubs) {
       const r = el.getBoundingClientRect();
+      if (!near(r, vh, 200)) continue;
       // 0 wenn der Absatz unten hereinkommt, 1 wenn er das obere Drittel erreicht.
       const p = Math.min(1, Math.max(0, (vh * 0.85 - r.top) / (r.height + vh * 0.45)));
       const lit = Math.round(p * words.length);
-      words.forEach((w, i) => w.classList.toggle('is-lit', i < lit));
+      if (lastLit.get(el) === lit) continue;
+      lastLit.set(el, lit);
+      writes.push(() => words.forEach((w, i) => w.classList.toggle('is-lit', i < lit)));
     }
 
     for (const el of parallax) {
       const r = el.getBoundingClientRect();
-      if (r.bottom < -100 || r.top > vh + 100) continue;
+      if (!near(r, vh, 100)) continue;
       const strength = Number(el.dataset.parallax) || 0.12;
       const offset = (r.top + r.height / 2 - vh / 2) * -strength;
-      el.style.setProperty('--parallax', `${offset.toFixed(1)}px`);
+      writes.push(() => el.style.setProperty('--parallax', `${offset.toFixed(1)}px`));
     }
 
+    const stackRects = stacks.map((card) => card.getBoundingClientRect());
     stacks.forEach((card, i) => {
       const next = stacks[i + 1];
-      if (!next || card.parentElement !== next.parentElement) {
-        card.style.setProperty('--stack-scale', '1');
-        return;
-      }
-      const r = card.getBoundingClientRect();
-      const n = next.getBoundingClientRect();
+      const r = stackRects[i]!;
+      if (!next || card.parentElement !== next.parentElement) return;
+      if (!near(r, vh, vh)) return;
+      const n = stackRects[i + 1]!;
       // Wie weit die nächste Karte die aktuelle schon überdeckt (0 bis 1).
       const covered = Math.min(1, Math.max(0, 1 - (n.top - r.top) / Math.max(r.height, 1)));
-      card.style.setProperty('--stack-scale', (1 - covered * 0.06).toFixed(4));
-      card.style.setProperty('--stack-dim', (covered * 0.55).toFixed(3));
+      writes.push(() => {
+        card.style.setProperty('--stack-p', covered.toFixed(4));
+        card.style.setProperty('--stack-scale', (1 - covered * 0.06).toFixed(4));
+        card.style.setProperty('--stack-dim', (covered * 0.55).toFixed(3));
+      });
     });
 
     for (const pin of pins) {
       const r = pin.getBoundingClientRect();
+      if (!near(r, vh, 50)) continue;
       const span = Math.max(1, r.height - vh);
       const p = Math.min(1, Math.max(0, -r.top / span));
-      pin.style.setProperty('--p', p.toFixed(4));
       const track = pin.querySelector<HTMLElement>('[data-hscroll]');
-      if (track) {
-        // Breite der Liste selbst messen: Ihre Verschiebung ändert scrollWidth.
-        const inner = track.firstElementChild as HTMLElement | null;
-        const distance = Math.max(0, (inner?.offsetWidth ?? 0) - track.clientWidth);
-        track.style.setProperty('--shift', `${(-p * distance).toFixed(1)}px`);
-      }
+      // Breite der Liste selbst messen: Ihre Verschiebung ändert scrollWidth.
+      const inner = track?.firstElementChild as HTMLElement | null | undefined;
+      const distance = track ? Math.max(0, (inner?.offsetWidth ?? 0) - track.clientWidth) : 0;
+      writes.push(() => {
+        pin.style.setProperty('--p', p.toFixed(4));
+        track?.style.setProperty('--shift', `${(-p * distance).toFixed(1)}px`);
+      });
     }
 
     for (const el of drifts) {
       const r = el.getBoundingClientRect();
-      if (r.bottom < -200 || r.top > vh + 200) continue;
+      if (!near(r, vh, 200)) continue;
       const p = (vh - r.top) / (vh + r.height) - 0.5;
       const amount = Number(el.dataset.drift) || 10;
-      el.style.setProperty('--drift', `${(p * amount).toFixed(2)}vw`);
+      writes.push(() => el.style.setProperty('--drift', `${(p * amount).toFixed(2)}vw`));
     }
 
     if (pageBars.length) {
       const max = document.documentElement.scrollHeight - vh;
       const p = max > 0 ? Math.min(1, window.scrollY / max) : 0;
-      for (const bar of pageBars) bar.style.setProperty('--scroll', p.toFixed(4));
+      writes.push(() => pageBars.forEach((bar) => bar.style.setProperty('--scroll', p.toFixed(4))));
     }
 
     for (const el of progress) {
       const host = el.closest<HTMLElement>('[data-progress-host]') ?? el.parentElement;
       if (!host) continue;
       const r = host.getBoundingClientRect();
+      if (!near(r, vh, 100)) continue;
       const p = Math.min(1, Math.max(0, (vh * 0.6 - r.top) / r.height));
-      el.style.setProperty('--progress', p.toFixed(4));
+      writes.push(() => el.style.setProperty('--progress', p.toFixed(4)));
     }
+
+    for (const el of expands) {
+      const r = el.getBoundingClientRect();
+      if (!near(r, vh, 100)) continue;
+      // 0 solange die Oberkante unten im Bild steht, 1 wenn sie das obere Viertel erreicht.
+      const p = Math.min(1, Math.max(0, (vh - r.top) / (vh * 0.75)));
+      writes.push(() => el.style.setProperty('--expand', p.toFixed(4)));
+    }
+
+    for (const write of writes) write();
   };
   const onScroll = (): void => {
     if (!ticking) {
@@ -199,9 +226,24 @@ function setupMarquees(): void {
     el,
     track: el.firstElementChild as HTMLElement,
     x: 0,
+    half: 0,
+    visible: false,
     dir: el.dataset.marquee === 'right' ? 1 : -1,
   }));
   if (!items.length) return;
+  // Breite nur bei Größenänderung messen, nicht in jedem Bild.
+  const measure = (): void => items.forEach((m) => (m.half = (m.track?.scrollWidth ?? 0) / 2));
+  measure();
+  window.addEventListener('resize', measure, { passive: true });
+  document.fonts?.ready.then(measure);
+  const io = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      const m = items.find((i) => i.el === entry.target);
+      if (m) m.visible = entry.isIntersecting;
+    }
+  });
+  items.forEach((m) => io.observe(m.el));
+
   let lastY = window.scrollY;
   let boost = 0;
   const tick = (): void => {
@@ -212,11 +254,10 @@ function setupMarquees(): void {
     boost += (Math.min(40, Math.abs(v)) - boost) * 0.1;
     const sign = v < 0 ? -1 : 1;
     for (const m of items) {
-      if (!m.track) continue;
-      const half = m.track.scrollWidth / 2;
+      if (!m.track || !m.visible || !m.half) continue;
       m.x += (0.6 + boost * 0.35) * m.dir * (v === 0 ? 1 : sign);
-      if (m.x <= -half) m.x += half;
-      if (m.x > 0) m.x -= half;
+      if (m.x <= -m.half) m.x += m.half;
+      if (m.x > 0) m.x -= m.half;
       m.track.style.transform = `translate3d(${m.x.toFixed(1)}px,0,0)`;
     }
     if (!reduced()) requestAnimationFrame(tick);
@@ -255,14 +296,29 @@ function setupCursor(): void {
     { passive: true },
   );
   document.addEventListener('pointerleave', () => cursor.classList.remove('is-on'));
+  // Die Schleife läuft nur, solange der Zeiger dem Mauszeiger noch hinterherläuft.
+  let running = false;
   const loop = (): void => {
+    if (reduced()) {
+      cursor.remove();
+      return;
+    }
     cx += (x - cx) * 0.2;
     cy += (y - cy) * 0.2;
     cursor.style.transform = `translate3d(${cx.toFixed(1)}px,${cy.toFixed(1)}px,0)`;
-    if (!reduced()) requestAnimationFrame(loop);
-    else cursor.remove();
+    running = Math.abs(x - cx) + Math.abs(y - cy) > 0.3;
+    if (running) requestAnimationFrame(loop);
   };
-  requestAnimationFrame(loop);
+  window.addEventListener(
+    'pointermove',
+    () => {
+      if (!running) {
+        running = true;
+        requestAnimationFrame(loop);
+      }
+    },
+    { passive: true },
+  );
 }
 
 /* --- Lichtfleck und Kippen ----------------------------------------------- */
@@ -351,7 +407,7 @@ function setupUtilities(): void {
 /* --- Weiches Scrollen ----------------------------------------------------- */
 let lenis: Lenis | undefined;
 function setupSmoothScroll(): void {
-  lenis = new Lenis({ lerp: 0.11, anchors: { offset: -80 }, autoRaf: true });
+  lenis = new Lenis({ lerp: 0.16, anchors: { offset: -80 }, autoRaf: true });
 }
 
 /* --- Magnetische Schaltflächen ------------------------------------------- */

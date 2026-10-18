@@ -3,36 +3,43 @@ import PageLayout from '../layouts/PageLayout.astro';
 import FaqSection from '../components/FaqSection.astro';
 import { faqPageJsonLd } from '../lib/jsonld';
 import CtaBanner from '../components/CtaBanner.astro';
-const steps = [
+import Photo from '../components/Photo.astro';
+import type { PhotoKey } from '../config/photos';
+const steps: Array<{ title: string; text: string; you: string; us: string; photo: PhotoKey }> = [
   {
     title: 'Erst einmal kennenlernen.',
     text: 'Wir sprechen über dein Unternehmen, deine Kunden und die Aufgabe deiner Website. Bestehende Seiten und Beispiele helfen beim Einstieg, ein fertiges Briefing brauchst du nicht.',
     you: 'Deine Ziele, Wünsche und ein ungefährer Budgetrahmen.',
     us: 'Eine erste Einschätzung und die passenden Rückfragen.',
+    photo: 'werkbank-lampen',
   },
   {
     title: 'Du weißt vorher, was du bekommst.',
     text: 'Du erhältst ein schriftliches Angebot. Darin legen wir Seiten, Funktionen, Inhalte, Korrekturrunden und die Zuständigkeiten fest. Auch laufende Leistungen werden getrennt benannt.',
     you: 'Rückfragen klären und den vereinbarten Umfang beauftragen.',
     us: 'Ein nachvollziehbares Angebot und ein gemeinsamer Zeitplan.',
+    photo: 'laptop-notizbuch',
   },
   {
     title: 'Deinem Unternehmen Form geben.',
     text: 'Wir erarbeiten die Seitenstruktur, formulieren Texte und wählen mit dir Bilder aus. Anschließend entsteht dein Designentwurf, den du in Ruhe ansehen kannst.',
     you: 'Fachliche Informationen, vorhandene Bilder und gebündelte Rückmeldung.',
     us: 'Struktur, Texte und eine individuelle gestalterische Richtung.',
+    photo: 'entwurf-skizze',
   },
   {
     title: 'Aus dem Entwurf wird eine Website.',
     text: 'Aus dem abgestimmten Entwurf bauen wir deine Website. Du kannst die Seiten vor dem Start durchsehen. Wir prüfen Darstellung, Navigation, Kontaktwege und technische Grundlagen.',
     you: 'Inhalte prüfen und Rückmeldungen zu den vereinbarten Zwischenständen geben.',
     us: 'Entwicklung, responsive Umsetzung und technische Prüfung.',
+    photo: 'website-laptop',
   },
   {
     title: 'Der Start und alles danach.',
     text: 'Nach deiner Freigabe veröffentlichen wir die Website auf deiner Domain. Wir erklären dir die vereinbarten Pflegewege und besprechen, wie Änderungen künftig laufen.',
     you: 'Den Auftritt abnehmen und die notwendigen Hostingzugänge bereitstellen.',
     us: 'Veröffentlichung, Übergabe und die vereinbarte weitere Betreuung.',
+    photo: 'google-karte',
   },
 ];
 const processFaqs = [
@@ -65,6 +72,7 @@ const processFaqs = [
 ---
 
 <PageLayout
+  photo="handwerk-werkzeug"
   extraJsonLd={[faqPageJsonLd(processFaqs)]}
   title="Ablauf & Zusammenarbeit beim Webdesign"
   description="Vom unverbindlichen Erstgespräch über Texte und Design bis zur Veröffentlichung. So arbeiten wir gemeinsam an deiner neuen Unternehmenswebsite."
@@ -75,33 +83,39 @@ const processFaqs = [
     { name: 'Ablauf', path: '/prozess/' },
   ]}
 >
-  <section class="section" aria-labelledby="steps-title">
-    <div class="content">
-      <div class="section-top">
-        <h2 id="steps-title" class="display-2" data-split>So entsteht deine Website.</h2>
+  <section class="journey-x" aria-labelledby="steps-title" data-pin>
+    <div class="journey-x__stage">
+      <div class="content journey-x__head">
+        <h2 id="steps-title" class="journey-x__title" data-split>So entsteht deine Website.</h2>
+        <div class="journey-x__bar" aria-hidden="true"><span></span></div>
       </div>
-      <ol class="process-story" role="list" data-stack>
-        {
-          steps.map((s) => (
-            <li class="process-story__step">
-              <div class="process-story__head">
-                <h3>{s.title}</h3>
-                <p>{s.text}</p>
-              </div>
-              <dl>
-                <div>
-                  <dt>Von dir</dt>
-                  <dd>{s.you}</dd>
+      <div class="journey-x__track" data-hscroll>
+        <ol class="process-story" role="list">
+          {
+            steps.map((s) => (
+              <li class="process-story__step">
+                <div class="process-story__media">
+                  <Photo photo={s.photo} ratio="4x3" sizes="(min-width: 64rem) 28vw, 100vw" />
                 </div>
-                <div>
-                  <dt>Von KERNSEITE</dt>
-                  <dd>{s.us}</dd>
+                <div class="process-story__body">
+                  <h3>{s.title}</h3>
+                  <p>{s.text}</p>
+                  <dl>
+                    <div>
+                      <dt>Von dir</dt>
+                      <dd>{s.you}</dd>
+                    </div>
+                    <div>
+                      <dt>Von KERNSEITE</dt>
+                      <dd>{s.us}</dd>
+                    </div>
+                  </dl>
                 </div>
-              </dl>
-            </li>
-          ))
-        }
-      </ol>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
     </div>
   </section>
   <FaqSection items={processFaqs} title={['Fragen zum', 'Ablauf.']} variant="paper" />
@@ -111,94 +125,138 @@ const processFaqs = [
   />
 </PageLayout>
 <style>
+  /* Ablauf als Reise: Auf großen Bildschirmen mit Bewegung bleibt der Abschnitt
+     stehen und die Schritte fahren seitlich vorbei, eine Linie zeigt den
+     Fortschritt. Sonst stehen die Schritte untereinander. */
+  .journey-x {
+    position: relative;
+    padding-block: var(--section-y);
+  }
+  .journey-x__head {
+    display: grid;
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+    margin-block-end: clamp(2rem, 4vw, 3.5rem);
+  }
+  .journey-x__title {
+    font-size: clamp(2.8rem, 7vw, 7rem);
+    line-height: 0.92;
+    letter-spacing: -0.065em;
+    max-width: 14ch;
+  }
+  .journey-x__bar {
+    block-size: 2px;
+    background: var(--line-strong);
+  }
+  .journey-x__bar span {
+    display: block;
+    block-size: 100%;
+    background: var(--ks-cyan);
+    transform: scaleX(1);
+    transform-origin: left;
+  }
   .process-story {
     display: grid;
     gap: clamp(1.25rem, 3vw, 2rem);
     margin: 0;
-    padding: 0;
+    padding: 0 var(--gutter);
   }
   .process-story__step {
-    position: sticky;
-    top: calc(var(--header-h) + 1rem);
     display: grid;
-    gap: 2rem;
-    padding: clamp(1.5rem, 4vw, 4rem);
     border: 1px solid var(--line);
-    border-radius: 0;
-    background:
-      radial-gradient(
-        70% 90% at 100% 0%,
-        color-mix(in srgb, var(--ks-cyan) 9%, transparent),
-        transparent 60%
-      ),
-      var(--ks-cream);
+    background: var(--ks-cream);
     overflow: hidden;
-    transform: scale(var(--stack-scale, 1));
-    transform-origin: 50% 0;
-    box-shadow: 0 -30px 60px rgba(0, 0, 0, 0.35);
   }
-  .process-story__step::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--ks-black);
-    opacity: var(--stack-dim, 0);
-    pointer-events: none;
+  .process-story__media {
+    overflow: hidden;
   }
-  .process-story__step:nth-child(2) {
-    top: calc(var(--header-h) + 1.75rem);
+  .process-story__media :global(.photo) {
+    transition: transform 900ms var(--ease-out);
   }
-  .process-story__step:nth-child(3) {
-    top: calc(var(--header-h) + 2.5rem);
+  .process-story__step:hover .process-story__media :global(.photo) {
+    transform: scale(1.04);
   }
-  .process-story__step:nth-child(4) {
-    top: calc(var(--header-h) + 3.25rem);
-  }
-  .process-story__step:nth-child(5) {
-    top: calc(var(--header-h) + 4rem);
+  .process-story__body {
+    display: grid;
+    align-content: start;
+    gap: 1.1rem;
+    padding: clamp(1.5rem, 3vw, 2.75rem);
   }
   .process-story h3 {
-    font-size: clamp(1.9rem, 3vw, 3rem);
-    max-width: 18ch;
+    font-size: clamp(1.7rem, 2.6vw, 2.6rem);
+    line-height: 1.02;
+    letter-spacing: -0.045em;
+    max-width: 16ch;
   }
   .process-story p {
     font-size: 1.05rem;
-    margin-top: 1.2rem;
-    max-width: 50ch;
+    max-width: 46ch;
     color: var(--text-muted);
   }
   .process-story dl {
     display: grid;
-    gap: 1rem;
-    align-content: end;
-    margin: 0;
+    gap: 0;
+    margin: 0.5rem 0 0;
+    border-block-start: 1px solid var(--line);
   }
   .process-story dl > div {
-    padding: 1.25rem 1.4rem;
-    border: 1px solid var(--line);
-    border-radius: 0;
-    background: color-mix(in srgb, var(--ks-black) 45%, transparent);
+    padding-block: 0.9rem;
+    border-block-end: 1px solid var(--line);
   }
   .process-story dt {
     font-size: 0.875rem;
     font-weight: 600;
-    margin-bottom: 0.4rem;
+    margin-bottom: 0.3rem;
     color: var(--ks-cyan);
   }
   .process-story dd {
     margin: 0;
     font-size: 1rem;
   }
-  @media (min-width: 56rem) {
+  @media (min-width: 48rem) and (max-width: 63.99rem) {
     .process-story__step {
-      grid-template-columns: 1.25fr 1fr;
-      gap: 4rem;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    }
+    .process-story__media :global(.photo) {
+      block-size: 100%;
     }
   }
-  @media (max-width: 40rem) {
-    .process-story__step {
-      position: relative;
-      top: auto !important;
+
+  @media (min-width: 64rem) {
+    :global(html.has-motion) .journey-x {
+      height: 460vh;
+      padding-block: 0;
+    }
+    :global(html.has-motion) .journey-x__stage {
+      position: sticky;
+      top: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      block-size: 100vh;
+      padding-block-start: var(--header-h);
+      overflow: hidden;
+    }
+    :global(html.has-motion) .journey-x__title {
+      font-size: clamp(3rem, 5.5vw, 5.5rem);
+    }
+    :global(html.has-motion) .journey-x__bar span {
+      transform: scaleX(var(--p, 0));
+    }
+    :global(html.has-motion) .process-story {
+      display: flex;
+      inline-size: max-content;
+      gap: 3vw;
+      padding-inline: var(--gutter) 8vw;
+      transform: translate3d(var(--shift, 0px), 0, 0);
+      will-change: transform;
+    }
+    :global(html.has-motion) .process-story__step {
+      inline-size: min(64vw, calc((100vh - 16rem) * 1.75));
+      grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+    }
+    :global(html.has-motion) .process-story__media :global(.photo) {
+      block-size: 100%;
+      aspect-ratio: auto;
     }
   }
 </style>

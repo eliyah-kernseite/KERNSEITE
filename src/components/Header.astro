@@ -89,9 +89,9 @@ function isActive(href: string): boolean {
     border-block-end: 1px solid transparent;
   }
   .site-header[data-scrolled] {
-    background: color-mix(in srgb, var(--ks-paper) 78%, transparent);
-    -webkit-backdrop-filter: blur(16px) saturate(140%);
-    backdrop-filter: blur(16px) saturate(140%);
+    /* Fast deckend statt Weichzeichner: Ein Blur über bewegtem Inhalt kostet
+       auf Tablets bei jedem Scrollbild viel Rechenzeit. */
+    background: color-mix(in srgb, var(--ks-paper) 94%, transparent);
     border-block-end-color: color-mix(in srgb, var(--ks-bone) 8%, transparent);
   }
   /* Beim Herunterscrollen weicht die Kopfzeile, beim Hochscrollen kommt sie zurück. */

@@ -37,6 +37,26 @@ export const photos = {
     group: 'agentur',
     alt: 'Werkbank mit Zangen und Werkzeug an der Wand im Licht zweier Lampen',
   },
+  'website-laptop': {
+    group: 'leistungen',
+    alt: 'Laptop mit leuchtend buntem Bildschirm auf einem dunklen Holztisch',
+  },
+  'google-karte': {
+    group: 'leistungen',
+    alt: 'Hand hält ein Smartphone mit geöffneter Kartenansicht',
+  },
+  'branding-farben': {
+    group: 'leistungen',
+    alt: 'Schreibtisch mit Tastatur, Stiften und Farbmusterkarten',
+  },
+  'anzeigen-analyse': {
+    group: 'leistungen',
+    alt: 'Laptop auf schwarzem Tisch mit geöffnetem Analysebericht',
+  },
+  'ki-roboterarm': {
+    group: 'leistungen',
+    alt: 'Industrieroboterarm an einer Fertigungsstraße',
+  },
   hotelzimmer: { group: 'branchen', alt: 'Hotelzimmer mit Doppelbett und warmem Licht' },
 } as const satisfies Record<string, PhotoSource>;
 export type PhotoKey = keyof typeof photos;

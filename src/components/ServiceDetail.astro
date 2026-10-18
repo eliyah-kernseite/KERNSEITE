@@ -1,6 +1,5 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
-import Photo from './Photo.astro';
 import CtaBanner from './CtaBanner.astro';
 import FaqAccordion from './FaqAccordion.astro';
 import type { PhotoKey } from '../config/photos';
@@ -48,19 +47,13 @@ const service = getService(serviceKey);
     { name: service.label, path: service.href },
   ]}
   extraJsonLd={[serviceJsonLd(service), faqPageJsonLd(questions)]}
+  photo={photo}
 >
   <div slot="hero-extra" class="detail-actions" data-reveal>
     <a class="btn btn--primary" href={`/kontakt/#leistung=${serviceKey}`}
       >Vorhaben besprechen <span aria-hidden="true">↗</span></a
     >
   </div>
-  {
-    photo && (
-      <div class="content">
-        <Photo photo={photo} ratio="21x9" sizes="(min-width:1400px) 1360px, 94vw" priority />
-      </div>
-    )
-  }
   <section class="section section--cream">
     <div class="content">
       <div class="section-heading"><h2 data-split>{closing}</h2></div><div
