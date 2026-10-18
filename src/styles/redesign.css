@@ -65,7 +65,7 @@ p {
   font-size: clamp(2.5rem, 6vw, 6.2rem);
   font-weight: 800;
   line-height: 1;
-  letter-spacing: -0.055em;
+  letter-spacing: -0.04em;
   max-width: 16ch;
 }
 .section-top {
