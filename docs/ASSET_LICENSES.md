@@ -19,6 +19,11 @@ Stand: 15.09.2026. Das maschinenlesbare Register `assets-source/photo-credits.js
 | Laptop und Notizbuch  | Ionela Mat               | [2WxnKStKQTs](https://unsplash.com/photos/2WxnKStKQTs) | 2026-10-18          |
 | Entwurfsskizze        | Kelly Sikkema            | [o2TRWThve_I](https://unsplash.com/photos/o2TRWThve_I) | 2026-10-18          |
 | Werkbank mit Lampen   | Ali Kaan Uçar            | [j8UApawyq_c](https://unsplash.com/photos/j8UApawyq_c) | 2026-10-18          |
+| Website (Laptop)      | Joshua Woroniecki        | [lzh3hPtJz9c](https://unsplash.com/photos/lzh3hPtJz9c) | 2026-10-18          |
+| Google-Unternehmensprofil | Tamas Tuzes-Katai        | [rEn-AdBr3Ig](https://unsplash.com/photos/rEn-AdBr3Ig) | 2026-10-18          |
+| Branding              | Andy Brown               | [8dgFq8Vbelo](https://unsplash.com/photos/8dgFq8Vbelo) | 2026-10-18          |
+| Anzeigen              | Myriam Jessier           | [eveI7MOcSmw](https://unsplash.com/photos/eveI7MOcSmw) | 2026-10-18          |
+| KI & Automatisierung  | Homa Appliances          | [sz1CHL7Pky0](https://unsplash.com/photos/sz1CHL7Pky0) | 2026-10-18          |
 
 ## Lizenz und Nachweise
 

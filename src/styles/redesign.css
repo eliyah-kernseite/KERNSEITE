@@ -65,7 +65,7 @@ p {
   font-size: clamp(2.5rem, 6vw, 6.2rem);
   font-weight: 800;
   line-height: 1;
-  letter-spacing: -0.055em;
+  letter-spacing: -0.04em;
   max-width: 16ch;
 }
 .section-top {
@@ -135,35 +135,11 @@ p {
 .page-hero {
   position: relative;
   overflow: clip;
-  padding-top: clamp(3.5rem, 8vw, 8rem) !important;
-  padding-bottom: clamp(3.5rem, 7vw, 7rem) !important;
-}
-/* Leuchtender Kern hinter jedem Seitenkopf. */
-.page-hero::before {
-  content: '';
-  position: absolute;
-  inset: -40% -10% auto auto;
-  inline-size: min(60vw, 46rem);
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: radial-gradient(
-    closest-side,
-    color-mix(in srgb, var(--ks-cyan) 16%, transparent),
-    transparent
-  );
-  pointer-events: none;
+  padding-top: clamp(3rem, 7vw, 7rem) !important;
+  padding-bottom: clamp(3rem, 6vw, 6rem) !important;
 }
 .page-hero > .content {
   position: relative;
-}
-.page-hero h1 {
-  font-size: var(--fs-h1) !important;
-  line-height: 1.02 !important;
-  letter-spacing: -0.055em !important;
-  max-width: 18ch !important;
-}
-.page-hero .lead {
-  max-width: 54ch !important;
 }
 .page-hero__label {
   margin-top: 2rem;

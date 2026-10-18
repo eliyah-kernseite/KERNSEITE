@@ -98,6 +98,7 @@ const columns = [
      treten nach vorn, während die Überschrift nach oben weicht. */
   :global(html.has-motion) .hero__wall {
     transform: scale(calc(1 + var(--p, 0) * 0.35));
+    will-change: transform;
   }
   :global(html.has-motion) .hero__shade {
     opacity: calc(1 - var(--p, 0) * 0.75);
@@ -184,7 +185,7 @@ const columns = [
     font-size: clamp(3.6rem, 13vw, 14rem);
     font-weight: 800;
     line-height: 0.9;
-    letter-spacing: -0.065em;
+    letter-spacing: -0.045em;
     color: var(--text);
   }
   .hero__title em {

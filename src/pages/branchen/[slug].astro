@@ -75,19 +75,13 @@ const post = idx >= 0 ? industry.detailH1.slice(idx + accent.length) : '';
   lead={industry.intro}
   breadcrumbs={breadcrumbs}
   extraJsonLd={[faqPageJsonLd(industry.faqs)]}
+  photo={heroPhoto ?? undefined}
 >
   <h1 slot="h1" data-split>
     {pre}{idx >= 0 && <AccentWord>{accent}</AccentWord>}{post}
   </h1>
 
   <section class="hero-img">
-    {
-      heroPhoto && (
-        <div class="content--wide content" data-reveal="scale">
-          <Photo photo={heroPhoto} ratio="21x9" sizes="100vw" priority />
-        </div>
-      )
-    }
     <div class="content branch-action">
       <a class="btn btn--primary btn--lg" href={`/kontakt/#branche=${industry.slug}`} data-magnetic
         >{industry.ctaLabel} <span aria-hidden="true">↗</span></a

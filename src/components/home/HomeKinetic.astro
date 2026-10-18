@@ -23,10 +23,15 @@ const lines = [
       ))
     }
   </div>
-  <div class="content kinetic__foot">
-    <p class="kinetic__text" data-reveal>
-      Genau dafür bauen wir jede Seite. Damit aus Besuchern Anfragen werden.
-    </p>
+  <div class="content">
+    <div class="kinetic__foot" data-reveal>
+      <p class="kinetic__text">
+        Genau dafür bauen wir jede Seite. <span>Damit aus Besuchern Anfragen werden.</span>
+      </p>
+      <a class="link-arrow kinetic__link" href="#arbeiten"
+        >Arbeiten ansehen <span class="arrow" aria-hidden="true">→</span></a
+      >
+    </div>
   </div>
 </section>
 
@@ -43,7 +48,7 @@ const lines = [
     font-size: clamp(2.6rem, 8.8vw, 10rem);
     font-weight: 800;
     line-height: 0.95;
-    letter-spacing: -0.065em;
+    letter-spacing: -0.045em;
     white-space: nowrap;
     color: color-mix(in srgb, var(--ks-bone) 42%, transparent);
   }
@@ -63,14 +68,30 @@ const lines = [
   .kinetic__line--2 .kinetic__lead {
     color: var(--ks-cyan);
   }
+  /* Fußzeile des Abschnitts: fest im Raster, Linie oben, Text links, Link rechts. */
   .kinetic__foot {
-    margin-block-start: clamp(2.5rem, 5vw, 4.5rem);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1.25rem 3rem;
+    margin-block-start: clamp(3rem, 6vw, 5.5rem);
+    padding-block-start: clamp(1.5rem, 2.5vw, 2rem);
+    border-block-start: 1px solid var(--line-strong);
   }
   .kinetic__text {
-    max-width: 28ch;
-    margin-inline-start: auto;
-    font-size: clamp(1.25rem, 1.8vw, 1.7rem);
-    line-height: 1.4;
+    max-width: 34ch;
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 2.4vw, 2.3rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.035em;
+  }
+  .kinetic__text span {
+    color: var(--text-muted);
+  }
+  .kinetic__link {
+    font-size: 1.1rem;
   }
   :global([data-a11y-contrast='high']) .kinetic__line {
     color: var(--text);
