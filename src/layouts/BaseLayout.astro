@@ -72,6 +72,19 @@ const allSchemas = [...baseSchemas, ...jsonLd];
   </head>
   <body class={bodyClass}>
     <a class="skip-link" href="#main">Zum Inhalt springen</a>
+    {/* Intro beim ersten Aufruf je Sitzung, reines CSS (motion.css). */}
+    <div class="intro" aria-hidden="true">
+      <span class="intro__word">
+        {
+          'KERNSEITE'.split('').map((l) => (
+            <span class="intro__clip">
+              <span class="intro__letter">{l}</span>
+            </span>
+          ))
+        }<span class="intro__core"></span>
+      </span>
+      <span class="intro__bar"></span>
+    </div>
     <Header />
     <main id="main" tabindex="-1">
       <slot />

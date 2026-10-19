@@ -19,11 +19,25 @@
   var calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (!calm && root.dataset.a11yMotion !== 'reduced') {
     root.classList.add('has-motion');
-    // Scrollgebundene Effekte (Pinnen, seitliche Spuren, Zoom, Parallaxe) nur mit
-    // Maus oder Trackpad am Rechner. Tablets und Handys scrollen nativ und
-    // bekommen wischbare Reihen, sonst ruckelt es auf dem iPad.
+    // Maus oder Trackpad am Rechner (kein iPad): weiches Scrollen, Mauseffekte.
     var fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     var ipad = /Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1;
-    if (fine && !ipad) root.classList.add('has-scroll-fx');
+    if (fine && !ipad) root.classList.add('has-fine');
+    // Scroll-Animationen in CSS laufen im Browser direkt beim Scrollen mit,
+    // auch auf Handy und iPad ohne Ruckeln (Safari ab 26, Chrome, Edge).
+    var sda = !!(window.CSS && CSS.supports && CSS.supports('animation-timeline: view()'));
+    if (sda) root.classList.add('has-sda');
+    // Scrollgebundene Szenen (Pinnen, seitliche Spuren, Zoom, Parallaxe): überall
+    // mit CSS-Scroll-Animationen, sonst nur am Rechner über JavaScript.
+    if (sda || (fine && !ipad)) root.classList.add('has-scroll-fx');
+    // Kurzes Intro mit dem Schriftzug, aber nur beim ersten Seitenaufruf je Sitzung.
+    try {
+      if (!sessionStorage.getItem('ks-intro')) {
+        root.classList.add('has-intro');
+        sessionStorage.setItem('ks-intro', '1');
+      }
+    } catch {
+      /* Speicher gesperrt: kein Intro */
+    }
   }
 })();

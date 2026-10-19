@@ -49,6 +49,7 @@ const jsonLd = [breadcrumbJsonLd(breadcrumbs), ...extraJsonLd];
       `section--${variant}`,
       { 'on-dark': variant === 'dark', 'page-hero--photo': !!photo },
     ]}
+    data-leave
   >
     {
       photo && (
@@ -197,6 +198,63 @@ const jsonLd = [breadcrumbJsonLd(breadcrumbs), ...extraJsonLd];
     from {
       opacity: 0;
       transform: scale(1.06);
+    }
+  }
+  /* Beim Herausscrollen weicht die Überschrift nach oben, das Bild zoomt nach. */
+  :global(html.has-scroll-fx) .page-hero__grid {
+    transform: translate3d(0, calc(var(--leave, 0) * -14vh), 0);
+    opacity: calc(1 - var(--leave, 0) * 1.1);
+  }
+  :global(html.has-scroll-fx) .page-hero__img {
+    scale: calc(1 + var(--leave, 0) * 0.18);
+  }
+  :global(html.has-sda) .page-hero {
+    view-timeline: --page-hero block;
+  }
+  :global(html.has-sda) .page-hero__grid {
+    animation: page-hero-leave linear both;
+    animation-timeline: --page-hero;
+    animation-range: exit 0% exit 100%;
+  }
+  :global(html.has-sda) .page-hero__img {
+    animation: page-hero-zoom linear both;
+    animation-timeline: --page-hero;
+    animation-range: exit 0% exit 100%;
+  }
+  @keyframes page-hero-leave {
+    0% {
+      opacity: 1;
+      transform: none;
+    }
+    90%,
+    100% {
+      opacity: 0;
+    }
+    100% {
+      transform: translate3d(0, -14vh, 0);
+    }
+  }
+  @keyframes page-hero-zoom {
+    to {
+      scale: 1.18;
+    }
+  }
+  /* Feine Linie, die sich unter dem Seitenkopf von links aufzieht. */
+  .page-hero::after {
+    content: '';
+    position: absolute;
+    inset: auto 0 0;
+    block-size: 1px;
+    background: linear-gradient(to right, var(--ks-cyan), transparent 70%);
+    transform-origin: left;
+    opacity: 0.6;
+  }
+  :global(html.has-motion) .page-hero::after {
+    animation: hero-rule 1600ms var(--ease-out) 400ms both;
+  }
+  @keyframes hero-rule {
+    from {
+      transform: scaleX(0);
     }
   }
   @media (max-width: 55.99rem) {

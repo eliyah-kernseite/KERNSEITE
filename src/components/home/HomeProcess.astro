@@ -1,22 +1,17 @@
 ---
 /**
- * HomeProcess – der Ablauf in drei Schritten mit großen Ziffern. Die Linie
- * füllt sich mit dem Scrollfortschritt (`[data-progress]`). Ausführlich: /prozess/.
+ * HomeProcess – der Ablauf als drei große Tafeln, die beim Scrollen
+ * übereinander gleiten (`position: sticky` + `[data-stack]`). Die überdeckte
+ * Tafel tritt leicht zurück. Dunkel, hell, Cyan: Mit jedem Schritt wird es
+ * heller, bis die Website live ist. Ausführlich: /prozess/.
  */
-const steps = [
-  {
-    title: 'Wir reden.',
-    text: 'Du erzählst, was du vorhast. Ich sage dir ehrlich, was es braucht.',
-  },
-  {
-    title: 'Du siehst alles.',
-    text: 'Texte, Bilder und Design stimmen wir ab, bevor gebaut wird.',
-  },
-  { title: 'Du gehst live.', text: 'Getestet auf Handy und Desktop, bereit für Google.' },
-] as const;
+import Photo from '../Photo.astro';
+import { featuredProjects } from '../../config/cases';
+
+const live = featuredProjects.find((p) => p.href.includes('kaya')) ?? featuredProjects[0]!;
 ---
 
-<section class="process section" aria-labelledby="process-title" data-progress-host>
+<section class="process section" aria-labelledby="process-title">
   <div class="content">
     <div class="process__head">
       <h2 id="process-title" class="process__title" data-split>So einfach geht’s.</h2>
@@ -24,16 +19,80 @@ const steps = [
         >Ablauf im Detail <span class="arrow" aria-hidden="true">→</span></a
       >
     </div>
-    <div class="process__line" aria-hidden="true"><span data-progress></span></div>
-    <ol class="process__steps" role="list" data-reveal-group>
-      {
-        steps.map((s) => (
-          <li class="process__step" data-spotlight>
-            <h3 class="process__name">{s.title}</h3>
-            <p class="process__text">{s.text}</p>
-          </li>
-        ))
-      }
+
+    <ol class="steps" role="list" data-stack>
+      <li class="step step--1">
+        <div class="step__inner">
+          <div class="step__text">
+            <p class="step__kicker">Kennenlernen</p>
+            <h3 class="step__title">Wir reden.</h3>
+            <p class="step__lead">
+              Du erzählst, was du vorhast. Ich sage dir ehrlich, was es braucht.
+            </p>
+            <ul class="step__list" role="list">
+              <li>Unverbindliches Erstgespräch</li>
+              <li>Schriftliches Angebot mit festem Umfang</li>
+              <li>Gemeinsamer Zeitplan</li>
+            </ul>
+          </div>
+          <div class="step__media">
+            <Photo
+              photo="laptop-notizbuch"
+              ratio="4x3"
+              sizes="(min-width: 56rem) 40vw, 90vw"
+              alt="Laptop, aufgeschlagenes Notizbuch und Kaffeetasse auf schwarzem Tisch"
+            />
+          </div>
+        </div>
+      </li>
+      <li class="step step--2">
+        <div class="step__inner">
+          <div class="step__text">
+            <p class="step__kicker">Entwurf</p>
+            <h3 class="step__title">Du siehst alles.</h3>
+            <p class="step__lead">Texte, Bilder und Design stimmen wir ab, bevor gebaut wird.</p>
+            <ul class="step__list" role="list">
+              <li>Seitenstruktur und Texte</li>
+              <li>Individueller Designentwurf</li>
+              <li>Korrekturrunden sind eingeplant</li>
+            </ul>
+          </div>
+          <div class="step__media">
+            <Photo
+              photo="branding-farben"
+              ratio="4x3"
+              sizes="(min-width: 56rem) 40vw, 90vw"
+              alt="Schreibtisch mit Tastatur, Stiften und Farbmusterkarten"
+            />
+          </div>
+        </div>
+      </li>
+      <li class="step step--3">
+        <div class="step__inner">
+          <div class="step__text">
+            <p class="step__kicker">Start</p>
+            <h3 class="step__title">Du gehst live.</h3>
+            <p class="step__lead">Getestet auf Handy und Desktop, bereit für Google.</p>
+            <ul class="step__list" role="list">
+              <li>Veröffentlichung auf deiner Domain</li>
+              <li>Übergabe mit Zugängen und Pflegewegen</li>
+              <li>Betreuung danach nach Absprache</li>
+            </ul>
+          </div>
+          <div class="step__media step__media--shot">
+            <img
+              src={live.screenshotDesktop.src}
+              srcset={live.screenshotDesktop.srcset}
+              sizes="(min-width: 56rem) 40vw, 90vw"
+              width={live.screenshotDesktop.width}
+              height={live.screenshotDesktop.height}
+              alt={live.screenshotDesktop.alt}
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+        </div>
+      </li>
     </ol>
   </div>
 </section>
@@ -52,48 +111,186 @@ const steps = [
     line-height: 0.9;
     letter-spacing: -0.045em;
   }
-  .process__line {
-    block-size: 2px;
-    background: var(--line-strong);
-    margin-block-end: clamp(1.5rem, 3vw, 2.5rem);
-  }
-  .process__line span {
-    display: block;
-    block-size: 100%;
-    background: var(--ks-cyan);
-    transform: scaleX(var(--progress, 1));
-    transform-origin: left;
-  }
-  :global(html.has-motion) .process__line span {
-    transform: scaleX(var(--progress, 0));
-  }
-  .process__steps {
+
+  .steps {
     display: grid;
-    gap: 1px;
+    gap: clamp(2rem, 8vh, 5rem);
     margin: 0;
     padding: 0;
-    background: var(--line);
-    border: 1px solid var(--line);
   }
-  .process__step {
+  .step {
+    position: sticky;
+    top: calc(var(--header-h) + 0.75rem);
+  }
+  .step--2 {
+    top: calc(var(--header-h) + 2.25rem);
+  }
+  .step--3 {
+    top: calc(var(--header-h) + 3.5rem);
+  }
+  .step__inner {
+    position: relative;
     display: grid;
-    align-content: start;
-    gap: 1rem;
-    padding: clamp(1.75rem, 3.5vw, 3rem);
-    background: var(--ks-paper);
+    gap: clamp(1.75rem, 4vw, 4rem);
+    align-items: center;
+    min-block-size: min(40rem, calc(100svh - var(--header-h) - 6rem));
+    padding: clamp(1.5rem, 4vw, 4rem);
+    background: var(--ks-cream);
+    border: 1px solid var(--line);
+    color: var(--text);
+    transform: scale(var(--stack-scale, 1));
+    transform-origin: 50% 0;
+    transition: transform 120ms linear;
   }
-  .process__name {
-    font-size: clamp(1.7rem, 2.6vw, 2.5rem);
-    line-height: 1.05;
+  /* Die überdeckte Tafel wird dunkler. */
+  .step__inner::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    background: #000;
+    opacity: var(--stack-dim, 0);
+    pointer-events: none;
   }
-  .process__text {
-    max-width: 28ch;
+  /* Helle Tafel: Text schwarz, Cyan nur als Fläche. */
+  .step--2 .step__inner {
+    --text: var(--ks-black);
+    --text-muted: #3d4148;
+    background: var(--ks-bone);
+    border-color: var(--ks-bone);
+  }
+  .step--3 .step__inner {
+    --text: var(--ks-black);
+    --text-muted: #1f2328;
+    background: var(--ks-cyan);
+    border-color: var(--ks-cyan);
+  }
+  .step__text {
+    display: grid;
+    gap: clamp(0.9rem, 1.6vw, 1.4rem);
+    align-content: center;
+  }
+  .step__kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-weight: 600;
     color: var(--text-muted);
-    font-size: 1.1rem;
+  }
+  .step__kicker::before {
+    content: '';
+    inline-size: 0.6rem;
+    block-size: 0.6rem;
+    background: var(--ks-cyan);
+  }
+  .step--3 .step__kicker::before {
+    background: var(--ks-black);
+  }
+  .step__title {
+    font-size: clamp(2.8rem, 7vw, 7.5rem);
+    line-height: 0.92;
+    letter-spacing: -0.045em;
+    color: var(--text);
+  }
+  .step__lead {
+    max-width: 26ch;
+    font-family: var(--font-display);
+    font-size: clamp(1.3rem, 2vw, 1.9rem);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    color: var(--text);
+  }
+  .step__list {
+    display: grid;
+    gap: 0.15rem;
+    margin: 0;
+    padding: 0;
+    border-block-start: 1px solid color-mix(in srgb, var(--text) 18%, transparent);
+  }
+  .step__list li {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding-block: 0.7rem;
+    border-block-end: 1px solid color-mix(in srgb, var(--text) 18%, transparent);
+    color: var(--text);
+    font-weight: 500;
+  }
+  .step__list li::before {
+    content: '↗';
+    color: var(--text-muted);
+  }
+  .step__media {
+    overflow: hidden;
+  }
+  .step__media :global(img) {
+    display: block;
+    inline-size: 100%;
+    transition: transform 1200ms var(--ease-out);
+  }
+  .step__inner:hover .step__media :global(img) {
+    transform: scale(1.04);
+  }
+  .step__media--shot {
+    border: 1px solid rgba(7, 8, 9, 0.35);
+    box-shadow: 0 30px 70px rgba(7, 8, 9, 0.35);
+  }
+  .step__media--shot img {
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    object-position: top;
   }
   @media (min-width: 56rem) {
-    .process__steps {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+    .step__inner {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     }
+  }
+  /* Handy und Tablet hochkant: kompakte Tafeln, die vollständig auf den
+     Bildschirm passen, damit sie sich ebenfalls stapeln können. */
+  @media (max-width: 55.99rem) {
+    .step__inner {
+      gap: 1.25rem;
+      min-block-size: 0;
+      padding: 1.25rem;
+    }
+    .step__text {
+      gap: 0.7rem;
+    }
+    .step__title {
+      font-size: clamp(2.4rem, 11vw, 4rem);
+    }
+    .step__lead {
+      font-size: clamp(1.1rem, 4.6vw, 1.4rem);
+    }
+    .step__list li {
+      padding-block: 0.45rem;
+      font-size: 0.95rem;
+    }
+    .step__media :global(.photo),
+    .step__media :global(img) {
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+    }
+  }
+  /* Auf niedrigen Bildschirmen wäre eine Tafel höher als der Bildschirm und
+     würde überdeckt, bevor man sie gelesen hat: dann untereinander. */
+  @media (max-height: 40rem), (min-width: 56rem) and (max-height: 46rem) {
+    .step {
+      position: relative;
+      top: auto;
+    }
+    .step__inner {
+      min-block-size: 0;
+      transform: none;
+    }
+    .step__inner::after {
+      display: none;
+    }
+  }
+  :global([data-a11y-contrast='high']) .step__inner {
+    --text: #fff;
+    --text-muted: #e6e6e6;
+    background: #000;
+    border-color: #fff;
   }
 </style>

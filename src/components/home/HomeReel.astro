@@ -1,0 +1,336 @@
+---
+/**
+ * HomeReel – ein Bild, das beim Scrollen vom kleinen Fenster zum Vollbild
+ * aufgeht. Die beiden Wörter der Überschrift weichen dabei nach außen, am
+ * Ende steht der Satz über dem Bild. Der Abschnitt klebt; mit
+ * CSS-Scroll-Animationen auf allen Geräten, sonst am Rechner über
+ * `[data-pin]` (setzt --p). Ohne Bewegung steht alles ruhig untereinander.
+ */
+import Photo from '../Photo.astro';
+---
+
+<section class="reel" aria-labelledby="reel-title" data-pin>
+  <div class="reel__stage">
+    <div class="reel__frame">
+      <div class="reel__img">
+        <Photo
+          photo="arbeitsplatz-abend"
+          ratio="fill"
+          sizes="100vw"
+          alt="Laptop auf einem Holzschreibtisch im Licht einer Schreibtischlampe am Abend"
+        />
+      </div>
+      <div class="reel__shade" aria-hidden="true"></div>
+    </div>
+
+    <h2 id="reel-title" class="reel__title">
+      <span class="reel__word reel__word--l">Kein</span>
+      <span class="reel__word reel__word--r">Baukasten.</span>
+    </h2>
+
+    <div class="content reel__copy">
+      <p class="reel__text">
+        Jede Seite wird für deinen Betrieb geplant, geschrieben und von Hand programmiert. Keine
+        gekaufte Vorlage, kein Seitenbaukasten.
+      </p>
+      <a class="link-arrow reel__link" href="/leistungen/websites/"
+        >So entsteht deine Website <span class="arrow" aria-hidden="true">→</span></a
+      >
+    </div>
+  </div>
+</section>
+
+<style>
+  .reel {
+    position: relative;
+    background: var(--ks-paper);
+  }
+  .reel__stage {
+    position: relative;
+    display: grid;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    padding-block: var(--section-y);
+  }
+  .reel__frame {
+    position: relative;
+    margin-inline: var(--gutter);
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+  }
+  .reel__img,
+  .reel__img :global(.photo),
+  .reel__img :global(picture),
+  .reel__img :global(img) {
+    position: absolute;
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+  }
+  .reel__shade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      color-mix(in srgb, var(--ks-black) 85%, transparent),
+      color-mix(in srgb, var(--ks-black) 10%, transparent) 70%
+    );
+  }
+  .reel__title {
+    order: -1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 0.25em;
+    padding-inline: var(--gutter);
+    font-size: clamp(3rem, 12vw, 13rem);
+    line-height: 0.9;
+    letter-spacing: -0.045em;
+  }
+  .reel__word--r {
+    color: var(--ks-cyan);
+  }
+  .reel__copy {
+    display: grid;
+    gap: 1.5rem;
+    justify-items: start;
+  }
+  .reel__text {
+    max-width: 30ch;
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 2.6vw, 2.6rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.035em;
+  }
+
+  /* --- Am Rechner: Bild geht beim Scrollen auf ------------------------- */
+  :global(html.has-scroll-fx) .reel {
+    height: 280svh;
+    /* Öffnen bis 60 %, danach erscheint der Text. */
+    --open: min(1, calc(var(--p, 0) / 0.6));
+    --text-in: max(0, min(1, calc((var(--p, 0) - 0.55) / 0.25)));
+  }
+  :global(html.has-scroll-fx) .reel__stage {
+    position: sticky;
+    top: 0;
+    block-size: 100svh;
+    padding: 0;
+    overflow: hidden;
+    display: block;
+  }
+  :global(html.has-scroll-fx) .reel__frame {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    aspect-ratio: auto;
+    clip-path: inset(calc((1 - var(--open)) * 30%) calc((1 - var(--open)) * 36%));
+    will-change: clip-path;
+  }
+  :global(html.has-scroll-fx) .reel__img {
+    transform: scale(calc(1.35 - var(--open) * 0.35));
+    will-change: transform;
+  }
+  :global(html.has-scroll-fx) .reel__shade {
+    opacity: var(--text-in);
+  }
+  :global(html.has-scroll-fx) .reel__title {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+    padding-inline: calc(var(--gutter) * 0.5);
+    font-size: clamp(3rem, 9.5vw, 12rem);
+    pointer-events: none;
+  }
+  :global(html.has-scroll-fx) .reel__word {
+    opacity: calc(1 - var(--open) * 1.15);
+  }
+  :global(html.has-scroll-fx) .reel__word--l {
+    transform: translate3d(calc(var(--open) * -40vw), 0, 0);
+  }
+  :global(html.has-scroll-fx) .reel__word--r {
+    transform: translate3d(calc(var(--open) * 40vw), 0, 0);
+  }
+  :global(html.has-scroll-fx) .reel__copy {
+    position: absolute;
+    inset: auto 0 clamp(3rem, 9vh, 6rem);
+    opacity: var(--text-in);
+    transform: translate3d(0, calc((1 - var(--text-in)) * 3rem), 0);
+  }
+  :global(html.has-scroll-fx) .reel__text {
+    font-size: clamp(2rem, 4vw, 4.4rem);
+    max-width: 24ch;
+  }
+  /* Per Tastatur erreicht, steht der Text sofort da. */
+  :global(html.has-scroll-fx) .reel__copy:focus-within {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* --- CSS-Scroll-Animationen (auch Handy und iPad) ------------------------
+     Statt das Fenster zu beschneiden, wächst es per scale; das Bild darin
+     schrumpft gegenläufig und bleibt so fast gleich groß. Beides läuft auf
+     der Grafikeinheit. */
+  :global(html.has-sda) .reel {
+    view-timeline: --reel block;
+  }
+  :global(html.has-sda) .reel__frame {
+    clip-path: none;
+    animation: reel-frame linear both;
+  }
+  :global(html.has-sda) .reel__img {
+    animation: reel-img linear both;
+  }
+  :global(html.has-sda) .reel__shade {
+    animation: reel-text linear both;
+  }
+  :global(html.has-sda) .reel__word--l {
+    animation: reel-left linear both;
+  }
+  :global(html.has-sda) .reel__word--r {
+    animation: reel-right linear both;
+  }
+  :global(html.has-sda) .reel__copy {
+    animation: reel-copy linear both;
+  }
+  :global(html.has-sda)
+    :is(.reel__frame, .reel__img, .reel__shade, .reel__word--l, .reel__word--r, .reel__copy) {
+    animation-timeline: --reel;
+    animation-range: contain 0% contain 100%;
+  }
+  @keyframes reel-frame {
+    0% {
+      transform: scale(0.34);
+    }
+    60%,
+    100% {
+      transform: none;
+    }
+  }
+  /* Gegenläufig zum Fenster, damit das Bild nur leicht herauszoomt (1,3 → 1). */
+  @keyframes reel-img {
+    0% {
+      transform: scale(3.82);
+    }
+    15% {
+      transform: scale(2.43);
+    }
+    30% {
+      transform: scale(1.72);
+    }
+    45% {
+      transform: scale(1.29);
+    }
+    60%,
+    100% {
+      transform: none;
+    }
+  }
+  @keyframes reel-text {
+    0%,
+    55% {
+      opacity: 0;
+    }
+    80%,
+    100% {
+      opacity: 1;
+    }
+  }
+  @keyframes reel-copy {
+    0%,
+    55% {
+      opacity: 0;
+      transform: translate3d(0, 3rem, 0);
+    }
+    80%,
+    100% {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes reel-left {
+    0% {
+      opacity: 1;
+      transform: none;
+    }
+    52% {
+      opacity: 0;
+    }
+    60%,
+    100% {
+      opacity: 0;
+      transform: translate3d(-40vw, 0, 0);
+    }
+  }
+  @keyframes reel-right {
+    0% {
+      opacity: 1;
+      transform: none;
+    }
+    52% {
+      opacity: 0;
+    }
+    60%,
+    100% {
+      opacity: 0;
+      transform: translate3d(40vw, 0, 0);
+    }
+  }
+
+  /* Hochformat: Die Wörter stehen über und unter dem Fenster und weichen
+     nach oben und unten aus. */
+  @media (max-aspect-ratio: 1 / 1) {
+    :global(html.has-scroll-fx) .reel__title {
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding-block: calc(var(--header-h) + 3svh) 8svh;
+      font-size: clamp(3rem, 14vw, 8rem);
+    }
+    :global(html.has-scroll-fx) .reel__word--r {
+      align-self: flex-end;
+    }
+    :global(html.has-sda) .reel__word--l {
+      animation-name: reel-up;
+    }
+    :global(html.has-sda) .reel__word--r {
+      animation-name: reel-down;
+    }
+    :global(html.has-scroll-fx) .reel__frame {
+      clip-path: inset(calc((1 - var(--open)) * 28%) calc((1 - var(--open)) * 18%));
+    }
+    :global(html.has-sda) .reel__frame {
+      clip-path: none;
+    }
+    @keyframes reel-up {
+      0% {
+        opacity: 1;
+        transform: none;
+      }
+      52% {
+        opacity: 0;
+      }
+      60%,
+      100% {
+        opacity: 0;
+        transform: translate3d(0, -30svh, 0);
+      }
+    }
+    @keyframes reel-down {
+      0% {
+        opacity: 1;
+        transform: none;
+      }
+      52% {
+        opacity: 0;
+      }
+      60%,
+      100% {
+        opacity: 0;
+        transform: translate3d(0, 30svh, 0);
+      }
+    }
+  }
+</style>

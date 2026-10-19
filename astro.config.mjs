@@ -94,6 +94,10 @@ export default defineConfig({
       cssCodeSplit: false,
       // Keine Inline-Assets/-Scripts – ausführbare Skripte extern ausliefern (CSP-freundlich).
       assetsInlineLimit: 0,
+      // Explizite Zielbrowser für die CSS-Minifizierung. Ohne Ziele fasst
+      // lightningcss `animation-timeline` in die Kurzschreibweise `animation`
+      // ein, die Browser so nicht lesen – die Scroll-Animationen fielen aus.
+      cssTarget: ['chrome111', 'edge111', 'firefox114', 'safari16.4'],
     },
   },
 });

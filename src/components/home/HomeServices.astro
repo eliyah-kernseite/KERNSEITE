@@ -56,12 +56,19 @@ const services = [
     img: '/assets/agentur/arbeitsplatz-abend-640.webp',
   },
 ] as const;
-const [from] = websiteOffer.range.split('–');
+const [from = ''] = websiteOffer.range.split('–');
+const fromValue = Number(from.replace(/\D/g, ''));
 ---
 
 <section class="services section" aria-labelledby="services-title">
   <div class="content">
-    <h2 id="services-title" class="services__title" data-split>Was wir machen.</h2>
+    <div class="services__head">
+      <h2 id="services-title" class="services__title" data-split>Was wir machen.</h2>
+      <p class="services__sub" data-reveal>
+        Acht Leistungen, ein Ansprechpartner. Du musst nicht zwischen Webdesigner, Texter und
+        Fotograf vermitteln.
+      </p>
+    </div>
 
     <ul class="services__list" role="list" data-preview>
       {
@@ -80,23 +87,43 @@ const [from] = websiteOffer.range.split('–');
     </ul>
 
     <div class="price" data-reveal data-spotlight>
-      <p class="price__amount">
-        Websites ab <strong>{from} €</strong>
-      </p>
-      <p class="price__fine">netto, Festpreis im schriftlichen Angebot</p>
-      <a class="btn btn--primary btn--lg" href="/kontakt/#leistung=websites" data-magnetic
-        >Projekt anfragen <span aria-hidden="true">↗</span></a
-      >
+      <div class="price__main">
+        <p class="price__label">Individuelle Website</p>
+        <p class="price__amount">
+          <span class="price__from">ab</span>
+          <strong><span data-count={fromValue}>{from.trim()}</span> €</strong>
+        </p>
+        <p class="price__fine">netto, Festpreis im schriftlichen Angebot</p>
+        <a class="btn btn--primary btn--lg" href="/kontakt/#leistung=websites" data-magnetic
+          >Projekt anfragen <span aria-hidden="true">↗</span></a
+        >
+      </div>
+      <ul class="price__list" role="list">
+        {websiteOffer.includes.map((item) => <li>{item}</li>)}
+      </ul>
     </div>
   </div>
 </section>
 
 <style>
+  .services__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1.25rem 3rem;
+    margin-block-end: clamp(2rem, 5vw, 4rem);
+  }
   .services__title {
     font-size: clamp(3rem, 8vw, 8rem);
     line-height: 0.9;
     letter-spacing: -0.045em;
-    margin-block-end: clamp(2rem, 5vw, 4rem);
+  }
+  .services__sub {
+    max-width: 34ch;
+    color: var(--text-muted);
+    font-size: var(--fs-lead);
+    line-height: 1.5;
   }
   .services__list {
     margin: 0;
@@ -182,27 +209,79 @@ const [from] = websiteOffer.range.split('–');
 
   .price {
     display: grid;
-    gap: 1rem;
-    justify-items: start;
+    gap: clamp(2rem, 5vw, 5rem);
     margin-block-start: clamp(3rem, 6vw, 5rem);
     padding: clamp(2rem, 5vw, 4.5rem);
     border: 1px solid var(--line-strong);
-    background: var(--ks-cream);
+    background:
+      radial-gradient(
+        60% 120% at 100% 0%,
+        color-mix(in srgb, var(--ks-cyan) 12%, transparent),
+        transparent 60%
+      ),
+      var(--ks-cream);
     overflow: hidden;
   }
+  .price__main {
+    display: grid;
+    gap: 1rem;
+    justify-items: start;
+    align-content: start;
+  }
+  .price__label {
+    font-weight: 600;
+    color: var(--text-muted);
+  }
   .price__amount {
+    display: flex;
+    align-items: baseline;
+    gap: 0.25em;
     font-family: var(--font-display);
-    font-size: clamp(2.2rem, 5.5vw, 5.5rem);
+    font-size: clamp(3.4rem, 9vw, 9rem);
     font-weight: 800;
-    line-height: 1;
-    letter-spacing: -0.04em;
+    line-height: 0.95;
+    letter-spacing: -0.045em;
+  }
+  .price__from {
+    font-size: 0.4em;
+    color: var(--text-muted);
   }
   .price__amount strong {
+    font-weight: 800;
     color: var(--ks-cyan);
+    white-space: nowrap;
   }
   .price__fine {
     margin-block-end: 1rem;
     color: var(--text-muted);
     font-size: 1.05rem;
+  }
+  .price__list {
+    display: grid;
+    align-content: center;
+    margin: 0;
+    padding: 0;
+    border-block-start: 1px solid var(--line-strong);
+  }
+  .price__list li {
+    display: flex;
+    gap: 0.9rem;
+    padding-block: 1rem;
+    border-block-end: 1px solid var(--line-strong);
+    font-size: 1.05rem;
+  }
+  .price__list li::before {
+    content: '';
+    flex: none;
+    inline-size: 0.55rem;
+    block-size: 0.55rem;
+    margin-block-start: 0.55em;
+    background: var(--ks-cyan);
+  }
+  @media (min-width: 64rem) {
+    .price {
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      align-items: center;
+    }
   }
 </style>

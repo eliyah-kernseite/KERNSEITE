@@ -250,3 +250,348 @@ html.has-motion:not(.motion-ready) [data-split] .split {
     transform: none;
   }
 }
+
+/* =============================================================================
+   Intro, Seitenwechsel, Material
+   ========================================================================== */
+
+/* --- Intro ----------------------------------------------------------------
+   Nur beim ersten Aufruf je Sitzung (`has-intro`, gesetzt in a11y-init.js).
+   Reines CSS: Die Buchstaben steigen auf, die Linie füllt sich, dann fährt
+   der Vorhang nach oben weg. Fängt nie Klicks ab. */
+.intro {
+  display: none;
+}
+html.has-intro .intro {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: grid;
+  place-items: center;
+  background: var(--ks-black);
+  pointer-events: none;
+  animation: intro-out 800ms var(--ease-in-out) 950ms both;
+}
+.intro__word {
+  display: flex;
+  align-items: baseline;
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 11vw, 9rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.042em;
+  color: var(--ks-bone);
+}
+.intro__clip {
+  display: inline-block;
+  overflow: clip;
+  padding-block-end: 0.08em;
+}
+.intro__letter {
+  display: inline-block;
+  animation: intro-letter 700ms var(--ease-out) both;
+}
+.intro__clip:nth-child(2) .intro__letter {
+  animation-delay: 40ms;
+}
+.intro__clip:nth-child(3) .intro__letter {
+  animation-delay: 80ms;
+}
+.intro__clip:nth-child(4) .intro__letter {
+  animation-delay: 120ms;
+}
+.intro__clip:nth-child(5) .intro__letter {
+  animation-delay: 160ms;
+}
+.intro__clip:nth-child(6) .intro__letter {
+  animation-delay: 200ms;
+}
+.intro__clip:nth-child(7) .intro__letter {
+  animation-delay: 240ms;
+}
+.intro__clip:nth-child(8) .intro__letter {
+  animation-delay: 280ms;
+}
+.intro__clip:nth-child(9) .intro__letter {
+  animation-delay: 320ms;
+}
+.intro__core {
+  inline-size: 0.24em;
+  block-size: 0.24em;
+  margin-inline-start: 0.07em;
+  background: var(--ks-cyan);
+  animation: intro-core 650ms var(--ease-out) 420ms both;
+}
+.intro__bar {
+  position: absolute;
+  inset: auto 0 0;
+  block-size: 3px;
+  background: var(--ks-cyan);
+  transform-origin: left;
+  animation: intro-bar 1000ms var(--ease-in-out) both;
+}
+@keyframes intro-letter {
+  from {
+    transform: translate3d(0, 105%, 0);
+  }
+}
+@keyframes intro-core {
+  from {
+    transform: translate3d(0, -1.4em, 0) rotate(-90deg);
+    opacity: 0;
+  }
+}
+@keyframes intro-bar {
+  from {
+    transform: scaleX(0);
+  }
+}
+@keyframes intro-out {
+  to {
+    transform: translate3d(0, -100%, 0);
+    visibility: hidden;
+  }
+}
+/* Der erste Bildschirm wartet, bis der Vorhang oben ist. */
+html.has-intro main > :first-child [data-split] .split {
+  transition-delay: calc(var(--split-delay, 0ms) + 1150ms);
+}
+html.has-intro main > :first-child [data-reveal] {
+  transition-delay: calc(var(--reveal-delay, 0ms) + 1350ms);
+}
+
+/* --- Seitenwechsel ----------------------------------------------------------
+   Die neue Seite schiebt sich von unten über die alte, die Kopfzeile bleibt
+   stehen. Browser ohne View Transitions wechseln wie gewohnt. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+}
+.site-header {
+  view-transition-name: site-header;
+}
+::view-transition-old(root) {
+  animation: vt-out 650ms var(--ease-in-out) both;
+}
+::view-transition-new(root) {
+  animation: vt-in 750ms var(--ease-out) 80ms both;
+}
+@keyframes vt-out {
+  to {
+    opacity: 0.25;
+    transform: translate3d(0, -6vh, 0) scale(0.96);
+  }
+}
+@keyframes vt-in {
+  from {
+    clip-path: inset(100% 0 0 0);
+    transform: translate3d(0, 12vh, 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+    transform: none;
+  }
+}
+:root[data-a11y-motion='reduced']::view-transition-old(root),
+:root[data-a11y-motion='reduced']::view-transition-new(root) {
+  animation: none;
+}
+
+/* --- Körnung ---------------------------------------------------------------
+   Feines Filmkorn über den dunklen Flächen, nur am Rechner. */
+html.has-fine body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9990;
+  background: url('/assets/ui/grain.webp') repeat;
+  background-size: 128px;
+  opacity: 0.16;
+  pointer-events: none;
+}
+[data-a11y-contrast='high'] body::after {
+  display: none;
+}
+
+/* --- Schaltflächen ---------------------------------------------------------
+   Beim Überfahren rollt die Beschriftung nach oben und eine Fläche schiebt
+   sich von unten in den Button. Die Kopie der Beschriftung legt motion.ts an. */
+.btn {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+.btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--ks-bone);
+  transform: translate3d(0, 101%, 0);
+  transition: transform 550ms var(--ease-out);
+  pointer-events: none;
+}
+.btn:hover::before,
+.btn:focus-visible::before {
+  transform: none;
+}
+.btn--primary:hover {
+  background: var(--accent);
+  border-color: var(--ks-bone);
+}
+.btn--ghost:hover,
+.btn--ghost:focus-visible,
+.btn--secondary:hover,
+.btn--secondary:focus-visible {
+  color: var(--ks-black);
+  border-color: var(--ks-bone);
+}
+.btn__roll {
+  display: inline-grid;
+  gap: inherit;
+  overflow: hidden;
+}
+.btn__label {
+  grid-area: 1 / 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: inherit;
+  transition: transform 550ms var(--ease-out);
+}
+.btn__label--clone {
+  transform: translate3d(0, 110%, 0);
+}
+.btn:hover .btn__label,
+.btn:focus-visible .btn__label {
+  transform: translate3d(0, -110%, 0);
+}
+.btn:hover .btn__label--clone,
+.btn:focus-visible .btn__label--clone {
+  transform: none;
+}
+
+/* --- Rotierendes Siegel ----------------------------------------------------- */
+.seal {
+  position: relative;
+  display: grid;
+  place-items: center;
+  inline-size: var(--seal-size, 9.5rem);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  color: var(--text);
+  text-decoration: none;
+}
+.seal__ring {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  fill: currentColor;
+  font-family: var(--font-display);
+  font-size: 9.6px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  animation: seal-spin 22s linear infinite;
+}
+.seal__core {
+  display: grid;
+  place-items: center;
+  inline-size: 46%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--ks-cyan);
+  color: var(--ks-black);
+  font-size: 1.6rem;
+  transition:
+    transform 600ms var(--ease-out),
+    background-color 300ms var(--ease-out);
+}
+.seal:hover .seal__core,
+.seal:focus-visible .seal__core {
+  transform: scale(1.18) rotate(45deg);
+}
+.seal--dark {
+  color: var(--ks-black);
+}
+.seal--dark .seal__core {
+  background: var(--ks-black);
+  color: var(--ks-cyan);
+}
+@keyframes seal-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+:root[data-a11y-motion='reduced'] .seal__ring {
+  animation: none;
+}
+
+/* --- Überschriften: Wörter steigen leicht gedreht auf ------------------------ */
+html.has-motion [data-split] .split {
+  transform: translate3d(0, 110%, 0) rotate(5deg);
+  transform-origin: 0 100%;
+}
+html.has-motion [data-split].is-in .split {
+  transform: none;
+}
+
+/* --- Zahlen zählen hoch -------------------------------------------------- */
+[data-count] {
+  font-variant-numeric: tabular-nums;
+}
+
+/* =============================================================================
+   Scroll-Animationen in CSS (`html.has-sda`)
+   Der Browser rechnet sie direkt beim Scrollen, ohne Skript. Animiert werden
+   nur transform, translate, scale und opacity, damit alles auf der
+   Grafikeinheit läuft – auch auf Handy und iPad flüssig. Die Stärke je
+   Element (--par, --drift-amt) setzt motion.ts einmalig aus dem data-Attribut.
+   ========================================================================== */
+@keyframes ks-parallax {
+  from {
+    translate: 0 calc(var(--par, 0.12) * -1 * (50vh + 50%));
+  }
+  to {
+    translate: 0 calc(var(--par, 0.12) * (50vh + 50%));
+  }
+}
+html.has-sda [data-parallax] {
+  animation: ks-parallax linear both;
+  animation-timeline: view();
+}
+
+@keyframes ks-drift {
+  from {
+    translate: calc(var(--drift-amt, 10) * -0.5vw) 0;
+  }
+  to {
+    translate: calc(var(--drift-amt, 10) * 0.5vw) 0;
+  }
+}
+html.has-sda [data-drift] {
+  animation: ks-drift linear both;
+  animation-timeline: view();
+}
+
+@keyframes ks-scale-x {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+html.has-sda [data-scroll-progress] {
+  animation: ks-scale-x linear both;
+  animation-timeline: scroll(root);
+}
+
+/* Laufband auf Touchgeräten: gleichmäßige CSS-Animation statt Skriptschleife. */
+html.has-motion:not(.has-fine) [data-marquee] > * {
+  animation: ks-marquee 38s linear infinite;
+}
+html.has-motion:not(.has-fine) [data-marquee='right'] > * {
+  animation-direction: reverse;
+}

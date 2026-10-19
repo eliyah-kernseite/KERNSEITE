@@ -1,10 +1,13 @@
 ---
 /**
- * CtaBanner – vollbreite Abschluss-Sektion. Dunkle Fläche mit weichem
- * türkisem Schein von unten, Türkis nur als Akzent statt als ganze Fläche.
+ * CtaBanner – Abschluss jeder Seite. Unter dem Laufband geht eine
+ * cyanfarbene Fläche auf, während man hineinscrollt (CSS-Scroll-Animation,
+ * sonst `[data-grow]`), darauf die große Frage in Schwarz. Ohne Bewegung
+ * steht die Fläche sofort voll da.
  */
 import { activeCompany } from '../lib/config-validation';
 import Marquee from './home/Marquee.astro';
+import Seal from './Seal.astro';
 
 interface Props {
   title?: string;
@@ -35,41 +38,44 @@ const {
 
 <section class="cta">
   <Marquee items={[ctaLabel]} />
-  <div class="content cta__inner">
-    <h2 class="cta__title" data-split>
-      {
-        title ? (
-          title
-        ) : (
-          <>
-            {markedTitle[0]}
-            <br />
-            {markedTitle[1]}
-            <em class="cta__mark">{markedTitle[2]}</em>
-            {markedTitle[3]}
-          </>
-        )
-      }
-    </h2>
-    <p class="cta__text">{text}</p>
-    <div class="cta__actions">
-      <a class="btn btn--primary btn--lg" href={ctaHref} data-magnetic
-        >{ctaLabel} <span aria-hidden="true">↗</span></a
-      >
-      {
-        secondaryLabel && secondaryHref && (
-          <span class="cta__mail">
-            <a class="cta__mailto" href={secondaryHref}>
-              {secondaryLabel}
-            </a>
-            {secondaryHref.startsWith('mailto:') && (
-              <button type="button" class="cta__copy" data-copy={secondaryLabel}>
-                Kopieren
-              </button>
-            )}
-          </span>
-        )
-      }
+  <div class="cta__panel section--cyan" data-grow>
+    <div class="content cta__inner">
+      <h2 class="cta__title" data-split>
+        {
+          title ? (
+            title
+          ) : (
+            <>
+              {markedTitle[0]}
+              <br />
+              {markedTitle[1]}
+              <em class="cta__mark">{markedTitle[2]}</em>
+              {markedTitle[3]}
+            </>
+          )
+        }
+      </h2>
+      <p class="cta__text">{text}</p>
+      <div class="cta__actions">
+        <a class="btn btn--primary btn--lg" href={ctaHref} data-magnetic
+          >{ctaLabel} <span aria-hidden="true">↗</span></a
+        >
+        {
+          secondaryLabel && secondaryHref && (
+            <span class="cta__mail">
+              <a class="cta__mailto" href={secondaryHref}>
+                {secondaryLabel}
+              </a>
+              {secondaryHref.startsWith('mailto:') && (
+                <button type="button" class="cta__copy" data-copy={secondaryLabel}>
+                  Kopieren
+                </button>
+              )}
+            </span>
+          )
+        }
+      </div>
+      <Seal class="cta__seal" tone="dark" />
     </div>
   </div>
 </section>
@@ -79,34 +85,64 @@ const {
     position: relative;
     isolation: isolate;
     overflow: clip;
-    padding-block: 0 calc(var(--section-y) * 1.1);
     background: var(--ks-black);
     border-block-start: 1px solid var(--line);
   }
-  /* Weicher Schein statt voller Türkisfläche. */
-  .cta::before {
-    content: '';
-    position: absolute;
-    inset: auto -20% -55% auto;
-    z-index: -1;
-    inline-size: min(90vw, 70rem);
-    aspect-ratio: 1;
-    border-radius: 50%;
-    background: radial-gradient(
-      closest-side,
-      color-mix(in srgb, var(--ks-cyan) 13%, transparent),
-      transparent
-    );
-    pointer-events: none;
-  }
   .cta :global(.marquee) {
-    margin-block-end: clamp(2rem, 5vw, 4rem);
     border-block-end: 1px solid var(--line);
   }
+  .cta__panel {
+    position: relative;
+    isolation: isolate;
+    padding-block: clamp(4.5rem, 11vw, 10rem);
+    background: transparent;
+    color: var(--ks-black);
+  }
+  /* Die Cyan-Fläche liegt als eigene Ebene hinter dem Text und wächst per
+     scale auf volle Breite. Die Schrift bleibt dabei ruhig stehen. */
+  .cta__panel::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--ks-cyan);
+  }
+  :global(html.has-scroll-fx) .cta__panel::before {
+    transform: scale(calc(0.88 + 0.12 * var(--g, 1)));
+    will-change: transform;
+  }
+  :global(html.has-sda) .cta__panel {
+    view-timeline: --cta block;
+  }
+  :global(html.has-sda) .cta__panel::before {
+    animation: cta-grow linear both;
+    animation-timeline: --cta;
+    animation-range: entry 0% entry 100%;
+  }
+  @keyframes cta-grow {
+    from {
+      transform: scale(0.88);
+    }
+    to {
+      transform: none;
+    }
+  }
   .cta__inner {
+    position: relative;
     display: grid;
     gap: var(--space-xl);
     min-inline-size: 0;
+  }
+  .cta__inner :global(.cta__seal) {
+    --seal-size: clamp(8rem, 11vw, 11rem);
+    justify-self: start;
+  }
+  @media (min-width: 64rem) {
+    .cta__inner :global(.cta__seal) {
+      position: absolute;
+      inset-block-start: 0;
+      inset-inline-end: var(--gutter);
+    }
   }
   .cta__inner > * {
     min-inline-size: 0;
@@ -121,8 +157,10 @@ const {
   .cta__mark {
     font-style: normal;
     background: none;
-    color: var(--ks-cyan);
-    text-decoration: none;
+    color: var(--ks-black);
+    text-decoration: underline;
+    text-decoration-thickness: 0.08em;
+    text-underline-offset: 0.12em;
     white-space: nowrap;
   }
   /* Bei starkem Zoom passt das markierte Wort nicht mehr in die Zeile. */
@@ -152,7 +190,7 @@ const {
   .cta__copy {
     min-height: 44px;
     padding: 0.4rem 0.9rem;
-    border: 1px solid var(--line-strong);
+    border: 1px solid var(--ks-black);
     background: transparent;
     color: var(--text);
     font-weight: 600;
@@ -164,8 +202,8 @@ const {
   }
   .cta__copy:hover,
   .cta__copy:focus-visible {
-    border-color: var(--ks-bone);
-    background: color-mix(in srgb, var(--ks-bone) 8%, transparent);
+    background: var(--ks-black);
+    color: var(--ks-cyan);
   }
   .cta__mailto {
     /* Die E-Mail-Adresse ist ein langes zusammenhängendes Wort. */
