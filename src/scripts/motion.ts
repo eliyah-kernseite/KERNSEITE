@@ -30,7 +30,12 @@
  *   [data-count]           Zahl zählt beim Einblenden hoch
  *   .btn                   Beschriftung rollt beim Überfahren (Kopie wird hier angelegt)
  *
- * Weiches Scrollen übernimmt Lenis, ebenfalls nur ohne Bewegungswunsch.
+ * Weiches Scrollen übernimmt Lenis, nur am Rechner und ohne Bewegungswunsch.
+ *
+ * Kann der Browser CSS-Scroll-Animationen (`html.has-sda`), laufen Pinnen,
+ * Zoom, Parallaxe und Spuren komplett in CSS und damit auch auf Handy und
+ * iPad flüssig. Das Skript übernimmt diese Effekte nur noch am Rechner in
+ * Browsern ohne diese Fähigkeit.
  */
 import Lenis from 'lenis';
 
@@ -105,11 +110,23 @@ interface ScrubItem {
   words: HTMLElement[];
 }
 
-/** Pinnen, Spuren, Zoom und Parallaxe nur am Rechner (siehe public/a11y-init.js). */
+/** Scrollgebundene Szenen aktiv (siehe public/a11y-init.js). */
 const scrollFx = (): boolean => root.classList.contains('has-scroll-fx');
+/** Der Browser rechnet die Szenen selbst (CSS `animation-timeline`), das Skript hält sich raus. */
+const cssScroll = (): boolean => root.classList.contains('has-sda');
+/** Maus oder Trackpad am Rechner. */
+const finePointer = (): boolean => root.classList.contains('has-fine');
 
 function setupScroll(): void {
-  const fx = scrollFx();
+  // Mit CSS-Scroll-Animationen setzt das Skript nur einmal die Stärke je
+  // Element, gerechnet wird beim Scrollen im Browser.
+  if (cssScroll()) {
+    for (const el of document.querySelectorAll<HTMLElement>('[data-parallax]'))
+      el.style.setProperty('--par', String(Number(el.dataset.parallax) || 0.12));
+    for (const el of document.querySelectorAll<HTMLElement>('[data-drift]'))
+      el.style.setProperty('--drift-amt', String(Number(el.dataset.drift) || 10));
+  }
+  const fx = scrollFx() && !cssScroll();
   const fxOnly = (sel: string): HTMLElement[] =>
     fx ? Array.from(document.querySelectorAll<HTMLElement>(sel)) : [];
   const scrubs: ScrubItem[] = Array.from(
@@ -120,7 +137,9 @@ function setupScroll(): void {
   const progress = Array.from(document.querySelectorAll<HTMLElement>('[data-progress]'));
   const pins = fxOnly('[data-pin]');
   const drifts = fxOnly('[data-drift]');
-  const pageBars = Array.from(document.querySelectorAll<HTMLElement>('[data-scroll-progress]'));
+  const pageBars = cssScroll()
+    ? []
+    : Array.from(document.querySelectorAll<HTMLElement>('[data-scroll-progress]'));
   const grows = fxOnly('[data-grow]');
   const leaves = fxOnly('[data-leave]');
 
@@ -471,7 +490,7 @@ function setupCounters(): void {
 
 /* --- Tiefe mit dem Mauszeiger -------------------------------------------- */
 function setupDepth(): void {
-  if (!scrollFx()) return;
+  if (!finePointer()) return;
   for (const el of document.querySelectorAll<HTMLElement>('[data-depth]')) {
     const host = el.closest<HTMLElement>('section') ?? el;
     const strength = Number(el.dataset.depth) || 20;
@@ -517,7 +536,7 @@ function setupMagnetic(): void {
 function init(): void {
   setupUtilities();
   if (reduced()) {
-    root.classList.remove('has-motion', 'has-scroll-fx');
+    root.classList.remove('has-motion', 'has-scroll-fx', 'has-sda');
     return;
   }
   root.classList.add('has-motion');
@@ -527,13 +546,14 @@ function init(): void {
   root.classList.add('motion-ready');
   setupScroll();
   setupMagnetic();
-  setupMarquees();
+  // Auf Touchgeräten läuft das Laufband als reine CSS-Animation (motion.css).
+  if (finePointer()) setupMarquees();
   setupCursor();
   setupPointerFx();
   setupCounters();
   setupDepth();
   // Auf Touchgeräten scrollt der Browser selbst am flüssigsten.
-  if (scrollFx()) setupSmoothScroll();
+  if (finePointer()) setupSmoothScroll();
 }
 
 init();
@@ -541,7 +561,7 @@ init();
 // Wird „Bewegung reduzieren“ später eingeschaltet, sofort alles zeigen.
 new MutationObserver(() => {
   if (reduced()) {
-    root.classList.remove('has-motion', 'has-scroll-fx');
+    root.classList.remove('has-motion', 'has-scroll-fx', 'has-sda');
     lenis?.destroy();
     lenis = undefined;
   }

@@ -208,6 +208,37 @@ const jsonLd = [breadcrumbJsonLd(breadcrumbs), ...extraJsonLd];
   :global(html.has-scroll-fx) .page-hero__img {
     scale: calc(1 + var(--leave, 0) * 0.18);
   }
+  :global(html.has-sda) .page-hero {
+    view-timeline: --page-hero block;
+  }
+  :global(html.has-sda) .page-hero__grid {
+    animation: page-hero-leave linear both;
+    animation-timeline: --page-hero;
+    animation-range: exit 0% exit 100%;
+  }
+  :global(html.has-sda) .page-hero__img {
+    animation: page-hero-zoom linear both;
+    animation-timeline: --page-hero;
+    animation-range: exit 0% exit 100%;
+  }
+  @keyframes page-hero-leave {
+    0% {
+      opacity: 1;
+      transform: none;
+    }
+    90%,
+    100% {
+      opacity: 0;
+    }
+    100% {
+      transform: translate3d(0, -14vh, 0);
+    }
+  }
+  @keyframes page-hero-zoom {
+    to {
+      scale: 1.18;
+    }
+  }
   /* Feine Linie, die sich unter dem Seitenkopf von links aufzieht. */
   .page-hero::after {
     content: '';

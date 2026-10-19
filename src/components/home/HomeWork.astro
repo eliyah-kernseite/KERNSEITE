@@ -1,9 +1,9 @@
 ---
 /**
  * HomeWork – die Arbeiten als Galerie, die beim Scrollen seitlich durchfährt.
- * Auf großen Bildschirmen klebt der Abschnitt, während die Spur von rechts
- * nach links wandert (`[data-pin]` + `[data-hscroll]`). Auf Tablet und Handy
- * wischt man die Reihe selbst, ohne scrollgebundene Bewegung.
+ * Der Abschnitt klebt, während die Spur von rechts nach links wandert. Mit
+ * CSS-Scroll-Animationen auf allen Geräten, sonst am Rechner über
+ * `[data-pin]` + `[data-hscroll]`. Ohne Bewegung wischt man die Reihe selbst.
  */
 import { featuredProjects } from '../../config/cases';
 ---
@@ -181,10 +181,12 @@ import { featuredProjects } from '../../config/cases';
     color: var(--ks-cyan);
   }
 
-  /* Große Bildschirme mit Bewegung: Spur fährt seitlich durch. */
-  @media (min-width: 64rem) {
+  /* Mit Bewegung: Der Abschnitt klebt, die Spur fährt beim Scrollen seitlich
+     durch. Mit CSS-Scroll-Animationen auch auf Handy und iPad; nur auf sehr
+     niedrigen Bildschirmen (Handy quer) bleibt die Reihe zum Wischen. */
+  @media (min-height: 30rem) {
     :global(html.has-scroll-fx) .work {
-      height: 420vh;
+      height: 360svh;
       padding-block: 0;
     }
     :global(html.has-scroll-fx) .work__stage {
@@ -193,7 +195,7 @@ import { featuredProjects } from '../../config/cases';
       display: flex;
       flex-direction: column;
       justify-content: center;
-      block-size: 100vh;
+      block-size: 100svh;
       padding-block-start: var(--header-h);
       overflow: hidden;
     }
@@ -203,38 +205,77 @@ import { featuredProjects } from '../../config/cases';
     :global(html.has-scroll-fx) .work__list {
       display: flex;
       inline-size: max-content;
-      gap: 4vw;
+      gap: clamp(1rem, 4vw, 4rem);
       padding-inline: var(--gutter) 6vw;
       transform: translate3d(var(--shift, 0px), 0, 0);
       will-change: transform;
     }
     :global(html.has-scroll-fx) .work__item {
-      inline-size: min(58vw, calc((100vh - 21rem) * 1.6));
+      inline-size: min(82vw, calc((100svh - 19rem) * 1.5));
     }
     :global(html.has-scroll-fx) .work__item--all {
-      inline-size: 26vw;
+      inline-size: min(60vw, 26rem);
       align-self: stretch;
       display: grid;
     }
     :global(html.has-scroll-fx) .work__head {
-      margin-block-end: 2rem;
+      margin-block-end: clamp(1rem, 3vh, 2rem);
     }
     :global(html.has-scroll-fx) .work__title {
-      font-size: clamp(4rem, 9vw, 9rem);
+      font-size: clamp(3.4rem, 9vw, 9rem);
     }
-  }
-  .work__foot {
-    display: none;
-  }
-  @media (min-width: 64rem) {
     :global(html.has-scroll-fx) .work__foot {
       display: flex;
       align-items: center;
       gap: 1.5rem;
-      margin-block-start: clamp(1.5rem, 3vh, 2.5rem);
+      margin-block-start: clamp(1.25rem, 3vh, 2.5rem);
       color: var(--text-muted);
       font-size: 0.95rem;
     }
+  }
+  @media (min-width: 64rem) and (min-height: 30rem) {
+    :global(html.has-scroll-fx) .work {
+      height: 420svh;
+    }
+    :global(html.has-scroll-fx) .work__item {
+      inline-size: min(58vw, calc((100svh - 21rem) * 1.6));
+    }
+  }
+  /* Der Browser fährt die Spur selbst: um ihre eigene Breite abzüglich der Bühne. */
+  :global(html.has-sda) .work {
+    view-timeline: --work block;
+  }
+  :global(html.has-sda) .work__track {
+    container-type: inline-size;
+  }
+  :global(html.has-sda) .work__list {
+    animation: work-slide linear both;
+    animation-timeline: --work;
+    animation-range: contain 0% contain 100%;
+  }
+  :global(html.has-sda) .work__bar span {
+    animation: work-bar linear both;
+    animation-timeline: --work;
+    animation-range: contain 0% contain 100%;
+  }
+  @keyframes work-slide {
+    from {
+      transform: none;
+    }
+    to {
+      transform: translate3d(calc(-100% + 100cqw), 0, 0);
+    }
+  }
+  @keyframes work-bar {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+  .work__foot {
+    display: none;
   }
   .work__bar {
     position: relative;
@@ -251,7 +292,25 @@ import { featuredProjects } from '../../config/cases';
     transform-origin: left;
   }
 
-  /* Touchgeräte und ohne Skript: eine Reihe zum Wischen, nativ gescrollt. */
+  @media (max-height: 29.99rem) {
+    .work__list {
+      display: flex;
+      gap: 1rem;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-padding-inline: var(--gutter);
+      scrollbar-width: none;
+    }
+    .work__item {
+      flex: 0 0 min(60vw, 30rem);
+      scroll-snap-align: start;
+    }
+    .work__item--all {
+      flex-basis: min(40vw, 16rem);
+      display: grid;
+    }
+  }
+  /* Ohne Bewegung oder Skript: eine Reihe zum Wischen, nativ gescrollt. */
   :global(html:not(.has-scroll-fx)) .work__list {
     display: flex;
     gap: clamp(1rem, 3vw, 2rem);

@@ -120,7 +120,7 @@ const live = featuredProjects.find((p) => p.href.includes('kaya')) ?? featuredPr
   }
   .step {
     position: sticky;
-    top: calc(var(--header-h) + 1rem);
+    top: calc(var(--header-h) + 0.75rem);
   }
   .step--2 {
     top: calc(var(--header-h) + 2.25rem);
@@ -245,9 +245,36 @@ const live = featuredProjects.find((p) => p.href.includes('kaya')) ?? featuredPr
       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     }
   }
-  /* Auf schmalen oder niedrigen Bildschirmen wäre eine Tafel höher als der
-     Bildschirm und würde überdeckt, bevor man sie gelesen hat. */
-  @media (max-width: 55.99rem), (max-height: 46rem) {
+  /* Handy und Tablet hochkant: kompakte Tafeln, die vollständig auf den
+     Bildschirm passen, damit sie sich ebenfalls stapeln können. */
+  @media (max-width: 55.99rem) {
+    .step__inner {
+      gap: 1.25rem;
+      min-block-size: 0;
+      padding: 1.25rem;
+    }
+    .step__text {
+      gap: 0.7rem;
+    }
+    .step__title {
+      font-size: clamp(2.4rem, 11vw, 4rem);
+    }
+    .step__lead {
+      font-size: clamp(1.1rem, 4.6vw, 1.4rem);
+    }
+    .step__list li {
+      padding-block: 0.45rem;
+      font-size: 0.95rem;
+    }
+    .step__media :global(.photo),
+    .step__media :global(img) {
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+    }
+  }
+  /* Auf niedrigen Bildschirmen wäre eine Tafel höher als der Bildschirm und
+     würde überdeckt, bevor man sie gelesen hat: dann untereinander. */
+  @media (max-height: 40rem), (min-width: 56rem) and (max-height: 46rem) {
     .step {
       position: relative;
       top: auto;

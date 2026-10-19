@@ -400,7 +400,7 @@ html.has-intro main > :first-child [data-reveal] {
 
 /* --- Körnung ---------------------------------------------------------------
    Feines Filmkorn über den dunklen Flächen, nur am Rechner. */
-html.has-scroll-fx body::after {
+html.has-fine body::after {
   content: '';
   position: fixed;
   inset: 0;
@@ -537,17 +537,61 @@ html.has-motion [data-split].is-in .split {
   transform: none;
 }
 
-/* --- Wachsende Fläche ---------------------------------------------------------
-   `[data-grow]` setzt --g von 0 bis 1, während der Abschnitt hereinkommt.
-   Ohne Skript oder Bewegung steht die Fläche sofort voll da. */
-html.has-scroll-fx [data-grow] {
-  clip-path: inset(
-    calc((1 - var(--g, 1)) * 9%) calc((1 - var(--g, 1)) * 14%) round
-      calc((1 - var(--g, 1)) * 2.5rem)
-  );
-}
-
 /* --- Zahlen zählen hoch -------------------------------------------------- */
 [data-count] {
   font-variant-numeric: tabular-nums;
+}
+
+/* =============================================================================
+   Scroll-Animationen in CSS (`html.has-sda`)
+   Der Browser rechnet sie direkt beim Scrollen, ohne Skript. Animiert werden
+   nur transform, translate, scale und opacity, damit alles auf der
+   Grafikeinheit läuft – auch auf Handy und iPad flüssig. Die Stärke je
+   Element (--par, --drift-amt) setzt motion.ts einmalig aus dem data-Attribut.
+   ========================================================================== */
+@keyframes ks-parallax {
+  from {
+    translate: 0 calc(var(--par, 0.12) * -1 * (50vh + 50%));
+  }
+  to {
+    translate: 0 calc(var(--par, 0.12) * (50vh + 50%));
+  }
+}
+html.has-sda [data-parallax] {
+  animation: ks-parallax linear both;
+  animation-timeline: view();
+}
+
+@keyframes ks-drift {
+  from {
+    translate: calc(var(--drift-amt, 10) * -0.5vw) 0;
+  }
+  to {
+    translate: calc(var(--drift-amt, 10) * 0.5vw) 0;
+  }
+}
+html.has-sda [data-drift] {
+  animation: ks-drift linear both;
+  animation-timeline: view();
+}
+
+@keyframes ks-scale-x {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+html.has-sda [data-scroll-progress] {
+  animation: ks-scale-x linear both;
+  animation-timeline: scroll(root);
+}
+
+/* Laufband auf Touchgeräten: gleichmäßige CSS-Animation statt Skriptschleife. */
+html.has-motion:not(.has-fine) [data-marquee] > * {
+  animation: ks-marquee 38s linear infinite;
+}
+html.has-motion:not(.has-fine) [data-marquee='right'] > * {
+  animation-direction: reverse;
 }

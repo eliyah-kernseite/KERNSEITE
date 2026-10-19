@@ -1,8 +1,9 @@
 ---
 /**
  * CtaBanner – Abschluss jeder Seite. Unter dem Laufband geht eine
- * cyanfarbene Fläche auf, während man hineinscrollt (`[data-grow]`), darauf
- * die große Frage in Schwarz. Ohne Bewegung steht die Fläche sofort voll da.
+ * cyanfarbene Fläche auf, während man hineinscrollt (CSS-Scroll-Animation,
+ * sonst `[data-grow]`), darauf die große Frage in Schwarz. Ohne Bewegung
+ * steht die Fläche sofort voll da.
  */
 import { activeCompany } from '../lib/config-validation';
 import Marquee from './home/Marquee.astro';
@@ -91,10 +92,40 @@ const {
     border-block-end: 1px solid var(--line);
   }
   .cta__panel {
+    position: relative;
+    isolation: isolate;
     padding-block: clamp(4.5rem, 11vw, 10rem);
-    background: var(--ks-cyan);
+    background: transparent;
     color: var(--ks-black);
-    will-change: clip-path;
+  }
+  /* Die Cyan-Fläche liegt als eigene Ebene hinter dem Text und wächst per
+     scale auf volle Breite. Die Schrift bleibt dabei ruhig stehen. */
+  .cta__panel::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--ks-cyan);
+  }
+  :global(html.has-scroll-fx) .cta__panel::before {
+    transform: scale(calc(0.88 + 0.12 * var(--g, 1)));
+    will-change: transform;
+  }
+  :global(html.has-sda) .cta__panel {
+    view-timeline: --cta block;
+  }
+  :global(html.has-sda) .cta__panel::before {
+    animation: cta-grow linear both;
+    animation-timeline: --cta;
+    animation-range: entry 0% entry 100%;
+  }
+  @keyframes cta-grow {
+    from {
+      transform: scale(0.88);
+    }
+    to {
+      transform: none;
+    }
   }
   .cta__inner {
     position: relative;

@@ -141,6 +141,63 @@ const columns = [
       scale: 1.18;
     }
   }
+  /* Mit CSS-Scroll-Animationen (auch Handy und iPad): dieselbe Bewegung wie
+     oben über --p, nur rechnet sie der Browser direkt beim Scrollen. */
+  :global(html.has-sda) .hero {
+    view-timeline: --hero block;
+  }
+  :global(html.has-sda) .hero__wall {
+    animation:
+      hero-wall-in 2200ms var(--ease-out) both,
+      hero-zoom linear both;
+    animation-timeline: auto, --hero;
+    animation-range:
+      normal,
+      contain 0% contain 100%;
+  }
+  :global(html.has-sda.has-intro) .hero__wall {
+    animation-delay: 900ms, 0s;
+  }
+  :global(html.has-sda) .hero__shade {
+    animation: hero-shade linear both;
+    animation-timeline: --hero;
+    animation-range: contain 0% contain 100%;
+  }
+  :global(html.has-sda) .hero__content {
+    animation: hero-leave linear both;
+    animation-timeline: --hero;
+    animation-range: contain 0% contain 100%;
+  }
+  @keyframes hero-zoom {
+    from {
+      transform: none;
+    }
+    to {
+      transform: scale(1.35);
+    }
+  }
+  @keyframes hero-shade {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0.25;
+    }
+  }
+  @keyframes hero-leave {
+    0% {
+      opacity: 1;
+      transform: none;
+    }
+    62% {
+      opacity: 0;
+      transform: translate3d(0, -11.2vh, 0);
+    }
+    100% {
+      opacity: 0;
+      transform: translate3d(0, -18vh, 0);
+    }
+  }
   .hero__col {
     overflow: hidden;
   }
