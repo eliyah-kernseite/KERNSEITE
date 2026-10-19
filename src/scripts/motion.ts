@@ -24,6 +24,11 @@
  *   [data-copy]            Schaltfläche kopiert data-copy in die Zwischenablage
  *   [data-clock]           zeigt die aktuelle Uhrzeit in Würzburg
  *   [data-scroll-progress] Lesefortschritt der Seite als --scroll
+ *   [data-grow]            Fläche wächst beim Hereinscrollen auf volle Breite (--g, 0 bis 1)
+ *   [data-leave]           Seitenkopf weicht beim Herausscrollen (--leave, 0 bis 1)
+ *   [data-depth]           Fläche verschiebt sich leicht mit dem Mauszeiger (--dx, --dy)
+ *   [data-count]           Zahl zählt beim Einblenden hoch
+ *   .btn                   Beschriftung rollt beim Überfahren (Kopie wird hier angelegt)
  *
  * Weiches Scrollen übernimmt Lenis, ebenfalls nur ohne Bewegungswunsch.
  */
@@ -116,6 +121,8 @@ function setupScroll(): void {
   const pins = fxOnly('[data-pin]');
   const drifts = fxOnly('[data-drift]');
   const pageBars = Array.from(document.querySelectorAll<HTMLElement>('[data-scroll-progress]'));
+  const grows = fxOnly('[data-grow]');
+  const leaves = fxOnly('[data-leave]');
 
   // Erst alles messen, dann alles schreiben: abwechselndes Lesen und Schreiben
   // zwingt den Browser zu einem neuen Layout pro Element und lässt das
@@ -186,6 +193,21 @@ function setupScroll(): void {
       const p = (vh - r.top) / (vh + r.height) - 0.5;
       const amount = Number(el.dataset.drift) || 10;
       writes.push(() => el.style.setProperty('--drift', `${(p * amount).toFixed(2)}vw`));
+    }
+
+    for (const el of grows) {
+      const r = el.getBoundingClientRect();
+      if (!near(r, vh, 100)) continue;
+      // 0 wenn die Oberkante unten hereinkommt, 1 wenn sie ein Viertel hoch steht.
+      const g = Math.min(1, Math.max(0, (vh - r.top) / (vh * 0.75)));
+      writes.push(() => el.style.setProperty('--g', g.toFixed(4)));
+    }
+
+    for (const el of leaves) {
+      const r = el.getBoundingClientRect();
+      if (!near(r, vh, 0)) continue;
+      const leave = Math.min(1, Math.max(0, -r.top / Math.max(r.height, 1)));
+      writes.push(() => el.style.setProperty('--leave', leave.toFixed(4)));
     }
 
     if (pageBars.length) {
@@ -400,6 +422,73 @@ function setupUtilities(): void {
   }
 }
 
+/* --- Beschriftung rollt -------------------------------------------------- */
+function setupButtonRoll(): void {
+  for (const btn of document.querySelectorAll<HTMLElement>(
+    'a.btn, button.btn:not([data-submit])',
+  )) {
+    if (btn.querySelector('.btn__roll')) continue;
+    const label = document.createElement('span');
+    label.className = 'btn__label';
+    label.append(...Array.from(btn.childNodes));
+    const clone = label.cloneNode(true) as HTMLElement;
+    clone.classList.add('btn__label--clone');
+    clone.setAttribute('aria-hidden', 'true');
+    const roll = document.createElement('span');
+    roll.className = 'btn__roll';
+    roll.append(label, clone);
+    btn.append(roll);
+  }
+}
+
+/* --- Zahlen zählen hoch -------------------------------------------------- */
+function setupCounters(): void {
+  const fmt = new Intl.NumberFormat('de-DE');
+  const io = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        io.unobserve(entry.target);
+        const el = entry.target as HTMLElement;
+        const target = Number(el.dataset.count) || 0;
+        const start = performance.now();
+        const dur = 1400;
+        const step = (now: number): void => {
+          const t = Math.min(1, (now - start) / dur);
+          // Schnell los, weich ins Ziel.
+          const eased = 1 - Math.pow(1 - t, 4);
+          el.textContent = fmt.format(Math.round((target * eased) / 10) * 10);
+          if (t < 1) requestAnimationFrame(step);
+          else el.textContent = fmt.format(target);
+        };
+        requestAnimationFrame(step);
+      }
+    },
+    { threshold: 0.6 },
+  );
+  document.querySelectorAll<HTMLElement>('[data-count]').forEach((el) => io.observe(el));
+}
+
+/* --- Tiefe mit dem Mauszeiger -------------------------------------------- */
+function setupDepth(): void {
+  if (!scrollFx()) return;
+  for (const el of document.querySelectorAll<HTMLElement>('[data-depth]')) {
+    const host = el.closest<HTMLElement>('section') ?? el;
+    const strength = Number(el.dataset.depth) || 20;
+    let frame = 0;
+    host.addEventListener('pointermove', (e) => {
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        const x = (e.clientX / window.innerWidth - 0.5) * -strength;
+        const y = (e.clientY / window.innerHeight - 0.5) * -strength;
+        el.style.setProperty('--dx', `${x.toFixed(1)}px`);
+        el.style.setProperty('--dy', `${y.toFixed(1)}px`);
+      });
+    });
+  }
+}
+
 /* --- Weiches Scrollen ----------------------------------------------------- */
 let lenis: Lenis | undefined;
 function setupSmoothScroll(): void {
@@ -432,6 +521,7 @@ function init(): void {
     return;
   }
   root.classList.add('has-motion');
+  setupButtonRoll();
   setupReveal();
   // Ab hier übernimmt das Skript; die CSS-Notbremse in motion.css greift nicht mehr.
   root.classList.add('motion-ready');
@@ -440,6 +530,8 @@ function init(): void {
   setupMarquees();
   setupCursor();
   setupPointerFx();
+  setupCounters();
+  setupDepth();
   // Auf Touchgeräten scrollt der Browser selbst am flüssigsten.
   if (scrollFx()) setupSmoothScroll();
 }

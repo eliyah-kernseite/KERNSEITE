@@ -8,6 +8,7 @@
  * dekorativ (`aria-hidden`), die Projekte selbst folgen weiter unten.
  */
 import { featuredProjects } from '../../config/cases';
+import Seal from '../Seal.astro';
 
 const desktop = featuredProjects.map((p) => p.screenshotDesktop);
 const mobile = featuredProjects.map((p) => p.screenshotMobile);
@@ -27,7 +28,7 @@ const columns = [
 <section class="hero" aria-labelledby="hero-title" data-pin>
   <div class="hero__stage">
     <div class="hero__wall" aria-hidden="true">
-      <div class="hero__plane">
+      <div class="hero__plane" data-depth="36">
         {
           columns.map((col, c) => (
             <div class={`hero__col hero__col--${col.kind} hero__col--${c + 1}`}>
@@ -70,6 +71,7 @@ const columns = [
           <a class="btn btn--ghost btn--lg" href="#arbeiten">Arbeiten ansehen</a>
         </div>
       </div>
+      <Seal class="hero__seal" />
     </div>
   </div>
 </section>
@@ -122,8 +124,22 @@ const columns = [
     display: grid;
     grid-template-columns: 1.6fr 0.75fr 1.6fr 0.75fr 1.6fr;
     gap: clamp(0.75rem, 1.5vw, 1.5rem);
-    transform: rotateX(34deg) rotateZ(-16deg) translateZ(-60px);
+    transform: translate3d(var(--dx, 0px), var(--dy, 0px), 0) rotateX(34deg) rotateZ(-16deg)
+      translateZ(-60px);
     transform-origin: 60% 40%;
+    transition: transform 1200ms var(--ease-out);
+  }
+  :global(html.has-motion) .hero__wall {
+    animation: hero-wall-in 2200ms var(--ease-out) both;
+  }
+  :global(html.has-intro) .hero__wall {
+    animation-delay: 900ms;
+  }
+  @keyframes hero-wall-in {
+    from {
+      opacity: 0;
+      scale: 1.18;
+    }
   }
   .hero__col {
     overflow: hidden;
@@ -191,6 +207,17 @@ const columns = [
   .hero__title em {
     font-style: normal;
     color: var(--ks-cyan);
+  }
+  .hero__content :global(.hero__seal) {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-end: var(--gutter);
+    --seal-size: clamp(7.5rem, 10vw, 10rem);
+  }
+  @media (max-width: 63.99rem) {
+    .hero__content :global(.hero__seal) {
+      display: none;
+    }
   }
   .hero__bottom {
     display: grid;

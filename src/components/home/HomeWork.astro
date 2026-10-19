@@ -58,6 +58,10 @@ import { featuredProjects } from '../../config/cases';
         </li>
       </ul>
     </div>
+    <div class="content work__foot" aria-hidden="true">
+      <span class="work__bar"><span></span></span>
+      <span class="work__hint">Weiter scrollen</span>
+    </div>
   </div>
 </section>
 
@@ -205,7 +209,7 @@ import { featuredProjects } from '../../config/cases';
       will-change: transform;
     }
     :global(html.has-scroll-fx) .work__item {
-      inline-size: min(58vw, calc((100vh - 18rem) * 1.6));
+      inline-size: min(58vw, calc((100vh - 21rem) * 1.6));
     }
     :global(html.has-scroll-fx) .work__item--all {
       inline-size: 26vw;
@@ -219,6 +223,34 @@ import { featuredProjects } from '../../config/cases';
       font-size: clamp(4rem, 9vw, 9rem);
     }
   }
+  .work__foot {
+    display: none;
+  }
+  @media (min-width: 64rem) {
+    :global(html.has-scroll-fx) .work__foot {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-block-start: clamp(1.5rem, 3vh, 2.5rem);
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+  }
+  .work__bar {
+    position: relative;
+    flex: 1;
+    block-size: 2px;
+    background: var(--line-strong);
+    overflow: hidden;
+  }
+  .work__bar span {
+    position: absolute;
+    inset: 0;
+    background: var(--ks-cyan);
+    transform: scaleX(var(--p, 0));
+    transform-origin: left;
+  }
+
   /* Touchgeräte und ohne Skript: eine Reihe zum Wischen, nativ gescrollt. */
   :global(html:not(.has-scroll-fx)) .work__list {
     display: flex;

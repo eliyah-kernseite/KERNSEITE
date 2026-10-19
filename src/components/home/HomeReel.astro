@@ -1,0 +1,170 @@
+---
+/**
+ * HomeReel – ein Bild, das beim Scrollen vom kleinen Fenster zum Vollbild
+ * aufgeht. Die beiden Wörter der Überschrift weichen dabei nach außen, am
+ * Ende steht der Satz über dem Bild. Am Rechner klebt der Abschnitt
+ * (`[data-pin]`, setzt --p); auf Tablet und Handy steht alles ruhig untereinander.
+ */
+import Photo from '../Photo.astro';
+---
+
+<section class="reel" aria-labelledby="reel-title" data-pin>
+  <div class="reel__stage">
+    <div class="reel__frame">
+      <div class="reel__img">
+        <Photo
+          photo="arbeitsplatz-abend"
+          ratio="fill"
+          sizes="100vw"
+          alt="Laptop auf einem Holzschreibtisch im Licht einer Schreibtischlampe am Abend"
+        />
+      </div>
+      <div class="reel__shade" aria-hidden="true"></div>
+    </div>
+
+    <h2 id="reel-title" class="reel__title">
+      <span class="reel__word reel__word--l">Kein</span>
+      <span class="reel__word reel__word--r">Baukasten.</span>
+    </h2>
+
+    <div class="content reel__copy">
+      <p class="reel__text">
+        Jede Seite wird für deinen Betrieb geplant, geschrieben und von Hand programmiert. Keine
+        gekaufte Vorlage, kein Seitenbaukasten.
+      </p>
+      <a class="link-arrow reel__link" href="/leistungen/websites/"
+        >So entsteht deine Website <span class="arrow" aria-hidden="true">→</span></a
+      >
+    </div>
+  </div>
+</section>
+
+<style>
+  .reel {
+    position: relative;
+    background: var(--ks-paper);
+  }
+  .reel__stage {
+    position: relative;
+    display: grid;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    padding-block: var(--section-y);
+  }
+  .reel__frame {
+    position: relative;
+    margin-inline: var(--gutter);
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+  }
+  .reel__img,
+  .reel__img :global(.photo),
+  .reel__img :global(picture),
+  .reel__img :global(img) {
+    position: absolute;
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+  }
+  .reel__shade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      color-mix(in srgb, var(--ks-black) 85%, transparent),
+      color-mix(in srgb, var(--ks-black) 10%, transparent) 70%
+    );
+  }
+  .reel__title {
+    order: -1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 0.25em;
+    padding-inline: var(--gutter);
+    font-size: clamp(3rem, 12vw, 13rem);
+    line-height: 0.9;
+    letter-spacing: -0.045em;
+  }
+  .reel__word--r {
+    color: var(--ks-cyan);
+  }
+  .reel__copy {
+    display: grid;
+    gap: 1.5rem;
+    justify-items: start;
+  }
+  .reel__text {
+    max-width: 30ch;
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 2.6vw, 2.6rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.035em;
+  }
+
+  /* --- Am Rechner: Bild geht beim Scrollen auf ------------------------- */
+  :global(html.has-scroll-fx) .reel {
+    height: 280vh;
+    /* Öffnen bis 60 %, danach erscheint der Text. */
+    --open: min(1, calc(var(--p, 0) / 0.6));
+    --text-in: max(0, min(1, calc((var(--p, 0) - 0.55) / 0.25)));
+  }
+  :global(html.has-scroll-fx) .reel__stage {
+    position: sticky;
+    top: 0;
+    block-size: 100vh;
+    padding: 0;
+    overflow: hidden;
+    display: block;
+  }
+  :global(html.has-scroll-fx) .reel__frame {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    aspect-ratio: auto;
+    clip-path: inset(calc((1 - var(--open)) * 30%) calc((1 - var(--open)) * 36%));
+    will-change: clip-path;
+  }
+  :global(html.has-scroll-fx) .reel__img {
+    transform: scale(calc(1.35 - var(--open) * 0.35));
+    will-change: transform;
+  }
+  :global(html.has-scroll-fx) .reel__shade {
+    opacity: var(--text-in);
+  }
+  :global(html.has-scroll-fx) .reel__title {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+    padding-inline: calc(var(--gutter) * 0.5);
+    font-size: clamp(3rem, 9.5vw, 12rem);
+    pointer-events: none;
+  }
+  :global(html.has-scroll-fx) .reel__word {
+    opacity: calc(1 - var(--open) * 1.15);
+  }
+  :global(html.has-scroll-fx) .reel__word--l {
+    transform: translate3d(calc(var(--open) * -40vw), 0, 0);
+  }
+  :global(html.has-scroll-fx) .reel__word--r {
+    transform: translate3d(calc(var(--open) * 40vw), 0, 0);
+  }
+  :global(html.has-scroll-fx) .reel__copy {
+    position: absolute;
+    inset: auto 0 clamp(3rem, 9vh, 6rem);
+    opacity: var(--text-in);
+    transform: translate3d(0, calc((1 - var(--text-in)) * 3rem), 0);
+  }
+  :global(html.has-scroll-fx) .reel__text {
+    font-size: clamp(2rem, 4vw, 4.4rem);
+    max-width: 24ch;
+  }
+  /* Per Tastatur erreicht, steht der Text sofort da. */
+  :global(html.has-scroll-fx) .reel__copy:focus-within {
+    opacity: 1;
+    transform: none;
+  }
+</style>

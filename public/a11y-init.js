@@ -25,5 +25,14 @@
     var fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     var ipad = /Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1;
     if (fine && !ipad) root.classList.add('has-scroll-fx');
+    // Kurzes Intro mit dem Schriftzug, aber nur beim ersten Seitenaufruf je Sitzung.
+    try {
+      if (!sessionStorage.getItem('ks-intro')) {
+        root.classList.add('has-intro');
+        sessionStorage.setItem('ks-intro', '1');
+      }
+    } catch {
+      /* Speicher gesperrt: kein Intro */
+    }
   }
 })();

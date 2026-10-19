@@ -9,16 +9,32 @@ import Photo from '../Photo.astro';
 
 <section class="about section" id="ueber-uns" aria-labelledby="about-title">
   <div class="content about__grid">
-    <div class="about__media" data-reveal="clip">
-      <div class="about__img" data-parallax="0.1">
-        <Photo
-          photo="handwerk-werkzeug"
-          ratio="3x4"
-          sizes="(min-width: 64rem) 38vw, 100vw"
-          blend="bottom"
-          alt="Werkzeug an einer dunklen Werkstattwand, als Bild für die Herkunft aus dem Handwerk"
-        />
+    <div class="about__visual">
+      <div class="about__media" data-reveal="clip">
+        <div class="about__img" data-parallax="0.1">
+          <Photo
+            photo="handwerk-werkzeug"
+            ratio="3x4"
+            sizes="(min-width: 64rem) 38vw, 100vw"
+            blend="bottom"
+            alt="Werkzeug an einer dunklen Werkstattwand, als Bild für die Herkunft aus dem Handwerk"
+          />
+        </div>
       </div>
+      <div class="about__inset" data-reveal="clip" data-parallax="-0.08">
+        <div>
+          <Photo
+            photo="entwurf-skizze"
+            ratio="4x3"
+            sizes="(min-width: 64rem) 20vw, 50vw"
+            alt="Hand zeichnet einen Entwurf auf Transparentpapier"
+          />
+        </div>
+      </div>
+      <p class="about__sign" data-reveal>
+        <span class="about__sign-name">Eliyah Korb</span>
+        <span class="about__sign-role">Inhaber von KERNSEITE</span>
+      </p>
     </div>
 
     <div class="about__copy">
@@ -42,8 +58,50 @@ import Photo from '../Photo.astro';
     gap: clamp(2.5rem, 6vw, 7rem);
     align-items: center;
   }
+  .about__visual {
+    position: relative;
+    padding-block-end: clamp(3rem, 8vw, 6rem);
+  }
   .about__media {
     overflow: hidden;
+    inline-size: 82%;
+  }
+  /* Zweites Bild überlappt das erste und läuft beim Scrollen gegenläufig. */
+  .about__inset {
+    position: absolute;
+    inset-inline-end: 0;
+    inset-block-end: clamp(1.5rem, 5vw, 4rem);
+    inline-size: 48%;
+    overflow: hidden;
+    border: clamp(6px, 0.8vw, 10px) solid var(--ks-paper);
+    box-shadow: var(--shadow-media);
+  }
+  :global(html.has-scroll-fx) .about__inset {
+    transform: translate3d(0, var(--parallax, 0px), 0);
+  }
+  .about__inset :global(img) {
+    display: block;
+    inline-size: 100%;
+  }
+  .about__sign {
+    position: absolute;
+    inset-inline-start: 0;
+    inset-block-end: 0;
+    display: grid;
+    gap: 0.1rem;
+    padding-inline-start: 1rem;
+    border-inline-start: 2px solid var(--ks-cyan);
+    line-height: 1.3;
+  }
+  .about__sign-name {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+  }
+  .about__sign-role {
+    color: var(--text-muted);
+    font-size: 0.95rem;
   }
   .about__img :global(img) {
     display: block;

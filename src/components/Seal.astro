@@ -1,0 +1,36 @@
+---
+/**
+ * Seal – rundes, langsam rotierendes Siegel mit Pfeil in der Mitte. Führt zur
+ * Anfrage. Der umlaufende Text ist Dekoration, der Link trägt einen eigenen Namen.
+ */
+interface Props {
+  href?: string;
+  /** Umlaufender Text, wird zweimal um den Kreis gelegt. */
+  text?: string;
+  label?: string;
+  tone?: 'light' | 'dark';
+  class?: string;
+}
+const {
+  href = '/kontakt/',
+  text = 'Projekt besprechen · Erstes Gespräch unverbindlich · ',
+  label = 'Projekt besprechen',
+  tone = 'light',
+  class: className,
+} = Astro.props;
+const id = `seal-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<a
+  class:list={['seal', { 'seal--dark': tone === 'dark' }, className]}
+  href={href}
+  aria-label={label}
+>
+  <svg class="seal__ring" viewBox="0 0 120 120" aria-hidden="true" focusable="false">
+    <defs>
+      <path id={id} d="M60,60 m-48,0 a48,48 0 1,1 96,0 a48,48 0 1,1 -96,0"></path>
+    </defs>
+    <text><textPath href={`#${id}`} textLength="300" lengthAdjust="spacing">{text}</textPath></text>
+  </svg>
+  <span class="seal__core" aria-hidden="true">↗</span>
+</a>
