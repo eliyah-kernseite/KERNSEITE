@@ -1,0 +1,28 @@
+{
+  "name": "KERNSEITE",
+  "short_name": "KERNSEITE",
+  "description": "Webdesign-Agentur aus Würzburg: individuelle Websites, die Kunden bringen.",
+  "lang": "de",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0b0c0e",
+  "theme_color": "#0b0c0e",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}
