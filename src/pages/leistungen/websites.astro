@@ -1,6 +1,7 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
 import WebsiteOffer from '../../components/WebsiteOffer.astro';
+import CarePlans from '../../components/CarePlans.astro';
 import ProjectGrid from '../../components/ProjectGrid.astro';
 import CtaBanner from '../../components/CtaBanner.astro';
 import FaqAccordion from '../../components/FaqAccordion.astro';
@@ -31,7 +32,7 @@ const questions = [
   {
     question: 'Welche laufenden Kosten entstehen?',
     answer:
-      'Domain und Hosting verursachen laufende Kosten. Pflege, neue Inhalte und technische Betreuung können zusätzlich vereinbart werden. Im Angebot trennen wir die Erstellung von wiederkehrenden Leistungen, damit du den Gesamtaufwand kennst.',
+      'Domain und Hosting verursachen laufende Kosten. Für die Pflege gibt es zwei Pakete: Pflege Basis für 50 € und Pflege Plus mit SEO-Pflege für 150 € im Monat, jeweils netto. Im Angebot trennen wir die Erstellung von wiederkehrenden Leistungen, damit du den Gesamtaufwand kennst.',
   },
   {
     question: 'Kann ich Inhalte später selbst ändern?',
@@ -49,7 +50,7 @@ const questions = [
 <PageLayout
   photo="website-laptop"
   title="Website erstellen lassen: Design, Texte & Preise"
-  description="Deine Unternehmenswebsite aus einer Hand: individuelles Webdesign, Texte, SEO und persönliche Betreuung. Budgetrahmen 1.500–5.500 € netto. Bundesweit."
+  description="Deine Unternehmenswebsite aus einer Hand: individuelles Webdesign, Texte, SEO und persönliche Betreuung. Budgetrahmen 1.499–5.500 € netto. Bundesweit."
   h1="Deine beste Arbeit verdient eine bessere Website."
   lead="Wir machen aus deinem Angebot einen Auftritt, den deine Kunden verstehen. Gestaltet wird er nur für dich, und er führt Besucher ohne Umwege zur Anfrage."
   breadcrumbs={[
@@ -104,6 +105,11 @@ const questions = [
     </div>
   </section>
   <WebsiteOffer detailed />
+  <section class="section section--cream">
+    <div class="content">
+      <CarePlans headingLevel="h2" />
+    </div>
+  </section>
   <section class="section section--paper">
     <div class="content">
       <div class="section-heading">

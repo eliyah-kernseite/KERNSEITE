@@ -10,7 +10,7 @@ import Photo from '../Photo.astro';
 ---
 
 <section class="reel" aria-labelledby="reel-title" data-pin>
-  <div class="reel__stage">
+  <div class="reel__stage" data-reveal="frame">
     <div class="reel__frame">
       <div class="reel__img">
         <Photo
@@ -101,6 +101,108 @@ import Photo from '../Photo.astro';
     font-weight: 700;
     line-height: 1.15;
     letter-spacing: -0.035em;
+  }
+
+  /* --- Ohne Scroll-Szene (ältere Tablets, Handys) ------------------------
+     Überschrift und Text stehen im Bild, damit nichts lose untereinander
+     hängt. Beim Hereinscrollen öffnet sich das Bild einmal von der Mitte aus
+     und die Wörter laufen von den Seiten herein: eine kurze Animation, die
+     nicht an das Scrollen gebunden ist und deshalb nicht ruckelt. */
+  :global(html:not(.has-scroll-fx)) .reel__stage {
+    display: block;
+  }
+  :global(html:not(.has-scroll-fx)) .reel__frame {
+    aspect-ratio: 16 / 10;
+    min-block-size: 30rem;
+    max-block-size: 82svh;
+    inline-size: auto;
+  }
+  :global(html:not(.has-scroll-fx)) .reel__shade {
+    background:
+      linear-gradient(
+        to bottom,
+        color-mix(in srgb, var(--ks-black) 75%, transparent),
+        transparent 40%
+      ),
+      linear-gradient(to top, color-mix(in srgb, var(--ks-black) 90%, transparent), transparent 60%);
+  }
+  :global(html:not(.has-scroll-fx)) .reel__title {
+    position: absolute;
+    inset: calc(var(--section-y) + clamp(1.25rem, 4vw, 3rem)) var(--gutter) auto;
+    padding-inline: clamp(1.25rem, 4vw, 3rem);
+    font-size: clamp(2.8rem, 10vw, 9rem);
+  }
+  :global(html:not(.has-scroll-fx)) .reel__copy {
+    position: absolute;
+    inset: auto var(--gutter) calc(var(--section-y) + clamp(1.25rem, 4vw, 3rem));
+    inline-size: auto;
+    padding-inline: clamp(1.25rem, 4vw, 3rem);
+  }
+  :global(html:not(.has-scroll-fx)) .reel__text {
+    font-size: clamp(1.4rem, 3.4vw, 3rem);
+    max-width: 26ch;
+  }
+  @media (max-aspect-ratio: 1 / 1) and (max-width: 40rem) {
+    :global(html:not(.has-scroll-fx)) .reel__frame {
+      aspect-ratio: 4 / 5;
+    }
+  }
+  :global(html.has-motion) .reel__stage[data-reveal='frame'] {
+    opacity: 1;
+    transform: none;
+  }
+  /* Notbremse wie in motion.css: Lädt das Skript nicht, steht nach zwei
+     Sekunden trotzdem alles da. */
+  :global(html.has-motion:not(.motion-ready))
+    :is(.reel__frame, .reel__img, .reel__word, .reel__copy) {
+    animation: reel-failsafe 0.01s linear 2s forwards;
+  }
+  @keyframes reel-failsafe {
+    to {
+      opacity: 1;
+      transform: none;
+      clip-path: inset(0 0 0 0);
+    }
+  }
+  :global(html.has-motion:not(.has-scroll-fx)) .reel__frame {
+    clip-path: inset(16% 22%);
+    transition: clip-path 1600ms var(--ease-out);
+  }
+  :global(html.has-motion:not(.has-scroll-fx)) .reel__img {
+    transform: scale(1.25);
+    transition: transform 1800ms var(--ease-out);
+  }
+  :global(html.has-motion:not(.has-scroll-fx)) .reel__word {
+    display: inline-block;
+    opacity: 0;
+    transition:
+      opacity 900ms var(--ease-out) 350ms,
+      transform 1200ms var(--ease-out) 350ms;
+  }
+  :global(html.has-motion:not(.has-scroll-fx)) .reel__word--l {
+    transform: translate3d(-10vw, 0, 0);
+  }
+  :global(html.has-motion:not(.has-scroll-fx)) .reel__word--r {
+    transform: translate3d(10vw, 0, 0);
+  }
+  :global(html.has-motion:not(.has-scroll-fx)) .reel__copy {
+    opacity: 0;
+    transform: translate3d(0, 2rem, 0);
+    transition:
+      opacity 900ms var(--ease-out) 700ms,
+      transform 1100ms var(--ease-out) 700ms;
+  }
+  :global(html.has-motion:not(.has-scroll-fx)) .reel__stage:global(.is-in) .reel__frame {
+    clip-path: inset(0 0 0 0);
+  }
+  :global(html.has-motion:not(.has-scroll-fx)) .reel__stage:global(.is-in) .reel__img {
+    transform: none;
+  }
+  :global(html.has-motion:not(.has-scroll-fx))
+    .reel__stage:global(.is-in)
+    :is(.reel__word, .reel__copy) {
+    opacity: 1;
+    transform: none;
   }
 
   /* --- Am Rechner: Bild geht beim Scrollen auf ------------------------- */

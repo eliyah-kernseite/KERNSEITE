@@ -340,7 +340,7 @@ export const industries: readonly Industry[] = [
       {
         question: 'Was kostet eine Website für Dienstleister?',
         answer:
-          'Der Orientierungsrahmen für Unternehmenswebsites liegt meist bei 1.500 bis 5.500 Euro netto. Viele Dienstleister kommen mit einer übersichtlichen Website aus wenigen, gut gemachten Seiten aus. Den genauen Umfang und Preis legen wir nach dem ersten Gespräch in einem schriftlichen Angebot fest.',
+          'Der Orientierungsrahmen für Unternehmenswebsites liegt meist bei 1.499 bis 5.500 Euro netto. Viele Dienstleister kommen mit einer übersichtlichen Website aus wenigen, gut gemachten Seiten aus. Den genauen Umfang und Preis legen wir nach dem ersten Gespräch in einem schriftlichen Angebot fest.',
       },
     ],
   },

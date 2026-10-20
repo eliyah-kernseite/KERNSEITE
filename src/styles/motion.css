@@ -230,7 +230,8 @@ html.lenis body {
 }
 html.has-motion:not(.motion-ready) [data-reveal],
 html.has-motion:not(.motion-ready) [data-reveal='clip'] > *,
-html.has-motion:not(.motion-ready) [data-split] .split {
+html.has-motion:not(.motion-ready) [data-split] .split,
+html.has-motion:not(.motion-ready) .checks li::before {
   animation: ks-failsafe 0.01s linear 2s forwards;
 }
 

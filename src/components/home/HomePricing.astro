@@ -1,0 +1,159 @@
+---
+/**
+ * HomePricing – was es kostet. Oben die Website als große Cyan-Fläche mit
+ * hochzählendem Preis und dem Leistungsumfang, dahinter läuft der Preis als
+ * Kontur beim Scrollen seitlich mit. Darunter die Pflege nach dem Start.
+ */
+import { websiteOffer } from '../../config/pricing';
+import CarePlans from '../CarePlans.astro';
+
+const [from = ''] = websiteOffer.range.split('–');
+const fromValue = Number(from.replace(/\D/g, ''));
+---
+
+<section class="pricing section" id="preise" aria-labelledby="pricing-title">
+  <div class="content pricing__inner">
+    <div class="pricing__head">
+      <h2 id="pricing-title" class="pricing__title" data-split>Was es kostet.</h2>
+      <p class="pricing__sub" data-reveal>
+        Feste Preise statt Stundenzettel. Einmal sauber bauen, danach gut pflegen.
+      </p>
+    </div>
+
+    <div class="launch section--cyan" data-reveal>
+      <p class="launch__ghost" aria-hidden="true" data-drift="-14">{from.trim()} €</p>
+      <div class="launch__main">
+        <p class="launch__label">Deine Website</p>
+        <p class="launch__price">
+          <span class="launch__from">ab</span>
+          <span class="launch__num"
+            ><span data-count={fromValue}>{from.trim()}</span>
+            <span class="launch__cur">€</span></span
+          >
+        </p>
+        <p class="launch__fine">einmalig, netto, Festpreis im schriftlichen Angebot</p>
+        <a class="btn btn--dark btn--lg" href="/kontakt/#leistung=websites" data-magnetic
+          >Projekt anfragen <span aria-hidden="true">↗</span></a
+        >
+      </div>
+      <ul class="checks launch__list" role="list">
+        {websiteOffer.includes.map((item) => <li>{item}</li>)}
+      </ul>
+    </div>
+
+    <CarePlans />
+  </div>
+</section>
+
+<style>
+  .pricing__inner {
+    display: grid;
+    gap: clamp(3rem, 7vw, 6.5rem);
+  }
+  .pricing__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1.25rem 3rem;
+    margin-block-end: calc(clamp(3rem, 7vw, 6.5rem) * -0.5);
+  }
+  .pricing__title {
+    font-size: clamp(3rem, 8vw, 8rem);
+    line-height: 0.9;
+    letter-spacing: -0.045em;
+  }
+  .pricing__sub {
+    max-width: 30ch;
+    color: var(--text-muted);
+    font-size: var(--fs-lead);
+    line-height: 1.5;
+  }
+
+  /* --- Website: Cyan-Fläche ------------------------------------------- */
+  .launch {
+    --check: var(--ks-black);
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    gap: clamp(2rem, 5vw, 4.5rem);
+    padding: clamp(1.75rem, 5vw, 4.5rem);
+    background: var(--ks-cyan);
+    color: var(--ks-black);
+    overflow: hidden;
+  }
+  /* Der Preis noch einmal riesig als Kontur im Hintergrund. */
+  .launch__ghost {
+    position: absolute;
+    inset-block-end: -0.18em;
+    inset-inline-end: -0.05em;
+    z-index: -1;
+    font-family: var(--font-display);
+    font-size: clamp(9rem, 30vw, 30rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.05em;
+    white-space: nowrap;
+    color: transparent;
+    -webkit-text-stroke: 2px rgba(7, 8, 9, 0.12);
+    pointer-events: none;
+    user-select: none;
+  }
+  .launch__main {
+    display: grid;
+    gap: 1rem;
+    justify-items: start;
+    align-content: start;
+  }
+  .launch__label {
+    font-weight: 700;
+    font-size: 1.05rem;
+  }
+  .launch__price {
+    display: flex;
+    align-items: baseline;
+    gap: 0.35em;
+    font-family: var(--font-display);
+    font-weight: 800;
+    line-height: 0.9;
+    letter-spacing: -0.05em;
+  }
+  .launch__from {
+    font-size: clamp(1.6rem, 3.5vw, 3.2rem);
+  }
+  .launch__num {
+    font-size: clamp(3.6rem, 13vw, 9.5rem);
+    white-space: nowrap;
+  }
+  .launch__cur {
+    margin-inline-start: 0.12em;
+    font-size: 0.6em;
+  }
+  .launch__fine {
+    margin-block-end: 0.75rem;
+    color: #1f2328;
+    font-size: 1.05rem;
+  }
+  .launch__list {
+    align-content: center;
+    border-block-start: 1px solid rgba(7, 8, 9, 0.25);
+  }
+  .launch__list li {
+    padding-block: 1rem;
+    border-block-end: 1px solid rgba(7, 8, 9, 0.25);
+    font-size: 1.05rem;
+    font-weight: 500;
+  }
+  @media (min-width: 64rem) {
+    .launch__num {
+      font-size: clamp(5rem, 8vw, 9.5rem);
+    }
+    .launch {
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      align-items: center;
+    }
+  }
+  :global([data-a11y-contrast='high']) .launch__ghost {
+    display: none;
+  }
+</style>

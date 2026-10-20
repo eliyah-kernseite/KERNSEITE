@@ -161,7 +161,7 @@ const projects: readonly ProjectWork[] = [
       {
         question: 'Geht so ein Auftritt auch für andere Kreative?',
         answer:
-          'Ja, etwa für Fotografen, Musiker, Tattoo-Studios oder Eventtechnik. Wie viel Bewegung passt, klären wir am Anfang gemeinsam. Der Orientierungsrahmen für Unternehmenswebsites liegt meist bei 1.500 bis 5.500 Euro netto.',
+          'Ja, etwa für Fotografen, Musiker, Tattoo-Studios oder Eventtechnik. Wie viel Bewegung passt, klären wir am Anfang gemeinsam. Der Orientierungsrahmen für Unternehmenswebsites liegt meist bei 1.499 bis 5.500 Euro netto.',
       },
     ],
     ...screens(
@@ -329,7 +329,7 @@ const projects: readonly ProjectWork[] = [
       {
         question: 'Was kostet eine vergleichbare Gastronomie-Website?',
         answer:
-          'Das hängt vom Umfang ab, etwa von der Zahl der Seiten, der Speisekarte und gewünschten Funktionen. Der Orientierungsrahmen für Unternehmenswebsites liegt meist bei 1.500 bis 5.500 Euro netto. Nach dem ersten Gespräch bekommst du ein schriftliches Angebot.',
+          'Das hängt vom Umfang ab, etwa von der Zahl der Seiten, der Speisekarte und gewünschten Funktionen. Der Orientierungsrahmen für Unternehmenswebsites liegt meist bei 1.499 bis 5.500 Euro netto. Nach dem ersten Gespräch bekommst du ein schriftliches Angebot.',
       },
     ],
     ...screens(

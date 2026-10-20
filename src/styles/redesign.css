@@ -275,3 +275,68 @@ p {
     scroll-behavior: auto !important;
   }
 }
+
+/* --- Häkchen-Listen --------------------------------------------------------
+   Eigenes Häkchen mit eckigen Enden statt Punkt oder Quadrat. Die Farbe kommt
+   aus --check (Standard Cyan, auf Cyan-Flächen Schwarz). Mit Bewegung zeichnet
+   es sich von links nach rechts, sobald die Liste eingeblendet wird. */
+.checks {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.checks li {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+}
+.checks li::before {
+  content: '';
+  flex: none;
+  inline-size: 1.05em;
+  block-size: 0.85em;
+  margin-block-start: 0.3em;
+  background: var(--check, var(--ks-cyan));
+  -webkit-mask: url('/assets/ui/check.svg') center / contain no-repeat;
+  mask: url('/assets/ui/check.svg') center / contain no-repeat;
+}
+html.has-motion .checks li::before {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 700ms var(--ease-out);
+}
+html.has-motion .is-in .checks li::before,
+html.has-motion .checks.is-in li::before {
+  clip-path: inset(0 0 0 0);
+}
+.checks li:nth-child(2)::before {
+  transition-delay: 120ms;
+}
+.checks li:nth-child(3)::before {
+  transition-delay: 240ms;
+}
+.checks li:nth-child(4)::before {
+  transition-delay: 360ms;
+}
+.checks li:nth-child(5)::before {
+  transition-delay: 480ms;
+}
+.checks li:nth-child(6)::before {
+  transition-delay: 600ms;
+}
+
+/* Dunkle Schaltfläche für helle Flächen; beim Überfahren schiebt sich Cyan ein. */
+.btn--dark {
+  background: var(--ks-black);
+  border-color: var(--ks-black);
+  color: var(--ks-bone);
+}
+.btn--dark::before {
+  background: var(--ks-cyan);
+}
+.btn--dark:hover,
+.btn--dark:focus-visible {
+  color: var(--ks-black);
+  border-color: var(--ks-black);
+}

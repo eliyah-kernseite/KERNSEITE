@@ -19,9 +19,9 @@ export const faqs: readonly FaqItem[] = [
     question: 'Was kostet eine individuelle Website?',
     services: ['websites'],
     answer:
-      'Der Orientierungsrahmen für Unternehmenswebsites liegt meist bei 1.500–5.500 € netto, zuzüglich gesetzlicher Umsatzsteuer, soweit diese anfällt. Umfang, Seitenanzahl und Funktionen bestimmen das Angebot. Domain, Hosting, laufende Betreuung sowie zusätzliche Fotografie, Video und Rechtsberatung werden separat vereinbart.',
+      'Der Orientierungsrahmen für Unternehmenswebsites liegt meist bei 1.499–5.500 € netto, zuzüglich gesetzlicher Umsatzsteuer, soweit diese anfällt. Umfang, Seitenanzahl und Funktionen bestimmen das Angebot. Domain, Hosting, laufende Betreuung sowie zusätzliche Fotografie, Video und Rechtsberatung werden separat vereinbart.',
     homeAnswer:
-      'Für die meisten Unternehmenswebsites liegt der Rahmen bei 1.500 bis 5.500 Euro netto, zuzüglich gesetzlicher Umsatzsteuer, soweit diese anfällt. Wie viele Seiten, welche Funktionen und welche Inhalte dazugehören, bestimmt dein Angebot. Domain, Hosting, Betreuung, Fotografie, Video und Rechtsberatung kommen bei Bedarf separat dazu.',
+      'Für die meisten Unternehmenswebsites liegt der Rahmen bei 1.499 bis 5.500 Euro netto, zuzüglich gesetzlicher Umsatzsteuer, soweit diese anfällt. Wie viele Seiten, welche Funktionen und welche Inhalte dazugehören, bestimmt dein Angebot. Domain, Hosting, Betreuung, Fotografie, Video und Rechtsberatung kommen bei Bedarf separat dazu.',
     onHome: true,
   },
   {
@@ -64,10 +64,10 @@ export const faqs: readonly FaqItem[] = [
       'Ja. Änderungen und Weiterentwicklungen vereinbaren wir als gesonderte Leistung. Je nach Wunsch übernehmen wir Anpassungen oder richten Wege ein, über die du selbst Inhalte pflegen kannst.',
   },
   {
-    question: 'Übernehmt ihr Hosting und Wartung?',
+    question: 'Übernehmt ihr die Pflege nach dem Start?',
     services: ['websites'],
     answer:
-      'Ja. Auf Wunsch übernehmen wir Hosting, Updates, Sicherung und laufende Betreuung, damit die Website dauerhaft schnell und sicher bleibt.',
+      'Ja. Für die laufende Pflege gibt es zwei Pakete: Pflege Basis für 50 € im Monat mit Technik-Check, Fehlerbehebung, rechtlichen Anpassungen und kleinen Änderungen. Pflege Plus für 150 € im Monat kommt mit SEO-Pflege, neuen Inhalten und einem monatlichen Kurzbericht dazu. Beide Preise netto. Hosting übernehmen wir auf Wunsch ebenfalls.',
     onHome: true,
   },
   {
