@@ -1,60 +1,87 @@
 ---
 /**
- * CarePlans – Pflege nach dem Start: warum eine Website laufend gepflegt
- * werden sollte, darunter die zwei Monatspakete. Inhalte aus
- * src/config/pricing.ts. Auf der Startseite steht der Block unter dem
- * Website-Preis (Überschrift h3), auf /leistungen/websites/ als eigener
- * Abschnitt (h2).
+ * CarePlans – Pflege nach dem Start. Ausführlich auf /leistungen/websites/
+ * (Gründe, Pakete mit Leistungsumfang), kompakt auf der Startseite (Pakete
+ * mit Kurzfassung und Link zur ausführlichen Fassung). Die Startseite nutzt
+ * bewusst andere Formulierungen, damit kein Textblock doppelt im Netz steht.
+ * Inhalte aus src/config/pricing.ts.
  */
 import { careReasons, carePlans, careNote } from '../config/pricing';
 
 interface Props {
-  headingLevel?: 'h2' | 'h3';
+  /** Kompakte Fassung für die Startseite. */
+  compact?: boolean;
 }
-const { headingLevel = 'h3' } = Astro.props;
-const Title = headingLevel;
-const Sub = headingLevel === 'h2' ? 'h3' : 'h4';
+const { compact = false } = Astro.props;
+const Title = compact ? 'h3' : 'h2';
 ---
 
-<div class="care" id="pflege">
+<div class:list={['care', { 'care--compact': compact }]} id={compact ? undefined : 'pflege'}>
   <div class="care__head">
-    <Title class="care__title" data-split>Danach: Pflege, damit sie gut bleibt.</Title>
-    <p class="care__lead" data-reveal>
-      Eine Website ist nie fertig. Wer sie nach dem Start liegen lässt, verliert mit der Zeit
-      Sichtbarkeit, Vertrauen und Anfragen. Mit der Pflege bleibt sie aktuell, fehlerfrei und wird
-      bei Google laufend besser.
-    </p>
+    {
+      compact ? (
+        <Title class="care__title" data-split>
+          Danach: Pflege, damit sie gut bleibt.
+        </Title>
+      ) : (
+        <Title class="care__title" data-split>
+          Nach dem Start: Pflege, die sich lohnt.
+        </Title>
+      )
+    }
+    {
+      compact ? (
+        <p class="care__lead" data-reveal>
+          Google, Vorgaben und dein Betrieb verändern sich ständig. Mit einem Pflegepaket bleibt
+          deine Website auf dem neuesten Stand und rutscht bei Google nicht nach hinten.
+        </p>
+      ) : (
+        <p class="care__lead" data-reveal>
+          Eine Website ist nie fertig. Wer sie nach dem Start liegen lässt, verliert mit der Zeit
+          Sichtbarkeit, Vertrauen und Anfragen. Mit der Pflege bleibt sie aktuell, fehlerfrei und
+          wird bei Google laufend besser.
+        </p>
+      )
+    }
   </div>
 
-  <ul class="care__reasons" role="list" data-reveal-group>
-    {
-      careReasons.map((r) => (
-        <li class="care__reason">
-          <Sub class="care__reason-title">{r.title}</Sub>
-          <p>{r.text}</p>
-        </li>
-      ))
-    }
-  </ul>
+  {
+    !compact && (
+      <ul class="care__reasons" role="list" data-reveal-group>
+        {careReasons.map((r) => (
+          <li class="care__reason">
+            <h3 class="care__reason-title">{r.title}</h3>
+            <p>{r.text}</p>
+          </li>
+        ))}
+      </ul>
+    )
+  }
 
   <div class="plans" data-reveal-group>
     {
       carePlans.map((plan) => (
         <article class:list={['plan', `plan--${plan.key}`]} data-spotlight>
           <div class="plan__top">
-            <Sub class="plan__name">{plan.name}</Sub>
+            <p class="plan__name">{plan.name}</p>
             {plan.key === 'plus' && <span class="plan__tag">Mit SEO-Pflege</span>}
           </div>
           <p class="plan__price">
             <span data-count={plan.price}>{plan.price}</span> €
             <span class="plan__per">im Monat</span>
           </p>
-          <p class="plan__lead">{plan.lead}</p>
-          <ul class="checks plan__list" role="list">
-            {plan.includes.map((item) => (
-              <li>{item}</li>
-            ))}
-          </ul>
+          {compact ? (
+            <p class="plan__lead">{plan.summary}</p>
+          ) : (
+            <>
+              <p class="plan__lead">{plan.lead}</p>
+              <ul class="checks plan__list" role="list">
+                {plan.includes.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </>
+          )}
           <a
             class:list={['btn', plan.key === 'plus' ? 'btn--dark' : 'btn--ghost', 'plan__cta']}
             href="/kontakt/#leistung=websites"
@@ -65,7 +92,18 @@ const Sub = headingLevel === 'h2' ? 'h3' : 'h4';
       ))
     }
   </div>
-  <p class="care__note">{careNote}</p>
+  {
+    compact ? (
+      <p class="care__note">
+        Preise netto im Monat.{' '}
+        <a class="care__more" href="/leistungen/websites/#pflege">
+          Was genau in den Paketen steckt
+        </a>
+      </p>
+    ) : (
+      <p class="care__note">{careNote}</p>
+    )
+  }
 </div>
 
 <style>
@@ -196,7 +234,10 @@ const Sub = headingLevel === 'h2' ? 'h3' : 'h4';
     gap: 0.75rem;
   }
   .plan__name {
+    font-family: var(--font-display);
     font-size: clamp(1.4rem, 2vw, 1.8rem);
+    font-weight: 800;
+    line-height: 1.1;
     letter-spacing: -0.03em;
     color: var(--text);
   }
@@ -239,6 +280,12 @@ const Sub = headingLevel === 'h2' ? 'h3' : 'h4';
   .plan__cta {
     justify-self: start;
     margin-block-start: 0.5rem;
+  }
+  .care__more {
+    color: var(--text);
+    text-decoration: underline;
+    text-decoration-color: var(--ks-cyan);
+    text-underline-offset: 0.25em;
   }
   .care__note {
     max-width: 70ch;

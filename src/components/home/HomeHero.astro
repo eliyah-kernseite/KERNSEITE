@@ -42,7 +42,7 @@ const columns = [
                     )}
                     width={col.kind === 'desktop' ? 640 : 390}
                     height={col.kind === 'desktop' ? 400 : 844}
-                    alt=""
+                    alt={shot.alt}
                     loading={i < 2 ? 'eager' : 'lazy'}
                     decoding="async"
                     fetchpriority="low"

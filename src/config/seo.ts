@@ -3,9 +3,9 @@ import { site } from './site';
 /** SEO-Grundeinstellungen. Pro Seite werden Title/Description überschrieben. */
 export const seo = {
   /** Title-Template: `%s` wird durch den Seitentitel ersetzt. */
-  titleTemplate: '%s · KERNSEITE',
+  titleTemplate: '%s | KERNSEITE',
   /** Fallback-Title (Startseite bzw. wenn kein Seitentitel gesetzt ist). */
-  defaultTitle: 'Webdesign für Unternehmen · KERNSEITE',
+  defaultTitle: 'Webdesign für Unternehmen | KERNSEITE',
   defaultDescription: site.metaDescription,
   /** Lokal gehostetes Open-Graph-Bild (siehe public/assets). */
   defaultOgImage: '/assets/og/kernseite-og.png',
