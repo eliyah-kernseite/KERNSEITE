@@ -23,13 +23,13 @@ const live = featuredProjects.find((p) => p.href.includes('kaya')) ?? featuredPr
     <ol class="steps" role="list" data-stack>
       <li class="step step--1">
         <div class="step__inner">
-          <div class="step__text">
+          <div class="step__text" data-reveal="fade">
             <p class="step__kicker">Kennenlernen</p>
             <h3 class="step__title">Wir reden.</h3>
             <p class="step__lead">
               Du erzählst, was du vorhast. Ich sage dir ehrlich, was es braucht.
             </p>
-            <ul class="step__list" role="list">
+            <ul class="checks step__list" role="list">
               <li>Unverbindliches Erstgespräch</li>
               <li>Schriftliches Angebot mit festem Umfang</li>
               <li>Gemeinsamer Zeitplan</li>
@@ -47,11 +47,11 @@ const live = featuredProjects.find((p) => p.href.includes('kaya')) ?? featuredPr
       </li>
       <li class="step step--2">
         <div class="step__inner">
-          <div class="step__text">
+          <div class="step__text" data-reveal="fade">
             <p class="step__kicker">Entwurf</p>
             <h3 class="step__title">Du siehst alles.</h3>
             <p class="step__lead">Texte, Bilder und Design stimmen wir ab, bevor gebaut wird.</p>
-            <ul class="step__list" role="list">
+            <ul class="checks step__list" role="list">
               <li>Seitenstruktur und Texte</li>
               <li>Individueller Designentwurf</li>
               <li>Korrekturrunden sind eingeplant</li>
@@ -69,11 +69,11 @@ const live = featuredProjects.find((p) => p.href.includes('kaya')) ?? featuredPr
       </li>
       <li class="step step--3">
         <div class="step__inner">
-          <div class="step__text">
+          <div class="step__text" data-reveal="fade">
             <p class="step__kicker">Start</p>
             <h3 class="step__title">Du gehst live.</h3>
             <p class="step__lead">Getestet auf Handy und Desktop, bereit für Google.</p>
-            <ul class="step__list" role="list">
+            <ul class="checks step__list" role="list">
               <li>Veröffentlichung auf deiner Domain</li>
               <li>Übergabe mit Zugängen und Pflegewegen</li>
               <li>Betreuung danach nach Absprache</li>
@@ -153,12 +153,14 @@ const live = featuredProjects.find((p) => p.href.includes('kaya')) ?? featuredPr
   }
   /* Helle Tafel: Text schwarz, Cyan nur als Fläche. */
   .step--2 .step__inner {
+    --check: var(--ks-black);
     --text: var(--ks-black);
     --text-muted: #3d4148;
     background: var(--ks-bone);
     border-color: var(--ks-bone);
   }
   .step--3 .step__inner {
+    --check: var(--ks-black);
     --text: var(--ks-black);
     --text-muted: #1f2328;
     background: var(--ks-cyan);
@@ -176,12 +178,22 @@ const live = featuredProjects.find((p) => p.href.includes('kaya')) ?? featuredPr
     font-weight: 600;
     color: var(--text-muted);
   }
+  /* Kurze Linie vor dem Stichwort, zieht beim Einblenden von links auf. */
   .step__kicker::before {
     content: '';
-    inline-size: 0.6rem;
-    block-size: 0.6rem;
+    inline-size: 1.75rem;
+    block-size: 2px;
     background: var(--ks-cyan);
+    transform-origin: left;
   }
+  :global(html.has-motion) .step__kicker::before {
+    transform: scaleX(0);
+    transition: transform 900ms var(--ease-out) 200ms;
+  }
+  :global(html.has-motion) .step__text:global(.is-in) .step__kicker::before {
+    transform: none;
+  }
+  .step--2 .step__kicker::before,
   .step--3 .step__kicker::before {
     background: var(--ks-black);
   }
@@ -209,16 +221,12 @@ const live = featuredProjects.find((p) => p.href.includes('kaya')) ?? featuredPr
   }
   .step__list li {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 0.75rem;
     padding-block: 0.7rem;
     border-block-end: 1px solid color-mix(in srgb, var(--text) 18%, transparent);
     color: var(--text);
     font-weight: 500;
-  }
-  .step__list li::before {
-    content: '↗';
-    color: var(--text-muted);
   }
   .step__media {
     overflow: hidden;

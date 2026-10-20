@@ -218,7 +218,7 @@ test.describe('SEO – Suchintent je Seite', () => {
 test.describe('Conversion – Preisorientierung und funktionierender Kontext', () => {
   test('Preisrahmen nennt Steuerdarstellung und zusätzliche Kosten', () => {
     const text = textOf(readFileSync(join(DIST, 'leistungen/websites/index.html'), 'utf8'));
-    expect(text).toContain('1.500–5.500');
+    expect(text).toContain('1.499–5.500');
     expect(text).toContain('Umsatzsteuer');
     expect(text).toContain('Hosting');
     expect(text).toContain('separat');

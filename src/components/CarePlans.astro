@@ -1,0 +1,255 @@
+---
+/**
+ * CarePlans – Pflege nach dem Start: warum eine Website laufend gepflegt
+ * werden sollte, darunter die zwei Monatspakete. Inhalte aus
+ * src/config/pricing.ts. Auf der Startseite steht der Block unter dem
+ * Website-Preis (Überschrift h3), auf /leistungen/websites/ als eigener
+ * Abschnitt (h2).
+ */
+import { careReasons, carePlans, careNote } from '../config/pricing';
+
+interface Props {
+  headingLevel?: 'h2' | 'h3';
+}
+const { headingLevel = 'h3' } = Astro.props;
+const Title = headingLevel;
+const Sub = headingLevel === 'h2' ? 'h3' : 'h4';
+---
+
+<div class="care" id="pflege">
+  <div class="care__head">
+    <Title class="care__title" data-split>Danach: Pflege, damit sie gut bleibt.</Title>
+    <p class="care__lead" data-reveal>
+      Eine Website ist nie fertig. Wer sie nach dem Start liegen lässt, verliert mit der Zeit
+      Sichtbarkeit, Vertrauen und Anfragen. Mit der Pflege bleibt sie aktuell, fehlerfrei und wird
+      bei Google laufend besser.
+    </p>
+  </div>
+
+  <ul class="care__reasons" role="list" data-reveal-group>
+    {
+      careReasons.map((r) => (
+        <li class="care__reason">
+          <Sub class="care__reason-title">{r.title}</Sub>
+          <p>{r.text}</p>
+        </li>
+      ))
+    }
+  </ul>
+
+  <div class="plans" data-reveal-group>
+    {
+      carePlans.map((plan) => (
+        <article class:list={['plan', `plan--${plan.key}`]} data-spotlight>
+          <div class="plan__top">
+            <Sub class="plan__name">{plan.name}</Sub>
+            {plan.key === 'plus' && <span class="plan__tag">Mit SEO-Pflege</span>}
+          </div>
+          <p class="plan__price">
+            <span data-count={plan.price}>{plan.price}</span> €
+            <span class="plan__per">im Monat</span>
+          </p>
+          <p class="plan__lead">{plan.lead}</p>
+          <ul class="checks plan__list" role="list">
+            {plan.includes.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+          <a
+            class:list={['btn', plan.key === 'plus' ? 'btn--dark' : 'btn--ghost', 'plan__cta']}
+            href="/kontakt/#leistung=websites"
+          >
+            {plan.name} anfragen <span aria-hidden="true">↗</span>
+          </a>
+        </article>
+      ))
+    }
+  </div>
+  <p class="care__note">{careNote}</p>
+</div>
+
+<style>
+  .care {
+    display: grid;
+    gap: clamp(2.5rem, 5vw, 4.5rem);
+  }
+  .care__head {
+    display: grid;
+    gap: 1.25rem;
+  }
+  .care__title {
+    max-width: 16ch;
+    font-size: clamp(2.4rem, 5.5vw, 5.6rem);
+    line-height: 0.95;
+    letter-spacing: -0.045em;
+  }
+  .care__lead {
+    max-width: 52ch;
+    font-size: var(--fs-lead);
+    line-height: 1.55;
+    color: var(--text-muted);
+  }
+  @media (min-width: 64rem) {
+    .care__head {
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      align-items: end;
+      gap: 4rem;
+    }
+  }
+
+  /* Gründe: vier Spalten, jede mit einer Linie, die beim Einblenden aufzieht. */
+  .care__reasons {
+    display: grid;
+    gap: 2rem 2.5rem;
+    margin: 0;
+    padding: 0;
+  }
+  .care__reason {
+    position: relative;
+    display: grid;
+    align-content: start;
+    gap: 0.75rem;
+    padding-block-start: 1.5rem;
+    border-block-start: 1px solid var(--line-strong);
+  }
+  .care__reason::before {
+    content: '';
+    position: absolute;
+    inset: -1px auto auto 0;
+    inline-size: 100%;
+    block-size: 2px;
+    background: var(--ks-cyan);
+    transform-origin: left;
+    transform: scaleX(0.25);
+  }
+  :global(html.has-motion) .care__reason::before {
+    transform: scaleX(0);
+    transition: transform 1200ms var(--ease-out) var(--reveal-delay, 0ms);
+  }
+  :global(html.has-motion) .care__reason:global(.is-in)::before {
+    transform: scaleX(0.25);
+  }
+  .care__reason:hover::before {
+    transform: scaleX(1) !important;
+    transition-delay: 0ms;
+  }
+  .care__reason-title {
+    font-size: clamp(1.35rem, 2vw, 1.8rem);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+  }
+  .care__reason p {
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+  @media (min-width: 40rem) {
+    .care__reasons {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 72rem) {
+    .care__reasons {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  /* Pakete: Basis dunkel, Plus hell. */
+  .plans {
+    display: grid;
+    gap: 1.25rem;
+  }
+  @media (min-width: 56rem) {
+    .plans {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  .plan {
+    display: grid;
+    grid-template-rows: auto auto auto 1fr auto;
+    gap: 1.1rem;
+    padding: clamp(1.75rem, 4vw, 3rem);
+    border: 1px solid var(--line-strong);
+    background: var(--ks-cream);
+    color: var(--text);
+    overflow: hidden;
+    transition:
+      transform 600ms var(--ease-out),
+      border-color 400ms var(--ease-out);
+  }
+  .plan:hover {
+    transform: translate3d(0, -6px, 0);
+    border-color: var(--ks-cyan);
+  }
+  .plan--plus {
+    --text: var(--ks-black);
+    --text-muted: #3d4148;
+    --check: var(--ks-black);
+    background: var(--ks-bone);
+    border-color: var(--ks-bone);
+  }
+  .plan__top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+  .plan__name {
+    font-size: clamp(1.4rem, 2vw, 1.8rem);
+    letter-spacing: -0.03em;
+    color: var(--text);
+  }
+  .plan__tag {
+    padding: 0.35rem 0.75rem;
+    background: var(--ks-cyan);
+    color: var(--ks-black);
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+  .plan__price {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0 0.3em;
+    font-family: var(--font-display);
+    font-size: clamp(3.4rem, 7vw, 6rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.045em;
+  }
+  .plan__per {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    color: var(--text-muted);
+  }
+  .plan__lead {
+    max-width: 34ch;
+    font-weight: 600;
+    line-height: 1.45;
+  }
+  .plan__list {
+    align-content: start;
+    gap: 0.7rem;
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+  .plan__cta {
+    justify-self: start;
+    margin-block-start: 0.5rem;
+  }
+  .care__note {
+    max-width: 70ch;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+  }
+  :global([data-a11y-contrast='high']) .plan--plus {
+    --text: #fff;
+    --text-muted: #e6e6e6;
+    --check: var(--ks-cyan);
+    background: #000;
+    border-color: #fff;
+  }
+</style>

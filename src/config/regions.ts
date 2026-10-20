@@ -97,7 +97,7 @@ export const regions: readonly Region[] = [
       {
         question: 'Was kostet eine Website bei KERNSEITE?',
         answer:
-          'Die meisten Unternehmenswebsites liegen zwischen 1.500 und 5.500 Euro netto. Der genaue Preis hängt von Umfang, Seitenanzahl und Funktionen ab. Nach dem ersten Gespräch bekommst du ein klares Angebot.',
+          'Die meisten Unternehmenswebsites liegen zwischen 1.499 und 5.500 Euro netto. Der genaue Preis hängt von Umfang, Seitenanzahl und Funktionen ab. Nach dem ersten Gespräch bekommst du ein klares Angebot.',
       },
       {
         question: 'Für welche Branchen arbeitet ihr in der Region?',
@@ -173,7 +173,7 @@ export const regions: readonly Region[] = [
       {
         question: 'Was kostet eine Website für ein Unternehmen aus Schweinfurt?',
         answer:
-          'Es gelten dieselben Preise wie überall: Der Orientierungsrahmen liegt meist bei 1.500 bis 5.500 Euro netto, abhängig von Umfang und Funktionen. Termine vor Ort in Schweinfurt sprechen wir vorher gemeinsam ab.',
+          'Es gelten dieselben Preise wie überall: Der Orientierungsrahmen liegt meist bei 1.499 bis 5.500 Euro netto, abhängig von Umfang und Funktionen. Termine vor Ort in Schweinfurt sprechen wir vorher gemeinsam ab.',
       },
       {
         question: 'Kann KERNSEITE auch eine Karriereseite für meinen Betrieb erstellen?',

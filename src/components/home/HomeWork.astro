@@ -107,13 +107,7 @@ import { featuredProjects } from '../../config/cases';
         transparent 60%
       ),
       var(--ks-cream);
-    border: 1px solid var(--line);
     overflow: hidden;
-    transition: border-color 500ms var(--ease-out);
-  }
-  .work__card:hover .work__visual,
-  .work__card:focus-visible .work__visual {
-    border-color: var(--ks-cyan);
   }
   .work__shot {
     display: block;
@@ -121,7 +115,6 @@ import { featuredProjects } from '../../config/cases';
     aspect-ratio: 16 / 10;
     object-fit: cover;
     object-position: top;
-    border: 1px solid var(--line-strong);
     transition: transform 900ms var(--ease-out);
   }
   .work__phone {
@@ -164,7 +157,7 @@ import { featuredProjects } from '../../config/cases';
     display: grid;
     place-items: center;
     min-height: 14rem;
-    border: 1px solid var(--line-strong);
+    background: var(--ks-cream);
     font-family: var(--font-display);
     font-size: clamp(2rem, 4vw, 4rem);
     font-weight: 800;

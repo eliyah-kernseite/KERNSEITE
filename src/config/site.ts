@@ -42,7 +42,7 @@ export const site = {
 
   /** Meta-Description der Startseite (auf Anzeigelänge gekürzt). */
   metaDescription:
-    'Individuelle Websites für Unternehmen. Persönlich mit Eliyah Korb, meist 1.500–5.500 € netto. Aus Erlabrunn bei Würzburg, bundesweit. Projekte ansehen.',
+    'Individuelle Websites für Unternehmen. Persönlich mit Eliyah Korb, meist 1.499–5.500 € netto. Aus Erlabrunn bei Würzburg, bundesweit. Projekte ansehen.',
 
   /** Marken-Claims. */
   claim: 'Websites, die professionell wirken. Und genau deshalb funktionieren.',
