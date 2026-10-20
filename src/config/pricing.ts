@@ -40,6 +40,8 @@ export const carePlans = [
     name: 'Pflege Basis',
     price: 50,
     lead: 'Deine Website bleibt technisch sauber und aktuell.',
+    summary:
+      'Jeden Monat Technik-Check, Fehlerbehebung, rechtliche Anpassungen und kleine Änderungen.',
     includes: [
       'Monatlicher Technik-Check: Links, Formular, Ladezeit',
       'Fehler beheben, sobald sie auffallen',
@@ -52,6 +54,8 @@ export const carePlans = [
     name: 'Pflege Plus',
     price: 150,
     lead: 'Alles aus Basis, dazu wird deine Website laufend besser gefunden.',
+    summary:
+      'Dazu SEO-Pflege mit neuen Suchbegriffen, frische Inhalte, dein Google-Profil und ein Monatsbericht.',
     includes: [
       'Alles aus Pflege Basis',
       'SEO-Pflege: Suchbegriffe prüfen und neue Keywords einarbeiten',

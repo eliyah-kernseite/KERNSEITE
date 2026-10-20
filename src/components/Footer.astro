@@ -8,6 +8,7 @@ import Logo from './Logo.astro';
 import { footerNav } from '../config/navigation';
 import { site, canShowHostingClaim } from '../config/site';
 import { activeCompany } from '../lib/config-validation';
+import { openingHours } from '../config/company';
 const year = new Date().getFullYear();
 const c = activeCompany;
 const legal = footerNav.find((group) => group.title === 'Rechtliches');
@@ -30,7 +31,7 @@ const letters = 'KERNSEITE'.split('');
         {
           groups.map((group) => (
             <div class="ft__group">
-              <h2 class="ft__label">{group.title}</h2>
+              <p class="ft__label">{group.title}</p>
               <ul role="list">
                 {group.items.map((item) => (
                   <li>
@@ -43,7 +44,7 @@ const letters = 'KERNSEITE'.split('');
         }
       </nav>
       <div class="ft__group ft__contact">
-        <h2 class="ft__label">Kontakt</h2>
+        <p class="ft__label">Kontakt</p>
         <ul role="list">
           <li class="ft__mail">
             <a href={`mailto:${c.email}`}>{c.email}</a>
@@ -51,6 +52,9 @@ const letters = 'KERNSEITE'.split('');
           </li>
           <li><a href={tel}>{c.phone}</a></li>
           <li class="ft__region">{site.region.claim}</li>
+          <li class="ft__region">
+            Erreichbar {openingHours.short}
+          </li>
           <li class="ft__clock">
             Ortszeit <time data-clock>--:--</time> Uhr
           </li>
@@ -71,7 +75,7 @@ const letters = 'KERNSEITE'.split('');
 
   <div class="content">
     <div class="ft__bottom">
-      <p class="ft__copy">{`© ${year} ${c.legalDisplayName} · ${c.city}, ${site.region.state}`}</p>
+      <p class="ft__copy">{`© ${year} ${c.legalDisplayName}, ${c.city} (${site.region.state})`}</p>
       <ul class="ft__meta" role="list">
         {
           legal?.items.map((item) => (

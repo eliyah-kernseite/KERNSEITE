@@ -1,5 +1,6 @@
 import { activeCompany, hasCompleteBusinessData } from './config-validation';
 import { site } from '../config/site';
+import { openingHours } from '../config/company';
 import type { Service } from '../config/services';
 import type { FaqItem } from '../config/faq';
 import { canonicalFor } from '../config/seo';
@@ -80,6 +81,12 @@ export function organizationJsonLd(): Json | null {
       postalCode: c.postalCode,
       addressLocality: c.city,
       addressCountry: 'DE',
+    },
+    openingHoursSpecification: {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: [...openingHours.days],
+      opens: openingHours.opens,
+      closes: openingHours.closes,
     },
     founder: { '@type': 'Person', name: c.legalName },
     ...(c.socialLinks.length ? { sameAs: c.socialLinks.map((s) => s.href) } : {}),

@@ -38,13 +38,14 @@ import { featuredProjects } from '../../config/cases';
                     sizes="(min-width: 64rem) 12vw, 26vw"
                     width={p.screenshotMobile.width}
                     height={p.screenshotMobile.height}
-                    alt=""
+                    alt={p.screenshotMobile.alt}
+                    aria-hidden="true"
                     loading="lazy"
                     decoding="async"
                   />
                 </span>
                 <span class="work__meta">
-                  <span class="work__name">{p.title.split(' · ').at(-1)}</span>
+                  <span class="work__name">{p.title.split(': ').at(-1)}</span>
                   <span class="work__industry">{p.industryLabel}</span>
                 </span>
               </a>

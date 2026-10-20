@@ -280,7 +280,7 @@ export const industries: readonly Industry[] = [
       'Leistungen, die man versteht, und ein Kontakt, der in der Region schnell gefunden ist.',
     detailH1: 'Websites für Dienstleister, die verständlich erklären und leicht zu erreichen sind.',
     intro:
-      'Ob Beratung, Pflege oder Service: Wer lokal Dienstleistungen anbietet, braucht Klarheit, Vertrauen und einen einfachen Weg zur Anfrage.',
+      'Ob Beratung, Pflege oder Service: Wer lokal Dienstleistungen anbietet, braucht Klarheit, Vertrauen und einen einfachen Weg zur Anfrage. Deine Website soll erklären, was du machst, und dafür sorgen, dass Kunden dich leicht erreichen.',
     focus: [
       {
         title: 'Klare Leistungen',

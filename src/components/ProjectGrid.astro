@@ -36,7 +36,7 @@ const { context } = Astro.props;
               src={project.screenshotMobile.src}
               width={project.screenshotMobile.width}
               height={project.screenshotMobile.height}
-              alt=""
+              alt={project.screenshotMobile.alt}
               loading="lazy"
               decoding="async"
             />
@@ -52,7 +52,7 @@ const { context } = Astro.props;
         </div>
         <p class="project__category">
           {project.industryLabel}
-          {project.stage === 'preview' ? ' · Website-Entwurf' : ' · Website'}
+          {project.stage === 'preview' ? ' / Website-Entwurf' : ' / Website'}
         </p>
         <p class="project__description">
           {(context && project.blurbs?.[context]) ?? project.tagline}

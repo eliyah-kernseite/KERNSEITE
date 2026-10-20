@@ -5,6 +5,7 @@ import { faqPageJsonLd } from '../lib/jsonld';
 import Photo from '../components/Photo.astro';
 import ContactForm from '../components/ContactForm.astro';
 import { site } from '../config/site';
+import { openingHours } from '../config/company';
 import { activeCompany, isPlaceholder } from '../lib/config-validation';
 import { SHOW_DRAFT_NOTICES } from '../lib/build-mode';
 
@@ -106,6 +107,10 @@ const contactFaqs = [
                 </span>
               )
             }
+          </li>
+          <li class="channel">
+            <span class="channel__label">Erreichbar</span>
+            <span class="channel__value">{openingHours.long}</span>
           </li>
           {
             site.bookingUrl && (

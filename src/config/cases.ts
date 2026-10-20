@@ -35,7 +35,7 @@ export interface ProjectWork extends WorkCommon {
   readonly kind: 'project';
   /** Projektname laut bereitgestellten Angaben. */
   readonly client: string;
-  /** z. B. "Gastronomie · Website · digitale Speisekarte". */
+  /** z. B. "Gastronomie / Website / digitale Speisekarte". */
   readonly category: string;
   /** Große redaktionelle Projektüberschrift. */
   readonly headline: string;
@@ -111,7 +111,7 @@ const projects: readonly ProjectWork[] = [
       'Dunkles Design mit viel Bewegung: Die Referenzvideos laufen als gebogene Filmrolle durch den Startbildschirm.',
     client: 'Southframe Productions',
     industryLabel: 'Videoproduktion',
-    category: 'Videoproduktion · Website · Motion Design',
+    category: 'Videoproduktion / Website / Motion Design',
     ctaTitle: ['Deine Arbeit bewegt etwas.', 'Zeigt das deine ', 'Website', ' auch?'],
     blurbs: {
       home: 'Für zwei Videografen aus Würzburg, die Musikvideos und Clips für Artists drehen. Die Seite wirkt selbst wie ein Film.',
@@ -128,9 +128,9 @@ const projects: readonly ProjectWork[] = [
     verified: true,
     filters: ['referenz', 'websites', 'kreativ'],
     situation:
-      'Southframe Productions dreht Musikvideos und Hochkantclips für Rapper, Newcomer und Independent Artists. Wer ein Video sucht, will zuerst sehen, wie die Arbeit aussieht, und danach wissen, was sie kostet.',
+      'Southframe Productions dreht Musikvideos und Hochkantclips für Rapper, Newcomer und Independent Artists. Wer ein Video sucht, will zuerst sehen, wie die Arbeit aussieht, und danach wissen, was sie kostet. Ob der Stil passt, entscheidet sich oft schon in der ersten Sekunde.',
     solution:
-      'Die Startseite zeigt die Referenzvideos als gebogene Filmrolle, die beim Laden in Bewegung kommt. Beim Scrollen läuft der Ablauf von Dreh über Schnitt bis Grading mit. Die Preise stehen offen auf der Startseite, die Anfrage ist von jeder Seite aus einen Klick entfernt.',
+      'Die Startseite zeigt die Referenzvideos als gebogene Filmrolle, die beim Laden in Bewegung kommt. Beim Scrollen läuft der Ablauf von Dreh über Schnitt bis Grading mit. Die Preise stehen offen auf der Startseite, die Anfrage ist von jeder Seite aus einen Klick entfernt. Am Handy läuft die Filmrolle genauso wie am Rechner, damit auch die Hochkantclips dort wirken, wo sie später geschaut werden.',
     scope: [
       'Individuelle Website mit Motion Design',
       'Bewegter Startbildschirm aus den eigenen Referenzvideos',
@@ -142,6 +142,11 @@ const projects: readonly ProjectWork[] = [
         question: 'Warum so viel Bewegung auf der Website?',
         answer:
           'Southframe verkauft bewegte Bilder. Eine Website, die still steht, würde dazu nicht passen. Die Animationen zeigen den Stil des Teams, bevor jemand ein Video anklickt. Wer im Browser weniger Bewegung eingestellt hat, sieht die Seite ruhig.',
+      },
+      {
+        question: 'Was heißt „Bewegung ab der ersten Sekunde“?',
+        answer:
+          'Schon beim Öffnen der Startseite setzt sich die Filmrolle aus den eigenen Referenzvideos in Bewegung. Besucher sehen sofort, welchen Look Southframe dreht, noch bevor sie etwas lesen oder anklicken. Gerade bei Musikvideos entscheidet dieser erste Eindruck, ob jemand weiterschaut oder zurück zur Suche geht.',
       },
       {
         question: 'Warum stehen die Preise direkt auf der Startseite?',
@@ -174,14 +179,14 @@ const projects: readonly ProjectWork[] = [
     kind: 'project',
     slug: 'babyschlafberatung',
     href: '/arbeiten/babyschlafberatung/',
-    title: 'Anna-Lena Korb · Babyschlafberatung',
+    title: 'Anna-Lena Korb: Babyschlafberatung',
     headline: 'Nähe und Vertrauen von Anfang an.',
     teaser:
       'Ruhige Bildsprache, klar beschriebene Angebote und ein direkter Weg zum Kennenlerngespräch.',
     seoTitle: 'Babyschlafberatung Anna-Lena Korb: Referenz',
     client: 'Anna-Lena Korb',
     industryLabel: 'Babyschlafberatung',
-    category: 'Beratung · Website · Kontaktanfrage',
+    category: 'Beratung / Website / Kontaktanfrage',
     ctaTitle: ['Dein Angebot verdient Vertrauen.', 'Zeigt deine ', 'Website', ' das schon?'],
     blurbs: {
       home: 'Eine Website für eine Schlafberatung, auf der Eltern Angebote, Preise und die Person hinter der Beratung schnell finden.',
@@ -265,7 +270,7 @@ const projects: readonly ProjectWork[] = [
     teaser: 'Dunkles Design, digitale Speisekarte und Anrufmöglichkeiten direkt bei den Angeboten.',
     client: 'Kaya Döner Himmelstadt',
     industryLabel: 'Gastronomie',
-    category: 'Gastronomie · Website · digitale Speisekarte',
+    category: 'Gastronomie / Website / digitale Speisekarte',
     ctaTitle: ['Deine Gäste haben Hunger.', 'Macht deine ', 'Website', ' Appetit?'],
     blurbs: {
       home: 'Eine Website für einen Imbiss in Himmelstadt, die Speisekarte, Wochenangebote und Anfahrt schnell erreichbar macht.',
@@ -347,7 +352,7 @@ const projects: readonly ProjectWork[] = [
     teaser: 'Warme Farbwelt und ein persönlicher Einstieg, der die Betreuungsperson vorstellt.',
     client: 'Anna-Lena’s Kinderkörbchen',
     industryLabel: 'Kindertagespflege',
-    category: 'Kindertagespflege · Website · lokale Sichtbarkeit',
+    category: 'Kindertagespflege / Website / lokale Sichtbarkeit',
     ctaTitle: ['Menschen wählen Menschen.', 'Stellt deine ', 'Website', ' dich vor?'],
     blurbs: {
       home: 'Eine Kindertagespflege, die sich Eltern persönlich vorstellt und ihr Angebot verständlich bündelt.',

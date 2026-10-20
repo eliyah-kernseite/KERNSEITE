@@ -18,9 +18,9 @@ interface Props {
 }
 const { work } = Astro.props;
 
-/** „Gastronomie · Website · digitale Speisekarte“ → einzelne Schlagworte. */
+/** „Gastronomie / Website / digitale Speisekarte“ → einzelne Schlagworte. */
 const tags = work.category
-  .split('·')
+  .split('/')
   .map((part) => part.trim())
   .filter(Boolean);
 
@@ -47,7 +47,10 @@ const showGoogleProfile = work.slug === 'kinderkoerbchen';
     <div class="content">
       <Breadcrumbs items={breadcrumbs} />
       <h1 class="chero__title" data-split>{work.headline}</h1>
-      <p class="chero__client">{work.title}</p>
+      <p class="chero__client">
+        <span class="chero__kind">{work.stage === 'preview' ? 'Website-Entwurf' : 'Referenz'}</span>
+        {work.title}
+      </p>
       <p class="lead chero__lead">{work.tagline}</p>
       <ul class="tags chero__tags" role="list">
         {tags.map((tag) => <li class="tag">{tag}</li>)}
@@ -74,7 +77,7 @@ const showGoogleProfile = work.slug === 'kinderkoerbchen';
           >Ähnliche Website anfragen <span class="arrow" aria-hidden="true">→</span></a
         >
         <span class="chero__domain"
-          >{work.previewDomain ? `${work.previewDomain} · Beispieladresse` : work.liveLabel}</span
+          >{work.previewDomain ? `${work.previewDomain} (Beispieladresse)` : work.liveLabel}</span
         >
       </div>
     </div>
@@ -150,7 +153,7 @@ const showGoogleProfile = work.slug === 'kinderkoerbchen';
           <a class="nextwork" href={other.href}>
             <span class="nextwork__copy">
               <span class="nextwork__label">Nächstes Projekt</span>
-              <span class="nextwork__title">{other.title.split(' · ').at(-1)}</span>
+              <span class="nextwork__title">{other.title.split(': ').at(-1)}</span>
               <span class="nextwork__meta">{other.headline}</span>
             </span>
             <img
@@ -158,7 +161,8 @@ const showGoogleProfile = work.slug === 'kinderkoerbchen';
               src={other.screenshotDesktop.src.replace('-1440.webp', '-960.webp')}
               width="960"
               height="600"
-              alt=""
+              alt={other.screenshotDesktop.alt}
+              aria-hidden="true"
               loading="lazy"
               decoding="async"
             />
@@ -189,6 +193,21 @@ const showGoogleProfile = work.slug === 'kinderkoerbchen';
     margin-block-start: var(--space-lg);
     font-weight: var(--fw-semibold);
     font-size: var(--fs-lead);
+  }
+  /* „Referenz“ vor dem Kundennamen, getrennt durch eine kurze Cyan-Linie. */
+  .chero__kind {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-inline-end: 0.6rem;
+    color: var(--text-muted);
+    font-weight: var(--fw-medium);
+  }
+  .chero__kind::after {
+    content: '';
+    inline-size: 1.25rem;
+    block-size: 2px;
+    background: var(--ks-cyan);
   }
   .chero__lead {
     margin-block-start: var(--space-md);

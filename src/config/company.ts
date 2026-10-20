@@ -112,3 +112,12 @@ export const REQUIRED_LEGAL_FIELDS = [
   'mailProvider',
   'formRetentionPeriod',
 ] as const satisfies readonly (keyof Company)[];
+
+/** Öffnungszeiten, deckungsgleich mit dem Google-Unternehmensprofil. */
+export const openingHours = {
+  short: 'Mo–Fr 10–18 Uhr',
+  long: 'Montag bis Freitag, 10 bis 18 Uhr',
+  days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+  opens: '10:00',
+  closes: '18:00',
+} as const;
