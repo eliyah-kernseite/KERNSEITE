@@ -87,7 +87,10 @@ entsprechenden Marker und Deploy-Guards bleiben bestehen.
    eigene Domain und verschickt über die PHP-Mailfunktion des Hostings an
    info@kernseite.com. Weil die Domain laut SPF nur über Google versenden darf, können
    solche Mails im Spam landen. Die `.env` mit SMTP ist deshalb der zuverlässige Weg.
-   Scheitert ein Versand, bietet das Formular an, die Angaben per E-Mail zu schicken.
+   Scheitert SMTP (falsches Passwort, gesperrter Port), geht die Anfrage automatisch
+   über die PHP-Mailfunktion raus. Die letzte Zeile der Mail („Versand über: …“) nennt
+   dann den Grund. Scheitert auch das, bietet das Formular an, die Angaben per E-Mail
+   zu schicken.
 5. Domain, www-Weiterleitung, TLS und Fehlerseite prüfen. Bei vorgeschaltetem Proxy
    die HTTPS-Erkennung passend zur realen Hostinger-Konfiguration prüfen.
 6. Eine echte Formularanfrage senden und Empfang, Antwortadresse und Fehlerfall prüfen.
