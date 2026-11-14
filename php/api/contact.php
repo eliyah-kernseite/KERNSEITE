@@ -28,13 +28,20 @@ header('Referrer-Policy: strict-origin-when-cross-origin');
 
 $wantsJson = str_contains($_SERVER['HTTP_ACCEPT'] ?? '', 'application/json');
 
-/** @return never */
-function respond(bool $ok, string $message, int $code, bool $json): void
+/**
+ * @param array<string,string> $fieldErrors Feldname => Hinweis, nur bei Validierungsfehlern.
+ * @return never
+ */
+function respond(bool $ok, string $message, int $code, bool $json, array $fieldErrors = []): void
 {
     http_response_code($code);
     if ($json) {
         header('Content-Type: application/json; charset=utf-8');
-        echo json_encode(['ok' => $ok, 'message' => $message], JSON_UNESCAPED_UNICODE);
+        $payload = ['ok' => $ok, 'message' => $message];
+        if ($fieldErrors !== []) {
+            $payload['errors'] = $fieldErrors;
+        }
+        echo json_encode($payload, JSON_UNESCAPED_UNICODE);
     } else {
         header('Content-Type: text/html; charset=utf-8');
         $title = $ok ? 'Danke' : 'Hinweis';
@@ -55,25 +62,42 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') !== 'POST') {
 }
 
 // 2. Same-Origin-/Origin-Referer-Prüfung
-$allowedOrigin = rtrim((string) Env::get('ALLOWED_ORIGIN', ''), '/');
-$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
-$referer = $_SERVER['HTTP_REFERER'] ?? '';
-$originOk = false;
-if ($allowedOrigin !== '') {
-    if ($origin !== '') {
-        $originOk = rtrim($origin, '/') === $allowedOrigin;
-    } elseif ($referer !== '') {
-        $parts = parse_url($referer);
-        if (is_array($parts) && isset($parts['scheme'], $parts['host'])) {
-            $refererOrigin = $parts['scheme'] . '://' . $parts['host']
-                . (isset($parts['port']) ? ':' . $parts['port'] : '');
-            $originOk = $refererOrigin === $allowedOrigin;
-        }
-    } else {
-        // Weder Origin noch Referer vorhanden -> abweisen, wenn Origin konfiguriert ist.
-        $originOk = false;
+// Erlaubt ist die in ALLOWED_ORIGIN eingetragene Adresse. Fehlt der Eintrag, gilt
+// die eigene Domain des Servers – so funktioniert das Formular auch ohne .env.
+// Die Variante mit bzw. ohne „www.“ wird jeweils mit akzeptiert.
+$allowedOrigins = [];
+$configuredOrigin = rtrim((string) Env::get('ALLOWED_ORIGIN', ''), '/');
+if ($configuredOrigin !== '') {
+    $allowedOrigins[] = $configuredOrigin;
+} else {
+    $ownHost = strtolower(preg_replace('/:\d+$/', '', (string) ($_SERVER['HTTP_HOST'] ?? '')) ?? '');
+    if ($ownHost !== '' && preg_match('/^[a-z0-9.-]+$/', $ownHost)) {
+        $allowedOrigins[] = 'https://' . $ownHost;
     }
 }
+foreach ($allowedOrigins as $allowed) {
+    $parts = parse_url($allowed);
+    if (is_array($parts) && isset($parts['scheme'], $parts['host'])) {
+        $host = $parts['host'];
+        $twin = str_starts_with($host, 'www.') ? substr($host, 4) : 'www.' . $host;
+        $allowedOrigins[] = $parts['scheme'] . '://' . $twin
+            . (isset($parts['port']) ? ':' . $parts['port'] : '');
+    }
+}
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+$referer = $_SERVER['HTTP_REFERER'] ?? '';
+$requestOrigin = '';
+if ($origin !== '') {
+    $requestOrigin = rtrim($origin, '/');
+} elseif ($referer !== '') {
+    $parts = parse_url($referer);
+    if (is_array($parts) && isset($parts['scheme'], $parts['host'])) {
+        $requestOrigin = $parts['scheme'] . '://' . $parts['host']
+            . (isset($parts['port']) ? ':' . $parts['port'] : '');
+    }
+}
+// Weder Origin noch Referer vorhanden -> abweisen.
+$originOk = $requestOrigin !== '' && in_array(strtolower($requestOrigin), array_map('strtolower', $allowedOrigins), true);
 if ((int) ($_SERVER['CONTENT_LENGTH'] ?? 0) > 32768) {
     respond(false, 'Die Anfrage ist zu groß.', 413, $wantsJson);
 }
@@ -108,7 +132,7 @@ if (!$rateLimiter->allow($ip)) {
 // 6. Serverseitige Validierung
 $result = Validator::validate($_POST);
 if (!empty($result['errors'])) {
-    respond(false, 'Bitte prüfe deine Eingaben und versuche es erneut.', 422, $wantsJson);
+    respond(false, 'Bitte prüfe die markierten Felder.', 422, $wantsJson, $result['fieldErrors']);
 }
 
 // 7. Versand
@@ -119,7 +143,7 @@ try {
     error_log('[kernseite-contact] SMTP-Versand fehlgeschlagen.');
     respond(
         false,
-        'Das Senden ist derzeit nicht möglich. Bitte versuche es später erneut oder schreib uns direkt per E-Mail.',
+        'Das Senden hat gerade nicht geklappt. Deine Angaben sind noch da: Du kannst sie mit einem Klick per E-Mail schicken.',
         500,
         $wantsJson,
     );

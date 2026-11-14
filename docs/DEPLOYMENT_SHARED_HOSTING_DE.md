@@ -78,6 +78,16 @@ entsprechenden Marker und Deploy-Guards bleiben bestehen.
 4. SMTP_HOST, SMTP_PORT, SMTP_SECURE, SMTP_USER, SMTP_PASS, SMTP_FROM und CONTACT_TO
    für den tatsächlichen Versandweg konfigurieren. ALLOWED_ORIGIN auf
    `https://www.kernseite.com` setzen. Die weiteren Vorgaben in `.env.example` beachten.
+   Für Google Workspace: `SMTP_HOST=smtp.gmail.com`, `SMTP_PORT=587`, `SMTP_SECURE=tls`,
+   `SMTP_USER` und `SMTP_FROM` = das Postfach (z. B. info@kernseite.com), `SMTP_PASS` =
+   ein App-Passwort aus dem Google-Konto (Sicherheit → App-Passwörter, setzt die
+   Bestätigung in zwei Schritten voraus).
+
+   Ohne `.env` funktioniert das Formular trotzdem: Der Endpunkt prüft dann gegen die
+   eigene Domain und verschickt über die PHP-Mailfunktion des Hostings an
+   info@kernseite.com. Weil die Domain laut SPF nur über Google versenden darf, können
+   solche Mails im Spam landen. Die `.env` mit SMTP ist deshalb der zuverlässige Weg.
+   Scheitert ein Versand, bietet das Formular an, die Angaben per E-Mail zu schicken.
 5. Domain, www-Weiterleitung, TLS und Fehlerseite prüfen. Bei vorgeschaltetem Proxy
    die HTTPS-Erkennung passend zur realen Hostinger-Konfiguration prüfen.
 6. Eine echte Formularanfrage senden und Empfang, Antwortadresse und Fehlerfall prüfen.
