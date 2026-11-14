@@ -26,6 +26,11 @@ final class Mailer
     private const DEFAULT_TO = 'info@kernseite.com';
 
     /**
+     * Versucht zuerst SMTP. Scheitert das, geht dieselbe Anfrage über die Mailfunktion
+     * des Hostings raus, damit sie nicht verloren geht. Die Mail nennt am Ende, auf
+     * welchem Weg sie kam und warum SMTP nicht ging – so lässt sich die .env prüfen,
+     * ohne Server-Protokolle zu lesen.
+     *
      * @param array<string,string> $fields
      * @throws PHPMailerException|\RuntimeException
      */
@@ -34,29 +39,70 @@ final class Mailer
         $host = Env::get('SMTP_HOST');
         $user = Env::get('SMTP_USER');
         $pass = Env::get('SMTP_PASS');
+        if ($pass !== null && $host !== null && preg_match('/(gmail|google)/i', $host)) {
+            // Google zeigt App-Passwörter in Vierergruppen mit Leerzeichen an.
+            $pass = preg_replace('/\s+/', '', $pass) ?? $pass;
+        }
+
+        if ($host && $user && $pass) {
+            try {
+                $this->send($fields, 'SMTP', function (PHPMailer $mail) use ($host, $user, $pass): void {
+                    $mail->isSMTP();
+                    $mail->Host = $host;
+                    $mail->SMTPAuth = true;
+                    $mail->Username = $user;
+                    $mail->Password = $pass;
+                    $mail->Port = (int) (Env::get('SMTP_PORT', '587'));
+                    $mail->SMTPSecure = Env::get('SMTP_SECURE', 'tls') === 'ssl'
+                        ? PHPMailer::ENCRYPTION_SMTPS
+                        : PHPMailer::ENCRYPTION_STARTTLS;
+                    $mail->SMTPDebug = SMTP::DEBUG_OFF;
+                    $mail->Timeout = 8;
+                });
+                return;
+            } catch (\Throwable $e) {
+                $reason = self::reason($e->getMessage());
+                error_log('[kernseite-contact] SMTP fehlgeschlagen (' . $reason . '), Versand über PHP-Mail.');
+                $this->send($fields, 'Mailfunktion des Hostings (SMTP fehlgeschlagen: ' . $reason . ')', static function (PHPMailer $mail): void {
+                    $mail->isMail();
+                });
+                return;
+            }
+        }
+
+        $this->send($fields, 'Mailfunktion des Hostings (kein SMTP-Zugang in der .env)', static function (PHPMailer $mail): void {
+            $mail->isMail();
+        });
+    }
+
+    /** Ordnet PHPMailer-Fehler einer verständlichen Ursache zu, ohne Details preiszugeben. */
+    private static function reason(string $message): string
+    {
+        if (stripos($message, 'authenticate') !== false) {
+            return 'Anmeldung abgelehnt, App-Passwort und SMTP_USER prüfen';
+        }
+        if (stripos($message, 'connect') !== false) {
+            return 'keine Verbindung zum Mailserver, SMTP_PORT=465 mit SMTP_SECURE=ssl versuchen';
+        }
+        if (stripos($message, 'from') !== false || stripos($message, 'sender') !== false) {
+            return 'Absender abgelehnt, SMTP_FROM muss das Postfach aus SMTP_USER sein';
+        }
+        return 'unbekannter Fehler';
+    }
+
+    /**
+     * @param array<string,string> $fields
+     * @param callable(PHPMailer):void $transport
+     * @throws PHPMailerException|\RuntimeException
+     */
+    private function send(array $fields, string $via, callable $transport): void
+    {
         $to = Env::get('CONTACT_TO') ?: self::DEFAULT_TO;
-        $from = Env::get('SMTP_FROM', $user) ?: $to;
-        $smtpReady = $host && $user && $pass;
+        $from = Env::get('SMTP_FROM', Env::get('SMTP_USER')) ?: $to;
 
         $mail = new PHPMailer(true);
-        if ($smtpReady) {
-            $mail->isSMTP();
-            $mail->Host = $host;
-            $mail->SMTPAuth = true;
-            $mail->Username = $user;
-            $mail->Password = $pass;
-            $mail->Port = (int) (Env::get('SMTP_PORT', '587'));
-            $secure = Env::get('SMTP_SECURE', 'tls');
-            $mail->SMTPSecure = $secure === 'ssl'
-                ? PHPMailer::ENCRYPTION_SMTPS
-                : PHPMailer::ENCRYPTION_STARTTLS;
-            $mail->SMTPDebug = SMTP::DEBUG_OFF;
-            $mail->Timeout = 15;
-        } else {
-            $mail->isMail();
-        }
+        $transport($mail);
         $mail->CharSet = PHPMailer::CHARSET_UTF8;
-
         $mail->setFrom($from, Env::get('SMTP_FROM_NAME', 'KERNSEITE Website'));
         $mail->addAddress($to);
 
@@ -82,6 +128,9 @@ final class Mailer
             '',
             'Nachricht:',
             $fields['message'],
+            '',
+            '--',
+            'Versand über: ' . $via,
         ];
         $mail->Body = implode("\n", $lines);
         $mail->isHTML(false);

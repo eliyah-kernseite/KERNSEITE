@@ -602,7 +602,7 @@ const timings = [
           method: 'POST',
           body: new FormData(form),
           headers: { Accept: 'application/json' },
-          signal: AbortSignal.timeout(20000),
+          signal: AbortSignal.timeout(40000),
         });
         const data = response.headers.get('content-type')?.includes('application/json')
           ? await response.json().catch(() => null)

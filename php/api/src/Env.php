@@ -33,8 +33,13 @@ final class Env
             }
             $key = trim($parts[0]);
             $value = trim($parts[1]);
-            // Umschließende Anführungszeichen entfernen
-            $value = preg_replace('/^([\'"])(.*)\1$/', '$2', $value) ?? $value;
+            if (preg_match('/^([\'"])(.*)\1$/', $value, $m)) {
+                // Umschließende Anführungszeichen entfernen, Inhalt bleibt unverändert.
+                $value = $m[2];
+            } else {
+                // Kommentar hinter dem Wert („tls   # STARTTLS“) wie bei .env üblich abschneiden.
+                $value = trim((string) preg_replace('/\s+#.*$/', '', $value));
+            }
             if ($key !== '' && getenv($key) === false) {
                 putenv($key . '=' . $value);
                 $_ENV[$key] = $value;
