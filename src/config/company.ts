@@ -76,7 +76,8 @@ export const company: Company = {
   city: 'Erlabrunn',
   country: 'Deutschland',
   email: 'info@kernseite.com',
-  phone: '0173 25 84 229',
+  // Einheitliche Schreibweise (Footer, Impressum, Kontakt, JSON-LD).
+  phone: '+49 173 2584229',
   // USt-IdNr. nicht erfunden -> leer (Impressum blendet den Abschnitt dann aus).
   vatId: '',
   responsibleContent: 'Eliyah Korb',
@@ -121,3 +122,14 @@ export const openingHours = {
   opens: '10:00',
   closes: '18:00',
 } as const;
+
+/**
+ * Telefonnummer im internationalen Format ohne Leerzeichen (E.164), z. B.
+ * für `tel:`-Links. Akzeptiert „+49 …“, „0049 …“ und nationale „0…“-Nummern.
+ */
+export function phoneE164(phone: string): string {
+  const digits = phone.replace(/[^\d+]/g, '');
+  if (digits.startsWith('+')) return digits;
+  if (digits.startsWith('00')) return `+${digits.slice(2)}`;
+  return `+49${digits.replace(/^0/, '')}`;
+}

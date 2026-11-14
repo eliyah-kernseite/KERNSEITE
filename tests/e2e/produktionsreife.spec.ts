@@ -121,16 +121,17 @@ test.describe('Standortwahrheit', () => {
     }
   });
 
-  test('areaServed nennt Würzburg, Unterfranken, Bayern und Deutschland', () => {
+  test('areaServed nennt Würzburg, Schweinfurt, Unterfranken und Deutschland', () => {
     const html = readFileSync(join(DIST, 'index.html'), 'utf8');
     const roh = [...html.matchAll(/application\/ld\+json[^>]*>([\s\S]*?)<\/script>/gi)].map((m) =>
       JSON.parse(m[1]),
     );
-    const org = roh.find((o) => o['@type'] === 'ProfessionalService');
+    const org = roh.find((o) => [o['@type']].flat().includes('ProfessionalService'));
     expect(org, 'kein ProfessionalService-Datensatz').toBeTruthy();
-    expect(org.areaServed).toEqual(
-      expect.arrayContaining(['Würzburg', 'Unterfranken', 'Bayern', 'Deutschland']),
+    expect(org.areaServed.map((a: { name: string }) => a.name)).toEqual(
+      expect.arrayContaining(['Würzburg', 'Schweinfurt', 'Unterfranken', 'Deutschland']),
     );
+    expect(org.address.addressRegion).toBe('Bayern');
   });
 });
 

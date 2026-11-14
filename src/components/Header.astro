@@ -2,6 +2,7 @@
 import Logo from './Logo.astro';
 import { mainNav, primaryCta } from '../config/navigation';
 import { activeCompany as c } from '../lib/config-validation';
+import { phoneE164 } from '../config/company';
 
 const currentPath = Astro.url.pathname;
 function isActive(href: string): boolean {
@@ -70,7 +71,7 @@ function isActive(href: string): boolean {
       <a class="btn btn--primary mobile-menu__cta" href={primaryCta.href}>{primaryCta.label}</a>
       <p class="mobile-menu__contact">
         <a href={`mailto:${c.email}`}>{c.email}</a>
-        <a href={`tel:+49${c.phone.replace(/\D/g, '').replace(/^0/, '')}`}>{c.phone}</a>
+        <a href={`tel:${phoneE164(c.phone)}`}>{c.phone}</a>
       </p>
     </nav>
   </div>

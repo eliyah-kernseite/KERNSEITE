@@ -14,7 +14,9 @@ const fromValue = Number(from.replace(/\D/g, ''));
 <section class="pricing section" id="preise" aria-labelledby="pricing-title">
   <div class="content pricing__inner">
     <div class="pricing__head">
-      <h2 id="pricing-title" class="pricing__title" data-split>Was es kostet.</h2>
+      <h2 id="pricing-title" class="pricing__title" data-split>
+        Was es kostet.<span class="h2-sub">Preise für deine Website</span>
+      </h2>
       <p class="pricing__sub" data-reveal>
         Feste Preise statt Stundenzettel. Einmal sauber bauen, danach gut pflegen.
       </p>
@@ -25,10 +27,10 @@ const fromValue = Number(from.replace(/\D/g, ''));
       <div class="launch__main">
         <p class="launch__label">Deine Website</p>
         <p class="launch__price">
-          <span class="launch__from">ab</span>
+          <span class="launch__from">ab</span>{' '}
           <span class="launch__num"
             ><span data-count={fromValue}>{from.trim()}</span>
-            <span class="launch__cur">€</span></span
+            <span class="launch__cur">&nbsp;€</span></span
           >
         </p>
         <p class="launch__fine">einmalig, netto, Festpreis im schriftlichen Angebot</p>
@@ -126,7 +128,8 @@ const fromValue = Number(from.replace(/\D/g, ''));
     white-space: nowrap;
   }
   .launch__cur {
-    margin-inline-start: 0.12em;
+    /* Echtes Leerzeichen (0,21 em) vor dem €, Abstand optisch wie zuvor 0,12 em. */
+    margin-inline-start: -0.09em;
     font-size: 0.6em;
   }
   .launch__fine {

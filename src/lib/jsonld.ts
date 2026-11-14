@@ -1,9 +1,10 @@
 import { activeCompany, hasCompleteBusinessData } from './config-validation';
 import { site } from '../config/site';
 import { openingHours } from '../config/company';
+import { websiteOffer } from '../config/pricing';
 import type { Service } from '../config/services';
 import type { FaqItem } from '../config/faq';
-import { canonicalFor } from '../config/seo';
+import { canonicalFor, seo } from '../config/seo';
 
 /**
  * Strukturierte Daten (JSON-LD).
@@ -16,91 +17,102 @@ import { canonicalFor } from '../config/seo';
 
 type Json = Record<string, unknown>;
 
+/** Stabile Kennung des Unternehmens, auf die WebSite und Service verweisen. */
+export const BUSINESS_ID = `${site.url.replace(/\/$/, '')}/#business`;
+
+/** Absolute URL zu einem Pfad der Website. */
+const abs = (path: string): string => `${site.url.replace(/\/$/, '')}${path}`;
+
 /**
  * Tatsächlich betreutes Gebiet.
  *
  * Der Sitz steht in `address` (Erlabrunn) und wird davon nicht berührt:
  * `areaServed` beschreibt, wo gearbeitet wird, nicht wo das Büro steht.
- * Deutschland gehört dazu, weil Projekte bundesweit umgesetzt werden – das
- * deckt sich mit der sichtbaren Aussage „Persönlich im Raum Würzburg. Digital
- * bundesweit.“
+ * Deutschland gehört dazu, weil Projekte bundesweit umgesetzt werden. Das
+ * deckt sich mit der sichtbaren Aussage „Raum Würzburg. Projekte bundesweit.“
  */
 const AREA_SERVED = [
-  site.region.city,
-  site.region.area,
-  site.region.state,
-  site.region.country,
-].filter(Boolean);
-
-/**
- * Einzugsgebiet für persönliche Betreuung: 50 km um die Würzburger Innenstadt
- * (Koordinaten Würzburg Marktplatz). Ergänzt die Ortsliste `AREA_SERVED`.
- */
-const SERVICE_RADIUS = {
-  '@type': 'GeoCircle',
-  geoMidpoint: { '@type': 'GeoCoordinates', latitude: 49.7939, longitude: 9.9294 },
-  geoRadius: 50000,
-};
-
-/** Fachgebiete der Agentur, deckt sich mit den sichtbaren Leistungsseiten. */
-const KNOWS_ABOUT = [
-  'Webdesign',
-  'Website erstellen',
-  'Digitalagentur',
-  'Werbeagentur',
-  'Suchmaschinenoptimierung (SEO)',
-  'Google-Unternehmensprofil',
-  'Branding und Corporate Design',
-  'Performance Marketing',
-  'Google Ads',
-  'Meta Ads',
-  'Fotografie und Videoproduktion',
-  'Social Media Marketing',
-  'KI-Automatisierung',
+  { '@type': 'City', name: 'Würzburg' },
+  { '@type': 'City', name: 'Schweinfurt' },
+  { '@type': 'AdministrativeArea', name: 'Unterfranken' },
+  { '@type': 'Country', name: 'Deutschland' },
 ];
 
-/** ProfessionalService/LocalBusiness der Marke – nur bei vollständiger Anschrift und Kontakt. */
+/** Gemeinde Erlabrunn (Ortsmitte), Sitz des Unternehmens. */
+const GEO = { '@type': 'GeoCoordinates', latitude: 49.867, longitude: 9.85 };
+
+/**
+ * Leistungen, deckungsgleich mit den sichtbaren Leistungsseiten. Liefert
+ * `knowsAbout` (Namen) und `makesOffer` (Angebote mit Link zur Seite).
+ */
+const OFFERS = [
+  { name: 'Webdesign', path: '/leistungen/websites/' },
+  { name: 'SEO & GEO', path: '/leistungen/seo-geo/' },
+  { name: 'Google-Unternehmensprofil', path: '/leistungen/google-unternehmensprofil/' },
+  { name: 'Branding', path: '/leistungen/branding/' },
+  { name: 'Foto & Video', path: '/leistungen/unternehmensvideo/' },
+  { name: 'Social Media', path: '/leistungen/social-media/' },
+  { name: 'Performance Marketing', path: '/leistungen/performance-marketing/' },
+  { name: 'KI & Automatisierung', path: '/leistungen/ki-automatisierung/' },
+] as const;
+
+/** Beschreibung für das Unternehmens-Schema (ohne Gedankenstriche). */
+const BUSINESS_DESCRIPTION =
+  'Webdesign aus Würzburg: individuelle Websites mit Design, Texten und SEO, die neue Kunden bringen.';
+
+/** ProfessionalService/LocalBusiness der Marke, nur bei vollständiger Anschrift und Kontakt. */
 export function organizationJsonLd(): Json | null {
   if (!hasCompleteBusinessData) return null;
   const c = activeCompany;
   return {
     '@context': 'https://schema.org',
-    '@type': 'ProfessionalService',
-    '@id': `${site.url.replace(/\/$/, '')}/#organization`,
-    name: c.legalDisplayName,
-    alternateName: c.brandName,
-    url: site.url,
+    '@type': ['ProfessionalService', 'LocalBusiness'],
+    '@id': BUSINESS_ID,
+    name: c.brandName,
+    founder: { '@type': 'Person', name: c.legalName },
+    url: site.url.replace(/\/?$/, '/'),
+    logo: abs('/icon-512.png'),
+    image: abs(seo.defaultOgImage),
+    description: BUSINESS_DESCRIPTION,
+    telephone: c.phone,
     email: c.email,
-    telephone: '+49' + c.phone.replace(/\D/g, '').replace(/^0/, ''),
-    description: site.shortDescription,
-    areaServed: [...AREA_SERVED, SERVICE_RADIUS],
-    knowsAbout: KNOWS_ABOUT,
     address: {
       '@type': 'PostalAddress',
       streetAddress: c.street,
       postalCode: c.postalCode,
       addressLocality: c.city,
+      addressRegion: site.region.state,
       addressCountry: 'DE',
     },
+    geo: GEO,
+    areaServed: AREA_SERVED,
     openingHoursSpecification: {
       '@type': 'OpeningHoursSpecification',
       dayOfWeek: [...openingHours.days],
       opens: openingHours.opens,
       closes: openingHours.closes,
     },
-    founder: { '@type': 'Person', name: c.legalName },
-    ...(c.socialLinks.length ? { sameAs: c.socialLinks.map((s) => s.href) } : {}),
+    priceRange: `ab ${websiteOffer.range.split('–')[0]?.trim()} €`,
+    knowsAbout: OFFERS.map((o) => o.name),
+    makesOffer: OFFERS.map((o) => ({
+      '@type': 'Offer',
+      itemOffered: { '@type': 'Service', name: o.name, url: abs(o.path) },
+    })),
+    // Profile (Google-Unternehmensprofil, Instagram, LinkedIn …) in company.ts unter socialLinks pflegen.
+    sameAs: c.socialLinks.map((s) => s.href),
   };
 }
 
-/** WebSite-Objekt (unkritisch, ohne PII). */
+/** WebSite-Objekt, verweist als Herausgeber auf das Unternehmen. */
 export function websiteJsonLd(): Json {
   return {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
+    '@id': `${site.url.replace(/\/$/, '')}/#website`,
     name: site.name,
-    url: site.url,
+    url: site.url.replace(/\/?$/, '/'),
     inLanguage: 'de-DE',
+    ...(hasCompleteBusinessData ? { publisher: { '@id': BUSINESS_ID } } : {}),
   };
 }
 
@@ -113,11 +125,7 @@ export function serviceJsonLd(service: Service): Json | null {
     name: service.cardTitle,
     serviceType: service.label,
     description: service.teaser,
-    provider: {
-      '@type': 'ProfessionalService',
-      name: activeCompany.legalDisplayName,
-      url: site.url,
-    },
+    provider: { '@id': BUSINESS_ID },
     areaServed: AREA_SERVED,
     url: canonicalFor(service.href),
   };

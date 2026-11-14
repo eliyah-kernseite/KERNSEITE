@@ -61,6 +61,26 @@ p {
   line-height: 1.4;
   color: var(--text-muted);
 }
+/* Kleine Zeile über einer großen Überschrift, Teil der Überschrift selbst
+   (Keyword in der H1/H2, ohne den Slogan zu verändern). */
+.h1-eyebrow,
+.h2-sub {
+  display: block;
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 0.9rem + 0.4vw, 1.25rem);
+  font-weight: 500;
+  font-style: normal;
+  line-height: 1.4;
+  letter-spacing: 0;
+  color: var(--text-muted);
+  text-transform: none;
+}
+.h1-eyebrow {
+  margin-block-end: clamp(0.75rem, 1.5vw, 1.25rem);
+}
+.h2-sub {
+  margin-block-start: clamp(0.75rem, 1.5vw, 1.25rem);
+}
 .display-2 {
   font-size: clamp(2.5rem, 6vw, 6.2rem);
   font-weight: 800;
