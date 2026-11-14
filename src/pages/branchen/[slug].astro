@@ -75,6 +75,7 @@ const post = idx >= 0 ? industry.detailH1.slice(idx + accent.length) : '';
   photo={heroPhoto ?? undefined}
 >
   <h1 slot="h1" data-split>
+    <span class="h1-eyebrow">{industry.seoTitle}</span>
     {pre}{idx >= 0 && <AccentWord>{accent}</AccentWord>}{post}
   </h1>
 

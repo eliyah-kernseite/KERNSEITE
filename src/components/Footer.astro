@@ -8,12 +8,12 @@ import Logo from './Logo.astro';
 import { footerNav } from '../config/navigation';
 import { site, canShowHostingClaim } from '../config/site';
 import { activeCompany } from '../lib/config-validation';
-import { openingHours } from '../config/company';
+import { openingHours, phoneE164 } from '../config/company';
 const year = new Date().getFullYear();
 const c = activeCompany;
 const legal = footerNav.find((group) => group.title === 'Rechtliches');
 const groups = footerNav.filter((group) => group !== legal);
-const tel = `tel:+49${c.phone.replace(/\D/g, '').replace(/^0/, '')}`;
+const tel = `tel:${phoneE164(c.phone)}`;
 const letters = 'KERNSEITE'.split('');
 ---
 
@@ -75,7 +75,12 @@ const letters = 'KERNSEITE'.split('');
 
   <div class="content">
     <div class="ft__bottom">
-      <p class="ft__copy">{`© ${year} ${c.legalDisplayName}, ${c.city} (${site.region.state})`}</p>
+      <div class="ft__copy ft__nap">
+        © {year}{' '}
+        <address class="ft__address">
+          {`${c.brandName} · Inhaber ${c.legalName} · ${c.street} · ${c.postalCode} ${c.city}`}
+        </address>
+      </div>
       <ul class="ft__meta" role="list">
         {
           legal?.items.map((item) => (
@@ -294,6 +299,14 @@ const letters = 'KERNSEITE'.split('');
   .ft__copy {
     font-size: 0.9rem;
     color: var(--text-muted);
+  }
+  .ft__nap {
+    line-height: 1.65;
+    text-wrap: pretty;
+  }
+  .ft__address {
+    display: inline;
+    font-style: normal;
   }
   .ft__meta {
     display: flex;

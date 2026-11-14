@@ -5,7 +5,7 @@ import { faqPageJsonLd } from '../lib/jsonld';
 import Photo from '../components/Photo.astro';
 import ContactForm from '../components/ContactForm.astro';
 import { site } from '../config/site';
-import { openingHours } from '../config/company';
+import { openingHours, phoneE164 } from '../config/company';
 import { activeCompany, isPlaceholder } from '../lib/config-validation';
 import { SHOW_DRAFT_NOTICES } from '../lib/build-mode';
 
@@ -17,7 +17,7 @@ const breadcrumbs = [
 const c = activeCompany;
 const emailReady = !isPlaceholder(c.email);
 const phoneReady = !isPlaceholder(c.phone);
-const phoneHref = 'tel:+49' + c.phone.replace(/\D/g, '').replace(/^0/, '');
+const phoneHref = `tel:${phoneE164(c.phone)}`;
 const contactFaqs = [
   {
     question: 'Was sollte in meiner Anfrage stehen?',

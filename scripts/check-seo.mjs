@@ -131,7 +131,9 @@ for (const file of pages) {
       continue;
     }
     const text = JSON.stringify(data);
-    for (const verboten of ['aggregateRating', 'ratingValue', 'reviewCount', 'priceRange']) {
+    // priceRange ist erlaubt: Er wird in src/lib/jsonld.ts aus dem sichtbaren
+    // Einstiegspreis (src/config/pricing.ts) erzeugt und ist damit belegt.
+    for (const verboten of ['aggregateRating', 'ratingValue', 'reviewCount']) {
       if (text.includes(verboten)) add(route, `JSON-LD enthält ${verboten} – nicht belegt`);
     }
   }

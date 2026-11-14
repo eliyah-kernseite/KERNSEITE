@@ -24,8 +24,9 @@ import Photo from '../Photo.astro';
     </div>
 
     <h2 id="reel-title" class="reel__title">
-      <span class="reel__word reel__word--l">Kein</span>
-      <span class="reel__word reel__word--r">Baukasten.</span>
+      <span class="reel__word reel__word--l">Kein</span>{' '}
+      <span class="reel__word reel__word--r">Baukasten.</span>{' '}
+      <span class="h2-sub reel__sub">Individuelles Webdesign.</span>
     </h2>
 
     <div class="content reel__copy">
@@ -88,6 +89,12 @@ import Photo from '../Photo.astro';
   }
   .reel__word--r {
     color: var(--ks-cyan);
+  }
+  /* Keyword-Zeile der Überschrift: ohne Scroll-Szene unter den Wörtern, mit
+     Scroll-Szene oben links, sobald das Bild offen ist (wie der Text). */
+  .reel__sub {
+    flex-basis: 100%;
+    color: var(--text);
   }
   .reel__copy {
     display: grid;
@@ -154,7 +161,7 @@ import Photo from '../Photo.astro';
   /* Notbremse wie in motion.css: Lädt das Skript nicht, steht nach zwei
      Sekunden trotzdem alles da. */
   :global(html.has-motion:not(.motion-ready))
-    :is(.reel__frame, .reel__img, .reel__word, .reel__copy) {
+    :is(.reel__frame, .reel__img, .reel__word, .reel__copy, .reel__sub) {
     animation: reel-failsafe 0.01s linear 2s forwards;
   }
   @keyframes reel-failsafe {
@@ -249,6 +256,12 @@ import Photo from '../Photo.astro';
   :global(html.has-scroll-fx) .reel__word {
     opacity: calc(1 - var(--open) * 1.15);
   }
+  :global(html.has-scroll-fx) .reel__sub {
+    position: absolute;
+    inset: calc(var(--header-h) + clamp(1.5rem, 5vh, 3rem)) auto auto var(--gutter);
+    margin: 0;
+    opacity: var(--text-in);
+  }
   :global(html.has-scroll-fx) .reel__word--l {
     transform: translate3d(calc(var(--open) * -40vw), 0, 0);
   }
@@ -297,8 +310,19 @@ import Photo from '../Photo.astro';
   :global(html.has-sda) .reel__copy {
     animation: reel-copy linear both;
   }
+  :global(html.has-sda) .reel__sub {
+    animation: reel-text linear both;
+  }
   :global(html.has-sda)
-    :is(.reel__frame, .reel__img, .reel__shade, .reel__word--l, .reel__word--r, .reel__copy) {
+    :is(
+      .reel__frame,
+      .reel__img,
+      .reel__shade,
+      .reel__word--l,
+      .reel__word--r,
+      .reel__copy,
+      .reel__sub
+    ) {
     animation-timeline: --reel;
     animation-range: contain 0% contain 100%;
   }

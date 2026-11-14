@@ -10,6 +10,8 @@ interface Props {
   title: string;
   description: string;
   headline: string;
+  /** Haupt-Keyword der Seite, klein über der Headline. */
+  eyebrow?: string;
   intro: string;
   photo?: PhotoKey;
   blocks: { title: string; text: string }[];
@@ -25,6 +27,7 @@ const {
   title,
   description,
   headline,
+  eyebrow,
   intro,
   photo,
   blocks,
@@ -40,6 +43,7 @@ const service = getService(serviceKey);
   title={title}
   description={description}
   h1={headline}
+  eyebrow={eyebrow}
   lead={intro}
   breadcrumbs={[
     { name: 'Start', path: '/' },

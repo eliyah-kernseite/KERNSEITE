@@ -11,6 +11,8 @@ interface Props {
   description?: string;
   /** Reine Text-Headline. Alternativ den Slot `h1` mit Markup nutzen. */
   h1?: string;
+  /** Kleine Zeile über der Headline mit dem Haupt-Keyword der Seite (Teil der H1). */
+  eyebrow?: string;
   /** Wenn true, wird die Headline aus dem Slot `h1` gerendert. */
   h1Slot?: boolean;
   lead?: string;
@@ -28,6 +30,7 @@ const {
   title,
   description,
   h1,
+  eyebrow,
   h1Slot = false,
   lead,
   breadcrumbs = [],
@@ -74,6 +77,7 @@ const jsonLd = [breadcrumbJsonLd(breadcrumbs), ...extraJsonLd];
           <slot name="h1" />
         ) : (
           <h1 class="page-hero__title" data-split>
+            {eyebrow && <span class="h1-eyebrow">{eyebrow}</span>}
             {h1}
           </h1>
         )
